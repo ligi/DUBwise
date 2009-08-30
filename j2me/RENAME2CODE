@@ -1,0 +1,78 @@
+#!/usr/bin/env ruby
+#
+#
+# Deploy script for DUBwise
+# (cc) 2009 Marcus -Ligi- Büschleb
+# mail to ligi attttt ligi dotttt de
+#
+#
+
+digits=[0,0,0,0,0,0]
+
+screensizes=["128x128","176x220","200x300","240x320","340x400","480x640"]
+voice_modes=["no_voice","en_mp3_64kbit","en_mp3_32kbit","en_wav"]
+firmware_modes=["no_firmwares","all_firmwares","fc_mk3mag_firmwares"]
+
+
+Dir[ARGV[0]+"/*.jar"].each { |jar|
+
+  jarname=jar.split("/").last
+  jadname=jarname.gsub(".jar",".jad")
+
+  screensizes.each_with_index { |screensize,i|
+     digits[0]=i if jar.gsub(screensize,"")!=jar
+     jar.gsub!(screensize+"-","")
+      
+  }
+
+
+  digits[1] |=1 if jar.gsub("BluetoothAPI","")!=jar
+  digits[1] |=2 if jar.gsub("CLDC11","")!=jar
+  digits[1] |=4 if jar.gsub("FileAPI","")!=jar
+
+  digits[2] |=1 if  jar.gsub("DeviceControl","")!=jar
+  digits[2] |=2 if  jar.gsub("OpenLAPI","")!=jar
+  digits[2] |=2 if  jar.gsub("LocationAPI","")!=jar
+
+
+  digits[4] |=2 if  jar.gsub("J2MEMap","")!=jar
+
+  jar.gsub!("BluetoothAPI","")
+  jar.gsub!("CLDC11","")
+  jar.gsub!("FileAPI","")
+  jar.gsub!("DeviceControl","")
+
+  jar.gsub!("LocationAPI","")
+  jar.gsub!("OpenLAPI","")
+  jar.gsub!("J2MEMap","")
+
+
+
+  voice_modes.each_with_index { |voicemode,i|
+     digits[3]=i if jar.gsub(voicemode,"")!=jar
+     jar.gsub!(voicemode,"")
+      
+  }
+
+  firmware_modes.each_with_index { |firmware_mode,i|
+     digits[5]=i if jar.gsub(firmware_mode,"")!=jar
+     jar.gsub!(firmware_mode,"")
+      
+  }
+
+
+
+
+jar.delete!("-")
+jar.gsub!("wise","wise-"+digits.join(""))
+puts jar
+puts digits.inspect
+
+
+
+p  `mkdir new/#{digits.join}`
+p  `cp #{ARGV[0]}/#{jarname} new/#{digits.join}/#{jarname}`
+p  `cp #{ARGV[0]}/#{jadname} new/#{digits.join}/#{jadname}`
+
+
+}

@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+system "rm -rfv tmp"
+system "rm -rfv build"
+system "rm -rfv bin"
+system "rm -rfv res/langpacks"
+system "rm -rfv res/voice_samples_by_name"
+system "rm -rfv res/images_by_screensize"

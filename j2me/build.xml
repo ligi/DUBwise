@@ -1,0 +1,121 @@
+<project name="DUBwise" basedir=".">
+	<property name="wtk.home" value="/home/ligi/bin/wtk_2.5.2"/> 
+
+	<property name="project_name" value="DUBwise"/>                            <!-- jar filename -->
+
+
+	<property file="build.props"/>
+
+	<property name="project_version" value="${version_major}.${version_minor}"/>           
+
+	<property name="res_dir" location="tmp/res"/>
+	<property name="build_dir" location="${basedir}/build/"/>
+	<property name="lib_dir" location="${basedir}/lib/"/>
+	<property name="src_dir" location="${basedir}/src/"/>
+	<property name="shrared_src_dir" location="${basedir}/../shared/src/"/>
+
+	<property name="preprocessed_src_dir" location="${basedir}/tmp/pp_src/"/>
+
+	<taskdef  classpath="${lib_dir}/antlr.jar;${lib_dir}/preprocessor-bin.jar;${lib_dir}/antenna.jar"  resource="antenna.properties"/>
+
+	<taskdef classpath="" resource="antenna.properties"/>
+	
+
+	<property name="wtk.midp.version" value="2.0"/>
+	<property name="wtk.cldc.version" value="${cldc}"/>
+
+	<property name="wtk.midpapi" value="${classes}"/> 	
+
+	<target name="preprocess_lib">
+	        <wtkpreprocess version="3" device="Generic/Java" srcdir="${shrared_src_dir}" destdir="${preprocessed_src_dir}" symbols="cldc11=${cldc11},j2me=true" verbose="false" debuglevel="error" />
+	</target>
+	
+	<target name="build">
+                                                     
+	        <wtkpreprocess version="3" device="Generic/Java" srcdir="${src_dir}" destdir="${preprocessed_src_dir}" symbols="VERSION=${project_version},VERSION_MAJOR=${version_major},VERSION_MINOR=${version_minor},VERSION_PATCH=${version_patch},voice_mode=${voice_mode},bluetooth=${bluetooth},fileapi=${fileapi},devicecontrol=${devicecontrol},cldc11=${cldc11},j2me=true,jsr179=${jsr179},j2memap=${j2memap},openlapi=${openlapi},location=${location}" verbose="false" />
+
+
+		<wtkbuild destdir="${build_dir}/classes" srcdir="${preprocessed_src_dir}" target="1.1" preverify="true" classpath="${libs}" >
+
+		</wtkbuild>
+		<wtkjad
+		       jadfile="${build_dir}/bin/${basename}.jad"
+		       jarfile="${build_dir}/bin/${basename}.jar"
+		       update="false"
+		       manifest="${build_dir}/bin/MANIFEST.MF"
+		       name="${project_name}"
+		       vendor="LiGi"
+		       version="${project_version}">
+		  <attribute name="MIDletX-No-Command" value="true"/>
+ <attribute name="MIDlet-Icon" value="i.png"/>
+		  <midlet name="${project_name}" class="${project_name}" icon="i.png" /> 
+	
+		<!-- !!TODO!! Remove Icon JAD entry if no icon is there -->
+		</wtkjad>
+		
+		<wtkpackage 
+			    jarfile="${build_dir}/bin/${basename}.jar" 
+			    jadfile="${build_dir}/bin/${basename}.jad"
+			    basedir="${build_dir}/classes"
+			    manifest="${build_dir}/bin/MANIFEST.MF"
+			    libclasspath="${libs}"
+			    obfuscate="${obfuscate}"  
+			    preverify="true">
+			<fileset dir="${res_dir}/">
+				<include name="*"/>
+			</fileset>
+		</wtkpackage>         
+
+
+	</target>
+
+
+	<target name="only_jar">
+		<!-- !!TODO!! Remove Icon JAD entry if no icon is there -->
+		<wtkjad		
+		       jadfile="${build_dir}/bin/${basename}.jad"
+		       jarfile="${build_dir}/bin/${basename}.jar"
+		       update="false"
+		       manifest="${build_dir}/bin/MANIFEST.MF"
+		       name="${project_name}"
+		       vendor="LiGi"
+		       version="${project_version}">
+		  <attribute name="MIDletX-No-Command" value="true"/>
+ <attribute name="MIDlet-Icon" value="i.png"/>
+		  <midlet name="${project_name}" class="${project_name}" icon="i.png" /> 
+	
+		<!-- !!TODO!! Remove Icon JAD entry if no icon is there -->
+		</wtkjad>
+		
+		
+		<wtkpackage 
+			    jarfile="${build_dir}/bin/${basename}.jar" 
+			    jadfile="${build_dir}/bin/${basename}.jad"
+			    basedir="${build_dir}/classes"
+			    manifest="${build_dir}/bin/MANIFEST.MF"
+			    libclasspath="${libs}"
+			    obfuscate="true"  
+			    preverify="true">
+			<fileset dir="${res_dir}/">
+				<include name="*"/>
+			</fileset>
+		</wtkpackage>         
+
+
+	</target>
+
+	
+	<target name="clean">
+
+		<delete dir="${build_dir}"/> 
+		<delete dir="${preprocessed_src_dir}"/>
+		<tstamp/>
+		
+		<mkdir dir="${preprocessed_src_dir}"/>
+		<mkdir dir="${build_dir}"/> 
+		<mkdir dir="${build_dir}/classes"/> 
+		<mkdir dir="${build_dir}/bin"/>
+	</target> 
+	
+
+</project>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+       android:layout_height="wrap_content">
+
+
+
+     <CheckBox android:id="@+id/check_fullscreen"
+            android:paddingBottom="24sp"
+	    android:paddingTop="24sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fullscreen" />
+
+     <View
+
+                android:layout_height="2px"
+		   android:layout_width="fill_parent"
+
+                android:background="#DDFFDD"
+                android:layout_marginTop="5dip"
+                android:layout_marginBottom="5dip"/>
+
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dip"
+            android:text="Front:"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:focusable="true"
+        />
+            
+    </LinearLayout>
+    
+
+</ScrollView>
+
+
+
+

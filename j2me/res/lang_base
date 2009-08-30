@@ -1,0 +1,217 @@
+LANG0;English
+LANG1;Deutsch
+LANG2;French
+CONN;Connection;Verbindung;connexion
+SETTINGS;Tool Settings;Einstellungen;Reglages
+SELECT_FIRMWARE;Select Firmware;Firmware auswählen;Selection firmware
+DEBUG;Debug;Debug;Debogage
+MOTORTEST;Motor-Test;Motor-Test;Essai Moteur
+ABOUT;About;Über;A propos de
+EDIT_SETTINGS;Edit Settings;Parameter ändern;Edition Reglages
+COPY_TO_MOBILE;Copy all to Mobile;Kopie aufs Handy;Tt copier > mobile
+LOAD_FROM_MOBILE;Load from Mobile;laden vom Handy;Charger du mobile
+REINITIALIZE_ALL;Reinitialize all;Alle zurücksetzen;Remise a zero
+BACK;Back;Zurück;Retour
+QUIT;Quit;Beenden;Quitter
+REMOTE_CAM;Remote Cam;Kammeraauslösung;Deplacer APN
+FLASH_FIRMWARE;Flash Firmware;Firmware Flashen;Maj Firmware
+SWITCH_NAVI;switch to navi;wecheseln zur Navi;Basculer vers navi
+SWITCH_MK3MAG;switch to MK3MAG;wecheseln zum MK3MAG;Basculer vers MK3MAG
+SWITCH_FC;switch to FC;wechseln zur FC;Basculer vers FC
+VIEW_GPS;view GPS-Data;view GPS-Data;Voir donnees GPS
+LCD;LCD
+GRAPH;Graph;Graph;Graphique
+DEBUG_VALUES;Debug Values;Debug Werte;Deboguer donnees
+KEYCONTROL;Key-Control;Tastensteuerung;Touches controles
+RCDATA;view RC-data;Werte der Funke;Voir donnees RC
+FLIGHTSETTINGS;Flight Settings;Flugeinstellungen;Reglages vol
+HORIZON;Artificial Horizon;Künstl. Horizont;Horizon artificiel
+VIEW_ERRORS;view Errors;Fehler anschaun;Voir les erreurs
+USERINTERFACE;User Interface;Nutzerinterface;Interface utilisateur
+GPS;GPS
+SPECIALKEYS;Special Keys;Spezielle Tasten;Touches speciales
+VOICE;Voice;Sprachausgabe;Voix
+OTHER;Other;Anderes;Autres
+ALTITUDE;Altitude;Höhe;Altitude
+CAMERA;Camera;Kammera;Appareil Photo
+CHANNELS;Chanels;Kanäle;Canaux
+CONFIGURATION;Configuration;Konfiguration;Configuration
+GYRO;Gyro;Gyroskope;Gyroscope
+LOOP;Looping
+NAVI;Navi
+OUTPUT;Output;Ausgänge;Sortie
+STICK;Sticks;Sticks;Manches
+USERPARAMS;Userparams;Nutzerparameter;Param. Utilisateur
+EDIT_CONTENT;Edit Content;Einstellungen;Edition contenu
+RENAME;Rename;Umbenennen;Renommer
+SAVE_AS;Save As;Speichern unter;Enregistrer sous
+SAVE;Save;Speichern;Enregistrer
+REREAD;Read Again;Erneut lesen;Relire
+PACKET_TRAFFIC;Packet Traffic;Paketfluss;Traffic
+VIEW_DATA;view Data;Rohdaten ansehen;Voir les donnees
+CONNECT_BT;Connect via BT;verbinden via BT;Connexion BT
+CONNECT_TCP;Connect via TCP/IP;verbinden via IP;Connexion TCP/IP
+CONNECT_COM;Connect via COM;verbinden via COM;Connexion COM
+CONNECT_RECENT;Connect to Recent;letzte Verbindungen;Connect to Recent
+SET_PROXY;Set Proxy;Proxy einstellen;Reglage PROXY
+ON;On;An;Marche
+OFF;Off;Aus;Arret
+DARK;Dark;Dunkel;Sombre
+LIGHT;Light;Hell;Lumineux
+KMH;km/h
+MPH;mp/h
+CMS;cm/s
+DECIMAL;Decimal;Dezimal;Decimal
+MINSEC;min sec;minuten sekunden;Min sec
+NONE_ASSIGNED;none assigned;keiner zugewiesen;Non assigne
+LANGUAGE;Language;Sprache;Langue
+SKIN;Skin;Skin;Apparence
+FULLSCREEN;Fullscreen;Vollbild;Plein ecran
+SCROLLBG;Scroll Background;Bewegter Hintergr;Defil arriere plan
+PERMALIGHT;Permanent Light;Dauerhaft Hell;Eclairage permanent
+GPSFORMAT;GPS-Format
+SPEEDFORMAT;Speed Format;Geschwindigkeiten;Vitesse
+NICK;Nick;Nick;Tangage
+ROLL;Roll;Roll;Roulis
+GIER;Gier;Gier;Lacet
+GASINCREASE;Gas increase;Schuberhöhung;Augmenter les gaz
+HEIGHTINCREASE;Height Increase;Höhenerhöhung;Augm. la hauteur
+BACKTOMAINMENU;Back to Mainmenu;Zum Hauptmenü;Revenir menu pri.
+CLEAR;Clear;Löschen;Effacer
+LEGEND;Legend;Legende;Legende
+SCALEGRID;Scale;Skala;Echelle
+VOLTS;Volts;Spannung;Volts
+DELAYINS;Delay in Seconds;Zeitabstand;Delai en secondes
+VOLUME;Volume;Lautstärke;Volume
+SOUND;Sound;Audio;Son
+VIBRA;Vibration
+REMOTECAMSTICK;Remote Cam Stick;Kammera Stick;Deplac. Manche APN
+ALWAYSRELOADPARAMS;100% Param Reload;Param. immer laden;Remise Param. 100%
+EXPERTMODE;Expert-Mode;Expertenmodus;Mode expert
+MINACCELERATE;Min. Accelerate;Minimale Beschleunigung;Acceleration mini
+BAROD;Barometric D;Barometrisches D;D barometrique
+SETPOINT;Setpoint;Setpoint;Point réglage
+ALTITUDEP;Altitude P;Höhe P;Altitude
+GAIN;Gain;Verstärkung;Gain
+ZACC;Z-Acc
+SWITCH3;3-Way Switch;3 Wege Schalter;Interrupt. 3 voies
+SERVOCONTROL;Servo Control;Servo Kontrolle;Servo
+SERVONICKCONTROL;Servo Control Nick
+SERVOROLLCONTROL;Servo Control Roll
+NICKCOMP;Nick compensation;Nick-Kompensierung;Compensation tang.
+ROLLCOMP;Roll compensation
+SERVONICKMIN;Servo Nick min
+SERVONICKMAX;Servo Nick max
+SERVOROLLMIN;Servo Roll min
+SERVOROLLMAX;Servo Roll max
+REFRESHRATE;Refresh Rate;Aktualisierungsrate;Rafraichir le taux
+INVERTDIRECTION;Inverse Direction;Inverse Direction;Inverser direction
+INVERTDIRECTIONROLL;Inverse Roll
+INVERTDIRECTIONNICK;Inverse Nick
+ACCELERATE;Accelerate;Gas;Accelerer
+POTI1;Poti1;Poti1;Potentiometre 1
+POTI2;Poti2;Poti2;Potentiometre 2
+POTI3;Poti3;Poti3;Potentiometre 3
+POTI4;Poti4;Poti4;Potentiometre 4
+ALTITUDECONTROL;Altitude Control;Höhen Kontrolle;Controle altitude
+SWITCHFORSETPOINT;Switch for Setpoint;Höhenschalter;Interr. Setpoint
+HEADINGHOLD;Heading Hold;Heading Hold;Tenue de cap
+COMPASACTIVE;Compas Avtive;Kompass aktiv;Boussole Active
+COMPASFIX;Compas Fix;Compas Fix;Fix Boussole
+COUPLING;Coupling;Achskopplung;Accrochage
+COUPLING2;Coupling2;Achskopplung2;Accrochage 2
+COUPLINGYAWCORRECT;Coupling Yaw Correct;Coupling Yaw Correct;Corr. Accr. Lacet
+YAWRATELIMITER;Yaw Rate Limiter;Drehratenbegrenzer;Limite Taux lacet
+YAWPOSFEEDBACK;Yaw pos. feedback;Yaw pos. feedback;Inform. Lacet +
+YAWNEGFEEDBACK;Yaw neg. feedback;Yaw neg. feedback;Inform. Lacet -
+ACCGYROFACTOR;ACC/Gyro Factor;ACC/Gyro Faktor;Facteur Acc. Gyro
+PRATE;P-Rate
+IRATE;I-Rate
+ACCGYROCOMP;ACC/Gyro Comp.
+DRIFTCOMP;Drift-Compensation;Drift-Kompensation;Compens. derive
+DYNAMICSTABILITY;Dynamic Stability;Stabilite dynam.
+GASLIMIT;Gas-Limit;Gas-Limit;Gaz Max.
+THRESHOLD;Threshold;Schwellwert;Seuil
+HYSTERESE;Hysterese
+TURNOVERNICK;TurnOver Nick;TurnOver Nick;Rafraich. tangage
+TURNOVERROLL;TurnOver Roll;TurnOver Roll;Rafraich. Roulis
+UP;Up;Hoch;Haut
+DOWN;Down;Runter;Bas
+LEFT;Links;Links;Liens
+RIGHT;Rechts;Rechts;Droite
+MODECONTROL;Mode Control;Modus Kontrolle;Controle Mode
+GPSGAIN;GPS-Gain;GPS-Verstärkung;Gain GPS
+GPSP;GPS-P
+GPSPLIMIT;GPS-P Limit
+GPSI;GPS-I
+GPSILIMIT;GPS-I Limit
+GPSD;GPS-D
+GPSDLIMIT;GPS-D Limit
+GPSACC;GPS-ACC
+DRATE;D-Rate
+SATMIN;Satelite minimum;minimale Sateliten;Satellites mini
+STICKTHRESHOLD;Stick Threshold;Stick-Schwellwert;Seuil Manche
+WINDCORRECT;Wind Correction;Wind Korrektur;Correction vent
+SPEEDCOMP;Speed Compensation;Geschwindikeitskompensation;Compensat. vitesse
+OPERATIONRADIUS;Operation-Radius;Operationsradius;Rayon operationnel
+ANGLELIMIT;Angle-Limit;Winkellimitation;Limite inclinaison
+MINGAS;Min-Gas;Gas minimal:Gaz mini
+MAXGAS;Max-Gas;Gas maximal;Gaz maxi
+COMPASEFFECT;Compas effect;Kompass Effekt;Effet boussole
+VOLTAGEWARNING;Voltage Warning;Spannungswarnung;Alerte tension
+DISTRESSGAS;Distress Gas;Notgas;Panne de Gaz
+DISTRESSGASTIME;Distress Gas Time;Notgas Zeit;Temps alerte gaz
+J16BITMASK;J16 Bitmask
+J17BITMASK;J17 Bitmask
+WARN_J16BITMASK;J16 Warn Bitmask
+WARN_J17BITMASK;J17 Warn Bitmask
+J16TIMING;J16 Timing;J16 Timing;Chronom. J16
+J17TIMING;J17 Timing;J17 Timing;Chronom. J17
+NICKROLLP;Nick/Roll P;Nick/Roll P;Tangage/Roulis P
+NICKROLLD;Nick/Roll D;Nick/Roll D;Tangage/Roulis D
+GIERP;Gier P;Gier P;Lacet P
+EXTERNCONTROL;Extern Control;Extern Control;Controle externe
+PARAM1;Param 1
+PARAM2;Param 2
+PARAM3;Param 3
+PARAM4;Param 4
+PARAM5;Param 5
+PARAM6;Param 6
+PARAM7;Param 7
+PARAM8;Param 8
+NOTREADYET;Not read yet;Noch nicht gelesen;Pas encore lu
+PHLOGINTIME;PH Login Time;PH einloggzeit;Temps connexion PH
+PARAMSINCOMPATIBLE;Params Incompatible;Parameter inkompatibel;Param. incompat.
+NOPARAMSONMOBILE;No Params on Mobile;No Params on Mobile;Pas param. teleph
+PARAMWRITEOK;Parameter Write OK;Parameter geschrieben;Ecrit. Param. OK
+SAVEDSETTINGS;Saved Settings;Parameter geschrieben;Sauveg. Reglages
+SETTINGSUNDOOK;Settings Undo OK;;Settings Undo OK;Annul. Reglages ok
+INCOMPATIBLEDEVICE;incompatible Device;incompatible Device;Periph. incompat.
+PARAMRESETOK;Param Reset Success!;Param Reset Success!;RAZ Param. OK
+WRITINGPARAMS;writing params;writing params;Ecriture param.
+GRAPHINTERVAL;Interval;Interval;Intervale
+ALTIMETER;Altimeter;Altimeter;Altimetre
+COCKPIT;Cockpit
+INVERTNICK;Invert Nick;Nick Invertieren;Inverser Tangage
+INVERTROLL;Invert Roll;Roll Invertieren;Inverser Roulis
+SHOWFLIGHTTIME;Show Flight Time;Show Flight Time;Temps de vol
+SHOWALTITUDE;Show Altitude;Show Altitude;Afficher altitude
+UNITS;Units;Einheiten;Unites
+DEVMODE;Developer Mode;Entwicklermodus;Mode developpeur
+DISCONNECT;Disconnect;Verbindungsabriss;Deconnecter
+INSTANTERRORSHOW;Instant Error-Msg;Instant Error-Msg;Msg erreur inst.
+FORCERECONNECT;Reconnect;Reconnect;Reconnecter
+EDIT;Edit;Ändern;Editer
+ALTSTEPS;Altimeter Stepping;Altimeter Stepping;Etapes d'altimetre
+LOADPLAIN;Load Plain;Load Plain;Charger classique
+LOADFANCY;Load Fancy;Load Fancy;Charger fantaisie
+TIMING;Timing;Timing;Chronometre
+PRIMARYABO;Primary Data Abo;Primary Data Abo;Vitess. donnees 1
+SECONDARYABO;Secondary Data Abo;Secondary Data Abo;Vitess. donnees 2
+DEFAULTABO;Default Data Abo;Default Data Abo;Vit. donnees def.
+BIGFONTS;Big Fonts;Grosse Fonts;Big Fonts
+CONFIRMMOTORTEST;Confirm Values;Confirm Values;Confirm Values
+DENYMOTORTEST;Cancel Values;Cancel Values;Cancel Values
+PARAMSAVE;Param Save;Param Save;Param Save
+WEBREPORTER;Web Reporter;Web Reporter;Web Reporter
+INTERVAL;Interval;Interval;Interval

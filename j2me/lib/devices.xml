@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<!-- 
+	devices.xml defines all known devices. 
+	You can add or change the existing specifications and
+	use the changed settings in the code.
+
+    Copyright (c) 2004, 2005 Robert Virkus / Enough Software
+
+    This file is part of J2ME Polish.
+
+    J2ME Polish is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    J2ME Polish is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+    Commercial licenses are also available, please
+    refer to the accompanying LICENSE.txt or visit
+    http://www.j2mepolish.org for details.
+
+-->
+<!-- 
+These namespaces/schemas will be used soon.
+
+	xmlns="http://www.enough.de/polish/1.4/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.enough.de/polish/1.4/ http://www.enough.de/polish/1.4/devices.xsd"
+
+ -->
+<devices>
+
+<!-- Standard devices -->
+	<device supportsPolishGui="true">
+		<identifier>Generic/Java</identifier>
+		<features>hasPointerEvents, hasCommandKeyEvents</features>
+		<description>A device to build supports applets, desktop and webstart applications.</description>
+		<capability name="JavaPlatform" value="MIDP/2.0, JavaSE/1.0"/>
+		<capability name="JavaConfiguration" value="CLDC/1.1"/>
+		<capability name="BitsPerPixel" value="18"/>
+		<capability name="ScreenSize" value="240x320"/>
+		<capability name="CanvasSize" value="240x320"/>
+		<capability name="FullCanvasSize" value="240x320"/>
+		<capability name="Emulator.Skin" value="Series60"/>
+	</device>
+	
+</devices>

@@ -1,0 +1,178 @@
+<!-- **********************************************************************
+     * Antenna - Ant tasks for wireless development
+     *
+     * Copyright (c) 2002-2003 Joerg Pleumann (joerg@pleumann.de)
+     *
+     * Default page for HTML clients accessing the OTA servlet. The code
+     * inside this file is copied verbatim to the client, with the only
+     * exception being the lines between the BEGIN and END markers below.
+     * User-defined versions of this page are expected in the WEB-INF
+     * directory of the OTA servlet and override this one. There is also
+     * a file "index.wml" for WAP clients. The comments have been omitted
+     * there to keep the file as small as possible.
+     ********************************************************************** -->
+
+<html>
+  <head>
+    <title>Antenna OTA Server</title>
+
+    <style type="text/css">
+      <!--
+
+        body {
+            background-color: #FFFFFF;
+        }
+
+        table {
+            width: 80%;
+            margin-left: 10%;
+            border: none; border-width: 1px 1px 1px 1px;
+        }
+
+        pre {
+            margin-left: 10%;
+        }
+
+        th {
+            background-color: #8080FF;
+            padding: 4px;
+            border-width: 1px;
+            border-style: none;
+        }
+	
+        td {
+            background-color: #C0C0FF;
+            padding: 4px;
+            border-width: 1px;
+            border-style: none;
+        }	
+
+        li {
+            padding: 0.25em;
+        }
+
+        hr {
+            height: 1px;
+           }
+
+      -->
+    </style>
+  </head>
+
+  <body>
+    <font face="Verdana, Arial, Helvetica, Sans-Serif">
+      <hr noshade/>
+
+      <center>
+          <h1>Antenna</h1>
+          <b>An Ant-to-End Solution For Wireless Java</b>
+          <p/>
+          Version 0.9.9
+          <p/>
+          (c) 2002-2003 <a href="mailto:joerg@pleumann.de?subject=Antenna">Jörg Pleumann</a>
+          <p/>
+      </center>
+
+      <hr noshade/>
+
+      <p/>
+
+      This is a simple server for Over-the-Air (OTA) provisioning of so-called MIDlet
+      suites, that is, small <a href="http://java.sun.com">Java</a> applications
+      conforming to the <a href="http://java.sun.com/products/midp">Mobile
+      Information Device Profile</a> (MIDP) that can be run on a variety of
+      <a href="http://kobjects.org/devicedb">Java-powered mobile phones</a>.
+      The following suites are available for download. Click on any of the names
+      to initiate the transfer. If you are accessing this page from a mobile
+      phone, you might want to use the <a href="index.wml">WAP version</a> instead.
+
+      <p/>
+
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Version</th>
+          <th>Vendor</th>
+          <th>Size</th>
+          <th>Uploaded</th>
+          <th>DLs</th>
+          <th>Files</th>
+        </tr>
+
+  <!-- **********************************************************************
+       * The following block is repeated for each available MIDlet. It must
+       * be bounded by the BEGIN and END markers, and the markers must appear
+       * exactly as they do in this file. In particular there are no
+       * additional spaces allowed in the marker lines. To access attributes
+       * from a MIDlet's JAD file inside this block, use "${attribute}",
+       * where "attribute" denotes any of the attributes allowed in a JAD
+       * file plus three extra ones named "File", "Date", and "Counter" that
+       * access the JAD's download URL, the MIDlet's upload date, and the
+       * download counter (stored in "counter.txt"), respectively.
+       ********************************************************************** -->
+     
+<!-- BEGIN -->
+
+        <tr title="${MIDlet-Description}">
+          <td align="left">${MIDlet-Name}</td>
+          <td align="center">${MIDlet-Version}</td>
+          <td align="left">${MIDlet-Vendor}</td>
+          <td align="center">${MIDlet-Jar-Size}</td>
+          <td align="center">${Date}</td>
+          <td align="center">${Counter}</td>
+          <td align="center"><a href="${File}">Jad</a> <a href="${MIDlet-Jar-URL}">Jar</a></td>
+        </tr>
+
+<!-- END -->
+
+      </table>
+
+      <p/>
+
+      The OTA server is part of the <a href="http://antenna.sourceforge.net">Antenna</a>
+      project. Antenna provides an <a href="http://jakarta.apache.org/ant">Ant</a>-based
+      open-source solution for the development and deployment of MIDlet suites. The project
+      is hosted on <a href="http://www.sourceforge.net/projects/antenna">SourceForge</a>.
+
+      <p/>
+
+      <hr noshade/>
+
+      <p>
+
+        <font size="-2">
+
+          <b>Disclaimer:</b>
+
+          THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
+          EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE
+          IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+          PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE
+          SOFTWARE IS WITH YOU.  SHOULD THE SOFTWARE PROVE DEFECTIVE, YOU ASSUME
+          THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
+
+          IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN
+          WRITING WILL THE PROVIDER OF THIS SERVICE BE LIABLE TO YOU
+          FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR
+          CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE
+          SOFTWARE (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING
+          RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
+          FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
+          THE PROVIDER HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+        </font>
+
+      </p>
+
+      <hr noshade/>
+
+      <!--<center>
+          Powered by <a href="http://antenna.sourceforge.net">Antenna</a> - Ant tasks for wireless development.
+      </center>
+
+      <hr noshade/>-->
+
+    </font>
+  </body>
+</html>
+

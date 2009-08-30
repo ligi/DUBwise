@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.1//EN" "http://www.wapforum.org/DTD/wml_1.1.xml">
+
+<wml>
+  <card title="Antenna OTA Server" id="main">
+
+<!-- BEGIN -->
+      <p>
+        <a href="${File}">${MIDlet-Name} ${MIDlet-Version} (${MIDlet-Jar-Size})</a>
+      </p>
+<!-- END -->
+
+  </card>
+</wml>

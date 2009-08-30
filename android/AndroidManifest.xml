@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="org.ligi.android"
+      android:versionCode="1"
+      android:versionName="1.0">
+
+    <application android:label="@string/app_name">
+
+     <uses-library android:name="com.google.android.maps"/> 
+        <activity android:name=".DUBwise"
+                  android:label="@string/app_name"
+		   android:icon="@drawable/icon">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
+	<activity android:name=".DUBwiseMapActivity"
+                  android:label="@string/app_name"
+		  >
+            <intent-filter>
+
+                <action android:name="android.intent.action.MAIN" />
+
+            </intent-filter>
+        </activity>
+
+	<activity android:name=".ConnectionActivity"
+                  android:label="@string/app_name"
+		  >
+            <intent-filter>
+
+                <action android:name="android.intent.action.MAIN" />
+
+            </intent-filter>
+        </activity>
+
+
+	<activity android:name=".MotorTestActivity"
+                  android:label="@string/app_name"
+		  >
+            <intent-filter>
+
+                <action android:name="android.intent.action.MAIN" />
+
+            </intent-filter>
+        </activity>
+
+	<activity android:name=".SettingsActivity"
+                  android:label="@string/app_name"
+		  >
+            <intent-filter>
+
+                <action android:name="android.intent.action.MAIN" />
+
+            </intent-filter>
+        </activity>
+
+
+	<activity android:name=".RCDataActivity"
+                  android:label="@string/app_name"
+		  >
+            <intent-filter>
+
+                <action android:name="android.intent.action.MAIN" />
+
+            </intent-filter>
+        </activity>
+
+
+
+	<activity android:name=".FlightSettingsActivity"
+                  android:label="@string/app_name"
+		  >
+            <intent-filter>
+
+                <action android:name="android.intent.action.MAIN" />
+
+            </intent-filter>
+        </activity>
+
+
+	<activity android:name=".FlightSettingsSettingSelect"
+
+                  android:label="@string/app_name"
+		  >
+            <intent-filter>
+
+                <action android:name="android.intent.action.MAIN" />
+
+            </intent-filter>
+        </activity>
+  
+
+    </application>
+
+ <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>  
+ <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>  
+ <uses-permission android:name="android.permission.INTERNET"></uses-permission>  
+
+
+</manifest> 

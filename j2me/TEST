@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+sums={}
+Dir[ARGV[0]+"/*.jar"].each { |e|
+   if sums[`md5sum #{e}`.split(" ").first ].nil?
+	 sums[`md5sum #{e}`.split(" ").first ]=e	
+   else
+     puts "collision " +sums[`md5sum #{e}`.split(" ").first ] + "<>" + e
+     exit false
+  end
+
+}
+
+if sums.length>0
+ puts "test OK"
+ exit true
+else
+ puts "dir not found" +ARGV.first
+ exit false
+end

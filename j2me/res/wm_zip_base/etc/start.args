@@ -1,0 +1,7 @@
+"-Xopt:stdioPrefix=\Interner Speicher\DUBwise\log,useConsole=false" 
+-Dmicroedition.profiles=MIDP-2.1 
+-Dsun.midp.library.name=midp 
+"-Xbootclasspath/a=\Interner Speicher\DUBwise\phoneme\foundation\lib\jsr82.jar" 
+"-Dsun.midp.home.path=\Interner Speicher\DUBwise\phoneme\foundation\midp\midp_wince" -Dcom.sun.midp.mainClass.name=com.sun.midp.main.CdcMIDletSuiteLoader sun.misc.MIDPLauncher -midppath "\Interner Speicher\DUBwise\phoneme\foundation\midp\midp_wince\classes" 
+-suitepath "\Interner Speicher\DUBwise\bin\JARNAME" -1 DUBwise
+

@@ -1,0 +1,44 @@
+#!/usr/bin/env ruby
+#
+#
+# Deploy script for DUBwise
+# (cc) 2009 Marcus -Ligi- Bueschleb
+# mail to ligi attttt ligi dotttt de
+#
+#
+
+require 'net/sftp'
+require 'highline/import'
+
+host='78.46.192.125'
+user='s4m'
+
+path="/home/s4m/rails/www_en/public/ligi/dubwise_dl"
+
+pwd= ask("Enter password #{user}@#{host}:  " ) { |q| q.echo = "*" }  
+
+
+
+Net::SFTP.start(host, user, :password => pwd) do |sftp|
+  p "testing conn"
+end
+
+if ARGV.include?("-b")
+  p "building"
+  system "./BUILD all tmp_deploy -o -z"
+end
+
+Net::SFTP.start(host, user, :password => pwd) do |sftp|
+  p "uploading"
+  sftp.upload!("tmp_deploy.7z" , "#{path}/new.7z")
+  sftp.upload!("version" , "#{path}/version")
+end
+
+
+p "extracting"
+Net::SSH.start(host, user, :password => pwd) do |ssh|
+  p ssh.exec!("cd #{path} ; mkdir new_trunk ; mv version new_trunk ;  mv new.7z new_trunk; cd new_trunk ; 7zr e new.7z ; rm new_.7z ; cd .. ; mv trunk old_trunk ; mv new_trunk trunk ; rm -rf old_trunk")
+end
+
+p "anouncing the new version"
+p `curl http://dubwise-download.appspot.com/refresh_download_source`

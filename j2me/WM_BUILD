@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+tmp_dir="wm_tmp"
+
+p `./BUILD allwm #{tmp_dir} -o` #-0
+
+Dir["#{tmp_dir}/*.jar"].each { |jarname|
+ jarname.gsub!(tmp_dir+"/","")
+ jadname=jarname.gsub(".jar",".jad")
+ basename=jarname.split("-")[1]
+ p jarname + "--" + basename
+ p `cp -R res/wm_zip_base/ #{tmp_dir}/#{basename}`
+ p `mv #{tmp_dir}/#{jarname} #{tmp_dir}/#{basename}/bin`
+ p `mv #{tmp_dir}/#{jadname} #{tmp_dir}/#{basename}/bin`
+
+ args_content=File.read("#{tmp_dir}/#{basename}/etc/start.args")
+ args_content.gsub!("JARNAME",jarname)
+ ` rm #{tmp_dir}/#{basename}/etc/start.args `
+ args_file=File.open("#{tmp_dir}/#{basename}/etc/start.args","w+")
+ args_file.puts args_content
+ args_file.close
+
+
+ FileUtils.chdir("#{tmp_dir}/#{basename}")
+ p `zip -r ../#{basename}.zip *`
+ FileUtils.chdir("..")
+ p `rm -rf #{basename}`
+ FileUtils.chdir("..")
+}
