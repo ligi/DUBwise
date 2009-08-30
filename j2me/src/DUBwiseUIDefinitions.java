@@ -116,10 +116,9 @@ public interface DUBwiseUIDefinitions
     public final static byte ACTIONID_CONFIRM_MOTORTEST     = 51;
     public final static byte ACTIONID_DISCARD_MOTORTEST     = 52;
     public final static byte ACTIONID_CONNECT_RECENT        = 53;
+    public final static byte ACTIONID_CONNECT_FAKE          = 54;
 
     public final static byte ACTIONID_QUIT                  = 100; 
-
-
 
 
     //    public  final static String[] param_menu_items={"Edit Settings","Copy all to Mobile","Load from Mobile","Reinitialize all","back"};

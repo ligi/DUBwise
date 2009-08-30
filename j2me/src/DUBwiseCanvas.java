@@ -372,7 +372,10 @@ public class DUBwiseCanvas
 //#if bluetooth=="on"
 	tmp_menu_add(l(STRINGID_CONNECT_BT),ACTIONID_SCAN_BT);
 //#endif
+
 	tmp_menu_add(l(STRINGID_CONNECT_TCP),ACTIONID_CONNECT_TCP);
+
+	tmp_menu_add(l(STRINGID_CONNECT_FAKE),ACTIONID_CONNECT_FAKE);
 
 
 
@@ -3341,6 +3344,11 @@ lp= LocationProvider.getInstance(crit2);
 	    case ACTIONID_CONNECT_RECENT:
 		chg_state(STATEID_CONNECT_RECENT);
 		break;
+
+	    case ACTIONID_CONNECT_FAKE:
+		mk.connect_to("fake","fake");
+		break;
+
 	    case ACTIONID_CONNECT_TCP:
 		ipinput4proxy=false;
 		chg_state(STATEID_IPINPUT);

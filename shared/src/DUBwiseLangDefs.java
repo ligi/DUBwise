@@ -218,5 +218,6 @@ public interface DUBwiseLangDefs
  public final static int STRINGID_PARAMSAVE=214;
  public final static int STRINGID_WEBREPORTER=215;
  public final static int STRINGID_INTERVAL=216;
- public final static int STRING_COUNT=217;
+ public final static int STRINGID_CONNECT_FAKE=217;
+ public final static int STRING_COUNT=218;
 }

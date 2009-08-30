@@ -42,7 +42,7 @@ public class MKCommunicator
     public boolean disconnect_notify=false;
 
     public byte lib_version_major=0;
-    public byte lib_version_minor=9;
+    public byte lib_version_minor=10;
 
     public byte last_navi_error=0;
 
@@ -168,13 +168,15 @@ public class MKCommunicator
     public String error_str = null;
     
 
-		    public final static byte FC_SLAVE_ADDR              = 1;
+    public final static byte FC_SLAVE_ADDR              = 1;
     public final static byte NAVI_SLAVE_ADDR            = 2;
     public final static byte MK3MAG_SLAVE_ADDR          = 3;
     public final static byte FOLLOWME_SLAVE_ADDR        = 10;
 
     public final static byte RIDDIM_SLAVE_ADDR          = 12;
     public final static byte RE_SLAVE_ADDR              = 23;
+
+    public final static byte FAKE_SLAVE_ADDR              = 42;
 
 
 
@@ -183,6 +185,11 @@ public class MKCommunicator
     public boolean is_navi()
     {
 	return (slave_addr==NAVI_SLAVE_ADDR);
+    }
+
+    public boolean is_fake()
+    {
+	return (slave_addr==FAKE_SLAVE_ADDR);
     }
 
 
@@ -223,6 +230,7 @@ public class MKCommunicator
 	    case FOLLOWME_SLAVE_ADDR:
 	    case RE_SLAVE_ADDR:
 	    case RIDDIM_SLAVE_ADDR:
+	    case FAKE_SLAVE_ADDR:
 		return false;
 	    default:
 		return true;
@@ -254,6 +262,9 @@ public class MKCommunicator
 	    case RIDDIM_SLAVE_ADDR:
 		return "Riddim Connection";
 
+	    case FAKE_SLAVE_ADDR:
+		return "Fake Connection";
+
 	    default:
 		return "Incompatible Device";
 	    }
@@ -274,14 +285,12 @@ public class MKCommunicator
     private java.io.OutputStream writer;    
 
 
-
     public String name;
     //    DUBwise root;
 
 
     private boolean sending=false;
     private boolean recieving=false;
-
 
 
     /******************  Section: public Methods ************************************************/
@@ -336,11 +345,20 @@ public class MKCommunicator
     //  URL string: "btspp://XXXXXXXXXXXX:1" - the X-Part is the MAC-Adress of the Bluetooth-Device connected to the Fligth-Control
     public void connect_to(String _url,String _name)
     {
-	//	port=_port;
-	mk_url=_url; // remember URL for connecting / reconnecting later
 	name=_name;
+	mk_url=_url; // remember URL for connecting / reconnecting later
 	force_disconnect=false;
 	connected=false;
+
+	if ( _url=="fake" )
+	    {
+		connection_start_time=System.currentTimeMillis();
+		slave_addr=FAKE_SLAVE_ADDR;
+		version.set_fake_data();
+		connected=true;
+	    }
+
+
     }
 
     public boolean ready()
@@ -802,13 +820,15 @@ public class MKCommunicator
 	    case FOLLOWME_SLAVE_ADDR:
 		return debug_data.analog[8];
 
+	    case FAKE_SLAVE_ADDR:
+		return 42;
+
+		
 	    default:
 		return -1; // No Info
 	    }
 
     }
-
-
 
     public int SatsInUse()
     {
@@ -821,13 +841,14 @@ public class MKCommunicator
 	    case FOLLOWME_SLAVE_ADDR:
 		return debug_data.analog[12];
 
+	    case FAKE_SLAVE_ADDR:
+		return 7;
+
 	    default:
 		return -1; // No Info
 	    }
 
     }
-
-
 
     public int SenderOkay()
     {
@@ -838,6 +859,9 @@ public class MKCommunicator
 
 	    case NAVI_SLAVE_ADDR:
 		return gps_position.SenderOkay;
+
+	    case FAKE_SLAVE_ADDR:
+		return 200;
 
 	    default:
 		return -1; // No Info
@@ -1330,13 +1354,16 @@ public class MKCommunicator
 	while(thread_running)
 	    {
 
+		
 		if (!connected) 
 		    {
 			sleep(10);
 			if (!force_disconnect) connect();
 		    }
+		else  if (slave_addr==FAKE_SLAVE_ADDR)
+		    sleep(50);
 		else
-		    try{
+			try{
 			
 			/*		
 				while(sending)

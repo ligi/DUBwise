@@ -42,6 +42,12 @@ public class MKVersion
     public final byte VERSION_PREVIOUS=2;
 
 
+    public void set_fake_data()
+    {
+	int[] fake_data={0,23,0,5,5};
+	set_by_mk_data(fake_data);
+    }
+
     public void set_by_mk_data(int[] data)
     {
 	major=data[0];
