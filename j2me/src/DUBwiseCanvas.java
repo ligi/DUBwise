@@ -427,6 +427,13 @@ public class DUBwiseCanvas
 		tmp_menu_add("Mixer",ACTIONID_SELECT_MIXER);
 	    }
 
+	if (mk.is_fake())
+	    {
+		tmp_menu_add(l(STRINGID_GRAPH),ACTIONID_GRAPH);
+		tmp_menu_add("Big Symbols",ACTIONID_BIG_SYMBOLS);
+		tmp_menu_add(l(STRINGID_COCKPIT),ACTIONID_HORIZON);
+	    }
+
 	if ( mk.is_rangeextender()|| mk.is_followme() )
 	    {
 		tmp_menu_add(l(STRINGID_LCD),ACTIONID_LCD);
@@ -3580,6 +3587,10 @@ lp= LocationProvider.getInstance(crit2);
 
 		    case KEY_NUM5:
 			settings.graph_legend=!settings.graph_legend;
+			break;
+
+		    case KEY_NUM3:
+			mk.freeze_debug_buff=!mk.freeze_debug_buff;
 			break;
 		    }
 

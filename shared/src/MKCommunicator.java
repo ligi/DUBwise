@@ -39,6 +39,8 @@ public class MKCommunicator
     public int angle_roll=-4242;
     public byte bl_retrys=0;
 
+    public boolean freeze_debug_buff=false;
+
     public boolean disconnect_notify=false;
 
     public byte lib_version_major=0;
@@ -73,7 +75,7 @@ public class MKCommunicator
     {
 	// calc bg thanx to gregor: http://forum.mikrokopter.de/topic-post112323.html#post112323
 	int alt=0;
-	if (is_mk()||is_riddim())
+	if (is_mk()||is_riddim()||is_fake())
 	    alt=debug_data.analog[5]/2;
 	else	
 	    if (is_navi())
@@ -119,12 +121,14 @@ public class MKCommunicator
 
     int data_buff_pos=0;
 
-
     //    public final static int DATA_IN_BUFF_SIZE=512;
     public final static int DATA_IN_BUFF_SIZE=2048;
     //    public final static int DATA_IN_BUFF_SIZE=4096;
 
     public byte user_intent=0;
+
+    
+
 
     public void log(String str)
     {
@@ -906,6 +910,20 @@ public class MKCommunicator
 	debug_buff_targets=null;
     }
 
+    public void update_debug_buff()
+    {
+	if (freeze_debug_buff) return;
+	if (debug_buff_targets!=null)
+	    {
+		for (int sp=0;sp<debug_buff_targets.length;sp++)
+		    debug_buff[debug_buff_off][sp]=chg_debug_max(debug_data.analog[debug_buff_targets[sp]]);
+		if (debug_buff_off>debug_buff_lastset)
+		    debug_buff_lastset=debug_buff_off;
+		
+		debug_buff_off=(debug_buff_off+1)%debug_buff_len;
+	    }
+    }
+
     public void process_data(byte[] data,int len)
     {
 
@@ -959,16 +977,7 @@ public class MKCommunicator
 			stats.process_mkflags(debug_data.motor_val(0)); // TODO remove dirty hack
 			stats.process_alt(Alt());
 		    }
-		if (debug_buff_targets!=null)
-		    {
-			for (int sp=0;sp<debug_buff_targets.length;sp++)
-			    debug_buff[debug_buff_off][sp]=chg_debug_max(debug_data.analog[debug_buff_targets[sp]]);
-			if (debug_buff_off>debug_buff_lastset)
-			    debug_buff_lastset=debug_buff_off;
-
-			debug_buff_off=(debug_buff_off+1)%debug_buff_len;
-			    
-		    }
+		update_debug_buff();
 		log("processed debug data");
 		break;
 		
@@ -1361,7 +1370,12 @@ public class MKCommunicator
 			if (!force_disconnect) connect();
 		    }
 		else  if (slave_addr==FAKE_SLAVE_ADDR)
-		    sleep(50);
+		    {
+			debug_data.set_fake_data();
+			update_debug_buff();
+			stats.debug_data_count++;
+			sleep(50);
+		    }
 		else
 			try{
 			

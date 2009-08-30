@@ -10,6 +10,8 @@
 
 package org.ligi.ufo;
 
+import java.util.Random;
+
 public class MKDebugData 
 {
 
@@ -31,11 +33,12 @@ public class MKDebugData
     //    public int UBatt() {	return analog[9];    }
     //    public int SenderOkay() {	return analog[10];    }
 
-
-    
+    Random random;
 
     public MKDebugData() 
     {
+	random = new Random(); // for fake conn
+
 	names=new String[32];
 	analog=new int[32];
 	got_name=new boolean[32];
@@ -62,6 +65,18 @@ public class MKDebugData
     }
 
 
+    public void set_fake_data()
+    {
+	analog[0]+=(random.nextInt()%5);
+	analog[1]+=(random.nextInt()%5);
+	analog[2]+=(random.nextInt()%5);
+	analog[3]+=(random.nextInt()%5);
+
+	// alt
+	analog[5]+=(random.nextInt()%2);
+
+    }
+
     public void set_by_mk_data(int[] in_arr,MKVersion version)
     {
 
@@ -69,8 +84,6 @@ public class MKDebugData
 	    analog[i]=MKHelper.parse_signed_int_2( in_arr[2+i*2], in_arr[3+i*2] );
     
 	//	motor_complete=motor_val(0)+motor_val(1)+motor_val(2)+motor_val(3);
-
-
     }
 
 
