@@ -3492,8 +3492,6 @@ lp= LocationProvider.getInstance(crit2);
     
     public void keyPressed(int keyCode)
     {
-
-
 	key_bitfield|=keyCode2mask(keyCode);
 
 	if ((state==STATEID_MAINMENU)&&(keyCode==beta_unlock_code[beta_unlock_pos++]))
@@ -3564,6 +3562,20 @@ lp= LocationProvider.getInstance(crit2);
 			chg_state(STATEID_MAINMENU);
 			break;
 		    }
+
+	    case STATEID_GRAPH:
+		switch(keyCode)
+		    {
+		    case KEY_NUM7:
+			settings.graph_scale=!settings.graph_scale;
+			break;
+
+		    case KEY_NUM5:
+			settings.graph_legend=!settings.graph_legend;
+			break;
+		    }
+
+		break;
 	    case STATEID_SUCCESS_MSG:
 		chg_state(nextstate);
 		nextstate=-1;
