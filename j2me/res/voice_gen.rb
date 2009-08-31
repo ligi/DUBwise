@@ -2,6 +2,8 @@
 p `rm -rfv voice_samples_by_name`
 p `mkdir voice_samples_by_name`
 
+p `mkdir voice_samples_by_name/no_voice`
+
 Dir["voices/*"].each { |voice|
 
 voice_clean=voice.split("/").last
