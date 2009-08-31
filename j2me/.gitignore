@@ -4,3 +4,5 @@ res/images_by_screensize/
 res/langpacks/
 res/voice_samples_by_name/
 build.props
+tmp_deploy.7z
+tmp_deploy/
