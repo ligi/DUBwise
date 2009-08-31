@@ -63,7 +63,7 @@ if ARGV.include?("-l") | !File.exist?("res/langpacks")
   ARGV.delete("-l")
 end
 
-if ARGV.include?("-i")
+if ARGV.include?("-i") | !File.exist?("res/images_by_screensize")
   puts "regenerating images"
   p `cd res ; ruby image_gen.rb ; cd ..`
   ARGV.delete("-i")
