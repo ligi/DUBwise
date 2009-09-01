@@ -57,7 +57,8 @@ ARGV.delete("-d")
 ARGV.delete("-z")
 ARGV.delete("-o")
 
-if ARGV.include?("-l") | !File.exist?("res/langpacks")
+
+if ARGV.include?("-l") | !File.exist?("res/langpacks") | !File.exist?("../shared/src/DUBwiseLangDefs.java")
   puts "regenerating language strings"
   p `cd res ; ruby lang_gen.rb ; cd ..`
   ARGV.delete("-l")
