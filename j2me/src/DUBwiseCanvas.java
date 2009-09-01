@@ -375,6 +375,9 @@ public class DUBwiseCanvas
 
 	tmp_menu_add(l(STRINGID_CONNECT_TCP),ACTIONID_CONNECT_TCP);
 
+	tmp_menu_add(l(STRINGID_CONNECT_URL),ACTIONID_CONNECT_URL);
+
+
 	tmp_menu_add(l(STRINGID_CONNECT_FAKE),ACTIONID_CONNECT_FAKE);
 
 
@@ -3028,6 +3031,9 @@ lp= LocationProvider.getInstance(crit2);
     {
 	switch(actionid)
 	    {
+	    case ACTIONID_CONNECT_URL:
+		break;
+
 	    case ACTIONID_DISCARD_MOTORTEST:
 		System.out.println("mt" + motor_tester);
 		motor_tester.use_backup();
