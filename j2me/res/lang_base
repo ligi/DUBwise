@@ -216,3 +216,4 @@ PARAMSAVE;Param Save;Param Save;Param Save
 WEBREPORTER;Web Reporter;Web Reporter;Web Reporter
 INTERVAL;Interval;Interval;Interval
 CONNECT_FAKE;Fake Connection;Fake Connection;Fake Connection
+CONNECT_URL;URL Connection;URL Connection;URL Connection
