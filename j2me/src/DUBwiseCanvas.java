@@ -224,7 +224,7 @@ public class DUBwiseCanvas
 
 
 
-    private DUBwise root;
+    public DUBwise root;
     public DUBwiseSettings settings;
 
 
@@ -2960,6 +2960,17 @@ lp= LocationProvider.getInstance(crit2);
 	    }
 
     }
+    public final static byte INPUTSTRINGID_CONNECTION_URL=0;
+
+    public void string_input_result(byte str_id,String str)
+    {
+	switch(str_id)
+	    {
+	    case INPUTSTRINGID_CONNECTION_URL:
+		mk.connect_to(str,"URL-Connection");
+		break;
+	    }
+    }
 
 
     public void mod_external_control_by_keycode(int keyCode,byte mul)
@@ -3032,6 +3043,7 @@ lp= LocationProvider.getInstance(crit2);
 	switch(actionid)
 	    {
 	    case ACTIONID_CONNECT_URL:
+		DUBwiseStringInput string_input=new DUBwiseStringInput("URL",30,INPUTSTRINGID_CONNECTION_URL,this);
 		break;
 
 	    case ACTIONID_DISCARD_MOTORTEST:
