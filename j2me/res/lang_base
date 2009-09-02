@@ -217,3 +217,6 @@ WEBREPORTER;Web Reporter;Web Reporter;Web Reporter
 INTERVAL;Interval;Interval;Interval
 CONNECT_FAKE;Fake Connection;Fake Connection;Fake Connection
 CONNECT_URL;URL Connection;URL Connection;URL Connection
+INTRO;Intro (Version);Intro (Version);Intro (Version)
+MINIMAL;Minimal;Minimal;Minimal
+VOICE_NOPOINT;decimal places;Nachkommastellen;decimal places

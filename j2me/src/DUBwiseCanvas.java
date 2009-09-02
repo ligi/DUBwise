@@ -1917,7 +1917,7 @@ lp= LocationProvider.getInstance(crit2);
 		    g.drawString("voice_volts_cnt"+ status_voice.volts_play_cnt ,0,y_off,Graphics.TOP | Graphics.LEFT);
 		    y_off+=spacer_small;
 
-		    g.drawString("do volts sound"+ settings.do_volts_sound ,0,y_off,Graphics.TOP | Graphics.LEFT);
+		    g.drawString("do volts sound"+ settings.do_volts_voice ,0,y_off,Graphics.TOP | Graphics.LEFT);
 		    y_off+=spacer_small;
 
 

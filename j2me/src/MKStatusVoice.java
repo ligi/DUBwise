@@ -269,12 +269,11 @@ public class MKStatusVoice
 			    {
 			if (!conn_told)
 			    {
-				if (canvas.mk.version.known)
+				if (canvas.mk.version.known&&canvas.settings.do_intro_voice)
 				    {
+					if (!canvas.settings.minimal_voice) {
 					play("connected");
-
-
-					play("to");
+					play("to"); }
 
 					if (canvas.mk.is_mk())
 					   play("mikrokopter");
@@ -297,7 +296,7 @@ public class MKStatusVoice
 				    {
 					if (!sender_warning_told)
 					    {
-						play("warning");
+						if (!canvas.settings.minimal_voice) play("warning");
 						play("rc-signal");
 						play("lost");
 						sender_warning_told=true;
@@ -319,12 +318,15 @@ public class MKStatusVoice
 				    { // only when newdata
 					
 					
-					if (canvas.settings.do_volts_sound&&(volt_timeout<0))
+					if (volt_timeout<0)
 					    {
-						if (canvas.mk.UBatt()!=-1)
+						if ((canvas.mk.UBatt()!=-1)&&(canvas.settings.do_volts_voice))
 						    {
-							play("battery");
-							play("at");
+							if (!canvas.settings.minimal_voice) 
+							    {
+								play("battery");
+								play("at");
+							    }
 							volts_play_cnt++;
 							
 							volt_timeout=(delay*1000)/BASE_SLEEP;
@@ -332,7 +334,7 @@ public class MKStatusVoice
 							info_from_debug_set=canvas.mk.stats.debug_data_count;
 							play((ubatt/10));
 							
-							if((ubatt%10)!=0)
+							if(((ubatt%10)!=0)&& (!canvas.settings.voice_nopoint))
 							    {
 								play("point");
 								play((ubatt%10));
@@ -342,14 +344,18 @@ public class MKStatusVoice
 							
 						    }
 
-						if (canvas.mk.Alt()!=-1)
+						if ((canvas.mk.Alt()!=-1)&&(canvas.settings.do_alt_voice))
 						    {
-							play("altitude");
-							play("at");
+							if (!canvas.settings.minimal_voice) {
+							    play("altitude");
+							    play("at");
+							}
+
 							
 							play( canvas.mk.Alt()/10);
+							if (!canvas.settings.voice_nopoint) {
 							play("point");
-							play( canvas.mk.Alt()%10);
+							play( canvas.mk.Alt()%10); }
 							
 						
 							play("meters");
