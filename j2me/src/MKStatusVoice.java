@@ -320,6 +320,7 @@ public class MKStatusVoice
 					
 					if (volt_timeout<0)
 					    {
+						volt_timeout=(delay*1000)/BASE_SLEEP;
 						if ((canvas.mk.UBatt()!=-1)&&(canvas.settings.do_volts_voice))
 						    {
 							if (!canvas.settings.minimal_voice) 
@@ -328,8 +329,7 @@ public class MKStatusVoice
 								play("at");
 							    }
 							volts_play_cnt++;
-							
-							volt_timeout=(delay*1000)/BASE_SLEEP;
+
 							int ubatt=canvas.mk.UBatt();
 							info_from_debug_set=canvas.mk.stats.debug_data_count;
 							play((ubatt/10));
@@ -361,7 +361,7 @@ public class MKStatusVoice
 							play("meters");
 						    }
 						
-						if ((canvas.mk.stats.flying_time()!=0))
+						if ((canvas.mk.stats.flying_time()!=0)&&(canvas.settings.do_flighttime_voice))
 						    {
 							play("flight");
 							play("time");
@@ -392,8 +392,7 @@ public class MKStatusVoice
 							
 							
 						    }
-
-						switch (canvas.mk.SatsInUse())
+						if(canvas.settings.do_satelites_voice)	switch (canvas.mk.SatsInUse())
 						    {
 						    case -1:
 							// do nothing
@@ -409,6 +408,7 @@ public class MKStatusVoice
 							play("satellites");
 							
 						     }
+
 					    }
 					
 					

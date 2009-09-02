@@ -220,3 +220,5 @@ CONNECT_URL;URL Connection;URL Connection;URL Connection
 INTRO;Intro (Version);Intro (Version);Intro (Version)
 MINIMAL;Minimal;Minimal;Minimal
 VOICE_NOPOINT;decimal places;Nachkommastellen;decimal places
+SATELITES;Satelites;Sateliten;Satelites
+FLIGHTTIME;Flight Time;Flugzeit;Flight Time
