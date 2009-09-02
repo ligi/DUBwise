@@ -548,6 +548,7 @@ public class DUBwiseCanvas
     public void menu_keypress(int keyCode)
     {
 	debug.log("Menu with KeyCode:"+keyCode);
+	boolean fire_key=false;
 	switch (getGameAction (keyCode)) 
 	    {
 	    case UP:
@@ -565,7 +566,12 @@ public class DUBwiseCanvas
 		break;
 
 	    case FIRE:
-		switch(state)
+		fire_key=true;
+	    }
+	if (keyCode==settings.key_alternative_fire) 
+	    fire_key=true;
+	if (fire_key)
+	    switch(state)
 		    {
 
 		    case STATEID_SELECT_MIXER:
@@ -663,7 +669,7 @@ public class DUBwiseCanvas
 			if (menu_actions!=null)
 			    process_action(menu_actions[act_menu_select]);
 		    }
-	    }
+    
 
     }
 

@@ -212,7 +212,7 @@ public class MKParamsEditor
     {
 	if (select_mode)
 	    {
-		if (action== Canvas.FIRE)
+		if ((action== Canvas.FIRE)||(canvas.settings.key_alternative_fire==keyCode))
 		    {
 
 			if (canvas.act_menu_select==(menu_items.length-1))
@@ -335,7 +335,7 @@ public class MKParamsEditor
 			
 			    }
 			else
-			    if (action== Canvas.FIRE)
+			    if ((action== Canvas.FIRE)||(canvas.settings.key_alternative_fire==keyCode))
 				{
 				    act_y=1;
 				    //				    canvas.act_menu_select=0;
