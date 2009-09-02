@@ -28,7 +28,7 @@ public class MKStatusVoice
 
 
     public int volume=100;
-    public int delay=5;
+
 
     int act_player_state=PLAYERSTATE_IDLE;
     VolumeControl vc;
@@ -240,7 +240,7 @@ public class MKStatusVoice
 
 	
     int info_from_debug_set=-1;
-    int volt_timeout=0;
+    int voice_timeout=0;
 
     public int BASE_SLEEP=10;
 
@@ -312,15 +312,15 @@ public class MKStatusVoice
 					play("warning");
 				    }
 
-				volt_timeout--;
+				voice_timeout++;
 				
 				if (info_from_debug_set!=canvas.mk.stats.debug_data_count)
 				    { // only when newdata
 					
 					
-					if (volt_timeout<0)
+					if (voice_timeout>(canvas.settings.voice_delay*1000)/BASE_SLEEP)
 					    {
-						volt_timeout=(delay*1000)/BASE_SLEEP;
+						voice_timeout=0;
 						if ((canvas.mk.UBatt()!=-1)&&(canvas.settings.do_volts_voice))
 						    {
 							if (!canvas.settings.minimal_voice) 
