@@ -2711,6 +2711,7 @@ lp= LocationProvider.getInstance(crit2);
 		
 		break;
 	    case STATEID_EDIT_PARAMS:
+		mk.user_intent=USER_INTENT_RCDATA;
 		if (act_editor==null)
 		    act_editor = new MKParamsEditor(this,mk.params,STATEID_HANDLE_PARAMS);
 		break;

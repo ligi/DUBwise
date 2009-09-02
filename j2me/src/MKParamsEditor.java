@@ -87,7 +87,11 @@ public class MKParamsEditor
 	    for (int i=0;i<edit_source.field_types[act_tab].length;i++)
 		{
 		    if (edit_source.field_stringids!=null)
+			{
+
 			lcd_lines[2*i]=canvas.l(edit_source.field_stringids[act_tab][i]);
+			
+			}
 		    else
 			lcd_lines[2*i]=edit_source.field_strings[act_tab][i];
 		    switch(edit_source.field_types[act_tab][i])
@@ -104,7 +108,8 @@ public class MKParamsEditor
 			case PARAMTYPE_BITMASK:
 			    lcd_lines[1+2*i]=" "+edit_source.get_field_from_act(edit_source.field_positions[act_tab][i]);
 			    if ((edit_source.get_field_from_act(edit_source.field_positions[act_tab][i])>250)&&(edit_source.get_field_from_act(edit_source.field_positions[act_tab][i])<256))
-				lcd_lines[1+2*i]+="[Poti"+(edit_source.get_field_from_act(edit_source.field_positions[act_tab][i])-250) +"]"; 
+				lcd_lines[1+2*i]+=" [Poti"+(edit_source.get_field_from_act(edit_source.field_positions[act_tab][i])-250) +"="+  canvas.mk.getPotiValue(edit_source.get_field_from_act(edit_source.field_positions[act_tab][i])-251) +"]";
+
 			    else		
 				{
 				    lcd_lines[1+2*i]+=" [";
@@ -118,7 +123,7 @@ public class MKParamsEditor
 			case PARAMTYPE_MKBYTE:
 			    lcd_lines[1+2*i]=" "+edit_source.get_field_from_act(edit_source.field_positions[act_tab][i]);
 			    if ((edit_source.get_field_from_act(edit_source.field_positions[act_tab][i])>250)&&(edit_source.get_field_from_act(edit_source.field_positions[act_tab][i])<256))
-				lcd_lines[1+2*i]+=" [Poti"+(edit_source.get_field_from_act(edit_source.field_positions[act_tab][i])-250) +"]";						     
+				lcd_lines[1+2*i]+=" [Poti"+(edit_source.get_field_from_act(edit_source.field_positions[act_tab][i])-250) +"="+  canvas.mk.getPotiValue(edit_source.get_field_from_act(edit_source.field_positions[act_tab][i])-251) +"]";
 			    break;
 
 

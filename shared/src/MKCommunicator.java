@@ -1536,5 +1536,16 @@ public class MKCommunicator
 		
 	    } // while
 	//	log("Leaving Communicator thread");
+
     } // run()
+
+    public int getPotiValue(int poti_id)
+    {
+	int val=stick_data.stick[params.poti_pos[poti_id]]+127;
+	if (val<0)
+	    return 0;
+	if (val>250)
+	    return 250;
+	return val;
+    }
 }

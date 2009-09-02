@@ -27,6 +27,7 @@ public final static int[] all_lengths={87,93,93,97,99};
 // -- end generated code --
 
 
+    public int[] poti_pos;
     public final static int MAX_PARAMSETS=5;
     //    public final static int MAX_PARAMLENGTH=100;
 
@@ -98,6 +99,7 @@ public final static int[] all_lengths={87,93,93,97,99};
 	stick_stringids=new int[10];
 	for (int i=0;i<10;i++)
 	    stick_stringids[i]=STRINGID_NOTREADYET;
+	poti_pos=new int[5];
     }
 
     public  int length=0;
@@ -199,7 +201,24 @@ public final static int[] all_lengths={87,93,93,97,99};
 	for (int tab=0;tab<tab_stringids.length;tab++)
 	    for (int item=0;item<field_types[tab].length;item++)
 		if (field_types[tab][item]==PARAMTYPE_STICK)
+		    {
 		    stick_stringids[ field[last_parsed_paramset][field_positions[tab][item]] ] = field_stringids[tab][item];
+		    switch(field_stringids[tab][item])
+			{
+			case STRINGID_POTI1:
+			    poti_pos[0]= field[last_parsed_paramset][field_positions[tab][item]] ;
+			    break;
+			case STRINGID_POTI2:
+			    poti_pos[1]= field[last_parsed_paramset][field_positions[tab][item]] ;
+			    break;
+			case STRINGID_POTI3:
+			    poti_pos[2]= field[last_parsed_paramset][field_positions[tab][item]] ;
+			    break;
+			case STRINGID_POTI4:
+			    poti_pos[3]= field[last_parsed_paramset][field_positions[tab][item]] ;
+			    break;
+			}
+		    }
 	
     }
 
