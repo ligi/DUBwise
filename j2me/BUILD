@@ -40,7 +40,7 @@ version_split=File.read("version").delete("\n\r").split(".")
 version_major=version_split[0]
 version_minor=version_split[1]
 version_patch=(version_split[2][0]-"a"[0]).to_s
-
+version_str="#{version_major}.#{version_minor}#{version_split[2]}"
 p "building version #{version_major}.#{version_minor}#{version_split[2]}"
 advzip_flags="-4"
 if ARGV.include?("-f")
@@ -213,6 +213,7 @@ sleep 1
 
 
 build=0
+newbuilds=0
 last_time=Time.now
 new_build=true
 reprocess_lib=true
@@ -273,7 +274,7 @@ cldc11_modes.each { |cldc11|
                 propertys["version_patch"]=version_patch
                 
                 
-                propertys["basename"]="DUBwise-#{screensize}-#{voice_mode}-#{firmware}"
+                  propertys["basename"]="DUBwise-v#{version_str}-#{screensize}-#{voice_mode}-#{firmware}"
                 
                 if  location_mode=="jsr179" 
                   propertys["basename"]+="-LocationAPI"
@@ -320,7 +321,7 @@ cldc11_modes.each { |cldc11|
 
 
                 if new_build
-
+                  newbuilds+=1
                   puts "compiling"
                   prefs_file= File.new("build.props","w")
                   propertys.each_pair {|name,value|
@@ -417,10 +418,10 @@ cldc11_modes.each { |cldc11|
 
 #
 
- #               p `7z #{advzip_flags} a  -x.svn* #{bindir}/#{propertys["basename"]}.jar  res/images_by_screensize/#{screensize}/* res/voice_samples_by_name/#{voice_mode}/*  res/firmwares/#{firmware}/*`
+ #               p `7z #{advzip_flags} a   #{bindir}/#{propertys["basename"]}.jar  res/images_by_screensize/#{screensize}/* res/voice_samples_by_name/#{voice_mode}/*  res/firmwares/#{firmware}/*`
 
 
-#                p `7z #{advzip_flags} a  -x.svn* #{bindir}/#{propertys["basename"]}.jar  res/images_by_screensize/#{screensize}/* res/voice_samples_by_name/#{voice_mode}/*  res/firmwares/#{firmware}/*`
+#                p `7z #{advzip_flags} a   #{bindir}/#{propertys["basename"]}.jar  res/images_by_screensize/#{screensize}/* res/voice_samples_by_name/#{voice_mode}/*  res/firmwares/#{firmware}/*`
   
 #               allthreads<< Thread.new 
                 #{
@@ -436,25 +437,25 @@ cldc11_modes.each { |cldc11|
 
 
               log "compressing images"
-                  log `cd res/images_by_screensize/#{@screensize} ; 7z a -x\!.svn* -w../../../tmp/ ../../../#{bindir}/#{@basename}.jar * ; cd ../../.. ` #  res/images_by_screensize/#{screensize}/* res/voice_samples_by_name/#{voice_mode}/*  res/firmwares/#{firmware}/*`
+                  log `cd res/images_by_screensize/#{@screensize} ; 7z a -w../../../tmp/ ../../../#{bindir}/#{@basename}.jar * ; cd ../../.. ` #  res/images_by_screensize/#{screensize}/* res/voice_samples_by_name/#{voice_mode}/*  res/firmwares/#{firmware}/*`
                   
 
                 log "compressing firmwares"
-                  log `cd res/firmwares/#{@firmware} && 7z a  -x\!.svn* -w../../../tmp/ ../../../#{bindir}/#{@basename}.jar * && cd -`
+                  log `cd res/firmwares/#{@firmware} && 7z a   -w../../../tmp/ ../../../#{bindir}/#{@basename}.jar * && cd -`
                   
                 log "compressing sounds"
-                  log `cd res/voice_samples_by_name/#{@voice_mode} ; 7z a -x\!.svn* -w../../../tmp/ ../../../#{bindir}/#{@basename}.jar * ; cd ../../..`
+                  log `cd res/voice_samples_by_name/#{@voice_mode} ; 7z a  -w../../../tmp/ ../../../#{bindir}/#{@basename}.jar * ; cd ../../..`
 
 
   #              log "compressing images"
-#                  log `cd res/images_by_screensize/#{@screensize} ; 7z a -w../../../tmp/#{@basename} -x\!.svn* ../../../#{bindir}/#{@basename}.jar * ; cd ../../.. ` #  res/images_by_screensize/#{screensize}/* res/voice_samples_by_name/#{voice_mode}/*  res/firmwares/#{firmware}/*`
+#                  log `cd res/images_by_screensize/#{@screensize} ; 7z a -w../../../tmp/#{@basename} ../../../#{bindir}/#{@basename}.jar * ; cd ../../.. ` #  res/images_by_screensize/#{screensize}/* res/voice_samples_by_name/#{voice_mode}/*  res/firmwares/#{firmware}/*`
                   
 
  #               log "compressing firmwares"
-  #                log `cd res/firmwares/#{@firmware} ; 7z a  -x\!.svn*  -w../../../tmp/#{@basename} ../../../#{bindir}/#{@basename}.jar * ; cd ../../..`
+  #                log `cd res/firmwares/#{@firmware} ; 7z a  -w../../../tmp/#{@basename} ../../../#{bindir}/#{@basename}.jar * ; cd ../../..`
                   
    #             log "compressing sounds"
-  #                log `cd res/voice_samples_by_name/#{@voice_mode} ; 7z a -x\!.svn* -w../../../tmp/#{@basename}/ ../../../#{bindir}/#{@basename}.jar * ; cd ../../..`
+  #                log `cd res/voice_samples_by_name/#{@voice_mode} ; 7z a  -w../../../tmp/#{@basename}/ ../../../#{bindir}/#{@basename}.jar * ; cd ../../..`
 
 
                 #                end
@@ -497,7 +498,7 @@ cldc11_modes.each { |cldc11|
                 jad_file.close
 
 
-                puts "done build # " + build.to_s  + "/" + build_count.to_s + " Time:" + (Time.now-last_time ).to_s + " overall: #{((Time.now-start_time)/60).to_i.to_s}:#{((Time.now-start_time)%60).to_i.to_s}"
+                puts "done build # " + build.to_s  + "/" + build_count.to_s + "(newbuilds:"+newbuilds.to_s+" Time:" + (Time.now-last_time ).to_s + " overall: #{((Time.now-start_time)/60).to_i.to_s}:#{((Time.now-start_time)%60).to_i.to_s}"
                 p    "voice_mode" + voice_mode
                 p    "Screensize " + screensize
                 p    "size" + jarsize.to_s
@@ -554,7 +555,7 @@ if zip_bindir
   if File.exist?( "#{bindir}.7z")
     puts "Zip allready there"
   else
-    `7z a #{bindir}.7z #{bindir}`
+    `7z a  -t7z -m0=lzma -mx=9 -mfb=64 -md=256m -ms=on   #{bindir}.7z #{bindir}`
   end
 end
 
