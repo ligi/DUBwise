@@ -68,6 +68,8 @@ public class MKStatusVoice
       player = null;
     }
 
+    byte sound_method=0;
+
 
     public Player init_player(String name)
     {
@@ -75,10 +77,23 @@ public class MKStatusVoice
 	try {
 		
 	    try {
-		_player = Manager.createPlayer(getClass().getResourceAsStream(name+".mp3"), "audio/mp3");
+		switch(sound_method)
+		    {
+		    case 0:
+			_player = Manager.createPlayer(getClass().getResourceAsStream(name+".mp3"), "AUDIO/MP3");
+			break;
+		    case 1:
+			_player = Manager.createPlayer(getClass().getResourceAsStream(name+".mp3"), "AUDIO/MPEG3");
+			break;
+		    case 2:
+			_player = Manager.createPlayer(getClass().getResourceAsStream(name+".wav"), "AUDIO/X-WAV");
+		    }
+			
 	    }
 	    catch (Exception e)  { 
-	    	_player = Manager.createPlayer(getClass().getResourceAsStream(name+".wav"), "audio/x-wav");
+		Thread.sleep(100); 
+		sound_method=(sound_method+1)%3	;
+		_player=init_player(name);
 	    }
 	    _player.addPlayerListener(this);
 	    _player.realize();
