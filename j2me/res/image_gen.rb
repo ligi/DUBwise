@@ -19,9 +19,13 @@ resolutions.each { |r|
     convert_problem "symbols" if !system "convert -verbose -geometry 110x45! images/symbols.png #{act_path}symbols.png" 
     convert_problem "icon" if !system "convert -verbose -geometry 24x24! images/icon.png #{act_path}i.png" 
     
-  when r[:width]<350
+  when r[:width]<250
     convert_problem "symbols" if !system "convert -verbose  -geometry 160x66! images/symbols.png #{act_path}/symbols.png"
     convert_problem "icon" if !system "convert -verbose -geometry 32x32! images/icon.png #{act_path}i.png" 
+
+  when r[:width]<350
+    convert_problem "symbols" if !system "convert -verbose  -geometry 160x66! images/symbols.png #{act_path}/symbols.png"
+    convert_problem "icon" if !system "convert -verbose -geometry 64x64! images/icon.png #{act_path}i.png" 
     
   else
     convert_problem "symbols" if !system "convert -verbose  -geometry 320x132! images/symbols.png #{act_path}/symbols.png"
