@@ -27,9 +27,6 @@ public class MKStatusVoice
     public final int PLAYERSTATE_FIN=2;
 
 
-    public int volume=100;
-
-
     int act_player_state=PLAYERSTATE_IDLE;
     VolumeControl vc;
 
@@ -86,13 +83,19 @@ public class MKStatusVoice
 			_player = Manager.createPlayer(getClass().getResourceAsStream(name+".mp3"), "AUDIO/MPEG3");
 			break;
 		    case 2:
+			_player = Manager.createPlayer(getClass().getResourceAsStream(name+".mp3"), "audio/mpeg3");
+			break;
+		    case 3:
+			_player = Manager.createPlayer(getClass().getResourceAsStream(name+".mp3"), "audio/mp3");
+			break;
+		    case 4:
 			_player = Manager.createPlayer(getClass().getResourceAsStream(name+".wav"), "AUDIO/X-WAV");
 		    }
 			
 	    }
 	    catch (Exception e)  { 
 		Thread.sleep(100); 
-		sound_method=(sound_method+1)%3	;
+		sound_method=(byte)((sound_method+1)%5	);
 		_player=init_player(name);
 	    }
 	    _player.addPlayerListener(this);
@@ -101,7 +104,7 @@ public class MKStatusVoice
 
 	    vc = (VolumeControl) _player.getControl("VolumeControl");
 	    if(vc != null) {
-		vc.setLevel(volume);
+		vc.setLevel(canvas.settings.sound_volume);
 	    }
 	    
 	    _player.prefetch();

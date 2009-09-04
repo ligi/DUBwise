@@ -30,7 +30,7 @@ public class DUBwiseSettings
     public int key_alternative_fire;
 
     public int voice_delay;
-    public int voice_volume;
+    public int sound_volume;
     public byte graph_interval;
     public int remote_cam_stick;
 
@@ -287,12 +287,7 @@ public class DUBwiseSettings
 
 
 	    case SETTINGS_POS_VOICEVOLUME:
-	    
-		voice_volume=val;
-//#if voice_mode!="no_voice"
-		canvas.status_voice.volume=voice_volume; 
-		
-//#endif
+		sound_volume=val;
 		break;
 		
 	    case SETTINGS_POS_VOICEDELAY:
