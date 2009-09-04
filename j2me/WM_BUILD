@@ -7,7 +7,7 @@ p `./BUILD allwm #{tmp_dir} -o` #-0
 Dir["#{tmp_dir}/*.jar"].each { |jarname|
  jarname.gsub!(tmp_dir+"/","")
  jadname=jarname.gsub(".jar",".jad")
- basename=jarname.split("-")[1]
+ basename=jarname.split("-")[2]
  p jarname + "--" + basename
  p `cp -R res/wm_zip_base/ #{tmp_dir}/#{basename}`
  p `mv #{tmp_dir}/#{jarname} #{tmp_dir}/#{basename}/bin`
