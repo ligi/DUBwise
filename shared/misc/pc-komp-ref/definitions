@@ -317,6 +317,14 @@
  to_cat("NAVI", [{ :pos=>act_pos , :function=>"ANGLELIMIT" , :typ=>"MKBYTE" }] ) 
  act_pos+=1
 
+--Hoehe_HoverBand
+ to_cat("ALTITUDE", [{ :pos=>act_pos , :function=>"HOVERBAND" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+
+--Hoehe_GPS_Z
+ to_cat("ALTITUDE", [{ :pos=>act_pos , :function=>"GPSZ" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+
 --Reserved[4]
  act_pos+=4
 --Reserved[7]
