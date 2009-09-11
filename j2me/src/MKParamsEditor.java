@@ -308,6 +308,10 @@ public class MKParamsEditor
 						edit_source.field_from_act_add_min_max(edit_source.field_positions[act_tab][act_pos],1,0,10);
 						break;
 					
+					    case PARAMTYPE_KEY:
+						// do nothing
+						break;
+
 					    default:
 						edit_source.field_from_act_add_mod(edit_source.field_positions[act_tab][act_pos],1,edit_source.choice_stringids[edit_source.field_types[act_tab][act_pos]-PARAMTYPE_CHOICE].length);
 						break;
@@ -329,6 +333,11 @@ public class MKParamsEditor
 					    case PARAMTYPE_STICK:
 						edit_source.field_from_act_add_min_max(edit_source.field_positions[act_tab][act_pos],-1,0,10);
 						break;
+					
+					    case PARAMTYPE_KEY:
+						// do nothing
+						break;
+
 					    default:
 						edit_source.field_from_act_add_mod(edit_source.field_positions[act_tab][act_pos],1,edit_source.choice_stringids[edit_source.field_types[act_tab][act_pos]-PARAMTYPE_CHOICE].length);
 						break;
