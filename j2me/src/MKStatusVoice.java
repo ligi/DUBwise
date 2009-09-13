@@ -275,211 +275,188 @@ public class MKStatusVoice
 
     public void run()
     {
-
-
         while(true)
             {
 		loop_cnt++;
-		if ((canvas.mk!=null)&&(canvas.settings.do_sound))
+		if ((canvas.mk!=null)&&(canvas.settings.do_sound)&&((canvas.mk.connected)&&(!canvas.mk.force_disconnect)))
+		     
 		    {
-
-			if ((canvas.mk.connected)&&(!canvas.mk.force_disconnect))
+			if ((!conn_told)&&canvas.mk.version.known&&canvas.settings.do_intro_voice)
 			    {
-			if (!conn_told)
+				if (!canvas.settings.minimal_voice) {
+				    play("connected");
+				    play("to"); }
+				
+				if (canvas.mk.is_mk())
+				    play("mikrokopter");
+				
+				play("version");
+				
+				play(canvas.mk.version.major);
+				play("point");
+				play(canvas.mk.version.minor);
+				play("established");
+				conn_told=true;
+				disconn_told=false;
+			    }
+			
+			if ((canvas.mk.SenderOkay()==0))
 			    {
-				if (canvas.mk.version.known&&canvas.settings.do_intro_voice)
+				if (!sender_warning_told)
 				    {
-					if (!canvas.settings.minimal_voice) {
-					play("connected");
-					play("to"); }
-
-					if (canvas.mk.is_mk())
-					   play("mikrokopter");
-
-					play("version");
-					
-					play(canvas.mk.version.major);
-					play("point");
-					play(canvas.mk.version.minor);
-					play("established");
-					conn_told=true;
-					disconn_told=false;
+					if (!canvas.settings.minimal_voice) play("warning");
+					play("rc-signal");
+					play("lost");
+					sender_warning_told=true;
 				    }
 			    }
 			else
-			    {
+			    sender_warning_told=false;
 
-		
-				if ((canvas.mk.SenderOkay()==0))
+
+			if ((canvas.mk.AngleNick()>400)||(canvas.mk.AngleRoll()>400)||(canvas.mk.AngleNick()<-400)||(canvas.mk.AngleRoll()<-400))
+			    {
+				play("tilt");
+				play("warning");
+			    }
+
+			voice_timeout++;
+			
+			if (info_from_debug_set!=canvas.mk.stats.debug_data_count)
+			    { // only when newdata
+				if (voice_timeout>(canvas.settings.voice_delay*1000)/BASE_SLEEP)
 				    {
-					if (!sender_warning_told)
+					voice_timeout=0;
+					if ((canvas.mk.UBatt()!=-1)&&(canvas.settings.do_volts_voice))
 					    {
-						if (!canvas.settings.minimal_voice) play("warning");
-						play("rc-signal");
-						play("lost");
-						sender_warning_told=true;
+						if (!canvas.settings.minimal_voice) 
+						    {
+							play("battery");
+							play("at");
+						    }
+						volts_play_cnt++;
+						
+						int ubatt=canvas.mk.UBatt();
+						info_from_debug_set=canvas.mk.stats.debug_data_count;
+						play((ubatt/10));
+						
+						if(((ubatt%10)!=0)&& (!canvas.settings.voice_nopoint))
+						    {
+							play("point");
+							play((ubatt%10));
+							
+						    }
+						play("volts");
+						
+					    }
+
+					if ((canvas.mk.Alt()!=-1)&&(canvas.settings.do_alt_voice))
+					    {
+						if (!canvas.settings.minimal_voice) {
+						    play("altitude");
+						    play("at");
+						}
+						
+						
+						play( canvas.mk.Alt()/10);
+						if (!canvas.settings.voice_nopoint) {
+						    play("point");
+						    play( canvas.mk.Alt()%10); }
+						
+						
+						play("meters");
+					    }
+					
+					if ((canvas.mk.stats.flying_time()!=0)&&(canvas.settings.do_flighttime_voice))
+					    {
+						play("flight");
+						play("time");
+						switch (canvas.mk.stats.flying_time()/60)
+						    {
+						    case 0:
+							break;		
+						    case 1:
+							play("1");
+							play("minute");
+							break;
+						    default:
+							play(canvas.mk.stats.flying_time()/60);
+							play("minutes");
+						    }
+						
+						switch (canvas.mk.stats.flying_time()%60)
+						    {
+						    case 0:
+							//							    case 1:
+							//								play("1");
+							break;
+						    default:
+							play(canvas.mk.stats.flying_time()%60);
+							play("seconds");
+						    }
+						
+							
+							
+					    }
+					
+					if(canvas.settings.do_satelites_voice)	
+					    switch (canvas.mk.SatsInUse())
+						{
+						case -1:
+						    // do nothing
+						    break;
+						case 1:
+						    play(1);
+						    play("satellite");
+						    
+						    
+						    break;
+						default:
+						    play(canvas.mk.SatsInUse());
+						    play("satellites");
+						    
+						}
+					
+				    }
+				
+				
+					
+				if (canvas.settings.do_altimeter_sound)
+				    {
+					if (last_alt==-1) last_alt=canvas.mk.Alt();
+					
+					
+					if (last_alt>canvas.mk.Alt()+canvas.settings.altsteps)
+					    {
+						play("down");
+						last_alt-=canvas.settings.altsteps;
+					    }
+					if (last_alt<canvas.mk.Alt()-canvas.settings.altsteps)
+					    {
+						play("up");
+						last_alt+=canvas.settings.altsteps;
 					    }
 				    }
 				else
-				    sender_warning_told=false;
-
-
-				if ((canvas.mk.AngleNick()>400)||(canvas.mk.AngleRoll()>400)||(canvas.mk.AngleNick()<-400)||(canvas.mk.AngleRoll()<-400))
-				    {
-					play("tilt");
-					play("warning");
-				    }
-
-				voice_timeout++;
-				
-				if (info_from_debug_set!=canvas.mk.stats.debug_data_count)
-				    { // only when newdata
-					
-					
-					if (voice_timeout>(canvas.settings.voice_delay*1000)/BASE_SLEEP)
-					    {
-						voice_timeout=0;
-						if ((canvas.mk.UBatt()!=-1)&&(canvas.settings.do_volts_voice))
-						    {
-							if (!canvas.settings.minimal_voice) 
-							    {
-								play("battery");
-								play("at");
-							    }
-							volts_play_cnt++;
-
-							int ubatt=canvas.mk.UBatt();
-							info_from_debug_set=canvas.mk.stats.debug_data_count;
-							play((ubatt/10));
-							
-							if(((ubatt%10)!=0)&& (!canvas.settings.voice_nopoint))
-							    {
-								play("point");
-								play((ubatt%10));
-								
-							    }
-							play("volts");
-							
-						    }
-
-						if ((canvas.mk.Alt()!=-1)&&(canvas.settings.do_alt_voice))
-						    {
-							if (!canvas.settings.minimal_voice) {
-							    play("altitude");
-							    play("at");
-							}
-
-							
-							play( canvas.mk.Alt()/10);
-							if (!canvas.settings.voice_nopoint) {
-							play("point");
-							play( canvas.mk.Alt()%10); }
-							
-						
-							play("meters");
-						    }
-						
-						if ((canvas.mk.stats.flying_time()!=0)&&(canvas.settings.do_flighttime_voice))
-						    {
-							play("flight");
-							play("time");
-							switch (canvas.mk.stats.flying_time()/60)
-							    {
-							    case 0:
-								break;		
-							    case 1:
-								play("1");
-								play("minute");
-								break;
-							    default:
-								play(canvas.mk.stats.flying_time()/60);
-								play("minutes");
-							    }
-
-							switch (canvas.mk.stats.flying_time()%60)
-							    {
-							    case 0:
-								//							    case 1:
-								//								play("1");
-								break;
-							    default:
-								play(canvas.mk.stats.flying_time()%60);
-								play("seconds");
-							    }
-
-							
-							
-						    }
-						if(canvas.settings.do_satelites_voice)	switch (canvas.mk.SatsInUse())
-						    {
-						    case -1:
-							// do nothing
-							break;
-						    case 1:
-							play(1);
-							play("satellite");
-
-
-							break;
-						    default:
-							play(canvas.mk.SatsInUse());
-							play("satellites");
-							
-						     }
-
-					    }
-					
-					
-					
-					if (canvas.settings.do_altimeter_sound)
-					    {
-						if (last_alt==-1) last_alt=canvas.mk.Alt();
-						
-						
-						if (last_alt>canvas.mk.Alt()+canvas.settings.altsteps)
-						    {
-							play("down");
-							
-							last_alt-=canvas.settings.altsteps;
-						    }
-						if (last_alt<canvas.mk.Alt()-canvas.settings.altsteps)
-						    
-						    {
-							play("up");
-							
-							last_alt+=canvas.settings.altsteps;
-						    }
-					    }
-					else
-					    last_alt=-1;
-				    }
-			    }
-			    }
-			else
-			    {
-				if (!disconn_told)
-				    play("disconnected");
-				conn_told=false;
-				disconn_told=true;
-				
+				    last_alt=-1;
 			    }
 		    }
-
+	    
+		if((!disconn_told)&&((canvas.mk.connected)&&(!canvas.mk.force_disconnect)))
+		    {
+			play("disconnected");
+			conn_told=false;
+			disconn_told=true;
+		    }
+	    
+	
 		try { 
 		    Thread.sleep(BASE_SLEEP); 
-		    
-		    //if (delay<1)
-		    //	Thread.sleep(1000); 
-		    //else
-		    //	Thread.sleep(delay*1000); 
-		    
 		}
 		catch (Exception e)  {   }
 		
 	    }
     }
-    
-
     
 }
 
