@@ -19,21 +19,17 @@ public class MKStatusVoice
     DUBwiseCanvas canvas=null;
     Player player;
 
-    Player up_player;
-    Player down_player;
-    
-    public final int PLAYERSTATE_IDLE=0;
-    public final int PLAYERSTATE_PLAYING=1;
-    public final int PLAYERSTATE_FIN=2;
+    public final int PLAYERSTATE_IDLE    =0;
+    public final int PLAYERSTATE_PLAYING =1;
+    public final int PLAYERSTATE_FIN     =2;
 
 
-    int act_player_state=PLAYERSTATE_IDLE;
+    public int act_player_state=PLAYERSTATE_IDLE;
     VolumeControl vc;
 
     public MKStatusVoice(DUBwiseCanvas _canvas)
     {
 	canvas=_canvas;
-
 	new Thread( this ).start(); // fire up main Thread 
     }
 
@@ -61,8 +57,9 @@ public class MKStatusVoice
          if(player.getState() == Player.REALIZED ||   player.getState() == Player.UNREALIZED) {
            player.close();
          }
-      }
+
       player = null;
+      }
     }
 
     byte sound_method=0;
@@ -72,32 +69,24 @@ public class MKStatusVoice
     {
 	Player _player=null;
 	try {
-		
-	    try {
-		switch(sound_method)
-		    {
-		    case 0:
-			_player = Manager.createPlayer(getClass().getResourceAsStream(name+".mp3"), "AUDIO/MP3");
+	    switch(sound_method)
+		{
+		case 0:
+		    _player = Manager.createPlayer(getClass().getResourceAsStream(name+".mp3"), "AUDIO/MP3");
+		    break;
+		case 1:
+		    _player = Manager.createPlayer(getClass().getResourceAsStream(name+".mp3"), "AUDIO/MPEG3");
+		    break;
+		case 2:
+		    _player = Manager.createPlayer(getClass().getResourceAsStream(name+".mp3"), "audio/mpeg3");
+		    break;
+		case 3:
+		    _player = Manager.createPlayer(getClass().getResourceAsStream(name+".mp3"), "audio/mp3");
 			break;
-		    case 1:
-			_player = Manager.createPlayer(getClass().getResourceAsStream(name+".mp3"), "AUDIO/MPEG3");
-			break;
-		    case 2:
-			_player = Manager.createPlayer(getClass().getResourceAsStream(name+".mp3"), "audio/mpeg3");
-			break;
-		    case 3:
-			_player = Manager.createPlayer(getClass().getResourceAsStream(name+".mp3"), "audio/mp3");
-			break;
-		    case 4:
-			_player = Manager.createPlayer(getClass().getResourceAsStream(name+".wav"), "AUDIO/X-WAV");
-		    }
-			
-	    }
-	    catch (Exception e)  { 
-		Thread.sleep(100); 
-		sound_method=(byte)((sound_method+1)%5	);
-		_player=init_player(name);
-	    }
+		case 4:
+		    _player = Manager.createPlayer(getClass().getResourceAsStream(name+".wav"), "AUDIO/X-WAV");
+		}
+	    
 	    _player.addPlayerListener(this);
 	    _player.realize();
 
@@ -112,42 +101,16 @@ public class MKStatusVoice
 	    _player.start();	
 	}
 	catch (Exception e)  { 
-	    
+	    try {    Thread.sleep(100); }
+	    catch (Exception foo_e)  { 		}
+	    sound_method=(byte)((sound_method+1)%5	);
+	    _player=init_player(name);
 	}	
 	return _player;
 
     }
 
-    public void play_up()
-    {
 
-	try {
-
-	    if (up_player==null) 
-		up_player=init_player("up");
-
-
-	    up_player.start();	
-	    act_player_state=PLAYERSTATE_PLAYING;
-	}
-	catch (Exception e)  { 
-	    
-	}	
-    }
-
-
-    public void play_down()
-    {
-	try {
-	    if (down_player==null) 
-		down_player=init_player("down");
-	    down_player.start();	
-	    act_player_state=PLAYERSTATE_PLAYING;
-	}
-	catch (Exception e)  { 
-	    
-	}	
-    }
 
 
     public boolean play(String what)
@@ -442,7 +405,7 @@ public class MKStatusVoice
 			    }
 		    }
 	    
-		if((!disconn_told)&&((canvas.mk.connected)&&(!canvas.mk.force_disconnect)))
+		if((!disconn_told)&&((!canvas.mk.connected)))//&&(!canvas.mk.force_disconnect)))
 		    {
 			play("disconnected");
 			conn_told=false;
