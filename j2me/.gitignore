@@ -6,3 +6,4 @@ res/voice_samples_by_name/
 build.props
 tmp_deploy.7z
 tmp_deploy/
+*.tmp/
