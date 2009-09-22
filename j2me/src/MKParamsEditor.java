@@ -274,8 +274,6 @@ public class MKParamsEditor
 			
 		    default:
 
-
-
 			if (act_y!=(act_lcd_lines-1))
 			    {
 
@@ -286,7 +284,7 @@ public class MKParamsEditor
 				if((edit_source.field_types[act_tab][act_pos]==edit_source.PARAMTYPE_KEY))
 				    edit_source.set_field_from_act(edit_source.field_positions[act_tab][act_pos],keyCode);
 			
-				switch (action) 
+				else switch (action) 
 				    {
 				
 				    case Canvas.RIGHT:
@@ -352,7 +350,7 @@ public class MKParamsEditor
 			    if ((action== Canvas.FIRE)||(canvas.settings.key_alternative_fire==keyCode))
 				{
 				    act_y=1;
-				    //				    canvas.act_menu_select=0;
+				    //canvas.act_menu_select=0;
 				    canvas.menu_items[0]="";
 
 				    if (edit_source.tab_stringids==null)
