@@ -7,3 +7,5 @@ build.props
 tmp_deploy.7z
 tmp_deploy/
 *.tmp/
+bin/
+tmp*/
