@@ -223,3 +223,8 @@ VOICE_NOPOINT;decimal places;Nachkommastellen;decimal places
 SATELITES;Satelites;Sateliten;Satelites
 FLIGHTTIME;Flight Time;Flugzeit;Flight Time
 ALTERNATIVE_FIRE;Alternative Fire;Alternative Fire;Alternative Fire
+HOVERBAND;Hover Band;Hover Band;Hover Band
+GPSZ;GPS-Z;GPS-Z;GPS-Z
+SENSITIVERC;Sensitive RC;Sensibler Empfang;Sensitive RC
+VARIOBEEP;Vario Beeping;Vario Beeping;Vario Beeping
+ALTITUDELIMIT;Limit Altitude;Limit Altitude;Limit Altitude
