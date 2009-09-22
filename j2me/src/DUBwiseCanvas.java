@@ -138,8 +138,6 @@ public class DUBwiseCanvas
 
 //#endif
 
-
-
     String act_msg="";
             
     boolean read_paramset_intension_save;
@@ -152,14 +150,10 @@ public class DUBwiseCanvas
     int canvas_width=100;
     int canvas_height=100;
 
-
-
     int heading_offset=0;
     int act_wp;
 
     long key_bitfield=0;
-
-
     boolean debug_overlay=false;
 
     public long keyCode2mask(int keyCode)
@@ -202,13 +196,6 @@ public class DUBwiseCanvas
     //    private MKStatistics mk_stat=null;
     
     private MKParamsEditor act_editor=null;
-
-    /*
-    private MKParamsEditor params_editor=null;
-    private MKParamsEditor settings_editor=null;
-    private MKParamsEditor motor_tester=null;
-
-    */
 
     public MKFirmwareFlasher firmware_flasher=null;
     public DUBwiseDebug debug=null;
@@ -458,11 +445,13 @@ public class DUBwiseCanvas
 	    tmp_menu_add(l(STRINGID_DEBUG_VALUES),ACTIONID_RAWDEBUG);
 
 	
+//#if j2memap=="on"
+	if (mk.is_fake())tmp_menu_add("Map",ACTIONID_MAP);
+//#endif
 
 	// only navi
 	if ( mk.is_navi())
 	    {
-
 
 //#if j2memap=="on"
 		tmp_menu_add("Map",ACTIONID_MAP);
@@ -1776,6 +1765,7 @@ lp= LocationProvider.getInstance(crit2);
 		case STATEID_MAP:
 
 		    root.m_map.paint(g);
+
 		    break;
 //#endif
 		case STATEID_HORIZON:
@@ -1917,10 +1907,16 @@ lp= LocationProvider.getInstance(crit2);
 		    g.drawString("voice props" ,0,y_off,Graphics.TOP | Graphics.LEFT);
 		    y_off+=spacer_small;
 
-		    g.drawString("voice_loop_cnt"+status_voice.loop_cnt ,0,y_off,Graphics.TOP | Graphics.LEFT);
+		    g.drawString("voice_loop_cnt: "+status_voice.loop_cnt ,0,y_off,Graphics.TOP | Graphics.LEFT);
 		    y_off+=spacer_small;
 
-		    g.drawString("voice_volts_cnt"+ status_voice.volts_play_cnt ,0,y_off,Graphics.TOP | Graphics.LEFT);
+		    g.drawString("voice_volts_cnt: "+ status_voice.volts_play_cnt ,0,y_off,Graphics.TOP | Graphics.LEFT);
+		    y_off+=spacer_small;
+
+		    g.drawString("player_state: "+ status_voice.act_player_state ,0,y_off,Graphics.TOP | Graphics.LEFT);
+		    y_off+=spacer_small;
+
+		    g.drawString("sound method: "+ status_voice.sound_method ,0,y_off,Graphics.TOP | Graphics.LEFT);
 		    y_off+=spacer_small;
 
 		    g.drawString("do volts sound"+ settings.do_volts_voice ,0,y_off,Graphics.TOP | Graphics.LEFT);
@@ -3078,15 +3074,10 @@ lp= LocationProvider.getInstance(crit2);
 
 //#if j2memap=="on"
 	    case ACTIONID_MAP:
-
-
 		int default_zoom=14; // TODO calc of distance - kopter<>home
-
 		try {
 
-
-
-		    //		    ufo_marker=new Marker(UtilMidp.parseFloat(""+(mk.gps_position.Longitude/10000000d)),UtilMidp.parseFloat(""+(mk.gps_position.Latitude/10000000d)));
+		    // ufo_marker=new Marker(UtilMidp.parseFloat(""+(mk.gps_position.Longitude/10000000d)),UtilMidp.parseFloat(""+(mk.gps_position.Latitude/10000000d)));
 
 		    ufo_marker=new Marker(UtilMidp.parseFloat(mk.gps_position.gps_format_str(mk.gps_position.Longitude,GPS_FORMAT_DECIMAL)),UtilMidp.parseFloat(mk.gps_position.gps_format_str(mk.gps_position.Latitude,GPS_FORMAT_DECIMAL)));
 		    ufo_marker.iconImage=icon_img;
@@ -3409,6 +3400,14 @@ lp= LocationProvider.getInstance(crit2);
 
     public void pointerDragged (int pointer_x, int pointer_y)
     {
+//#if j2memap=="on"
+	if (state==STATEID_MAP)
+	    {
+		root.m_map.pointerDragged(pointer_x,pointer_y);
+		return;
+	    }
+//#endif
+
 	if ((pointer_x>canvas_width) || (pointer_y>canvas_height)) return; // bugfix/workaround - pointer in offscreen - e.g. wtk when not in fullscreen
 
 	System.out.println("p_y: " + pointer_y  + "ch:" + canvas_height);
@@ -3442,6 +3441,14 @@ lp= LocationProvider.getInstance(crit2);
 
     public void pointerPressed (int pointer_x, int pointer_y)
     {
+
+//#if j2memap=="on"
+	if (state==STATEID_MAP)
+	    {
+		root.m_map.pointerPressed(pointer_x,pointer_y);
+		return;
+	    }
+//#endif
 
 	if ((pointer_x>canvas_width) || (pointer_y>canvas_height)) return; // bugfix - pointer in offscreen - e.g. wtk when not in fullscreen
 
@@ -3532,6 +3539,7 @@ lp= LocationProvider.getInstance(crit2);
     
     public void keyPressed(int keyCode)
     {
+	System.out.println("keypress in state " + state);
 	key_bitfield|=keyCode2mask(keyCode);
 
 	if ((state==STATEID_MAINMENU)&&(keyCode==beta_unlock_code[beta_unlock_pos++]))
@@ -3539,7 +3547,7 @@ lp= LocationProvider.getInstance(crit2);
 		if (beta_unlock_pos==beta_unlock_code.length)
 		    {
 			beta_unlock_pos=0;
-			nextstate=state;
+		nextstate=state;
 			act_msg="Hi Betatester" ;
 			chg_state(STATEID_SUCCESS_MSG);
 			settings.set_betatester();
@@ -3575,6 +3583,15 @@ lp= LocationProvider.getInstance(crit2);
 	if (state!=STATEID_MAP)
 	    {
 		if (((keyCode==KEY_STAR) || (keyCode==settings.key_back) )&&(state!=STATEID_KEYCONTROL))//&&(state!= STATEID_STRINGINPUT))
+		    {
+			chg_state(STATEID_MAINMENU);
+			return;
+		    }
+	    }
+
+	if (state==STATEID_MAP)
+	    {
+		if (keyCode==settings.key_back)
 		    {
 			chg_state(STATEID_MAINMENU);
 			return;
