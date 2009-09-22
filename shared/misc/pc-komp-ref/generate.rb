@@ -1,6 +1,8 @@
 require 'rio'
 
 
+debug=false
+
 all_tabs=[]
 
 all_names=[]
@@ -26,7 +28,7 @@ end
 #exit
 
 Dir["header_files/*.h"].sort.each { |e| 
- puts "----------------" + e
+ puts "----------------" + e if debug
   new="" 
   start=false 
   rio(e).each_line { |l| 
@@ -59,9 +61,9 @@ end
   function_hash.each_pair { |k,v|
     if l.scan(k)!=[]
       found=true
-      p "found" + k
-      puts v
-   puts act_pos
+      p "found" + k if debug
+      puts v if debug
+      puts act_pos if debug
    
       instance_eval(v)
       
@@ -78,7 +80,7 @@ end
  @categorys.sort!
 mod_cats=@categorys.map {|e| "STRINGID_"+e } 
 all_tabs << ["{" +  mod_cats.join(",") + "}"]
-puts "[\"" +  @categorys.join("\",\"") + "\"]"
+puts "[\"" +  @categorys.join("\",\"") + "\"]" if debug
 
 
 all_names << ["{"+@categorys.map { |c|
