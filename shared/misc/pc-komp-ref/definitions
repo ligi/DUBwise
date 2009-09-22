@@ -43,6 +43,17 @@
 
  act_pos+=1
 
+--ExtraConfig;
+
+ to_cat("CONFIGURATION", [
+	 {:pos=>act_pos*8 , :function=>"ALTITUDELIMIT" , :typ=>"BITSWITCH" },
+	 {:pos=>act_pos*8+1 , :function=>"VARIOBEEP" , :typ=>"BITSWITCH" },
+	 {:pos=>act_pos*8+2 , :function=>"SENSITIVERC" , :typ=>"BITSWITCH" }
+	])
+
+
+ act_pos+=1
+
 --Hoehe_MinGas;
  to_cat("ALTITUDE", [{ :pos=>act_pos , :function=>"MINACCELERATE" , :typ=>"MKBYTE" }] ) 
  act_pos+=1
@@ -325,6 +336,8 @@
  to_cat("ALTITUDE", [{ :pos=>act_pos , :function=>"GPSZ" , :typ=>"MKBYTE" }] ) 
  act_pos+=1
 
+--Reserved[3]
+ act_pos+=3
 --Reserved[4]
  act_pos+=4
 --Reserved[7]
