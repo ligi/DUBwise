@@ -170,6 +170,8 @@ J17TIMING;J17 Timing;J17 Timing;Chronom. J17
 NICKROLLP;Nick/Roll P;Nick/Roll P;Tangage/Roulis P
 NICKROLLD;Nick/Roll D;Nick/Roll D;Tangage/Roulis D
 GIERP;Gier P;Gier P;Lacet P
+GIERI;Gier I;Gier I;Lacet I
+STICKNEUTRALPOINT;Stick Neutral
 EXTERNCONTROL;Extern Control;Extern Control;Controle externe
 PARAM1;Param 1
 PARAM2;Param 2
