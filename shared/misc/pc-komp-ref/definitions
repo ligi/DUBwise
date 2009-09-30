@@ -54,6 +54,10 @@
 
  act_pos+=1
 
+
+--Hoehe_StickNeutralPoint;
+ to_cat("ALTITUDE", [{ :pos=>act_pos , :function=>"STICKNEUTRALPOINT" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
 --Hoehe_MinGas;
  to_cat("ALTITUDE", [{ :pos=>act_pos , :function=>"MINACCELERATE" , :typ=>"MKBYTE" }] ) 
  act_pos+=1
@@ -98,6 +102,12 @@
  act_pos+=1
 --Gyro_I;
    to_cat("GYRO", [{ :pos=>act_pos , :function=>"IRATE" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+--Gyro_Gier_I;
+   to_cat("GYRO", [{ :pos=>act_pos , :function=>"GIERI" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+--Gyro_Gier_P;
+   to_cat("GYRO", [{ :pos=>act_pos , :function=>"GIERP" , :typ=>"MKBYTE" }] ) 
  act_pos+=1
 --Gyro_D;
    to_cat("GYRO", [{ :pos=>act_pos , :function=>"DRATE" , :typ=>"MKBYTE" }] ) 

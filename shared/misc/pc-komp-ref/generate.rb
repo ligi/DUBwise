@@ -59,7 +59,7 @@ end
  new.each_line { |l|
  found=false
   function_hash.each_pair { |k,v|
-    if l.scan(k)!=[]
+    if l.scan(" "+k)!=[]
       found=true
       p "found" + k if debug
       puts v if debug
