@@ -113,6 +113,10 @@ POTI1;Poti1;Poti1;Potentiometre 1
 POTI2;Poti2;Poti2;Potentiometre 2
 POTI3;Poti3;Poti3;Potentiometre 3
 POTI4;Poti4;Poti4;Potentiometre 4
+POTI5;Poti5;Poti5;Potentiometre 5
+POTI6;Poti6;Poti6;Potentiometre 6
+POTI7;Poti7;Poti7;Potentiometre 7
+POTI8;Poti8;Poti8;Potentiometre 8
 ALTITUDECONTROL;Altitude Control;Höhen Kontrolle;Controle altitude
 SWITCHFORSETPOINT;Switch for Setpoint;Höhenschalter;Interr. Setpoint
 HEADINGHOLD;Heading Hold;Heading Hold;Tenue de cap
