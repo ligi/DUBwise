@@ -13,6 +13,28 @@
 
  act_pos+=8
 
+--Kanalbelegung[12]
+ to_cat("CHANNELS", [ 
+
+	{:pos=>act_pos , :function=>"NICK" , :typ=>"STICK" },
+	{:pos=>act_pos+1 , :function=>"ROLL" , :typ=>"STICK" },
+	{:pos=>act_pos+2 , :function=>"ACCELERATE" , :typ=>"STICK" },
+	{:pos=>act_pos+3 , :function=>"GIER" , :typ=>"STICK" },
+	{:pos=>act_pos+4 , :function=>"POTI1" , :typ=>"STICK" },
+	{:pos=>act_pos+5 , :function=>"POTI2" , :typ=>"STICK" },
+	{:pos=>act_pos+6 , :function=>"POTI3" , :typ=>"STICK" },
+	{:pos=>act_pos+7 , :function=>"POTI4" , :typ=>"STICK" },
+
+	{:pos=>act_pos+8 , :function=>"POTI5" , :typ=>"STICK" },
+	{:pos=>act_pos+9 , :function=>"POTI6" , :typ=>"STICK" },
+	{:pos=>act_pos+10 , :function=>"POTI7" , :typ=>"STICK" },
+	{:pos=>act_pos+11 , :function=>"POTI8" , :typ=>"STICK" },
+
+
+	])
+
+ act_pos+=12
+
 --GlobalConfigOld;
 
  to_cat("CONFIGURATION", [
