@@ -78,7 +78,11 @@ public class MKWatchDog
 			    //	    mk.init_bootloader=false;
 			    //	}
 			    //else
-				if  ( mk.version.major==-1 )
+			
+		    	if (mk.is_fake()) { // fake some stuff
+		    		mk.stats.bytes_in++;
+		    	}
+		    	if  ( mk.version.major==-1 )
 				    mk.get_version();
 			    else if (mk.is_navi()&&(mk.error_str==null))
 				    mk.get_error_str();
@@ -94,21 +98,32 @@ public class MKWatchDog
 				{
 				case USER_INTENT_PARAMS:
 
-				    if ((act_paramset<5))
-				    {
-
-					if (resend_timeout==0)  {
-					    mk.get_params(act_paramset);
-					    resend_timeout=120;
+					if (mk.is_fake()) {
+						if ((mk.params.last_parsed_paramset<5))
+						{
+							if (resend_timeout==0)
+							{
+							mk.params.last_parsed_paramset++;
+							resend_timeout=100;
+							
+							}
+							resend_timeout--;
+						}
 					}
-					
-					if(mk.params.field[act_paramset]!=null)
-					    {
-						mk.get_params(++act_paramset);
-						resend_timeout=120;
-					    }
-					else
-					    resend_timeout--;
+					else {
+				    if ((act_paramset<5))    {
+
+									if (resend_timeout == 0) {
+										mk.get_params(act_paramset);
+										resend_timeout = 120;
+									}
+
+									if (mk.params.field[act_paramset] != null) {
+										mk.get_params(++act_paramset);
+										resend_timeout = 120;
+									} else
+										resend_timeout--;
+								}
 					    /*
 						//						act_paramset++;
 					else
@@ -145,8 +160,12 @@ public class MKWatchDog
 				     break;
 
 				case USER_INTENT_RCDATA:
-				    if ( resend_check(mk.stats.stick_data_count) )
-					mk.trigger_rcdata();
+					if (mk.is_fake()){
+						// fake some data ;-)
+						for (int i=0;i<MKStickData.MAX_STICKS;i++)
+							mk.stick_data.stick[i]=mk.debug_data.analog[i]%127;
+					}else if ( resend_check(mk.stats.stick_data_count) )
+						mk.trigger_rcdata();
 				    break;
 
 				case USER_INTENT_EXTERNAL_CONTROL:
