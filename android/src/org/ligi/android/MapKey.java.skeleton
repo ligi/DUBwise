@@ -1,8 +1,0 @@
-package org.ligi.android;
-
-public interface MapKey
-{
-
-public final String MapKey=INSERT_YOUR_MAP_API_KEY;
-
-}
