@@ -30,7 +30,10 @@ import java.io.*;
 public class MKCommunicator
     implements Runnable,DUBwiseDefinitions
 {
-    public byte slave_addr=-1;
+    public byte lib_version_major=0;
+    public byte lib_version_minor=11;
+
+	public byte slave_addr=-1;
 
     public int primary_abo;
     public int secondary_abo;
@@ -44,8 +47,6 @@ public class MKCommunicator
 
     public boolean disconnect_notify=false;
 
-    public byte lib_version_major=0;
-    public byte lib_version_minor=10;
 
     public byte last_navi_error=0;
 
@@ -60,18 +61,38 @@ public class MKCommunicator
 	return "V"+lib_version_major+"."+lib_version_minor;
     }
     
+	public int AngleNick() {
+		switch (slave_addr) {
 
-    public int AngleNick()
-    {
-	if (is_mk())
-	    return angle_nick;
-	else 	if (is_navi())
-	    return debug_data.analog[0]; 
-	return -1;
+		case FC_SLAVE_ADDR:
+			return angle_nick;
 
-    }
+		case FAKE_SLAVE_ADDR:
+		case NAVI_SLAVE_ADDR:
+			return debug_data.analog[1];
 
+		default:
+			return -1;
+		}
 
+	}
+
+	public int AngleRoll() {
+		switch (slave_addr) {
+
+		case FC_SLAVE_ADDR:
+			return angle_roll;
+
+		case FAKE_SLAVE_ADDR:
+		case NAVI_SLAVE_ADDR:
+			return debug_data.analog[1];
+
+		default:
+			return -1;
+		}
+
+	}
+    
     public int Alt() // in dm
     {
 	// calc bg thanx to gregor: http://forum.mikrokopter.de/topic-post112323.html#post112323
@@ -95,18 +116,7 @@ public class MKCommunicator
     {
 	return "" + Alt()/10 + "m";
     }
-    public int AngleRoll()
-    {
-	if (is_mk())
-	    return angle_roll;
-	else	
-	    if (is_navi())
-	    
-	    return debug_data.analog[1];
-	return -1;
-	
-    }
-
+    
 
     /***************** Section: public Attributes **********************************************/
     public boolean connected=false; // flag for the connection state
@@ -358,6 +368,7 @@ public class MKCommunicator
 	if ( _url=="fake" )
 	    {
 		connection_start_time=System.currentTimeMillis();
+		gps_position.ErrorCode=1; // its an error that its a fake - just wanna see the symbol ;-)
 		slave_addr=FAKE_SLAVE_ADDR;
 		version.set_fake_data();
 		connected=true;
@@ -826,7 +837,7 @@ public class MKCommunicator
 		return debug_data.analog[8];
 
 	    case FAKE_SLAVE_ADDR:
-		return 42;
+		return 127;
 
 		
 	    default:
