@@ -12,6 +12,7 @@ package org.ligi.ufo;
 
 public class MKStickData 
 {
+	public final static int MAX_STICKS=10;
     // holing stick data
     public int[] stick;
 
@@ -21,8 +22,8 @@ public class MKStickData
     public MKStickData() 
     {
 
-	stick=new int[10];
-	for (i=0;i<10;i++)
+	stick=new int[MAX_STICKS];
+	for (i=0;i<MAX_STICKS;i++)
 	    stick[i]=-1;
 
     }
@@ -30,7 +31,7 @@ public class MKStickData
     public void set_by_mk_data(int[] in_arr)
     {
 
-	for (i=0;i<10;i++)
+	for (i=0;i<MAX_STICKS;i++)
 	    {			
 			stick[i]=(int)((in_arr[1+i*2]<<8) | in_arr[i*2]);
 			if ((stick[i]&(1<<15))!=0)
