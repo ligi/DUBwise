@@ -65,16 +65,12 @@ public class MKDebugData
     }
 
 
-    public void set_fake_data()
-    {
-	analog[0]+=(random.nextInt()%5);
-	analog[1]+=(random.nextInt()%5);
-	analog[2]+=(random.nextInt()%5);
-	analog[3]+=(random.nextInt()%5);
-
-	// alt
-	analog[5]+=(random.nextInt()%2);
-
+    public void set_fake_data(){
+    	for (int i=0;i<16;i++)
+    		analog[i]+=(random.nextInt()%5);
+	
+    	// 	alt
+    	analog[5]+=(random.nextInt()%2);
     }
 
     public void set_by_mk_data(int[] in_arr,MKVersion version)
