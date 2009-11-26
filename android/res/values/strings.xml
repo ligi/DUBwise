@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name">DUBwise</string>
+<string name="hello">test</string>
+<string name="FullScreen">FullScreen</string>
+<string name="Grid">Grid</string>
+<string name="Interval">Interval</string>
+<string name="Legend">Legend</string>
+<string name="Port">Port</string>
+<string name="Host">Host</string>
+<string name="Connect">Connect</string>
+<string name="LibVersion">LibVersion</string>
+<string name="StatusBar">Status Bar</string>
+</resources>
