@@ -1,1 +1,4 @@
 ../shared/src/DUBwiseLangDefs.java
+bin/
+android/gen/
+android/bin/
