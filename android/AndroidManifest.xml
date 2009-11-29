@@ -13,7 +13,7 @@
         </activity>
 
     <activity android:name="SettingsActivity"></activity>
-<activity android:name="MotorTestaActivity"></activity>
+<activity android:name="MotorTestActivity"></activity>
 <activity android:name="RCDataActivity"></activity>
 <activity android:name="ServerListActivity"></activity>
 <activity android:name="ConnectionListActivity"></activity>
