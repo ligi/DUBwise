@@ -4,7 +4,7 @@
 <CheckBox android:id="@+id/LegendCheckBox" android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="@string/Legend"></CheckBox><LinearLayout android:id="@+id/LinearLayout03" android:layout_height="wrap_content" android:layout_width="fill_parent"><TextView android:id="@+id/TextView02" android:layout_width="wrap_content" android:text="@string/Interval" android:layout_height="fill_parent"></TextView><SeekBar android:id="@+id/SeekBar01" android:layout_height="wrap_content" android:max="100" android:layout_width="fill_parent"></SeekBar>
 </LinearLayout>
 
-<LinearLayout android:id="@+id/LinearLayout02" android:layout_height="wrap_content" android:layout_width="fill_parent"><CheckBox android:text="@+id/CheckBox01" android:id="@+id/CheckBox01" android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox></LinearLayout></LinearLayout>
+<LinearLayout android:id="@+id/LinearLayout02" android:layout_height="wrap_content" android:layout_width="fill_parent"></LinearLayout></LinearLayout>
 
 
 </ScrollView>
