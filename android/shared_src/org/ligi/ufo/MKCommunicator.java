@@ -11,7 +11,11 @@
  
 
 package org.ligi.ufo;
+import java.util.UUID;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 
 //#ifdef j2me
 //# import javax.microedition.io.*;
@@ -24,6 +28,7 @@ import android.util.Log;
 
 
 import java.io.*;
+import java.net.Socket;
 
 
 public class MKCommunicator
@@ -291,7 +296,9 @@ public class MKCommunicator
 
 //#ifdef android
 //    java.net.Socket connection;
-    java.net.Socket connection;
+    BluetoothSocket bt_connection;
+    Socket socket_connection ;
+    
 //#endif
 
 
@@ -404,11 +411,30 @@ public class MKCommunicator
 	    // connection = (StreamConnection) Connector.open(mk_url, Connector.READ_WRITE);
 	 
 //#ifdef android
-	    connection = (new java.net.Socket(mk_url.split(":")[0],Integer.parseInt(mk_url.split(":")[1])));
+	    if (mk_url.startsWith("btssp://" )) {
+	        BluetoothAdapter bta = BluetoothAdapter.getDefaultAdapter();
+         
+            BluetoothDevice bt = bta.getRemoteDevice(mk_url.replaceAll("btspp://","" ));
+            //connection = (new BluetoothSocket(mk_url.replaceAll("btssp://","" ).split(":")[0]))); 
+            bt_connection=bt.createRfcommSocketToServiceRecord((UUID.fromString("a60f35f0-b93a-11de-8a39-08002009c666")));
+            bt_connection.connect();
+           
+           reader=bt_connection.getInputStream();
+           writer=bt_connection.getOutputStream();
+           
+	    }
+	    else
+	    {
+	        Socket socket_connection = (new java.net.Socket(mk_url.split(":")[0],Integer.parseInt(mk_url.split(":")[1])));
+	        reader=socket_connection.getInputStream();
+	        writer=socket_connection.getOutputStream();
+	    }
+	       
+	    //else
+	    //  
 	    //.Socket 
 
-	    reader=connection.getInputStream();
-	    writer=connection.getOutputStream();
+	    
 
 	    String magic="conn:foo bar\r\n";
 	    writer.write(magic.getBytes());

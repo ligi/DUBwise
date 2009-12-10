@@ -82,7 +82,7 @@ public class ServerListActivity extends ListActivity {
 				/*Intent i = new Intent();
 				i.putExtra(EXTRA_SELECTED_ADDRESS, btHardwareAddress);
 				self.setResult(Activity.RESULT_OK, i);*/
-				MKProvider.getMK().connect_to("btssp://"+btHardwareAddress+":0",btDeviceInfo );
+				MKProvider.getMK().connect_to("btspp://"+btHardwareAddress+"",btDeviceInfo );
 				finish();
 			}
 		});
