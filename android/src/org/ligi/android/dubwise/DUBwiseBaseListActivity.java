@@ -43,7 +43,6 @@ public class DUBwiseBaseListActivity extends ListActivity implements OnSharedPre
 		  
 	}
 	
-	@Override
 	public void onSharedPreferenceChanged(SharedPreferences arg0, String arg1) {
 		update_ui_preferences();
 	}

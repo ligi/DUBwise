@@ -71,7 +71,7 @@ public class DUBwise extends ListActivity {
 		this.setListAdapter(new IconicAdapter(this,(menu_items_vector.toArray())));
 		Log.d("DUWISE", "create");
 		//		this.setTitle("DUBwise Main Menu");
-	
+		ActivityCalls.afterContent(this);
 	}
 	
 	@Override

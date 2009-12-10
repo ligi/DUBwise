@@ -1,4 +1,5 @@
 /*
+
  * Copyright (C) 2009 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -78,9 +79,10 @@ public class ServerListActivity extends ListActivity {
 				String btDeviceInfo = ((TextView) arg1).getText().toString();
 				String btHardwareAddress = btDeviceInfo.substring(btDeviceInfo
 						.length() - 17);
-				Intent i = new Intent();
+				/*Intent i = new Intent();
 				i.putExtra(EXTRA_SELECTED_ADDRESS, btHardwareAddress);
-				self.setResult(Activity.RESULT_OK, i);
+				self.setResult(Activity.RESULT_OK, i);*/
+				MKProvider.getMK().connect_to("btssp://"+btHardwareAddress+":0",btDeviceInfo );
 				finish();
 			}
 		});
@@ -94,6 +96,10 @@ public class ServerListActivity extends ListActivity {
 			btAdapter.startDiscovery();
 
 		self.setResult(Activity.RESULT_CANCELED);
+/*		
+	       arrayAdapter
+           .add("foo");
+	*/
 	}
 
 	@Override
@@ -118,5 +124,5 @@ public class ServerListActivity extends ListActivity {
 			// running by accident
 		}
 	}
-
+	
 }

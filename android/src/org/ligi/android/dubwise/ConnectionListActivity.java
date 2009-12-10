@@ -9,27 +9,16 @@ import android.util.Log;
 
 import android.widget.ArrayAdapter;
 
-//import com.google.android.maps.MapView;
-
-import android.content.SharedPreferences;
-
-import org.ligi.ufo.MKCommunicator;
-
 public class ConnectionListActivity extends DUBwiseBaseListActivity {
 
-	// DUBwiseView canvas;
-	boolean do_sound;
-	boolean fullscreen;
-	// MKCommunicator mk;
-	String[] menu_items = new String[] { "Fake Connection","Connect via Bluetooth","connect via TCP/IP" };
-	int[] menu_actions = new int[] { ACTIONID_FAKE , ACTIONID_BT , ACTIONID_TCP};
+	String[] menu_items = new String[] { "Fake Connection","Connect via Bluetooth (permfix)","connect via TCP/IP" ,"disconnect"};
+	int[] menu_actions = new int[] { ACTIONID_FAKE , ACTIONID_BT , ACTIONID_TCP , ACTIONID_DISCONN};
 
 	public final static int ACTIONID_FAKE = 0;
 	public final static int ACTIONID_BT = 1;
 	public final static int ACTIONID_TCP = 2;
+	public final static int ACTIONID_DISCONN = 3;
 	
-	
-
 	// public MapView map;
 	/** Called when the activity is first created. */
 	@Override
@@ -38,10 +27,10 @@ public class ConnectionListActivity extends DUBwiseBaseListActivity {
 
 		ActivityCalls.beforeContent(this);
 		// menu_items[0]=settings.getString("conn_host","--");
-		MKCommunicator mk=new MKCommunicator();
-		this.setListAdapter(new ArrayAdapter<String>(this,
-		 android.R.layout.simple_list_item_1, menu_items));
 		
+	    this.setListAdapter(new ArrayAdapter<String>(this,
+	            android.R.layout.simple_list_item_1, menu_items));
+	       
 	}
 
 	
@@ -67,19 +56,22 @@ public class ConnectionListActivity extends DUBwiseBaseListActivity {
 
 		try {
 
-			switch (menu_actions[position]) {
+            switch (menu_actions[position]) {
 
-			case ACTIONID_FAKE:
-				MKProvider.getMK().connect_to("fake", "fake");
-				finish();
-				break;
-			case ACTIONID_BT:
-				startActivity(new Intent(this, ServerListActivity.class));
-				break;
-			case ACTIONID_TCP:
-				startActivity(new Intent(this, ConnectViaTCPActivity.class));
-				break;
-			}
+                case ACTIONID_FAKE:
+                    MKProvider.getMK().connect_to( "fake", "fake" );
+                    finish();
+                    break;
+                case ACTIONID_BT:
+                    startActivity( new Intent( this, ServerListActivity.class ) );
+                    break;
+                case ACTIONID_TCP:
+                    startActivity( new Intent( this, ConnectViaTCPActivity.class ) );
+                    break;
+                case ACTIONID_DISCONN:
+                    MKProvider.getMK().close_connections( true );   
+                    break;
+            }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -76,7 +76,6 @@ public class RCDataActivity extends Activity implements Runnable
 	}
 
 	
-	@Override
 	public void run() {
 		MKProvider.getMK().user_intent=MKCommunicator.USER_INTENT_RCDATA;
 		while (!this.isFinishing()) {

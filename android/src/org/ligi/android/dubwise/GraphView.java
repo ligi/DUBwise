@@ -46,6 +46,7 @@ public class GraphView extends View implements DUBwiseDefinitions, OnSharedPrefe
 		refresh_settings(settings);
 	}
 
+    float[] line_points;
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		canvas_width = w;
@@ -53,6 +54,7 @@ public class GraphView extends View implements DUBwiseDefinitions, OnSharedPrefe
 		canvas_height=h;
 		
 		MKProvider.getMK().setup_debug_buff(graph_sources, w, 1);
+		line_points=new float[canvas_width*4];
 	}
 
 	@Override
@@ -69,67 +71,48 @@ public class GraphView extends View implements DUBwiseDefinitions, OnSharedPrefe
 		 MKProvider.getMK().debug_buff_lastset + " legend " + do_legend,
 		 0, 0, paint);
 		 */
-		
+        int line_scaler= MKProvider.getMK().debug_buff_max/(canvas_height/2)+1;
+        
+        if (do_grid)
+        {
+            
+            int scale=10;
+            //                      if ((10/line_scaler)<5)scale =1;                                                       
+            if (((10/line_scaler)*2)<(canvas_height/2) )scale =10;
+            if (((50/line_scaler)*2)<(canvas_height/2) )scale =50;
+            if (((100/line_scaler)*2)<(canvas_height/2) )scale =100;
+            if (((250/line_scaler)*2)<(canvas_height/2) )scale =250;
+            if (((500/line_scaler)*2)<(canvas_height/2) )scale =500;
+            if (((1000/line_scaler)*2)<(canvas_height/2) )scale =1000;
+            if (((10000/line_scaler)*2)<(canvas_height/2) )scale =10000;
+
+            // g.drawString("scale:"+scale + "line scaler" + line_scaler,0,y_off,Graphics.TOP | Graphics.LEFT);            
+
+
+            int jump=0;
+              paint.setStrokeWidth(0);
+              paint.setAntiAlias(false);
+            
+              paint.setColor(Color.WHITE);
+              canvas.drawLine(0,line_middle_y,canvas_width,line_middle_y,paint);
+
+            while ((jump/line_scaler)<canvas_height)
+                {
+                paint.setTextAlign(Align.LEFT);
+                    canvas.drawText(""+jump,0,line_middle_y - jump/line_scaler,paint);
+                    if (jump!=0)canvas.drawText("-"+jump,0,line_middle_y + jump/line_scaler,paint);
+                    canvas.drawLine(0,line_middle_y - jump/line_scaler,canvas_width,line_middle_y - jump/line_scaler,paint);
+                    canvas.drawLine(0,line_middle_y + jump/line_scaler,canvas_width,line_middle_y + jump/line_scaler,paint);
+                    jump+=scale;
+                }
+        } // do grid
+
+
 		for (int gr = 0; gr < GRAPH_COUNT; gr++) {
 
 			paint.setStrokeWidth(0);
 			
-			 if (do_legend)
-             {
-		//		 	paint.setPathEffect( new DashPathEffect(new float[] { 15, 5, 8, 5 }, 1.0f) );
-				 
-          
-                   for (int d=0;d<GRAPH_COUNT;d++)
-                       {
-
-  
-                           paint.setColor(graph_colors[d]);
-                           paint.setTextAlign(Align.RIGHT );
-                           
-                           canvas.drawRect(canvas_width-20,canvas_height- paint.getTextSize()*(d+1)+(paint.getTextSize())/2-2 ,canvas_width,canvas_height- paint.getTextSize()*(d+1)+(paint.getTextSize())/2+2,paint);
-                           paint.setColor(Color.WHITE);
-                           canvas.drawText(graph_names[d] ,canvas_width-23,canvas_height- paint.getTextSize()*(d),paint);
-                          //                            y_off+=spacer_small;                                             
-
-                       }
-
-              //     g.setStrokeStyle(Graphics.SOLID);
-             }
-
-			 int line_scaler= MKProvider.getMK().debug_buff_max/(canvas_height/2)+1;
-			 if (do_grid)
-              {
-
-                  int scale=10;
-                  //                      if ((10/line_scaler)<5)scale =1;                                                       
-                  if (((10/line_scaler)*2)<(canvas_height/2) )scale =10;
-                  if (((50/line_scaler)*2)<(canvas_height/2) )scale =50;
-                  if (((100/line_scaler)*2)<(canvas_height/2) )scale =100;
-                  if (((250/line_scaler)*2)<(canvas_height/2) )scale =250;
-                  if (((500/line_scaler)*2)<(canvas_height/2) )scale =500;
-                  if (((1000/line_scaler)*2)<(canvas_height/2) )scale =1000;
-                  if (((10000/line_scaler)*2)<(canvas_height/2) )scale =10000;
-
-                  // g.drawString("scale:"+scale + "line scaler" + line_scaler,0,y_off,Graphics.TOP | Graphics.LEFT);            
-
-
-                  int jump=0;
-      				paint.setStrokeWidth(0);
-      				paint.setAntiAlias(false);
-                  canvas.drawLine(0,line_middle_y,canvas_width,line_middle_y,paint);
-
-                  while ((jump/line_scaler)<canvas_height)
-                      {
-                	  paint.setTextAlign(Align.LEFT);
-                          canvas.drawText(""+jump,0,line_middle_y - jump/line_scaler,paint);
-                          if (jump!=0)canvas.drawText("-"+jump,0,line_middle_y + jump/line_scaler,paint);
-                          canvas.drawLine(0,line_middle_y - jump/line_scaler,canvas_width,line_middle_y - jump/line_scaler,paint);
-                          canvas.drawLine(0,line_middle_y + jump/line_scaler,canvas_width,line_middle_y + jump/line_scaler,paint);
-                          jump+=scale;
-                      }
-              }
-
-			// !!TODO checkme
+					// !!TODO checkme
 			paint.setColor(graph_colors[gr]);
 
 			paint.setStrokeWidth(0);
@@ -137,6 +120,7 @@ public class GraphView extends View implements DUBwiseDefinitions, OnSharedPrefe
 
 			//int line_scaler = MKProvider.getMK().debug_buff_max / canvas_height
 				//	+ 1;
+
 
 			for (int x = 0; x < canvas_width - 1; x++) {
 				/*
@@ -156,26 +140,56 @@ public class GraphView extends View implements DUBwiseDefinitions, OnSharedPrefe
 				if (p < MKProvider.getMK().debug_buff_lastset)
 
 					// draw_graph_part(g,x,mk.debug_buff[p][gr]/line_scaler,mk.debug_buff[p+1][gr]/line_scaler);
-
+				{
+				    line_points[x*4]=x;
+			    line_points[x*4+1]=line_middle_y- MKProvider.getMK().debug_buff[p][gr]  / line_scaler;
+			    line_points[x*4+2]=x+1;
+			    line_points[x*4+3]=line_middle_y
+                - MKProvider.getMK().debug_buff[p + 1][gr]
+                                                       / line_scaler;
+				}
+			    /*
 					canvas.drawLine(x, line_middle_y
 							- MKProvider.getMK().debug_buff[p][gr]
 							/ line_scaler, x + 1, line_middle_y
 							- MKProvider.getMK().debug_buff[p + 1][gr]
 							/ line_scaler, paint);
-
+*/
 				// canvas.drawLine(x,10,x+1,10,paint);
 				// System.out.println("--p"+p + "gr " + gr + " l " +
 				// mk.debug_buff.length +" ls:" + mk.debug_buff_lastset );
 
 				
 			}
+			canvas.drawLines(line_points,paint);
 		}
+
+        if (do_legend)
+        {
+   //          paint.setPathEffect( new DashPathEffect(new float[] { 15, 5, 8, 5 }, 1.0f) );
+            paint.setColor(0xaaFFFFFF);
+            canvas.drawRoundRect(new RectF( canvas_width-20 , canvas_height-(paint.getTextSize()*GRAPH_COUNT ), canvas_width,canvas_height),5f,5f,paint);
+            
+              for (int d=0;d<GRAPH_COUNT;d++)
+                  {
+                      paint.setColor(graph_colors[d]);
+                      paint.setTextAlign(Align.RIGHT );
+                      
+                      canvas.drawRect(canvas_width-20,canvas_height- paint.getTextSize()*(d+1)+(paint.getTextSize())/2-2 ,canvas_width,canvas_height- paint.getTextSize()*(d+1)+(paint.getTextSize())/2+2,paint);
+                      paint.setColor(Color.WHITE);
+                      canvas.drawText(graph_names[d] ,canvas_width-23,canvas_height- paint.getTextSize()*(d),paint);
+                     //                            y_off+=spacer_small;                                             
+
+                  }
+
+         //     g.setStrokeStyle(Graphics.SOLID);
+        }
 
 		invalidate();
 	}
 
 
-	@Override
+	
 	public void onSharedPreferenceChanged(SharedPreferences settings, String arg1) {
 		refresh_settings(settings);
 		System.out.println(" pref change !!!");

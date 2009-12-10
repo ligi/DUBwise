@@ -48,7 +48,6 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 
 	}
 
-	@Override
 	public void onCheckedChanged(CompoundButton btn, boolean arg1) {
 		update();
 		//update_ui_preferences();

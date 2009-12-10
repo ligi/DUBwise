@@ -12,7 +12,7 @@ import android.app.Activity;
 import android.content.IntentFilter;
 
 
-public class MotorTestaActivity extends Activity implements OnSeekBarChangeListener {
+public class MotorTestActivity extends Activity implements OnSeekBarChangeListener {
 
 	public final static int ENGINE_WARNING_THRESHOLD = 23;
 	SeekBar[] seek_bars;
@@ -80,7 +80,6 @@ public class MotorTestaActivity extends Activity implements OnSeekBarChangeListe
 		
 	}
 
-	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
 		// TODO Auto-generated method stub
@@ -102,16 +101,13 @@ public class MotorTestaActivity extends Activity implements OnSeekBarChangeListe
 		}
 	}
 
-	@Override
-	public void onStartTrackingTouch(SeekBar seekBar) {
-		// TODO Auto-generated method stub
 
-	}
+    public void onStartTrackingTouch( SeekBar arg0 ) {
+    }
 
-	@Override
-	public void onStopTrackingTouch(SeekBar seekBar) {
-		// TODO Auto-generated method stub
 
-	}
+    public void onStopTrackingTouch( SeekBar seekBar ) {
+    }
 
+	
 }
