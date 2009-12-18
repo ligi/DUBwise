@@ -9,7 +9,7 @@ import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import android.app.Activity;
-import android.content.IntentFilter;
+
 
 
 public class MotorTestActivity extends Activity implements OnSeekBarChangeListener {
@@ -99,6 +99,16 @@ public class MotorTestActivity extends Activity implements OnSeekBarChangeListen
 			for (int i = 0; i < engines; i++)
 				seek_bars[i].setProgress(seekBar.getProgress());
 		}
+		
+		int[] mt_param=new int[12];
+		
+		for (int i=0;i<12;i++)
+		        mt_param[i]=0;
+
+        for (int i=0;i<engines;i++)
+                mt_param[i]=seek_bars[i].getProgress();
+		
+        MKProvider.getMK().motor_test(mt_param );
 	}
 
 
