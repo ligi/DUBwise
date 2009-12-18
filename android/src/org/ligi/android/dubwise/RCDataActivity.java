@@ -12,9 +12,6 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothDevice;
-import android.content.IntentFilter;
-
 
 public class RCDataActivity extends Activity implements Runnable
 {
