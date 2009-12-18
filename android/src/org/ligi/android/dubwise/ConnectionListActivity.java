@@ -11,7 +11,7 @@ import android.widget.ArrayAdapter;
 
 public class ConnectionListActivity extends DUBwiseBaseListActivity {
 
-	String[] menu_items = new String[] { "Fake Connection","Connect via Bluetooth (permfix)","connect via TCP/IP" ,"disconnect"};
+	String[] menu_items = new String[] { "Fake Connection","Connect via Bluetooth","connect via TCP/IP" ,"disconnect"};
 	int[] menu_actions = new int[] { ACTIONID_FAKE , ACTIONID_BT , ACTIONID_TCP , ACTIONID_DISCONN};
 
 	public final static int ACTIONID_FAKE = 0;

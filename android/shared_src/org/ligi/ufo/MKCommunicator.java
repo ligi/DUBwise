@@ -1,21 +1,22 @@
 /********************************************************************************************************************************
  *                                                                     
- * Abstaction Layer to Communicate via J2ME and Bluetooth with the FlightCtrl of the MikroKopter Project (www.mikrokopter.de )  
+ * Abstaction Layer to Communicate with the FlightCtrl  of the 
+ * MikroKopter Project (www.mikrokopter.de )  
  *                                                 
  * Author:        Marcus -LiGi- Bueschleb          
  * 
  * see README for further Infos
- *
  * 
  *******************************************************************************************************************************/
  
 
 package org.ligi.ufo;
-import java.util.UUID;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+
+//import android.bluetooth.BluetoothSocket;
 
 //#ifdef j2me
 //# import javax.microedition.io.*;
@@ -28,8 +29,14 @@ import android.util.Log;
 
 
 import java.io.*;
+import java.lang.reflect.Method;
 import java.net.Socket;
 
+/*
+import it.gerdavax.android.bluetooth.BluetoothSocket; 
+import it.gerdavax.android.bluetooth.BluetoothDevice;
+import it.gerdavax.android.bluetooth.LocalBluetoothDevice;
+*/
 
 public class MKCommunicator
     implements Runnable,DUBwiseDefinitions
@@ -148,7 +155,7 @@ public class MKCommunicator
     public void log(String str)
     {
 //#ifdef android
-	if (do_log)	Log.d("MK-Comm",str);
+	//if (do_log)	Log.d("MK-Comm",str);
 //#endif
 //	canvas.debug.log(str);
 	//	System.out.println(str);
@@ -236,8 +243,6 @@ public class MKCommunicator
     {
 	return (slave_addr==RIDDIM_SLAVE_ADDR);
     }
-
-
 
     public boolean is_incompatible()
     {
@@ -401,24 +406,62 @@ public class MKCommunicator
 	
 
     }
+    public android.content.Context context;
+    
+    
+    
     /******************  Section: private Methods ************************************************/
     private void connect()
     {
-	log("trying to connect to" + mk_url);
+	
+       log("trying to connect to" + mk_url);
+	
 	try{
 	    
 	    // old call
 	    // connection = (StreamConnection) Connector.open(mk_url, Connector.READ_WRITE);
 	 
 //#ifdef android
-	    if (mk_url.startsWith("btssp://" )) {
+	    
+	    if (mk_url.startsWith("btspp://" )) {
+	        log("getting adapter");
 	        BluetoothAdapter bta = BluetoothAdapter.getDefaultAdapter();
-         
-            BluetoothDevice bt = bta.getRemoteDevice(mk_url.replaceAll("btspp://","" ));
+	        
+	//        LocalBluetoothDevice.initLocalDevice(context);
+	        
+	        
+	        log("getting device");
+	        BluetoothDevice bd = bta.getRemoteDevice(mk_url.replaceAll("btspp://","" ));
+	        log("waiting for bond");
+	        
+	        //Thread.sleep(5000 );
+	       /* while (bd.getBondState()!=bd.BOND_BONDED)
+	        {
+	            log("waiting for bond");
+	            Thread.sleep(200 );
+	        }*/
+	        log("create method");
+	        log("waiting for bond");
+	        Method m = bd.getClass().getMethod("createRfcommSocket", new Class[] { int.class });
+            
+	        log("create connection");
+	        bt_connection = (BluetoothSocket)m.invoke(bd, 1);
+	        //bt_connection.getRemoteDevice().
+	        //localBluetoothDevice.initLocalDevice(context );
+	        
+	        //localBluetoothDevice.
+	        
+            //BluetoothDevice bt = bta.getRemoteDevice(mk_url.replaceAll("btspp://","" ));
+            
             //connection = (new BluetoothSocket(mk_url.replaceAll("btssp://","" ).split(":")[0]))); 
-            bt_connection=bt.createRfcommSocketToServiceRecord((UUID.fromString("a60f35f0-b93a-11de-8a39-08002009c666")));
+            //bt_connection=LocalBluetoothDevice.getLocalDevice().getRemoteBluetoothDevice(mk_url.replaceAll("btspp://","" )).openSocket(1 );
+                //bt.createRfcommSocketToServiceRecord((UUID.fromString("a60f35f0-b93a-11de-8a39-08002009c666")));
+	        log("connect ");
+	        //Thread.sleep(5000 );
             bt_connection.connect();
            
+            log("getting streams ");
+            //Thread.sleep(5000 );
            reader=bt_connection.getInputStream();
            writer=bt_connection.getOutputStream();
            
@@ -429,7 +472,7 @@ public class MKCommunicator
 	        reader=socket_connection.getInputStream();
 	        writer=socket_connection.getOutputStream();
 	    }
-	       
+	    
 	    //else
 	    //  
 	    //.Socket 
@@ -503,7 +546,7 @@ public class MKCommunicator
     public void wait4send()
     {
 	while(sending) //||recieving)
-	    sleep(50);
+	    sleep(51);
     }
 
 
@@ -532,7 +575,10 @@ public class MKCommunicator
 	//	send_command(0,'s',target);
     }
 
-    // send a MotorTest request - params are the speed for each Motor
+    /** 
+     * send a MotorTest request 
+     * @param array of intswith the speed for each Motor 
+    **/
     public void motor_test(int[] params)
     {
 	stats.motortest_request_count++;
@@ -1128,6 +1174,15 @@ public class MKCommunicator
 //#	try{ connection.close(); }
 //#	catch (Exception inner_ex) { }
 //#endif
+	
+	try {
+        bt_connection.close();
+    }
+    catch (IOException e) {
+        // XXX Auto-generated catch block
+        
+    }
+	
 	slave_addr=-1;
 	//	ufo_prober.set_to_none();
 	stats.reset(); 
@@ -1444,6 +1499,8 @@ public class MKCommunicator
 			
 				for ( pos=0;pos<read_count;pos++)
 				    {
+				    //data_in_buff[pos]+=127;
+				    log("" +data_in_buff[pos] + "->" + (char)data_in_buff[pos]);
 					if ((data_in_buff[pos]==13)||(data_in_buff[pos]==10))
 					    {
 						data_buff[data_buff_pos]=new String(data_set, 0, data_set_pos);
@@ -1499,7 +1556,7 @@ public class MKCommunicator
 			else
 			    {
 				recieving=false;
-				sleep(20); 
+				sleep(21); 
 			    }
 			/*
 			while ((input != 13)) //&&(input!=-1))
