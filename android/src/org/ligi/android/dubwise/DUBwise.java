@@ -1,5 +1,9 @@
 package org.ligi.android.dubwise;
 
+import it.gerdavax.android.bluetooth.BluetoothSocket;
+import it.gerdavax.android.bluetooth.LocalBluetoothDevice;
+import it.gerdavax.android.bluetooth.util.PlatformChecker;
+
 import java.util.Vector;
 
 import android.app.Activity;
@@ -36,12 +40,40 @@ public class DUBwise extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-        ActivityCalls.beforeContent(this);
+	    /*
+	    try {
+	        log("system service" +  this.getSystemService("bluetooth"));
+
+	        log ("Platform Supported? " + PlatformChecker.isThisPlatformSupported());
+	        //LocalBluetoothDevice.
+	        PlatformChecker.printPlatformDescription();
+	         log (" bt init #1");
+	        LocalBluetoothDevice.initLocalDevice(this);
+	        log (" bt init #2");
+	        LocalBluetoothDevice.initLocalDevice(this);
+	        
+            log (" local device " +LocalBluetoothDevice.getLocalDevice() );
+            BluetoothSocket bt_connection;
+            bt_connection=LocalBluetoothDevice.getLocalDevice().getRemoteBluetoothDevice("00:0B:CE:01:2E:00").openSocket(1 );
+            log (" reading from device" + bt_connection.getInputStream().read());
+            MKProvider.getMK().context=this;
+        }
+        catch (Exception e) {
+            log("bt exception" + e);
+            // XXX Auto-generated catch block
+            
+        }
+        */
+	    
+	    ActivityCalls.beforeContent(this);
         
 	    Vector<MenuItem> menu_items_vector=new Vector<MenuItem>();
 	    
 	    menu_items_vector.add(new MenuItem("Connection",android.R.drawable.ic_menu_share,new Intent(this, ConnectionListActivity.class) ) );
 	    menu_items_vector.add(new MenuItem("Settings",android.R.drawable.ic_menu_preferences ,new Intent(this, SettingsActivity.class) ) );
+	    menu_items_vector.add(new MenuItem("Pilot",android.R.drawable.ic_menu_preferences ,new Intent(this, MultiTouchPilotingActivity.class) ) );
+	       
+	    
 	    menu_items_vector.add(new MenuItem("Graph",android.R.drawable.ic_menu_view ,new Intent(this, GraphActivity.class) ) );
 	    menu_items_vector.add(new MenuItem("Cockpit",android.R.drawable.ic_menu_view ,new Intent(this, CockpitActivity.class) ) );
 	    
@@ -109,7 +141,11 @@ public class DUBwise extends ListActivity {
 
 		switch (item.action) {
 		    case ACTIONID_QUIT:
-		        finish();
+		        
+		        MKProvider.getMK().close_connections(true );
+		          
+		           MKProvider.disposeMK();
+		           finish();
 		        break;
 		}
 		
