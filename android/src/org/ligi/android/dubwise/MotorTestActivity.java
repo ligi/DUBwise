@@ -1,5 +1,6 @@
 package org.ligi.android.dubwise;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -8,12 +9,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-import android.app.Activity;
-
-
-
 public class MotorTestActivity extends Activity implements OnSeekBarChangeListener {
-
+    
 	public final static int ENGINE_WARNING_THRESHOLD = 23;
 	SeekBar[] seek_bars;
 	SeekBar seek_all;

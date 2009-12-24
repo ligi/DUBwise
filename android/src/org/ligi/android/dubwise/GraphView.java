@@ -190,14 +190,14 @@ public class GraphView extends View implements DUBwiseDefinitions, OnSharedPrefe
 
 
 	
-	public void onSharedPreferenceChanged(SharedPreferences settings, String arg1) {
-		refresh_settings(settings);
+	public void onSharedPreferenceChanged(SharedPreferences _settings, String arg1) {
+		refresh_settings(_settings);
 		System.out.println(" pref change !!!");
 	}
 
-	public void refresh_settings(SharedPreferences settings) {
-		do_grid=settings.getBoolean("do_grid", true);
-		do_legend=settings.getBoolean("do_legend", true);
+	public void refresh_settings(SharedPreferences _settings) {
+		do_grid=_settings.getBoolean("do_grid", true);
+		do_legend=_settings.getBoolean("do_legend", true);
 		
 		MKProvider.getMK().user_intent = USER_INTENT_GRAPH;			
 	}

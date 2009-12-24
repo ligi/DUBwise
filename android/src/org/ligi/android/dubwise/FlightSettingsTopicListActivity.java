@@ -1,22 +1,11 @@
 package org.ligi.android.dubwise;
 
 import android.app.ListActivity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
-
 import android.util.Log;
-
-import android.net.Uri;
-
 import android.widget.ArrayAdapter;
-
-//import com.google.android.maps.MapView;
-
-import android.content.SharedPreferences;
-
-import org.ligi.ufo.MKCommunicator;
 
 public class FlightSettingsTopicListActivity extends ListActivity {
 

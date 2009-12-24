@@ -1,28 +1,15 @@
 package org.ligi.android.dubwise;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
-
 import android.util.Log;
-
-import android.net.Uri;
-
 import android.widget.ArrayAdapter;
-
-//import com.google.android.maps.MapView;
-
-import android.content.SharedPreferences;
-
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.MKParamsParser;
-
-import android.view.*;
 
 public class FlightSettingsActivity extends ListActivity implements Runnable {
 

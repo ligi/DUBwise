@@ -2,12 +2,9 @@ package org.ligi.android.dubwise;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.util.AttributeSet;
 import android.view.View;
 import android.graphics.*;
-import android.graphics.Paint.Align;
 
 // not working atm - import org.bluez.*;
 import org.ligi.ufo.*;

@@ -3,7 +3,6 @@ package org.ligi.android.dubwise;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.CheckBox;
 
 import android.app.ListActivity;
 import android.content.SharedPreferences;
