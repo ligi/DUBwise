@@ -1,9 +1,5 @@
 package org.ligi.android.dubwise;
 
-import it.gerdavax.android.bluetooth.BluetoothSocket;
-import it.gerdavax.android.bluetooth.LocalBluetoothDevice;
-import it.gerdavax.android.bluetooth.util.PlatformChecker;
-
 import java.util.Vector;
 
 import android.app.Activity;
@@ -67,25 +63,27 @@ public class DUBwise extends ListActivity {
 	    
 	    ActivityCalls.beforeContent(this);
         
-	    Vector<MenuItem> menu_items_vector=new Vector<MenuItem>();
+	    Vector<IconicMenuItem> menu_items_vector=new Vector<IconicMenuItem>();
 	    
-	    menu_items_vector.add(new MenuItem("Connection",android.R.drawable.ic_menu_share,new Intent(this, ConnectionListActivity.class) ) );
-	    menu_items_vector.add(new MenuItem("Settings",android.R.drawable.ic_menu_preferences ,new Intent(this, SettingsActivity.class) ) );
-	    menu_items_vector.add(new MenuItem("Pilot",android.R.drawable.ic_menu_preferences ,new Intent(this, MultiTouchPilotingActivity.class) ) );
+	    menu_items_vector.add(new IconicMenuItem("Connection",android.R.drawable.ic_menu_share,new Intent(this, ConnectionListActivity.class) ) );
+	    menu_items_vector.add(new IconicMenuItem("Settings",android.R.drawable.ic_menu_preferences ,new Intent(this, SettingsActivity.class) ) );
+	    menu_items_vector.add(new IconicMenuItem("Pilot MT",android.R.drawable.ic_menu_preferences ,new Intent(this, MultiTouchPilotingActivity.class) ) );
+	    menu_items_vector.add(new IconicMenuItem("Pilot ACC",android.R.drawable.ic_menu_preferences ,new Intent(this, OrientationPilotingActivity.class) ) );
 	       
-	    
-	    menu_items_vector.add(new MenuItem("Graph",android.R.drawable.ic_menu_view ,new Intent(this, GraphActivity.class) ) );
-	    menu_items_vector.add(new MenuItem("Cockpit",android.R.drawable.ic_menu_view ,new Intent(this, CockpitActivity.class) ) );
-	    
-	    menu_items_vector.add(new MenuItem("Motor Test",android.R.drawable.ic_menu_rotate ,new Intent(this, MotorTestActivity.class) ) );
-        menu_items_vector.add(new MenuItem("RCData",android.R.drawable.ic_menu_view ,new Intent(this, RCDataActivity.class) ) );
+	    menu_items_vector.add(new IconicMenuItem("Information Desk",android.R.drawable.ic_menu_preferences ,new Intent(this, InformationDeskActivity.class) ) );
         
-        menu_items_vector.add(new MenuItem("View on Map",android.R.drawable.ic_menu_mapmode,new Intent(this, RCDataActivity.class) ) );
+	    menu_items_vector.add(new IconicMenuItem("Graph",android.R.drawable.ic_menu_view ,new Intent(this, GraphActivity.class) ) );
+	    menu_items_vector.add(new IconicMenuItem("Cockpit",android.R.drawable.ic_menu_view ,new Intent(this, CockpitActivity.class) ) );
+	    
+	    menu_items_vector.add(new IconicMenuItem("Motor Test",android.R.drawable.ic_menu_rotate ,new Intent(this, MotorTestActivity.class) ) );
+        menu_items_vector.add(new IconicMenuItem("RCData",android.R.drawable.ic_menu_view ,new Intent(this, RCDataActivity.class) ) );
         
-	    menu_items_vector.add(new MenuItem("Flight Settings",android.R.drawable.ic_menu_edit ,new Intent(this, FlightSettingsActivity.class) ) );
+        menu_items_vector.add(new IconicMenuItem("View on Map",android.R.drawable.ic_menu_mapmode,new Intent(this, RCDataActivity.class) ) );
+        
+	    menu_items_vector.add(new IconicMenuItem("Flight Settings",android.R.drawable.ic_menu_edit ,new Intent(this, FlightSettingsActivity.class) ) );
 
-	    menu_items_vector.add(new MenuItem("About" , android.R.drawable.ic_menu_info_details, new Intent( "android.intent.action.VIEW", Uri.parse( "http://www.ligi.de/" ))));
-	    menu_items_vector.add(new MenuItem("Quit" , android.R.drawable.ic_menu_close_clear_cancel,ACTIONID_QUIT));
+	    menu_items_vector.add(new IconicMenuItem("About" , android.R.drawable.ic_menu_info_details, new Intent( "android.intent.action.VIEW", Uri.parse( "http://www.ligi.de/" ))));
+	    menu_items_vector.add(new IconicMenuItem("Quit" , android.R.drawable.ic_menu_close_clear_cancel,ACTIONID_QUIT));
 	    
 		
 		 
@@ -134,10 +132,8 @@ public class DUBwise extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-
-		System.out.println("->!!!!!" + this.getListAdapter().getItem(position));
-		
-		MenuItem item  = ((MenuItem)(this.getListAdapter().getItem(position) )) ;
+	
+		IconicMenuItem item  = ((IconicMenuItem)(this.getListAdapter().getItem(position) )) ;
 
 		switch (item.action) {
 		    case ACTIONID_QUIT:
@@ -155,60 +151,6 @@ public class DUBwise extends ListActivity {
 	}
 
 	
-	class MenuItem {
-	    
-	    int drawable;
-	    String label;
-	    Intent intent=null;
-	    int action=-1;
-	    
-	    public MenuItem( String label , int drawable,Intent intent) {
-	        this.drawable=drawable;
-	        this.label=label;
-	        this.intent=intent;
-	    }
-	    
-	    public MenuItem( String label , int drawable,int action) {
-            this.drawable=drawable;
-            this.label=label;
-            this.action=action;
-        }
-        
-	    
-	}
 	
-
-    class IconicAdapter extends ArrayAdapter { 
-        Activity context; 
- 
-        Object[] items;
-
-        
-        IconicAdapter(Activity context,Object[] items) {
-        
-            
-        	super(context, R.layout.icon_and_text, items);
-        	this.items=items;
-        	
-            this.context=context; 
-        } 
- 
-        public View getView(int position, View convertView, ViewGroup parent) { 
-        	 LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        	 
-            //ViewInflate inflater=context.get .getViewInflate(); 
-            View row=vi.inflate(R.layout.icon_and_text, null); 
-            TextView label=(TextView)row.findViewById(R.id.TextView01); 
- 
-            label.setText(((MenuItem)items[position]).label); 
-
-            
-            if ((items.length>position)&&(((MenuItem)items[position]).drawable!=-1)) { 
-                ImageView icon=(ImageView)row.findViewById(R.id.ImageView01); 
-                icon.setImageResource(((MenuItem)items[position]).drawable ); 
-            }    
- 
-            return(row); 
-        } 
-    }
+	
 }
