@@ -25,6 +25,8 @@
 <activity android:name="FlightSettingsActivity"></activity>
 <activity android:name="ConnectViaTCPActivity"></activity>
 <activity android:name="MultiTouchPilotingActivity"></activity>
+<activity android:name="OrientationPilotingActivity"></activity>
+<activity android:name="InformationDeskActivity"></activity>
 </application>
 
 
