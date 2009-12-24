@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
     <string name="app_name">DUBwise</string>
     <string name="hello">test</string>
     <string name="FullScreen">FullScreen</string>
@@ -12,5 +11,5 @@
     <string name="Connect">Connect</string>
     <string name="LibVersion">LibVersion</string>
     <string name="StatusBar">Status Bar</string>
-     <string name="Logging">Logging</string>
+    <string name="Logging">Logging</string>
 </resources>
