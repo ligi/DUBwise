@@ -2,6 +2,7 @@ package org.ligi.android.dubwise;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -9,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-public class MotorTestActivity extends Activity implements OnSeekBarChangeListener {
+public class MotorTestActivity extends Activity implements OnSeekBarChangeListener,Runnable {
     
 	public final static int ENGINE_WARNING_THRESHOLD = 23;
 	SeekBar[] seek_bars;
@@ -19,7 +20,8 @@ public class MotorTestActivity extends Activity implements OnSeekBarChangeListen
 	CheckBox allow_full_speed;
 
 	int engines = 4;
-
+	boolean stopped=false;
+	
 	// public MapView map;
 	/** Called when the activity is first created. */
 	@Override
@@ -70,12 +72,6 @@ public class MotorTestActivity extends Activity implements OnSeekBarChangeListen
 	}
 
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		ActivityCalls.afterContent(this);
-		
-	}
 
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
@@ -96,16 +92,7 @@ public class MotorTestActivity extends Activity implements OnSeekBarChangeListen
 			for (int i = 0; i < engines; i++)
 				seek_bars[i].setProgress(seekBar.getProgress());
 		}
-		
-		int[] mt_param=new int[12];
-		
-		for (int i=0;i<12;i++)
-		        mt_param[i]=0;
-
-        for (int i=0;i<engines;i++)
-                mt_param[i]=seek_bars[i].getProgress();
-		
-        MKProvider.getMK().motor_test(mt_param );
+		        
 	}
 
 
@@ -115,6 +102,46 @@ public class MotorTestActivity extends Activity implements OnSeekBarChangeListen
 
     public void onStopTrackingTouch( SeekBar seekBar ) {
     }
+
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		stopped=true;
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		ActivityCalls.afterContent(this);
+		new Thread(this).start();
+	}
+
+	
+	
+	@Override
+	public void run() {
+		while(!stopped) {
+			try {
+				Thread.sleep(100);
+
+				int[] mt_param=new int[12];
+				
+				for (int i=0;i<12;i++)
+				        mt_param[i]=0;
+
+		        for (int i=0;i<engines;i++)
+		                mt_param[i]=seek_bars[i].getProgress();
+				
+
+				MKProvider.getMK().motor_test(mt_param );
+				
+				Log.d("DUBWise-Motortest","updated");
+			} catch (InterruptedException e) {
+				// sleep no important
+			}
+		}
+	}
 
 	
 }
