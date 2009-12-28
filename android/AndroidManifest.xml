@@ -24,10 +24,11 @@
 <activity android:name="GraphSettingsActivity"></activity>
 <activity android:name="FlightSettingsActivity"></activity>
 <activity android:name="ConnectViaTCPActivity"></activity>
-<activity android:name="MultiTouchPilotingActivity"></activity>
-<activity android:name="OrientationPilotingActivity"></activity>
+<activity android:name="MultiTouchPilotingActivity"  android:screenOrientation="landscape"></activity>
+<activity android:name="OrientationPilotingActivity"  android:screenOrientation="landscape"></activity>
 <activity android:name="InformationDeskActivity"></activity>
 <activity android:name="FlightSettingsTopicEditActivity"></activity>
+<activity android:name="PilotingListActivity"></activity>
 </application>
 
 
