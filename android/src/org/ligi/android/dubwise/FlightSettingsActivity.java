@@ -3,6 +3,7 @@ package org.ligi.android.dubwise;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -116,12 +117,18 @@ public class FlightSettingsActivity extends ListActivity implements Runnable {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
+        
+        startActivity( new Intent( this, FlightSettingsTopicListActivity.class ) );
+        
+        // select the one touched
+        MKProvider.getMK().params.act_paramset=position;
+        /*
         String res="";
         for (int i =0 ; i<MKProvider.getMK().params.field_bak[position].length;i++)
             res+="" + MKProvider.getMK().params.field_bak[position][i]+",";
         
         Log.d("DUBwise", res);
-        
+        */
     }
 
 
