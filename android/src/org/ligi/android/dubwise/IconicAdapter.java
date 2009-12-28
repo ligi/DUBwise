@@ -17,8 +17,6 @@ import android.widget.TextView;
 
         
         IconicAdapter(Activity context,Object[] items) {
-        
-            
         	super(context, R.layout.icon_and_text, items);
         	this.items=items;
         	

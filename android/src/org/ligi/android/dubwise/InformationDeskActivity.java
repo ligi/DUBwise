@@ -62,8 +62,6 @@ public class InformationDeskActivity
         super.onListItemClick(l, v, position, id);
     
         IconicMenuItem item  = ((IconicMenuItem)(this.getListAdapter().getItem(position) )) ;
-
-     
         
         if (item.intent!=null)
             startActivity(item.intent);

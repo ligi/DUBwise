@@ -29,7 +29,6 @@ public class RCDataActivity extends Activity implements Runnable
 		ActivityCalls.beforeContent(this);
 
 		TableLayout table=new TableLayout(this);
-
 		
 		LayoutParams lp=new TableLayout.LayoutParams();
 		lp.width=LayoutParams.FILL_PARENT;

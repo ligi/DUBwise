@@ -67,8 +67,7 @@ public class DUBwise extends ListActivity {
 	    
 	    menu_items_vector.add(new IconicMenuItem("Connection",android.R.drawable.ic_menu_share,new Intent(this, ConnectionListActivity.class) ) );
 	    menu_items_vector.add(new IconicMenuItem("Settings",android.R.drawable.ic_menu_preferences ,new Intent(this, SettingsActivity.class) ) );
-	    menu_items_vector.add(new IconicMenuItem("Pilot MT",android.R.drawable.ic_menu_preferences ,new Intent(this, MultiTouchPilotingActivity.class) ) );
-	    menu_items_vector.add(new IconicMenuItem("Pilot ACC",android.R.drawable.ic_menu_preferences ,new Intent(this, OrientationPilotingActivity.class) ) );
+	    menu_items_vector.add(new IconicMenuItem("Pilot",android.R.drawable.ic_menu_preferences ,new Intent(this, PilotingListActivity.class) ) );
 	       
 	    menu_items_vector.add(new IconicMenuItem("Information Desk",android.R.drawable.ic_menu_preferences ,new Intent(this, InformationDeskActivity.class) ) );
         
@@ -85,9 +84,7 @@ public class DUBwise extends ListActivity {
 	    menu_items_vector.add(new IconicMenuItem("About" , android.R.drawable.ic_menu_info_details, new Intent( "android.intent.action.VIEW", Uri.parse( "http://www.ligi.de/" ))));
 	    menu_items_vector.add(new IconicMenuItem("Quit" , android.R.drawable.ic_menu_close_clear_cancel,ACTIONID_QUIT));
 	    
-		
-		 
-		 settings = getSharedPreferences("DUBWISE", 0);
+		settings = getSharedPreferences("DUBWISE", 0);
 		
 		 //		getWindow().setFeatureInt(featureId, value)
 		
