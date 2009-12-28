@@ -7,8 +7,12 @@ import org.ligi.ufo.MKParamsParser;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -18,6 +22,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -26,12 +31,18 @@ import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.KeyListener;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView.OnEditorActionListener;
 
-public class FlightSettingsTopicEditActivity extends Activity implements OnItemSelectedListener, OnCheckedChangeListener {
+public class FlightSettingsTopicEditActivity extends Activity implements OnItemSelectedListener, OnCheckedChangeListener, TextWatcher, OnEditorActionListener, KeyListener {
+
+	private static final int MENU_SAVE = 0;
 
 	String[] menu_items;
 	
@@ -70,7 +81,6 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 		
         for (int i=0;i<menu_items.length;i++)
         {
-        	Log.d("D","creating item" + i );
         	TableRow row=new TableRow(this);
         	table.addView(row);
 			row.setPadding(0, 5, 0, 5);
@@ -79,7 +89,10 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
         	text_v.setMinHeight(50);
         	text_v.setPadding(3, 0, 5, 0);
         	row.addView(text_v);
-        	
+        
+        	//text_v.addTextChangedListener(this);
+        	//text_v.setOnEditorActionListener(this);
+        	row.setTag(i);
         	MKParamsParser params=MKProvider.getMK().params;
         	if(MKProvider.getMK().params.field_types[act_topic][i]==MKParamDefinitions.PARAMTYPE_BITSWITCH){
         		checkboxes[i]=new CheckBox(this);
@@ -96,6 +109,41 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
         		edit_texts[i].setText("" +params.field[params.act_paramset][params.field_positions[act_topic][i]] );
         		
         		edit_texts[i].setTag(new Integer(i));
+        		
+//        		edit_texts[i].addTextChangedListener(this);
+        		//edit_texts[i].setKeyListener(this);
+        		final int act_i=i;
+        		
+        		edit_texts[i].addTextChangedListener(new TextWatcher() {
+
+					@Override
+					public void afterTextChanged(Editable s) {
+						try{
+							int txt_val=Integer.parseInt(s.toString());
+							if (txt_val>255)
+								txt_val=255;
+							else if (txt_val<0)
+								txt_val=0;
+							MKProvider.getMK().params.field[MKProvider.getMK().params.act_paramset][MKProvider.getMK().params.field_positions[act_topic][act_i]]=txt_val;						// TODO Auto-generated method stub
+							Log.d("!!!" , "" + txt_val);
+							
+							if (!(""+txt_val).equals(edit_texts[act_i].getText().toString()))
+								edit_texts[act_i].setText( "" + txt_val);
+						}catch(Exception e){};
+							
+					}
+
+					@Override
+					public void beforeTextChanged(CharSequence s, int start,
+							int count, int after) {
+									}
+
+					@Override
+					public void onTextChanged(CharSequence s, int start,
+							int before, int count) {
+						
+					}});
+        		//edit_texts[i].set
         		
         		spinners[i]=new Spinner(this);
         		String poti_strings[]=new String[6];
@@ -173,5 +221,82 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 		Log.d("Checkbox " , ""+arg0.getTag());
 		
 	}
+	
+
+	/* Creates the menu items */
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    
+		MenuItem settings_menu=menu.add(0,MENU_SAVE,0,"Settings");
+		settings_menu.setIcon(android.R.drawable.ic_menu_save);
+	    return true;
+	}
+
+
+	/* Handles item selections */
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+	    switch (item.getItemId()) {
+	    case MENU_SAVE:
+	    	MKProvider.getMK().write_params(MKProvider.getMK().params.act_paramset);
+	        return true;
+	    }
+	    return false;
+	}
+
+	@Override
+	public void afterTextChanged(Editable s) {
+		Log.d("DUBwise", "text cahnged" + s );
+		Log.d("DUwise", "text cahnged" + ((View)s).getTag() );
+	}
+
+	@Override
+	public void beforeTextChanged(CharSequence s, int start, int count,
+			int after) {
+		
+	}
+
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
+		
+	}
+
+	@Override
+	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+		Log.d("DUBwise", "text cahnged2" + v.getText() );
+		return false;
+	}
+
+	@Override
+	public void clearMetaKeyState(View view, Editable content, int states) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getInputType() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean onKeyDown(View view, Editable text, int keyCode,
+			KeyEvent event) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean onKeyOther(View view, Editable text, KeyEvent event) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean onKeyUp(View view, Editable text, int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 }
