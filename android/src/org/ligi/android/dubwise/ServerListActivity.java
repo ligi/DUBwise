@@ -61,9 +61,13 @@ public class ServerListActivity extends ListActivity {
 		}
 	};
 
+	public void log(String msg)
+	{
+	    Log.i("DUBwise", msg);
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Log.i("DUBwise", "starting scan activity");
+	    Log.i("DUBwise", "starting scan activity");
 		super.onCreate(savedInstanceState);
 		ActivityCalls.beforeContent(this);
 		self = this;
@@ -87,6 +91,27 @@ public class ServerListActivity extends ListActivity {
 			}
 		});
 		btAdapter = BluetoothAdapter.getDefaultAdapter();
+		
+
+        if (!btAdapter.isEnabled()) {
+            log("bt is disabled ->enabling");
+            btAdapter.enable();
+        }
+            
+        
+        while (btAdapter.getState()!=BluetoothAdapter.STATE_ON)
+        {
+            // todo implement timeout
+            try {
+                Thread.sleep(100 );
+            }
+            catch (InterruptedException e) {
+                // sleeping is not that important
+            }
+            log("waiting for bt to be enabled");
+        }
+		
+		
 		if (btAdapter == null) {
 			Log.e("Bluetooth Scan Error", "BluetoothAdapter.getDefaultAdapter() returned null" );
 			self.setResult(Activity.RESULT_CANCELED);
