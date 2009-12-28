@@ -27,6 +27,7 @@
 <activity android:name="MultiTouchPilotingActivity"></activity>
 <activity android:name="OrientationPilotingActivity"></activity>
 <activity android:name="InformationDeskActivity"></activity>
+<activity android:name="FlightSettingsTopicEditActivity"></activity>
 </application>
 
 
