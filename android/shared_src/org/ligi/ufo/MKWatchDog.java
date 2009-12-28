@@ -169,10 +169,7 @@ public class MKWatchDog
                             case USER_INTENT_EXTERNAL_CONTROL:
                                 if (resend_check( mk.stats.external_control_confirm_frame_count )) {
                                     mk.send_extern_control();
-                                    mk.send_extern_control();
-                                    mk.send_extern_control();
-                                    mk.send_extern_control();
-                                }
+                                    }
 
                                 break;
 
