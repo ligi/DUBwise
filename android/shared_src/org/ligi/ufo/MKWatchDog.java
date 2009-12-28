@@ -103,7 +103,7 @@ public class MKWatchDog
                                     if ((mk.params.last_parsed_paramset < 4)) {
                                         if (resend_timeout == 0) {
                                             mk.params.set_by_mk_data(mk.params.default_params[mk.params.last_parsed_paramset+1]);
-                                            resend_timeout = 70;
+                                            resend_timeout = 20;
                                         }
                                         resend_timeout--;
                                     }
