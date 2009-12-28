@@ -53,9 +53,12 @@ public final static int[] all_lengths={87,93,93,97,99,101,101,101,105};
 
     public int[] stick_stringids;
 
+    
+    /** returns the field val for the act paramset at a given position **/
     public int get_field_from_act(int pos)
     {       return field[act_paramset][pos];    }
 
+    /** set the field val for the act paramset at a given position **/
     public void set_field_from_act(int pos,int val)
     { 
 	if (val>255) val=255;
