@@ -1,5 +1,7 @@
 package org.ligi.android.dubwise;
 
+import org.ligi.ufo.MKCommunicator;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
@@ -19,6 +21,9 @@ public class OrientationPilotingView extends View implements SensorListener
 		
 	  sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 	  sensorManager.registerListener(this, sensor,SensorManager.SENSOR_DELAY_FASTEST);
+	
+	  MKProvider.getMK().user_intent=MKCommunicator.USER_INTENT_EXTERNAL_CONTROL;
+	  
 	}
 	  
 	@Override
@@ -28,10 +33,14 @@ public class OrientationPilotingView extends View implements SensorListener
 	@Override
 	protected void onDraw(Canvas canvas) {
 	    mPaint.setColor(0xCCCCCCCC);
-	   
-	    canvas.drawText("az" + azimuth , 10,10,mPaint );
-	    canvas.drawText("pitch" + pitch , 10,40,mPaint );
-	    canvas.drawText("pitch" + roll , 10,70,mPaint );
+	    int text_size=50;
+	    mPaint.setTextSize(text_size);
+	    MKProvider.getMK().extern_control[MKCommunicator.EXTERN_CONTROL_NICK]=(int)roll;
+	    MKProvider.getMK().extern_control[MKCommunicator.EXTERN_CONTROL_ROLL]=(int)pitch;
+	    MKProvider.getMK().extern_control[MKCommunicator.EXTERN_CONTROL_GAS]=(int)100;
+	    canvas.drawText("az" + azimuth , 10,text_size,mPaint );
+	    canvas.drawText("pitch" + pitch , 10,text_size*2,mPaint );
+	    canvas.drawText("roll" + roll , 10,text_size*3,mPaint );
 		
 	}
 
