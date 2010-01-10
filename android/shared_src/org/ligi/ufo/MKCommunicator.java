@@ -11,11 +11,6 @@
  
 
 package org.ligi.ufo;
-
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
-
 //import android.bluetooth.BluetoothSocket;
 
 //#ifdef j2me
@@ -41,6 +36,13 @@ import it.gerdavax.android.bluetooth.LocalBluetoothDevice;
 public class MKCommunicator
     implements Runnable,DUBwiseDefinitions
 {
+	
+	CommunicationAdapterInterface comm_adapter;
+	
+	public void setCommunicationAdapter(CommunicationAdapterInterface _comm_adapter) {
+		comm_adapter=_comm_adapter;
+	}
+	
     public byte lib_version_major=0;
     public byte lib_version_minor=11;
 
@@ -299,16 +301,9 @@ public class MKCommunicator
 //#    private javax.microedition.io.StreamConnection connection;
 //#endif
 
-//#ifdef android
-//    java.net.Socket connection;
-    BluetoothSocket bt_connection;
-    Socket socket_connection ;
-    
-//#endif
 
-
-    private java.io.InputStream	reader;    
-    private java.io.OutputStream writer;    
+    //private java.io.InputStream	reader;    
+    //private java.io.OutputStream writer;    
 
 
     public String name;
@@ -352,8 +347,8 @@ public class MKCommunicator
 	wait4send();
 	sending=true;
 	try {
-	writer.write(_data,0,_data.length);
-	writer.flush(); 
+		comm_adapter.getOutputStream().write(_data,0,_data.length);
+		comm_adapter.getOutputStream().flush(); 
 
 	stats.bytes_out+=_data.length;
 	}
@@ -413,58 +408,20 @@ public class MKCommunicator
     /******************  Section: private Methods ************************************************/
     private void connect()
     {
-	
+
+    	comm_adapter.connect();
        log("trying to connect to" + mk_url);
 	
 	try{
 	    
 	    // old call
 	    // connection = (StreamConnection) Connector.open(mk_url, Connector.READ_WRITE);
-	 
+	 /*
 //#ifdef android
 	    
 	    if (mk_url.startsWith("btspp://" )) {
 	        log("getting adapter");
-	        BluetoothAdapter bta = BluetoothAdapter.getDefaultAdapter();
-	        
-	//        LocalBluetoothDevice.initLocalDevice(context);
-	        
-	        
-	        log("getting device");
-	        BluetoothDevice bd = bta.getRemoteDevice(mk_url.replaceAll("btspp://","" ));
-	        log("waiting for bond");
-	        
-	        //Thread.sleep(5000 );
-	       /* while (bd.getBondState()!=bd.BOND_BONDED)
-	        {
-	            log("waiting for bond");
-	            Thread.sleep(200 );
-	        }*/
-	        log("create method");
-	        log("waiting for bond");
-	        Method m = bd.getClass().getMethod("createRfcommSocket", new Class[] { int.class });
-            
-	        log("create connection");
-	        bt_connection = (BluetoothSocket)m.invoke(bd, 1);
-	        //bt_connection.getRemoteDevice().
-	        //localBluetoothDevice.initLocalDevice(context );
-	        
-	        //localBluetoothDevice.
-	        
-            //BluetoothDevice bt = bta.getRemoteDevice(mk_url.replaceAll("btspp://","" ));
-            
-            //connection = (new BluetoothSocket(mk_url.replaceAll("btssp://","" ).split(":")[0]))); 
-            //bt_connection=LocalBluetoothDevice.getLocalDevice().getRemoteBluetoothDevice(mk_url.replaceAll("btspp://","" )).openSocket(1 );
-                //bt.createRfcommSocketToServiceRecord((UUID.fromString("a60f35f0-b93a-11de-8a39-08002009c666")));
-	        log("connect ");
-	        //Thread.sleep(5000 );
-            bt_connection.connect();
-           
-            log("getting streams ");
-            //Thread.sleep(5000 );
-           reader=bt_connection.getInputStream();
-           writer=bt_connection.getOutputStream();
-           
+	      
 	    }
 	    else
 	    {
@@ -477,11 +434,11 @@ public class MKCommunicator
 	    //  
 	    //.Socket 
 
-	    
+	   */ 
 
 	    String magic="conn:foo bar\r\n";
-	    writer.write(magic.getBytes());
-	    writer.flush();
+	    comm_adapter.getOutputStream().write(magic.getBytes());
+	    comm_adapter.getOutputStream().flush();
 
 //#else
 
@@ -706,9 +663,9 @@ public class MKCommunicator
 	sending=true;
 	try
 	    {
-		writer.write(navi_switch_magic);
+		comm_adapter.getOutputStream().write(navi_switch_magic);
 		stats.bytes_out+=6;
-		writer.flush();
+		comm_adapter.getOutputStream().flush();
 	    }
 	catch (Exception e)  {   }
 	sending=false;
@@ -865,14 +822,14 @@ public class MKCommunicator
 		for ( int tmp_i=0; tmp_i<send_buff.length;tmp_i++)
 		    tmp_crc+=(int)send_buff[tmp_i];
 			
-		writer.write(send_buff,0,send_buff.length);
+		comm_adapter.getOutputStream().write(send_buff,0,send_buff.length);
 		tmp_crc%=4096;
 
-		writer.write( (char)(tmp_crc/64 + '='));
-		writer.write( (char)(tmp_crc%64 + '='));
-		writer.write('\r');
+		comm_adapter.getOutputStream().write( (char)(tmp_crc/64 + '='));
+		comm_adapter.getOutputStream().write( (char)(tmp_crc%64 + '='));
+		comm_adapter.getOutputStream().write('\r');
 		stats.bytes_out+=send_buff.length+3;
-		writer.flush();
+		comm_adapter.getOutputStream().flush();
 	    }
 	catch (Exception e)
 	    { // problem sending data to FC
@@ -1164,10 +1121,10 @@ public class MKCommunicator
 
 	//	if ((!force)&&root.canvas.do_vibra) root.vibrate(500);
 	force_disconnect|=force;
-	try{ reader.close(); }
+	try{ comm_adapter.getOutputStream().close(); }
 	catch (Exception inner_ex) { }
 
-	try{ writer.close(); }
+	try{ comm_adapter.getOutputStream().close(); }
 	catch (Exception inner_ex) { }
 	
 //#ifdef j2me
@@ -1175,13 +1132,16 @@ public class MKCommunicator
 //#	catch (Exception inner_ex) { }
 //#endif
 	
+	/*
 	try {
         bt_connection.close();
     }
     catch (IOException e) {
         // XXX Auto-generated catch block
         
-    }
+    }*/
+	
+	comm_adapter.disconnect();
 	
 	slave_addr=-1;
 	//	ufo_prober.set_to_none();
@@ -1480,10 +1440,10 @@ public class MKCommunicator
 			recieving=true;
 			int read_count ;
 
-			if (reader.available()<DATA_IN_BUFF_SIZE)
-			    read_count     =reader.read(data_in_buff,0,reader.available());
+			if (comm_adapter.getInputStream().available()<DATA_IN_BUFF_SIZE)
+			    read_count     =comm_adapter.getInputStream().read(data_in_buff,0,comm_adapter.getInputStream().available());
 			else
-			    read_count     =reader.read(data_in_buff,0,DATA_IN_BUFF_SIZE);
+			    read_count     =comm_adapter.getInputStream().read(data_in_buff,0,DATA_IN_BUFF_SIZE);
 
 			//			log("Connected - reading data " + read_count);		
 			//	pos=0;
