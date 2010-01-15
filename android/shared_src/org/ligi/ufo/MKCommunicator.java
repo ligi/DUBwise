@@ -48,9 +48,9 @@ public class MKCommunicator
 
 	public byte slave_addr=-1;
 
-    public int primary_abo;
-    public int secondary_abo;
-    public int default_abo;
+    public int primary_abo=10;
+    public int secondary_abo=30;
+    public int default_abo=1000;
 
     public int angle_nick=-4242;
     public int angle_roll=-4242;
