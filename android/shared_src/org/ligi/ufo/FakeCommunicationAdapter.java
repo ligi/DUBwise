@@ -2,17 +2,10 @@ package org.ligi.ufo;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.StringReader;
-import java.lang.reflect.Method;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
-import org.xml.sax.InputSource;
 
 public class FakeCommunicationAdapter implements
 		CommunicationAdapterInterface {
