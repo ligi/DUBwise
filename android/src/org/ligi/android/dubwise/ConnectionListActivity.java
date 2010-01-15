@@ -1,5 +1,7 @@
 package org.ligi.android.dubwise;
 
+import org.ligi.ufo.FakeCommunicationAdapter;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -59,7 +61,8 @@ public class ConnectionListActivity extends DUBwiseBaseListActivity {
             switch (menu_actions[position]) {
 
                 case ACTIONID_FAKE:
-                    MKProvider.getMK().connect_to( "fake", "fake" );
+                	MKProvider.getMK().setCommunicationAdapter(new FakeCommunicationAdapter());
+                	MKProvider.getMK().connect_to( "fake", "fake" );
                     finish();
                     break;
                 case ACTIONID_BT:
