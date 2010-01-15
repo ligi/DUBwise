@@ -22,12 +22,21 @@ public class InformationDeskActivity
             ActivityCalls.beforeContent(this);
         
         Vector<IconicMenuItem> menu_items_vector=new Vector<IconicMenuItem>();
+       
+        menu_items_vector.add(new IconicMenuItem("DUBwise wiki Page" , android.R.drawable.ic_menu_info_details, new Intent( "android.intent.action.VIEW", 
+        		Uri.parse( "http://mikrokopter.de/ucwiki/en/DUBwise"))));
         
-
-        menu_items_vector.add(new IconicMenuItem("Jumper" , android.R.drawable.ic_menu_info_details, new Intent( "android.intent.action.VIEW", Uri.parse( "http://www.mikrokopter.de/ucwiki/BL-Ctrl_V1.2?action=AttachFile&do=get&target=Adr_Tabelle.gif" ))));
-        menu_items_vector.add(new IconicMenuItem("BL-Circuit 1.1" , android.R.drawable.ic_menu_info_details, new Intent( "android.intent.action.VIEW", Uri.parse( "http://mikrokopter.de/ucwiki/BL-Ctrl_V1_1?action=AttachFile&do=get&target=BL_CtrlV1_1_sch.gif"))));
-        menu_items_vector.add(new IconicMenuItem("BL-Circuit 1.2" , android.R.drawable.ic_menu_info_details, new Intent( "android.intent.action.VIEW", Uri.parse( "http://gallery.mikrokopter.de/main.php/v/tech/BL_CTRL_1_2.gif.html?g2_imageViewsIndex=1"))));
-        
+        menu_items_vector.add(new IconicMenuItem("BL-Circuit 1.1" , android.R.drawable.ic_menu_info_details, new Intent( "android.intent.action.VIEW",
+        		Uri.parse( "http://mikrokopter.de/ucwiki/BL-Ctrl_V1_1?action=AttachFile&do=get&target=BL_CtrlV1_1_sch.gif"))));
+        menu_items_vector.add(new IconicMenuItem("BL-Circuit 1.2" , android.R.drawable.ic_menu_info_details, new Intent( "android.intent.action.VIEW", 
+                		Uri.parse( "http://gallery.mikrokopter.de/main.php?g2_view=core.DownloadItem&g2_itemId=39357"))));
+        menu_items_vector.add(new IconicMenuItem("BL-Jumper" , android.R.drawable.ic_menu_info_details, new Intent( "android.intent.action.VIEW", 
+        		Uri.parse( "http://www.mikrokopter.de/ucwiki/BL-Ctrl_V1.2?action=AttachFile&do=get&target=Adr_Tabelle.gif" ))));
+        menu_items_vector.add(new IconicMenuItem("Calibrate MK3Mag" , android.R.drawable.ic_menu_info_details, new Intent( "android.intent.action.VIEW", 
+        		Uri.parse( "http://gallery.mikrokopter.de/main.php?g2_view=core.DownloadItem&g2_itemId=34488"))));
+        menu_items_vector.add(new IconicMenuItem("FC TestPoints" , android.R.drawable.ic_menu_info_details, new Intent( "android.intent.action.VIEW", 
+        		Uri.parse( "http://gallery.mikrokopter.de/main.php?g2_view=core.DownloadItem&g2_itemId=18131"))));
+                
         this.setListAdapter(new IconicAdapter(this,(menu_items_vector.toArray())));
      
         ActivityCalls.afterContent(this);
