@@ -16,20 +16,30 @@
 
 package org.ligi.android.dubwise;
 
+import org.ligi.ufo.MKCommunicator;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
 
-public class LCDActivity extends Activity {
+public class LCDActivity extends Activity implements OnTouchListener {
 	
+	LCDView lcd_view;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ActivityCalls.beforeContent(this);
 		
-		setContentView(new LCDView(this));
+		MKProvider.getMK().user_intent=MKCommunicator.USER_INTENT_LCD;
+		lcd_view=new LCDView(this);
+		lcd_view.setOnTouchListener(this);
+		setContentView(lcd_view);
 		 // getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, new GraphView(this));
 		
 	}
@@ -51,20 +61,19 @@ public class LCDActivity extends Activity {
 		super.onDestroy();
 	}
 
-	public final static int MENU_GRID=0;
-	public final static int MENU_LEGEND=1;
-	public final static int MENU_SETTINGS=2;
+	public final static int MENU_PREV=0;
+	public final static int MENU_NEXT=1;
+	
 	
 	/* Creates the menu items */
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    
-		MenuItem settings_menu=menu.add(0,MENU_SETTINGS,0,"Settings");
-		settings_menu.setIcon(android.R.drawable.ic_menu_preferences);
-		/*
-	    Menu features_menu=menu.addSubMenu("Features");
-	    features_menu.add(0, MENU_LEGEND, 0, "New Game").setCheckable(true);
-	    features_menu.add(0, MENU_GRID, 0, "Quit").setCheckable(true);
-	    */
+		MenuItem prev_menu=menu.add(0,MENU_PREV,0,"Previous");
+		prev_menu.setIcon(android.R.drawable.btn_minus);
+		
+		MenuItem next_menu=menu.add(0,MENU_NEXT,0,"NEXT");
+		next_menu.setIcon(android.R.drawable.btn_plus);
+		
 	    return true;
 	}
 
@@ -72,21 +81,30 @@ public class LCDActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		
 	    switch (item.getItemId()) {
-	    case MENU_LEGEND:
-	    	item.setChecked(!item.isChecked());
-	       // newGame();
-	        return true;
-	    case MENU_GRID:
-	    	item.setChecked(!item.isChecked());
-	        //quit();
-	        return true;
-	        
-	    case MENU_SETTINGS:
-	        //quit();
-	    	startActivity(new Intent(this, GraphSettingsActivity.class));
-	        return true;
+	    case MENU_NEXT:
+	    	MKProvider.getMK().LCD.LCD_NEXTPAGE();
+	    	return true;
+	    case MENU_PREV:
+	    	MKProvider.getMK().LCD.LCD_PREVPAGE();
+	    	return true;
 	    }
 	    return false;
 	}
 
+	//@Override
+	public boolean onTouch( View v, MotionEvent event ) {
+		Log.i("DUBwise","LCD Touch");
+		if (event.getAction()==MotionEvent.ACTION_UP)
+		{
+		if (event.getX()>lcd_view.getWidth()/2) {
+			
+			Log.i("DUBwise","LCD Nextpage");
+			MKProvider.getMK().LCD.LCD_NEXTPAGE();
+		}
+		else
+			MKProvider.getMK().LCD.LCD_PREVPAGE();
+		lcd_view.invalidate();
+		}
+		return true;
+	 }
 }
