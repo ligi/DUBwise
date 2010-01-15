@@ -25,14 +25,14 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 		ActivityCalls.afterContent(this);		
 	}
 	
-
+/*
 
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
 		update();
 	}
-
+*/
 
 	public void update() {
 		SharedPreferences.Editor editor = ActivityCalls.getSharedPreferences(this).edit();
