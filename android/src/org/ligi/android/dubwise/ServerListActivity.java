@@ -86,6 +86,9 @@ public class ServerListActivity extends ListActivity {
 				/*Intent i = new Intent();
 				i.putExtra(EXTRA_SELECTED_ADDRESS, btHardwareAddress);
 				self.setResult(Activity.RESULT_OK, i);*/
+
+				
+				MKProvider.getMK().setCommunicationAdapter(new BluetoothCommunicationAdapter(btHardwareAddress));
 				MKProvider.getMK().connect_to("btspp://"+btHardwareAddress+"",btDeviceInfo );
 				finish();
 			}
@@ -96,21 +99,18 @@ public class ServerListActivity extends ListActivity {
         if (!btAdapter.isEnabled()) {
             log("bt is disabled ->enabling");
             btAdapter.enable();
-        }
-            
-        
-        while (btAdapter.getState()!=BluetoothAdapter.STATE_ON)
-        {
-            // todo implement timeout
-            try {
-                Thread.sleep(100 );
-            }
-            catch (InterruptedException e) {
+            while (btAdapter.getState()!=BluetoothAdapter.STATE_ON)
+            {
+            	// todo implement timeout
+            	try {
+            		Thread.sleep(100 );
+            	}
+            	catch (InterruptedException e) {
                 // sleeping is not that important
+            	}
+            	log("waiting for bt to be enabled");
             }
-            log("waiting for bt to be enabled");
         }
-		
 		
 		if (btAdapter == null) {
 			Log.e("Bluetooth Scan Error", "BluetoothAdapter.getDefaultAdapter() returned null" );
