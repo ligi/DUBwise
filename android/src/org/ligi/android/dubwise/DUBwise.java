@@ -2,23 +2,15 @@ package org.ligi.android.dubwise;
 
 import java.util.Vector;
 
-import android.app.Activity;
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import android.util.Log;
 
 import android.net.Uri;
-
-import android.widget.ArrayAdapter;
 
 import android.content.SharedPreferences;
 
@@ -36,6 +28,8 @@ public class DUBwise extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
+	
+	    
 	    /*
 	    try {
 	        log("system service" +  this.getSystemService("bluetooth"));
@@ -67,19 +61,22 @@ public class DUBwise extends ListActivity {
 	    
 	    menu_items_vector.add(new IconicMenuItem("Connection",android.R.drawable.ic_menu_share,new Intent(this, ConnectionListActivity.class) ) );
 	    menu_items_vector.add(new IconicMenuItem("Settings",android.R.drawable.ic_menu_preferences ,new Intent(this, SettingsActivity.class) ) );
+	    menu_items_vector.add(new IconicMenuItem("LCD",android.R.drawable.ic_menu_view ,new Intent(this, LCDActivity.class) ) );
 	    menu_items_vector.add(new IconicMenuItem("Pilot",android.R.drawable.ic_menu_preferences ,new Intent(this, PilotingListActivity.class) ) );
-	       
-	    menu_items_vector.add(new IconicMenuItem("Information Desk",android.R.drawable.ic_menu_preferences ,new Intent(this, InformationDeskActivity.class) ) );
-        
-	    menu_items_vector.add(new IconicMenuItem("Graph",android.R.drawable.ic_menu_view ,new Intent(this, GraphActivity.class) ) );
-	    menu_items_vector.add(new IconicMenuItem("Cockpit",android.R.drawable.ic_menu_view ,new Intent(this, CockpitActivity.class) ) );
-	    
 	    menu_items_vector.add(new IconicMenuItem("Motor Test",android.R.drawable.ic_menu_rotate ,new Intent(this, MotorTestActivity.class) ) );
         menu_items_vector.add(new IconicMenuItem("RCData",android.R.drawable.ic_menu_view ,new Intent(this, RCDataActivity.class) ) );
-        
+	    menu_items_vector.add(new IconicMenuItem("Cockpit",android.R.drawable.ic_menu_view ,new Intent(this, CockpitActivity.class) ) );
+	    
         menu_items_vector.add(new IconicMenuItem("View on Map",android.R.drawable.ic_menu_mapmode,new Intent(this, RCDataActivity.class) ) );
         
 	    menu_items_vector.add(new IconicMenuItem("Flight Settings",android.R.drawable.ic_menu_edit ,new Intent(this, FlightSettingsActivity.class) ) );
+
+	    
+	    menu_items_vector.add(new IconicMenuItem("Information Desk",android.R.drawable.ic_menu_preferences ,new Intent(this, InformationDeskActivity.class) ) );
+        
+	    menu_items_vector.add(new IconicMenuItem("Graph",android.R.drawable.ic_menu_view ,new Intent(this, GraphActivity.class) ) );
+
+	    
 
 	    menu_items_vector.add(new IconicMenuItem("About" , android.R.drawable.ic_menu_info_details, new Intent( "android.intent.action.VIEW", Uri.parse( "http://www.ligi.de/" ))));
 	    menu_items_vector.add(new IconicMenuItem("Quit" , android.R.drawable.ic_menu_close_clear_cancel,ACTIONID_QUIT));
@@ -98,7 +95,7 @@ public class DUBwise extends ListActivity {
 		this.setListAdapter(new IconicAdapter(this,(menu_items_vector.toArray())));
 		Log.d("DUWISE", "create");
 		//		this.setTitle("DUBwise Main Menu");
-		ActivityCalls.afterContent(this);
+		//ActivityCalls.afterContent(this);
 	}
 	
 	@Override
@@ -135,9 +132,9 @@ public class DUBwise extends ListActivity {
 		switch (item.action) {
 		    case ACTIONID_QUIT:
 		        
-		        MKProvider.getMK().close_connections(true );
+		        //MKProvider.getMK().close_connections(true );
 		          
-		           MKProvider.disposeMK();
+		        // MKProvider.disposeMK();
 		           finish();
 		        break;
 		}
