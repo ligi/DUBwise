@@ -66,7 +66,7 @@ public class ConnectionListActivity extends DUBwiseBaseListActivity {
                     finish();
                     break;
                 case ACTIONID_BT:
-                    startActivity( new Intent( this, ServerListActivity.class ) );
+                    startActivity( new Intent( this, BluetoothDeviceListActivity.class ) );
                     break;
                 case ACTIONID_TCP:
                     startActivity( new Intent( this, ConnectViaTCPActivity.class ) );
