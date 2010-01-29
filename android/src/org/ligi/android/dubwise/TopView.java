@@ -90,7 +90,7 @@ public class TopView extends View
 		// connection
 
 		if (mk.connected){
-			if (((mk.stats.bytes_in>>3)&1)==1)
+			if (((mk.stats.bytes_in>>4)&1)==1)
 				symbol_paint(canvas, bt_on_img);
 			else
 				symbol_paint(canvas, bt_on_highlight_img);
@@ -129,6 +129,15 @@ public class TopView extends View
 				act_symbol_pos += spacer_items;
 			}
 		}
+		
+		// spend some cpu time ( Top doesnt need to be updated that often )
+		//TODO make timing editable
+		try {
+			Thread.sleep(50);
+		} catch (InterruptedException e) {
+			
+		}
+		
 		invalidate();
 	}
 
