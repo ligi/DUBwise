@@ -2,7 +2,9 @@ package org.ligi.android.dubwise;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.graphics.*;
 import android.hardware.SensorListener;
 import android.hardware.SensorManager;
@@ -10,12 +12,16 @@ import android.hardware.SensorManager;
 // not working atm - import org.bluez.*;
 import org.ligi.ufo.*;
 
-public class CockpitView extends View implements DUBwiseDefinitions, SensorListener
+public class CockpitView extends View implements DUBwiseDefinitions, SensorListener,OnTouchListener
 
 {
 	private Paint mPaint = new Paint();
+	private Paint altitudeTextPaint = new Paint();
+	
 	SensorManager sensorManager;
 	private int sensor = SensorManager.SENSOR_ORIENTATION;
+	
+	RectF alt_rect=new RectF(0.0f,0.0f,0.0f,0.0f);
 	
 	public CockpitView(Activity context) {
 		super(context);
@@ -25,13 +31,15 @@ public class CockpitView extends View implements DUBwiseDefinitions, SensorListe
 
 		sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 		sensorManager.registerListener(this, sensor,SensorManager.SENSOR_DELAY_FASTEST);
-		
-
-
+		altitudeTextPaint.setTextSize(10);
+		altitudeTextPaint.setColor(0xFFFFFFFF);
 	}
 
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		 alt_rect.left=10.0f;
+		 alt_rect.top=h - altitudeTextPaint.getTextSize()*2;
+		 
 	}
 
 	@Override
@@ -72,8 +80,13 @@ public class CockpitView extends View implements DUBwiseDefinitions, SensorListe
         //canvas.drawRoundRect(new RectF(flight_x,flight_y,flight_x+getWidth()/8,flight_y+getWidth()/8),5,5,paint);
         //paint.setARGB(255,0,0,0);
 
+
+        canvas.restore();
         
+        canvas.drawText("Altitude" + MKProvider.getMK().Alt(), alt_rect.left,alt_rect.right, altitudeTextPaint);
 		invalidate();
+		
+		
 	}
 
 	@Override
@@ -88,7 +101,19 @@ public class CockpitView extends View implements DUBwiseDefinitions, SensorListe
 	public void onSensorChanged(int sensor, float[] values) {
 		pitch = values[1];
         roll =-1*values[2];
-
-		
 	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		
+	/*	if(event.getHistorySize()>0) 
+		{
+			alt_rect.left+=event.getHistoricalX(event.getHistorySize()-1)-event.getX();
+			alt_rect.top+=event.getHistoricalY(event.getHistorySize()-1)-event.getY();
+		}
+		*/
+		return false;
+	}
+
+
 }
