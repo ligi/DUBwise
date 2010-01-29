@@ -14,7 +14,7 @@ import java.util.Random;
 
 public class MKDebugData 
 {
-
+	public final static int MAX_VALUES=32;
     public int[] analog;
     public String[] names;
     public boolean[] got_name;
