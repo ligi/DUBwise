@@ -1,12 +1,15 @@
 package org.ligi.android.dubwise;
 
+import it.gerdavax.android.bluetooth.BluetoothSocket;
+import it.gerdavax.easybluetooth.BtSocket;
+import it.gerdavax.easybluetooth.LocalDevice;
+import it.gerdavax.easybluetooth.RemoteDevice;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
+
 import android.util.Log;
 
 import org.ligi.ufo.CommunicationAdapterInterface;
@@ -16,23 +19,26 @@ public class BluetoothCommunicationAdapter implements
 	
 	private InputStream input_stream;
 	private OutputStream output_stream;
-	private BluetoothSocket bt_connection;
+	private BtSocket bt_connection;
 	
-
 	public void log(String what) {
 	 Log.d("DUBwise Bluetooth Communication Adapter",what);	
 	}
 	
 	public BluetoothCommunicationAdapter(String mac) {
 		try {
-		BluetoothAdapter bta = BluetoothAdapter.getDefaultAdapter();
+		//LocalDevice bta = BluetoothAdapter.getDefaultAdapter();
 
 		// LocalBluetoothDevice.initLocalDevice(context);
 
-		log("getting device");
-		BluetoothDevice bd = bta.getRemoteDevice(mac);
-		log("waiting for bond");
-
+		
+		log("getting device" + mac);
+		RemoteDevice remote_device = LocalDevice.getInstance().getRemoteForAddr(mac);
+		//BluetoothDevice bd = bta.getRemoteDevice(mac);
+				
+		remote_device.ensurePaired();
+		
+		
 		// Thread.sleep(5000 );
 		/*
 		 * while (bd.getBondState()!=bd.BOND_BONDED) { log("waiting for bond");
@@ -40,11 +46,12 @@ public class BluetoothCommunicationAdapter implements
 		 */
 		log("create method");
 		log("waiting for bond");
-		Method m = bd.getClass().getMethod("createRfcommSocket",
+		
+		/*Method m = bd.getClass().getMethod("createRfcommSocket",
 				new Class[] { int.class });
-
+		 */
 		log("create connection");
-		bt_connection = (BluetoothSocket) m.invoke(bd, 1);
+		//bt_connection = (BluetoothSocket) m.invoke(bd, 1);
 		// bt_connection.getRemoteDevice().
 		// localBluetoothDevice.initLocalDevice(context );
 
@@ -59,11 +66,14 @@ public class BluetoothCommunicationAdapter implements
 		// )).openSocket(1 );
 		// bt.createRfcommSocketToServiceRecord((UUID.fromString("a60f35f0-b93a-11de-8a39-08002009c666")));
 		log("connect ");
-		// Thread.sleep(5000 );
-		bt_connection.connect();
+		
+		
 
+		bt_connection=remote_device.openSocket(1);
+		
 		log("getting streams ");
 		// Thread.sleep(5000 );
+		
 		input_stream = bt_connection.getInputStream();
 		output_stream = bt_connection.getOutputStream();
 		}
