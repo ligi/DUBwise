@@ -3,15 +3,11 @@ package org.ligi.android.dubwise;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.graphics.*;
 import android.graphics.Paint.Align;
 
-// not working atm - import org.bluez.*;
 import org.ligi.ufo.*;
 
 public class LCDView extends View implements DUBwiseDefinitions
@@ -52,10 +48,8 @@ public class LCDView extends View implements DUBwiseDefinitions
 		textPaint.setTextAlign(Align.CENTER);
 		//textPaint.setShadowLayer(2, 2, 2, 0xFFFFFFFF);
 		textPaint.setFakeBoldText(true);
-		for (int line=0;line<4;line++)
-			{
-			for (int c=0;c<20;c++)
-			{
+		for (int line=0;line<4;line++)	{
+			for (int c=0;c<20;c++)	{
 				mPaint.setColor(0xFF004000);
 			
 				canvas.drawRect(new RectF((this.getWidth()*c/20.0f)+1.0f , char_height*line+1, (this.getWidth()*(c+1)/20.0f)-2.0f  , char_height*(line+1)-2), mPaint);
@@ -63,7 +57,6 @@ public class LCDView extends View implements DUBwiseDefinitions
 				//canvas.drawText(""+MKProvider.getMK().LCD.get_act_page()[line], 10, 10+line*mPaint.getTextSize(), mPaint);
 				//canvas.drawRect(new Rect(chr*(this.getWidth()/20) , char_height*line, (chr+1)*(this.getWidth()/20)  , char_height*(line+1)), mPaint);
 				canvas.drawText("" + MKProvider.getMK().LCD.get_act_page()[line].charAt(c), (float)c*(this.getWidth()/20.0f)+this.getWidth()/40.0f , char_height*(line)+3.0f*char_height/4.0f, textPaint);
-				
 			}}
 		invalidate();
 	}
