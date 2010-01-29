@@ -26,6 +26,9 @@ public class InformationDeskActivity
         menu_items_vector.add(new IconicMenuItem("DUBwise wiki Page" , android.R.drawable.ic_menu_info_details, new Intent( "android.intent.action.VIEW", 
         		Uri.parse( "http://mikrokopter.de/ucwiki/en/DUBwise"))));
         
+        menu_items_vector.add(new IconicMenuItem("The Authors Blog" , android.R.drawable.ic_menu_info_details, new Intent( "android.intent.action.VIEW", 
+        		Uri.parse( "http://ligi.de"))));
+        
         menu_items_vector.add(new IconicMenuItem("BL-Circuit 1.1" , android.R.drawable.ic_menu_info_details, new Intent( "android.intent.action.VIEW",
         		Uri.parse( "http://mikrokopter.de/ucwiki/BL-Ctrl_V1_1?action=AttachFile&do=get&target=BL_CtrlV1_1_sch.gif"))));
         menu_items_vector.add(new IconicMenuItem("BL-Circuit 1.2" , android.R.drawable.ic_menu_info_details, new Intent( "android.intent.action.VIEW", 
