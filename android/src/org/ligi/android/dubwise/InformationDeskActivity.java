@@ -2,6 +2,10 @@ package org.ligi.android.dubwise;
 
 import java.util.Vector;
 
+import org.ligi.android.dubwise.helper.ActivityCalls;
+import org.ligi.android.dubwise.helper.IconicAdapter;
+import org.ligi.android.dubwise.helper.IconicMenuItem;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.net.Uri;
@@ -28,6 +32,11 @@ public class InformationDeskActivity
         
         menu_items_vector.add(new IconicMenuItem("The Authors Blog" , android.R.drawable.ic_menu_info_details, new Intent( "android.intent.action.VIEW", 
         		Uri.parse( "http://ligi.de"))));
+        
+        /* dam not working
+        menu_items_vector.add(new IconicMenuItem("Mikrokopter Chat" , android.R.drawable.ic_menu_info_details, new Intent( "android.intent.action.VIEW", 
+        		Uri.parse( "irc://irc.freenode.net/mikrokopter"))));
+        */
         
         menu_items_vector.add(new IconicMenuItem("BL-Circuit 1.1" , android.R.drawable.ic_menu_info_details, new Intent( "android.intent.action.VIEW",
         		Uri.parse( "http://mikrokopter.de/ucwiki/BL-Ctrl_V1_1?action=AttachFile&do=get&target=BL_CtrlV1_1_sch.gif"))));

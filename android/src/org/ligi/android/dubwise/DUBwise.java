@@ -2,6 +2,18 @@ package org.ligi.android.dubwise;
 
 import java.util.Vector;
 
+
+import org.ligi.android.dubwise.cockpit.CockpitActivity;
+import org.ligi.android.dubwise.con.ConnectionListActivity;
+import org.ligi.android.dubwise.flightsettings.FlightSettingsActivity;
+import org.ligi.android.dubwise.graph.GraphActivity;
+import org.ligi.android.dubwise.helper.ActivityCalls;
+import org.ligi.android.dubwise.helper.IconicAdapter;
+import org.ligi.android.dubwise.helper.IconicMenuItem;
+import org.ligi.android.dubwise.lcd.LCDActivity;
+import org.ligi.android.dubwise.map.DUBwiseMap;
+import org.ligi.android.dubwise.piloting.PilotingListActivity;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
