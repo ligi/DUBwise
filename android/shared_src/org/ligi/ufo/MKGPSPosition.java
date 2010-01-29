@@ -37,8 +37,9 @@ public class MKGPSPosition
 
     public int last_wp=0;
 
-    public int Longitude;
-    public int Latitude;
+    public int Longitude=123269000;
+    public int Latitude= 513662670;
+        
     public int Altitude;
 
     public int TargetLongitude;
@@ -325,19 +326,7 @@ public class MKGPSPosition
 	NameWP=new String[MAX_WAYPOINTS];
 	// predefined waypoints
 
-	/*
-	LongWP[0]=123230170;
-	LatWP[0]= 513600170 ;
-	NameWP[0]="Sicherer PC1";
 
-	LongWP[1]=123269000;
-	LatWP[1]= 513662670;
-	NameWP[1]="Sicherer PC2";
-
-	LongWP[2]=123475570;
-	LatWP[2]= 513569750 ;
-	NameWP[2]="Treffpunkt Seba";
-	*/
 
 	last_wp=0;
     }
