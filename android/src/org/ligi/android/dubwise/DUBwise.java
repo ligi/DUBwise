@@ -66,8 +66,9 @@ public class DUBwise extends ListActivity {
 	    menu_items_vector.add(new IconicMenuItem("Motor Test",android.R.drawable.ic_menu_rotate ,new Intent(this, MotorTestActivity.class) ) );
         menu_items_vector.add(new IconicMenuItem("RCData",android.R.drawable.ic_menu_view ,new Intent(this, RCDataActivity.class) ) );
 	    menu_items_vector.add(new IconicMenuItem("Cockpit",android.R.drawable.ic_menu_view ,new Intent(this, CockpitActivity.class) ) );
+	    menu_items_vector.add(new IconicMenuItem("Analog Values",android.R.drawable.ic_menu_view ,new Intent(this, AnalogValuesActivity.class) ) );
 	    
-        menu_items_vector.add(new IconicMenuItem("View on Map",android.R.drawable.ic_menu_mapmode,new Intent(this, RCDataActivity.class) ) );
+        menu_items_vector.add(new IconicMenuItem("View on Map",android.R.drawable.ic_menu_mapmode,new Intent(this, DUBwiseMap.class) ) );
         
 	    menu_items_vector.add(new IconicMenuItem("Flight Settings",android.R.drawable.ic_menu_edit ,new Intent(this, FlightSettingsActivity.class) ) );
 
