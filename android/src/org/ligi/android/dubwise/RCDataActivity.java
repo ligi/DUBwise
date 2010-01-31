@@ -8,6 +8,7 @@ import org.ligi.ufo.MKStickData;
 import android.os.Bundle;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
@@ -30,11 +31,15 @@ public class RCDataActivity extends Activity implements Runnable
 		super.onCreate(savedInstanceState);
 		ActivityCalls.beforeContent(this);
 
+		ScrollView scroll=new ScrollView(this);
+		
 		TableLayout table=new TableLayout(this);
 		
-		LayoutParams lp=new TableLayout.LayoutParams();
-		lp.width=LayoutParams.FILL_PARENT;
-		table.setLayoutParams(lp);
+		scroll.addView(table);
+		
+		//LayoutParams lp=new TableLayout.LayoutParams();
+		//lp.width=LayoutParams.FILL_PARENT;
+		//table.setLayoutParams(lp);
 		
 		table.setColumnStretchable(1, true);
 		progress_bars = new ProgressBar[channels];
@@ -53,14 +58,14 @@ public class RCDataActivity extends Activity implements Runnable
 			
 			
 			TextView tmp_text = new TextView(this);
-			tmp_text.setText("Channel " + i  );
+			tmp_text.setText("Channel " + (i+1)  );
 			row.addView(tmp_text);
 		
 			
 			row.addView(progress_bars[i]);
 		}
 
-		setContentView(table);
+		setContentView(scroll);
 
 		new Thread(this).start();
 
