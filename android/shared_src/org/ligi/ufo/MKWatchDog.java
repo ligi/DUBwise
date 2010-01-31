@@ -94,6 +94,8 @@ public class MKWatchDog
                         intitial_paramset_try++;
                         act_paramset = 0; // warning - if dropped problem
                     }
+                    else if (mk.is_mk() && (mk.mixer_manager.state==MixerManager.STATE_NO_DATA))
+                    		mk.trigger_mixer_read();
                     else
                         switch (mk.user_intent) {
                             case USER_INTENT_PARAMS:
