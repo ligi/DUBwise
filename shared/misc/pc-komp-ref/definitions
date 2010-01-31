@@ -364,6 +364,22 @@
  to_cat("ALTITUDE", [{ :pos=>act_pos , :function=>"HOVERBAND" , :typ=>"MKBYTE" }] ) 
  act_pos+=1
 
+--Receiver
+ to_cat("CHANNELS", [{ :pos=>act_pos , :function=>"RECEIVER" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+
+--Servo3
+ to_cat("CAMERA", [{ :pos=>act_pos , :function=>"SERVO3" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+
+--Servo4
+ to_cat("CAMERA", [{ :pos=>act_pos , :function=>"SERVO4" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+
+--Servo5
+ to_cat("CAMERA", [{ :pos=>act_pos , :function=>"SERVO5" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+
 --Hoehe_GPS_Z
  to_cat("ALTITUDE", [{ :pos=>act_pos , :function=>"GPSZ" , :typ=>"MKBYTE" }] ) 
  act_pos+=1
