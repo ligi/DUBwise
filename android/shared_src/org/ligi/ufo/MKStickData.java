@@ -12,7 +12,7 @@ package org.ligi.ufo;
 
 public class MKStickData 
 {
-	public final static int MAX_STICKS=10;
+	public final static int MAX_STICKS=12;
     // holing stick data
     public int[] stick;
 
