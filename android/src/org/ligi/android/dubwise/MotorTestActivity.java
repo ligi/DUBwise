@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,10 +32,15 @@ public class MotorTestActivity extends Activity implements OnSeekBarChangeListen
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		engines=MKProvider.getMK().mixer_manager.getLastUsedEngine()+1;
+		
 		ActivityCalls.beforeContent(this);
 		
+		ScrollView scroll=new ScrollView(this);
+		
 		LinearLayout linear = new LinearLayout(this);
-
+		scroll.addView(linear);
+		
 		linear.setOrientation(LinearLayout.VERTICAL);
 
 		toast = Toast
@@ -55,14 +61,14 @@ public class MotorTestActivity extends Activity implements OnSeekBarChangeListen
 			seek_bars[i].setPadding(8, 1,	 0, 1);
 			TextView tmp_text = new TextView(this);
 
-			tmp_text.setText("Engine " + i);
+			tmp_text.setText("Motor " + (i+1));
 			linear.addView(tmp_text);
 			linear.addView(seek_bars[i]);
 		}
 
 		TextView tmp_text = new TextView(this);
 		tmp_text.setText("All Engines");
-		
+		tmp_text.setPadding(0, 10,	 0, 0);
 		linear.addView(tmp_text);
 
 		seek_all = new SeekBar(this);
@@ -70,7 +76,7 @@ public class MotorTestActivity extends Activity implements OnSeekBarChangeListen
 		seek_all.setPadding(8, 1,	 0, 1);
 		linear.addView(seek_all);
 
-		setContentView(linear);
+		setContentView(scroll);
 
 	}
 
