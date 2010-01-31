@@ -24,11 +24,12 @@ public class FakeCommunicationAdapter implements
 
 	@Override
 	public void connect() {
+		// nothing to do here in the fake adapter
 	}
 
 	@Override
 	public void disconnect() {
-		
+		// nothing to do here in the fake adapter
 	}
 
 	@Override
