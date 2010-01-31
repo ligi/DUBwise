@@ -21,30 +21,15 @@ package org.ligi.ufo;
 import android.util.Log;
 //#endif
 
-
-
-import java.io.*;
-import java.lang.reflect.Method;
-import java.net.Socket;
-
-/*
-import it.gerdavax.android.bluetooth.BluetoothSocket; 
-import it.gerdavax.android.bluetooth.BluetoothDevice;
-import it.gerdavax.android.bluetooth.LocalBluetoothDevice;
-*/
-
 public class MKCommunicator
     implements Runnable,DUBwiseDefinitions
 {
 	
-	CommunicationAdapterInterface comm_adapter;
+	private CommunicationAdapterInterface comm_adapter;
 	
-	public void setCommunicationAdapter(CommunicationAdapterInterface _comm_adapter) {
-		comm_adapter=_comm_adapter;
-	}
 	
     public byte lib_version_major=0;
-    public byte lib_version_minor=11;
+    public byte lib_version_minor=12;
 
 	public byte slave_addr=-1;
 
@@ -182,6 +167,7 @@ public class MKCommunicator
 
     public MKGPSPosition gps_position;
 
+    public MixerManager mixer_manager;
     public MKStickData stick_data;
     public MKParamsParser params;
     public MKWatchDog watchdog;
@@ -326,6 +312,8 @@ public class MKCommunicator
 	version=new MKVersion();
 	debug_data=new MKDebugData();
 	stick_data=new MKStickData();
+	mixer_manager=new MixerManager();
+	
 	params=new MKParamsParser();
 	extern_control=new int[EXTERN_CONTROL_LENGTH];
 	extern_control[EXTERN_CONTROL_CONFIG]=1;
@@ -746,6 +734,11 @@ public class MKCommunicator
     }
 
 
+    public void trigger_mixer_read()
+    {
+    	send_command(FC_SLAVE_ADDR,'n');
+    }
+
     public void write_params(int to) 
     {
 	params.update_backup(to);
@@ -1006,7 +999,12 @@ public class MKCommunicator
 		LCD.handle_lcd_data(decoded_data);
 
 		break;
-
+	    
+	    
+	    case 'N': // debug Data
+	    	mixer_manager.setByMKData(decoded_data);
+	    	break;
+	    	
 	    case 'D': // debug Data
 		log("got debug data");
 		stats.debug_data_count++;
@@ -1077,35 +1075,36 @@ public class MKCommunicator
 		mixer_change_success=(decoded_data[0]==1);
 		break;
 	    case 'P':
-		stats.stick_data_count++;
-		stick_data.set_by_mk_data(decoded_data);
-		break;
+	    	stats.stick_data_count++;
+	    	stick_data.set_by_mk_data(decoded_data);
+	    	break;
 
 
-            case 'E':  // Error Str from Navi
-		error_str="";
-		for(int foo=0;foo<20;foo++)
-		    if (decoded_data[foo]!=0) 
-			error_str+=(char)decoded_data[foo];
+        case 'E':  // Error Str from Navi
+        	error_str="";
+        	for(int foo=0;foo<20;foo++)
+        		if (decoded_data[foo]!=0) 
+        			error_str+=(char)decoded_data[foo];
 		break;
 
 		
 	    case 'O': // OSD Values Str from Navi
-		stats.navi_data_count++;
-		log("got navi data(" + len +"):");
+	    	stats.navi_data_count++;
+	    	log("got navi data(" + len +"):");
 		
-		gps_position.set_by_mk_data(decoded_data,version);
+	    
+	    	gps_position.set_by_mk_data(decoded_data,version);
 
-		stats.process_mkflags(gps_position.MKFlags);
-		stats.process_compas(gps_position.CompasHeading);
-		stats.process_speed(gps_position.GroundSpeed);
-		stats.process_alt(Alt());
+	    	stats.process_mkflags(gps_position.MKFlags);
+	    	stats.process_compas(gps_position.CompasHeading);
+	    	stats.process_speed(gps_position.GroundSpeed);
+	    	stats.process_alt(Alt());
 
 		break;
 
 
 	    default:
-		stats.other_data_count++;
+	    	stats.other_data_count++;
 		break;
 
 	    }
@@ -1595,11 +1594,23 @@ public class MKCommunicator
 
     public int getPotiValue(int poti_id)
     {
-	int val=stick_data.stick[params.poti_pos[poti_id]]+127;
-	if (val<0)
-	    return 0;
-	if (val>250)
-	    return 250;
-	return val;
+    	int val=stick_data.stick[params.poti_pos[poti_id]]+127;
+    	
+    	// clip the values
+    	if (val<0)
+    		return 0;
+    	if (val>250)
+    		return 250;
+    	return val;
     }
+
+    /**
+     * Set the Communication Adapter - this is needed to differ between android and J2ME
+     * 
+     * @param _comm_adapter - the communication adapter to use
+     */
+    public void setCommunicationAdapter(CommunicationAdapterInterface _comm_adapter) {
+		comm_adapter=_comm_adapter;
+	}
+	
 }
