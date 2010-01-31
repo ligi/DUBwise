@@ -16,7 +16,9 @@
 
 package org.ligi.android.dubwise.cockpit;
 
+import org.ligi.android.dubwise.con.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
+import org.ligi.ufo.MKCommunicator;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -26,6 +28,9 @@ public class CockpitActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		MKProvider.getMK().user_intent=MKCommunicator.USER_INTENT_RAWDEBUG;	
+		
 		ActivityCalls.beforeContent(this);
 		
 		//this.setContentView(new GraphView(this));
