@@ -2,9 +2,9 @@ package org.ligi.android.dubwise;
 
 import java.util.Vector;
 
-
 import org.ligi.android.dubwise.cockpit.CockpitActivity;
 import org.ligi.android.dubwise.con.ConnectionListActivity;
+import org.ligi.android.dubwise.con.MKProvider;
 import org.ligi.android.dubwise.flightsettings.FlightSettingsActivity;
 import org.ligi.android.dubwise.graph.GraphActivity;
 import org.ligi.android.dubwise.helper.ActivityCalls;
@@ -13,6 +13,7 @@ import org.ligi.android.dubwise.helper.IconicMenuItem;
 import org.ligi.android.dubwise.lcd.LCDActivity;
 import org.ligi.android.dubwise.map.DUBwiseMap;
 import org.ligi.android.dubwise.piloting.PilotingListActivity;
+import org.ligi.ufo.MKCommunicator;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -33,92 +34,112 @@ public class DUBwise extends ListActivity {
 	boolean fullscreen;
 	SharedPreferences settings;
 
-	public final static int ACTIONID_QUIT=1;
-		 
-	 /** Called when the activity is first created. */
+	public final static int ACTIONID_QUIT = 1;
+
+	/** Called when the activity is first created. */
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-	    super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
 	
-	    
-	    /*
-	    try {
-	        log("system service" +  this.getSystemService("bluetooth"));
+		ActivityCalls.beforeContent(this);
 
-	        log ("Platform Supported? " + PlatformChecker.isThisPlatformSupported());
-	        //LocalBluetoothDevice.
-	        PlatformChecker.printPlatformDescription();
-	         log (" bt init #1");
-	        LocalBluetoothDevice.initLocalDevice(this);
-	        log (" bt init #2");
-	        LocalBluetoothDevice.initLocalDevice(this);
-	        
-            log (" local device " +LocalBluetoothDevice.getLocalDevice() );
-            BluetoothSocket bt_connection;
-            bt_connection=LocalBluetoothDevice.getLocalDevice().getRemoteBluetoothDevice("00:0B:CE:01:2E:00").openSocket(1 );
-            log (" reading from device" + bt_connection.getInputStream().read());
-            MKProvider.getMK().context=this;
-        }
-        catch (Exception e) {
-            log("bt exception" + e);
-            // XXX Auto-generated catch block
-            
-        }
-        */
-	    
-	    ActivityCalls.beforeContent(this);
-        
-	    Vector<IconicMenuItem> menu_items_vector=new Vector<IconicMenuItem>();
-	    
-	    menu_items_vector.add(new IconicMenuItem("Connection",android.R.drawable.ic_menu_share,new Intent(this, ConnectionListActivity.class) ) );
-	    menu_items_vector.add(new IconicMenuItem("Settings",android.R.drawable.ic_menu_preferences ,new Intent(this, SettingsActivity.class) ) );
-	    menu_items_vector.add(new IconicMenuItem("LCD",android.R.drawable.ic_menu_view ,new Intent(this, LCDActivity.class) ) );
-	    menu_items_vector.add(new IconicMenuItem("Pilot",android.R.drawable.ic_menu_preferences ,new Intent(this, PilotingListActivity.class) ) );
-	    menu_items_vector.add(new IconicMenuItem("Motor Test",android.R.drawable.ic_menu_rotate ,new Intent(this, MotorTestActivity.class) ) );
-        menu_items_vector.add(new IconicMenuItem("RCData",android.R.drawable.ic_menu_view ,new Intent(this, RCDataActivity.class) ) );
-	    menu_items_vector.add(new IconicMenuItem("Cockpit",android.R.drawable.ic_menu_view ,new Intent(this, CockpitActivity.class) ) );
-	    menu_items_vector.add(new IconicMenuItem("Analog Values",android.R.drawable.ic_menu_view ,new Intent(this, AnalogValuesActivity.class) ) );
-	    
-        menu_items_vector.add(new IconicMenuItem("View on Map",android.R.drawable.ic_menu_mapmode,new Intent(this, DUBwiseMap.class) ) );
-        
-	    menu_items_vector.add(new IconicMenuItem("Flight Settings",android.R.drawable.ic_menu_edit ,new Intent(this, FlightSettingsActivity.class) ) );
+		refresh_list();
 
-	    
-	    menu_items_vector.add(new IconicMenuItem("Information Desk",android.R.drawable.ic_menu_preferences ,new Intent(this, InformationDeskActivity.class) ) );
-        
-	    menu_items_vector.add(new IconicMenuItem("Graph",android.R.drawable.ic_menu_view ,new Intent(this, GraphActivity.class) ) );
-
-	    
-
-	    menu_items_vector.add(new IconicMenuItem("About" , android.R.drawable.ic_menu_info_details, new Intent( "android.intent.action.VIEW", Uri.parse( "http://www.ligi.de/" ))));
-	    menu_items_vector.add(new IconicMenuItem("Quit" , android.R.drawable.ic_menu_close_clear_cancel,ACTIONID_QUIT));
-	    
 		settings = getSharedPreferences("DUBWISE", 0);
-		
-		 //		getWindow().setFeatureInt(featureId, value)
-		
-		//settings.
-		
-		// menu_items[0]=settings.getString("conn_host","--");
-		/*this.setListAdapter(new ArrayAdapter<String>(this,
-		 android.R.layout.simple_list_item_1, menu_items). );
-		*/
-		//		menu_items_=(menu_items_vector.toArray());
-		this.setListAdapter(new IconicAdapter(this,(menu_items_vector.toArray())));
 		Log.d("DUWISE", "create");
-		//		this.setTitle("DUBwise Main Menu");
-		//ActivityCalls.afterContent(this);
 	}
-	
+
+	public void refresh_list() {
+		MKCommunicator mk = MKProvider.getMK();
+		Vector<IconicMenuItem> menu_items_vector = new Vector<IconicMenuItem>();
+
+		menu_items_vector.add(new IconicMenuItem("Connection",
+				android.R.drawable.ic_menu_share, new Intent(this,
+						ConnectionListActivity.class)));
+		menu_items_vector.add(new IconicMenuItem("Settings",
+				android.R.drawable.ic_menu_preferences, new Intent(this,
+						SettingsActivity.class)));
+
+		if (mk.connected) {
+			
+				menu_items_vector.add(new IconicMenuItem("Device Details",
+						android.R.drawable.ic_menu_view, new Intent(this,
+								DeviceDetails.class)));
+
+			if (mk.is_mk() || mk.is_fake())
+				menu_items_vector.add(new IconicMenuItem("LCD",
+						android.R.drawable.ic_menu_view, new Intent(this,
+								LCDActivity.class)));
+
+			if (mk.is_mk() || mk.is_navi() || mk.is_fake())
+				menu_items_vector.add(new IconicMenuItem("Pilot",
+						android.R.drawable.ic_menu_preferences, new Intent(
+								this, PilotingListActivity.class)));
+
+			if (mk.is_mk() || mk.is_fake())
+				menu_items_vector.add(new IconicMenuItem("Motor Test",
+						android.R.drawable.ic_menu_rotate, new Intent(this,
+								MotorTestActivity.class)));
+
+			if (mk.is_mk() || mk.is_fake())
+				menu_items_vector.add(new IconicMenuItem("RCData",
+						android.R.drawable.ic_menu_view, new Intent(this,
+								RCDataActivity.class)));
+
+			if (mk.is_mk() || mk.is_navi() || mk.is_fake())
+				menu_items_vector.add(new IconicMenuItem("Cockpit",
+						android.R.drawable.ic_menu_view, new Intent(this,
+								CockpitActivity.class)));
+
+			if (mk.is_mk() || mk.is_navi() || mk.is_fake())
+				menu_items_vector.add(new IconicMenuItem("Analog Values",
+						android.R.drawable.ic_menu_view, new Intent(this,
+								AnalogValuesActivity.class)));
+
+			if (mk.is_navi() || mk.is_fake())
+				menu_items_vector.add(new IconicMenuItem("View on Map",
+						android.R.drawable.ic_menu_mapmode, new Intent(this,
+								DUBwiseMap.class)));
+
+			if (mk.is_mk() || mk.is_fake())
+				menu_items_vector.add(new IconicMenuItem("Flight Settings",
+						android.R.drawable.ic_menu_edit, new Intent(this,
+								FlightSettingsActivity.class)));
+
+			if (mk.is_mk() || mk.is_fake())
+				menu_items_vector.add(new IconicMenuItem("Edit Mixer",
+						android.R.drawable.ic_menu_edit, new Intent(this,
+								MixerEditActivity.class)));
+
+			
+			if (mk.is_mk() || mk.is_fake())
+				menu_items_vector.add(new IconicMenuItem("Graph",
+						android.R.drawable.ic_menu_view, new Intent(this,
+								GraphActivity.class)));
+
+		}
+		menu_items_vector.add(new IconicMenuItem("Information Desk",
+				android.R.drawable.ic_menu_info_details, new Intent(this,
+						InformationDeskActivity.class)));
+		// i menu_items_vector.add(new IconicMenuItem("About" ,
+		// android.R.drawable.ic_menu_info_details, new Intent(
+		// "android.intent.action.VIEW", Uri.parse( "http://www.ligi.de/" ))));
+		// menu_items_vector.add(new IconicMenuItem("Quit" ,
+		// android.R.drawable.ic_menu_close_clear_cancel,ACTIONID_QUIT));
+
+		this.setListAdapter(new IconicAdapter(this, (menu_items_vector
+				.toArray())));
+
+	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
 		ActivityCalls.afterContent(this);
-		//		finish();
-		//		startActivity(new Intent(this, DUBwise.class));
 		Log.d("DUBWISE", "resume");
-		
+
+		refresh_list();
 	}
 
 	@Override
@@ -139,25 +160,13 @@ public class DUBwise extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-	
-		IconicMenuItem item  = ((IconicMenuItem)(this.getListAdapter().getItem(position) )) ;
 
-		switch (item.action) {
-		    case ACTIONID_QUIT:
-		        
-		        //MKProvider.getMK().close_connections(true );
-		          
-		        // MKProvider.disposeMK();
-		           finish();
-		        break;
-		}
-		
-		if (item.intent!=null)
-		    startActivity(item.intent);
-		
+		IconicMenuItem item = ((IconicMenuItem) (this.getListAdapter()
+				.getItem(position)));
+
+		if (item.intent != null)
+			startActivity(item.intent);
+
 	}
 
-	
-	
-	
 }
