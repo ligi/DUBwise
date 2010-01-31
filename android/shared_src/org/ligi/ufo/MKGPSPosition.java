@@ -1,6 +1,6 @@
-/*********************************************
+/****************************************************
  *                                            
- * class representing the DebugData Structure 
+ * class representing the MK Navi OSD Data Structure 
  *                                            
  * Author:        Marcus -LiGi- Bueschleb     
  * 
@@ -14,7 +14,7 @@
  *
  * thanx a lot for sharing!
  *
- ********************************************/
+ *****************************************************/
 
 package org.ligi.ufo;
 
@@ -349,8 +349,9 @@ public class MKGPSPosition
     public void set_by_mk_data(int[] in_arr,MKVersion version)
     {
 	int off=0;
-	if (version.proto_minor>0) // fixme
+	if (version.proto_minor>0) // TODO fixme
 	    off++;
+	
 	Longitude=parse_arr_4(off+0,in_arr);
 	Latitude=parse_arr_4(off+4,in_arr);
 	Altitude=parse_arr_4(off+8,in_arr);
@@ -377,13 +378,11 @@ public class MKGPSPosition
 
 	SatsInUse=(byte)in_arr[off+49];
 	
-	
 	Altimeter=parse_arr_2(off+50,in_arr); // hight according to air pressure
 	Variometer=parse_arr_2(off+52,in_arr);; // climb(+) and sink(-) rate
 	FlyingTime=parse_arr_2(off+54,in_arr);;
 	
 	UBatt= in_arr[off+56];
-
 
 	GroundSpeed= parse_arr_2(off+57,in_arr);
 	Heading= parse_arr_2(off+59,in_arr);
@@ -397,8 +396,6 @@ public class MKGPSPosition
 	NCFlags=in_arr[off+67];
 
 	ErrorCode=in_arr[off+68];
-
-
     }
 
 
