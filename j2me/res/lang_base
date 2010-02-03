@@ -234,3 +234,7 @@ GPSZ;GPS-Z;GPS-Z;GPS-Z
 SENSITIVERC;Sensitive RC;Sensibler Empfang;Sensitive RC
 VARIOBEEP;Vario Beeping;Vario Beeping;Vario Beeping
 ALTITUDELIMIT;Limit Altitude;Limit Altitude;Limit Altitude
+SERVO3;Servo 3;Servo 3;Servo 3
+SERVO4;Servo 4;Servo 4;Servo 4
+SERVO5;Servo 5;Servo 5;Servo 5
+RECEIVER;Receiver type;Empfaenger typ;Receiver type
