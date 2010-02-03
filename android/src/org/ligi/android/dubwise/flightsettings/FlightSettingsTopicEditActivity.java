@@ -1,39 +1,34 @@
 package org.ligi.android.dubwise.flightsettings;
 
-import java.util.HashMap;
-
 import org.ligi.android.dubwise.con.MKProvider;
+import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.android.dubwise.helper.DUBwiseStringHelper;
-import org.ligi.ufo.MKParamDefinitions;
+import org.ligi.ufo.MKParamsGeneratedDefinitions;
 import org.ligi.ufo.MKParamsParser;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
-import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Filter;
-import android.widget.ListView;
-import android.widget.ProgressBar;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.KeyListener;
 import android.util.Log;
@@ -42,23 +37,29 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView.OnEditorActionListener;
 
-public class FlightSettingsTopicEditActivity extends Activity implements OnItemSelectedListener, OnCheckedChangeListener, TextWatcher, OnEditorActionListener, KeyListener {
+public class FlightSettingsTopicEditActivity extends Activity implements OnItemSelectedListener, OnCheckedChangeListener, TextWatcher, OnEditorActionListener, KeyListener, OnClickListener {
 
 	private static final int MENU_SAVE = 0;
+	private static final int MENU_HELP = 1;
 
 	String[] menu_items;
 	
 	// 	each is tagged with the id of the row
-	Spinner spinners[];
-	EditText edit_texts[];
-	CheckBox checkboxes[];
+	Spinner[] spinners;
+	EditText[] edit_texts;
+	CheckBox[] checkboxes;
 	int act_topic;
+	TableRow[] bitmask_row;
+	EditText[] bitmask_edittext;
+	CheckBox[][] bitmask_checkbox;
 	
 	// public MapView map;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		ActivityCalls.beforeContent(this);
 /*
 		menu_items=new String[MKProvider.getMK().params.tab_stringids.length];
 		for (int i=0;i<menu_items.length;i++)
@@ -73,7 +74,11 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 		spinners=new Spinner[menu_items.length];;
 		edit_texts=new EditText[menu_items.length];;
         checkboxes=new CheckBox[menu_items.length];
-		TableLayout table=new TableLayout(this);
+        bitmask_edittext=new EditText[menu_items.length];
+        bitmask_row=new TableRow[menu_items.length];
+        bitmask_checkbox=new CheckBox[menu_items.length][8];
+        
+        TableLayout table=new TableLayout(this);
 		
 		LayoutParams lp=new TableLayout.LayoutParams();
 		lp.width=LayoutParams.FILL_PARENT;
@@ -96,22 +101,72 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
         	//text_v.setOnEditorActionListener(this);
         	row.setTag(i);
         	MKParamsParser params=MKProvider.getMK().params;
-        	if(MKProvider.getMK().params.field_types[act_topic][i]==MKParamDefinitions.PARAMTYPE_BITSWITCH){
+        	switch(MKProvider.getMK().params.field_types[act_topic][i]) {
+
+        	case MKParamsGeneratedDefinitions.PARAMTYPE_STICK:
+        		Spinner spinner=new Spinner(this);
+        		String stick_strings[]=new String[12];
+        		
+        		for (int stick=0;stick<12;stick++)
+        			stick_strings[stick]="Channel "+(stick+1);
+
+         		ArrayAdapter<String> spinner_adapter = new ArrayAdapter<String>(this,
+        	            android.R.layout.simple_spinner_item , stick_strings);
+
+         		spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+         		spinner.setAdapter(spinner_adapter);
+         		spinner.setSelection(params.field[params.act_paramset][params.field_positions[act_topic][i]]);
+        		row.addView(spinner);
+        		break;
+
+        	case MKParamsGeneratedDefinitions.PARAMTYPE_BITSWITCH:
+        	
         		checkboxes[i]=new CheckBox(this);
         		checkboxes[i].setTag(i);
         		checkboxes[i].setOnCheckedChangeListener(this);
         		checkboxes[i].setChecked(!((MKProvider.getMK().params.get_field_from_act(MKProvider.getMK().params.field_positions[act_topic][i]/8)&(1<<MKProvider.getMK().params.field_positions[act_topic][i]%8))==0));
         		row.addView(checkboxes[i]);
-        	}
-        
+        		break;
 
-        	if(MKProvider.getMK().params.field_types[act_topic][i]==MKParamDefinitions.PARAMTYPE_MKBYTE)
-        	{
+        	case MKParamsGeneratedDefinitions.PARAMTYPE_BITMASK:
+        		int val=	params.field[params.act_paramset][params.field_positions[act_topic][i]];
+        		bitmask_edittext[i]=new EditText(this);
+        		row.addView(bitmask_edittext[i]);
+        		bitmask_edittext[i].setText(""
+        		+ val        	);
+        		
+        		LinearLayout lin=new LinearLayout(this);
+        		for (int bm=0;bm<8;bm++)
+        			{
+        			bitmask_checkbox[i][bm]=new CheckBox(this);
+        			lin.addView(bitmask_checkbox[i][bm]);
+        			bitmask_checkbox[i][bm].setChecked(((val>>(7-bm))&1)!=0);
+        			}
+        		
+        		bitmask_row[i]=new TableRow(this);
+        		TableRow.LayoutParams layout_p=(new TableRow.LayoutParams());
+        		layout_p.span=3;
+        		lin.setLayoutParams(layout_p);
+        		bitmask_row[i].addView(lin);
+        		table.addView(bitmask_row[i]);
+        		bitmask_row[i].setVisibility(View.GONE);
+        		
+        		
+        		ImageButton img_btn=new ImageButton(this);
+        		img_btn.setImageResource(android.R.drawable.ic_menu_preferences);
+        		row.addView(img_btn);
+        		img_btn.setOnClickListener(this);
+        		img_btn.setTag(i);
+        		break;
+
+        		
+        	case MKParamsGeneratedDefinitions.PARAMTYPE_MKBYTE:
         		edit_texts[i]=new EditText(this);
         		edit_texts[i].setText("" +params.field[params.act_paramset][params.field_positions[act_topic][i]] );
         		
         		edit_texts[i].setTag(new Integer(i));
-        		
+        		edit_texts[i].setInputType(InputType.TYPE_CLASS_NUMBER);
 //        		edit_texts[i].addTextChangedListener(this);
         		//edit_texts[i].setKeyListener(this);
         		final int act_i=i;
@@ -164,6 +219,7 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
         	    
         		row.addView(edit_texts[i]);
         		row.addView(spinners[i]);
+        		break;
         	}
         	
         }
@@ -171,6 +227,12 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 		
         view.addView(table);
         this.setContentView(view);
+	}
+
+	@Override 
+	public void onResume() {
+		super.onResume();
+		ActivityCalls.afterContent(this);
 	}
 
 	public void log(String msg) {
@@ -228,9 +290,13 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 	/* Creates the menu items */
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    
-		MenuItem settings_menu=menu.add(0,MENU_SAVE,0,"Settings");
+		MenuItem settings_menu=menu.add(0,MENU_SAVE,0,"Write");
 		settings_menu.setIcon(android.R.drawable.ic_menu_save);
-	    return true;
+	    
+		MenuItem help_menu=menu.add(0,MENU_HELP,0,"Help");
+		help_menu.setIcon(android.R.drawable.ic_menu_help);
+
+		return true;
 	}
 
 
@@ -241,25 +307,26 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 	    case MENU_SAVE:
 	    	MKProvider.getMK().write_params(MKProvider.getMK().params.act_paramset);
 	        return true;
+	    
+	    case MENU_HELP:
+	    	this.startActivity(new Intent( "android.intent.action.VIEW", 
+        		Uri.parse( "http://www.mikrokopter.de/ucwiki/en/MK-Parameter")));
+	        return true;
 	    }
 	    return false;
 	}
 
 	@Override
 	public void afterTextChanged(Editable s) {
-		Log.d("DUBwise", "text cahnged" + s );
-		Log.d("DUwise", "text cahnged" + ((View)s).getTag() );
 	}
 
 	@Override
 	public void beforeTextChanged(CharSequence s, int start, int count,
 			int after) {
-		
 	}
 
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		
 	}
 
 	@Override
@@ -270,34 +337,37 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 
 	@Override
 	public void clearMetaKeyState(View view, Editable content, int states) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public int getInputType() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public boolean onKeyDown(View view, Editable text, int keyCode,
 			KeyEvent event) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean onKeyOther(View view, Editable text, KeyEvent event) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 
 	@Override
 	public boolean onKeyUp(View view, Editable text, int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void onClick(View clicked_view) {
+		if (clicked_view instanceof ImageButton) {
+			int pos=(Integer)(clicked_view.getTag());
+			
+			bitmask_row[pos].setVisibility(View.VISIBLE);
+		}
 	}
 
 
