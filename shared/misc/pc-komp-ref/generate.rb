@@ -1,7 +1,7 @@
 require 'rio'
 
 
-debug=false
+debug=true
 
 all_tabs=[]
 
@@ -112,13 +112,42 @@ all_lengths << end_pos
  
 } 
 
-puts "// -- start generated code --"
-puts "public final static int[][] all_tab_stringids={"+all_tabs.join(",")+"};"
-puts "public final static int[][][] all_field_stringids={"+all_names.join(",")+"};"
-puts "public final static int[][][] all_field_positions={"+all_positions.join(",")+"};"
-puts "public final static int[][][] all_field_types={"+all_types.join(",")+"};"
 
 
-puts "public final static int[] all_name_positions={"+all_namestarts.join(",")+"};"
-puts "public final static int[] all_lengths={"+all_lengths.join(",")+"};"
-puts "// -- end generated code --"
+interface_name="MKParamsGeneratedDefinitions"
+interface_path="../../../android/shared_src/org/ligi/ufo/"
+interface_fname=interface_path+interface_name+".java"
+
+
+interface_file=rio(interface_fname)
+
+interface_file < "package org.ligi.ufo;\n"
+
+interface_file << "public interface " + interface_name + " extends DUBwiseLangDefs\n"
+
+interface_file << "{"+ "\n"
+
+interface_file <<  "public final static int PARAMTYPE_BYTE=0;      // normal byte"+ "\n"
+interface_file <<  "public final static int PARAMTYPE_MKBYTE=1;    // has potis @ end"+ "\n"
+interface_file <<  "public final static int PARAMTYPE_BITSWITCH=2; // a bit aka boolean"+ "\n"
+interface_file <<  "public final static int PARAMTYPE_STICK=3;     // a stick ( 1-12 )"+ "\n"
+interface_file <<  "public final static int PARAMTYPE_KEY=4;       // a key"+ "\n"
+interface_file <<  "public final static int PARAMTYPE_BITMASK=5;   // a bitmask ( byte )"+ "\n"
+interface_file <<  "public final static int PARAMTYPE_CHOICE=6;"+ "\n"
+
+
+interface_file <<  "// -- start generated code --"+ "\n"
+interface_file <<  "public final static int[][] all_tab_stringids={"+all_tabs.join(",")+"};"+ "\n"
+interface_file <<  "public final static int[][][] all_field_stringids={"+all_names.join(",")+"};"+ "\n"
+interface_file <<  "public final static int[][][] all_field_positions={"+all_positions.join(",")+"};"+ "\n"
+interface_file <<  "public final static int[][][] all_field_types={"+all_types.join(",")+"};"+ "\n"
+
+
+interface_file <<  "public final static int[] all_name_positions={"+all_namestarts.join(",")+"};"+ "\n"
+interface_file <<  "public final static int[] all_lengths={"+all_lengths.join(",")+"};"+ "\n"
+interface_file <<  "// -- end generated code --"+ "\n"
+
+interface_file << "}"+ "\n"
+
+puts "written " + interface_name
+
