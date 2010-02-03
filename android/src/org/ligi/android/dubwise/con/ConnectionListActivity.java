@@ -16,13 +16,15 @@ import android.widget.ArrayAdapter;
 
 public class ConnectionListActivity extends DUBwiseBaseListActivity {
 
-	String[] menu_items = new String[] { "Fake Connection","Connect via Bluetooth","connect via TCP/IP" ,"disconnect"};
-	int[] menu_actions = new int[] { ACTIONID_FAKE , ACTIONID_BT , ACTIONID_TCP , ACTIONID_DISCONN};
+	String[] menu_items = new String[] { "Fake Connection","Connect via Bluetooth","connect via TCP/IP" ,"disconnect","Switch Device","Connection Details"};
+	int[] menu_actions = new int[] { ACTIONID_FAKE , ACTIONID_BT , ACTIONID_TCP , ACTIONID_DISCONN , ACTIONID_SWITCH, ACTION_CONDETAILS};
 
 	public final static int ACTIONID_FAKE = 0;
 	public final static int ACTIONID_BT = 1;
 	public final static int ACTIONID_TCP = 2;
 	public final static int ACTIONID_DISCONN = 3;
+	public final static int ACTIONID_SWITCH = 4;
+	public final static int ACTION_CONDETAILS=5;
 	
 	// public MapView map;
 	/** Called when the activity is first created. */
@@ -77,6 +79,15 @@ public class ConnectionListActivity extends DUBwiseBaseListActivity {
                 case ACTIONID_DISCONN:
                     MKProvider.getMK().close_connections( true );   
                     break;
+    
+                case ACTIONID_SWITCH:
+                	startActivity( new Intent( this, SwitchDeviceListActivity.class ) );
+                    break;
+                    
+                case ACTION_CONDETAILS:
+                	startActivity( new Intent( this, ConnectionDetails.class ) );
+                	break;
+               
             }
 		} catch (Exception e) {
 			e.printStackTrace();
