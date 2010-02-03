@@ -237,5 +237,9 @@ public interface DUBwiseLangDefs
  public final static int STRINGID_SENSITIVERC=233;
  public final static int STRINGID_VARIOBEEP=234;
  public final static int STRINGID_ALTITUDELIMIT=235;
- public final static int STRING_COUNT=236;
+ public final static int STRINGID_SERVO3=236;
+ public final static int STRINGID_SERVO4=237;
+ public final static int STRINGID_SERVO5=238;
+ public final static int STRINGID_RECEIVER=239;
+ public final static int STRING_COUNT=240;
 }
