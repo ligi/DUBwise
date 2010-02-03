@@ -1,6 +1,7 @@
 package org.ligi.android.dubwise.flightsettings;
 
 import org.ligi.android.dubwise.con.MKProvider;
+import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.android.dubwise.helper.DUBwiseStringHelper;
 
 import android.app.ListActivity;
@@ -22,13 +23,14 @@ public class FlightSettingsTopicListActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		int act_paramset=MKProvider.getMK().params.act_paramset;
+		ActivityCalls.beforeContent(this);
 		
 		
 		  menu_items=new String[MKProvider.getMK().params.tab_stringids.length];
 	        for (int i=0;i<menu_items.length;i++)
-	        menu_items[i]=getString(DUBwiseStringHelper.table[MKProvider.getMK().params.tab_stringids[i]]);
-	    /*
+	        	menu_items[i]=getString(DUBwiseStringHelper.table[MKProvider.getMK().params.tab_stringids[i]]);
+	    
+	        /*
 		menu_items=new String[MKProvider.getMK().params.field_stringids[act_paramset][getIntent().getIntExtra("foo",0)]];
 		
 		
@@ -48,6 +50,13 @@ public class FlightSettingsTopicListActivity extends ListActivity {
 		this.setListAdapter(new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, menu_items));
 		// setContentView(this);
+	}
+
+
+	@Override 
+	public void onResume() {
+		super.onResume();
+		ActivityCalls.afterContent(this);
 	}
 
 	@Override
