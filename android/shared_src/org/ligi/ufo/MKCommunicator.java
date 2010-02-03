@@ -576,11 +576,12 @@ public class MKCommunicator
     }
 
 
-    public void send_extern_control()
-    {
-
-	stats.external_control_request_count++;
-	send_command(FC_SLAVE_ADDR,'b',extern_control);
+    /**
+     * sends the array extern_control as extern_control data
+     */
+    public void send_extern_control()    {
+    	stats.external_control_request_count++;
+    	send_command(FC_SLAVE_ADDR,'b',extern_control);
     }
 
     /*    public void send_keys(int[] params)
@@ -589,11 +590,16 @@ public class MKCommunicator
 	  }*/
     
     // get params
-    public void get_params(int id)
-    {
+    public void get_params(int id)    {
 	wait4send();
 	send_command(FC_SLAVE_ADDR,'q',id+1);
 	stats.params_data_request_count++;
+    }
+    
+    
+    public void set_active_paramset(int id) {
+    	wait4send();
+    	send_command(FC_SLAVE_ADDR,'f',id);
     }
 
    public void get_debug_name(int id)
@@ -771,11 +777,17 @@ public class MKCommunicator
 
 
     
-    public void send_command(int modul,char cmd,int param)
-    {
-	int[] params=new int[1];
-	params[0]=param;
-	send_command(modul,cmd,params);
+    /**
+     * send a command with one int param
+     * 
+     * @param modul
+     * @param cmd
+     * @param param
+     */
+    public void send_command(int modul,char cmd,int param) {
+    	int[] params=new int[1];
+    	params[0]=param;
+    	send_command(modul,cmd,params);
     }
 
     public void send_command_nocheck(byte modul,char cmd,int[] params)
