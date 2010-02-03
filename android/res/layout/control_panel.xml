@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout android:id="@+id/LinearLayout01" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical">
+
+  
+
+
+
+
+
+
+
+<LinearLayout android:id="@+id/LinearLayout02" android:layout_width="wrap_content" android:layout_height="wrap_content"><ToggleButton android:text="@+id/ToggleButton02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/AltitudeHoldToggleButton"></ToggleButton><TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:text="ALT" android:textSize="20dp" android:layout_height="fill_parent" android:layout_marginRight="20dp"></TextView><ToggleButton android:text="@+id/ToggleButton01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/PositionHoldToggleButton"></ToggleButton>
+<TextView android:id="@+id/TextView03" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PH" android:layout_marginRight="20dp" android:textSize="20dp"></TextView><ToggleButton android:text="@+id/ToggleButton03" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/CommingHomeToggleButton"></ToggleButton>
+<TextView android:id="@+id/TextView04" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CH" android:textSize="20dp"></TextView></LinearLayout>
+
+
+<LinearLayout android:id="@+id/LinearLayout03" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:gravity="bottom"><Button android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="Setting 1" android:id="@+id/Setting1Button"></Button><Button android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="Setting 2" android:id="@+id/Setting2Button"></Button><Button android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="Setting 3" android:id="@+id/Setting3Button"></Button><Button android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="Setting 4" android:id="@+id/Setting4Button"></Button><Button android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="Setting 5" android:id="@+id/Setting5Button"></Button>
+
+
+
+</LinearLayout>
+
+
+
+</LinearLayout>
