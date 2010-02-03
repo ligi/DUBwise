@@ -1,11 +1,15 @@
+#
+# Script to generate the String Stuff for Android
+#
+
 require 'rubygems'
 require 'rio'
 require 'iconv'
 
 last_i=0
-puts `rm -rfv langpacks`
-puts `mkdir langpacks`
-langpack=rio("langpacks/l")
+#puts `rm -rfv langpacks`
+#puts `mkdir langpacks`
+#langpack=rio("langpacks/l")
 
 xml_en=rio("res/values-en/strings.xml")
 xml_de=rio("res/values-de/strings.xml")
@@ -16,7 +20,7 @@ xml_de < "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r<resources>"
 xml_fr < "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r<resources>"
 
 
-langdef=rio("../shared/src/org/ligi/ufo/DUBwiseLangDefs.java")
+langdef=rio("shared_src/org/ligi/ufo/DUBwiseLangDefs.java")
 
 langdef < "package org.ligi.ufo;\npublic interface DUBwiseLangDefs \n { \n"
 
