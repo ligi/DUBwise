@@ -1,14 +1,15 @@
 package org.ligi.android.dubwise.helper;
 
 import org.ligi.android.dubwise.R;
-import org.ligi.android.dubwise.R.layout;
 
+import android.os.PowerManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 
 public class ActivityCalls {
@@ -16,6 +17,15 @@ public class ActivityCalls {
 	
 	public static void beforeContent(Activity activity) {
 		activity.requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+
+		final PowerManager pm = (PowerManager) (activity.getSystemService(Context.POWER_SERVICE)); 
+      /*  activity.mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag"); 
+        this.mWakeLock.acquire();
+        
+        */ 
+		 pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag").acquire(); 
+	        
+	        
 	}
 	
 	private static void setCustomTitle(boolean set_new,int value,Activity activity) {
@@ -39,6 +49,8 @@ public class ActivityCalls {
 			((ViewGroup) activity.getWindow().findViewById
 					(titleContainerId)).setVisibility(View.GONE);
 		} catch(Exception ex) {}
+		
+		
 		}
 	
 	public static void afterContent(Activity activity) {
@@ -70,6 +82,9 @@ public class ActivityCalls {
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		else
 			activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	
+		// http://www.anddev.org/viewtopic.php?p=12381
+	
 	}
 
 	public static SharedPreferences getSharedPreferences(Activity activity) {
