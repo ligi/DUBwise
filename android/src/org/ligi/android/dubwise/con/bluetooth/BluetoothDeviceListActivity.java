@@ -52,6 +52,7 @@ public class BluetoothDeviceListActivity extends ListActivity {
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
+				Log.i("DUBwise" , "user clicked on Item - stopping scan");
 				LocalDevice.getInstance().stopScan();
 				
 				// that connections can go through
@@ -59,9 +60,11 @@ public class BluetoothDeviceListActivity extends ListActivity {
 				String btHardwareAddress = btDeviceInfo.substring(btDeviceInfo
 						.length() - 17);
 								
+				Log.i("DUBwise" , "Building Communication adapter for mac " + btHardwareAddress + " name:" +  btDeviceInfo);
 				MKProvider.getMK().setCommunicationAdapter(new BluetoothCommunicationAdapter(btHardwareAddress));
+				Log.i("DUBwise" , "connecting");
 				MKProvider.getMK().connect_to("btspp://"+btHardwareAddress+"",btDeviceInfo );
-			
+				Log.i("DUBwise" , "finishing BluetoothDeviceListActivity");
 				finish();
 			}
 		});
@@ -134,7 +137,7 @@ public class BluetoothDeviceListActivity extends ListActivity {
 		@Override
 		public void deviceFound(RemoteDevice tobounce) {
 			progress_dialog.hide();
-			log("Device found" + tobounce.getFriendlyName());
+			log("Device found name: " + tobounce.getFriendlyName() + " / mac: " + tobounce.getAddress() + " / rssi: " + tobounce.getRSSI() );
 			arrayAdapter
 			.add(tobounce.getFriendlyName() + " - " + tobounce.getAddress());
 		}
