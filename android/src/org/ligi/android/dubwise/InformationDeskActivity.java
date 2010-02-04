@@ -69,12 +69,7 @@ public class InformationDeskActivity
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    public void log(String msg) {
+   public void log(String msg) {
         Log.d("DUWISE", msg);
     }
 
@@ -88,4 +83,9 @@ public class InformationDeskActivity
             startActivity(item.intent);
         
     }
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		ActivityCalls.onDestroy(this);
+	}
 }
