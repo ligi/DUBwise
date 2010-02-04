@@ -2,19 +2,15 @@ package org.ligi.android.dubwise;
 
 import org.ligi.android.dubwise.con.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-
 import android.app.Activity;
-import android.content.SharedPreferences;
 
 public class ControlPanelActivity extends Activity implements OnCheckedChangeListener, OnClickListener {
 
@@ -23,14 +19,7 @@ public class ControlPanelActivity extends Activity implements OnCheckedChangeLis
 		super.onCreate(savedInstanceState);
 		ActivityCalls.beforeContent(this);		
 		setContentView(R.layout.control_panel);
-		/*
-		((CheckBox) findViewById(R.id.FullScreenCheckBox)).setChecked(ActivityCalls.getSharedPreferences(this).getBoolean("do_fullscreen",true));
-		((CheckBox) findViewById(R.id.TitleBarCheckBox)).setChecked(ActivityCalls.getSharedPreferences(this).getBoolean("do_title",true));
-		((CheckBox) findViewById(R.id.ExpertMode)).setChecked(ActivityCalls.getSharedPreferences(this).getBoolean("expert",false));
-		
-		((CheckBox) findViewById(R.id.FullScreenCheckBox)).setOnCheckedChangeListener(this);
-		((CheckBox) findViewById(R.id.TitleBarCheckBox)).setOnCheckedChangeListener(this);
-*/
+
 		((ToggleButton) findViewById(R.id.CommingHomeToggleButton)).setOnCheckedChangeListener(this);
 		((ToggleButton) findViewById(R.id.PositionHoldToggleButton)).setOnCheckedChangeListener(this);
 		((ToggleButton) findViewById(R.id.AltitudeHoldToggleButton)).setOnCheckedChangeListener(this);
@@ -46,7 +35,6 @@ public class ControlPanelActivity extends Activity implements OnCheckedChangeLis
 	
 
 	public void onCheckedChanged(CompoundButton btn, boolean checked) {
-		ActivityCalls.afterContent(this);
 		
 		if(checked) {
 		if ((btn==((ToggleButton) findViewById(R.id.CommingHomeToggleButton))))
@@ -56,9 +44,6 @@ public class ControlPanelActivity extends Activity implements OnCheckedChangeLis
 		if ((btn==((ToggleButton) findViewById(R.id.PositionHoldToggleButton))))
 				((ToggleButton) findViewById(R.id.CommingHomeToggleButton)).setChecked(false);
 		}
-		
-		
-		
 	}
 
 
@@ -86,5 +71,10 @@ public class ControlPanelActivity extends Activity implements OnCheckedChangeLis
 		
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		ActivityCalls.onDestroy(this);
+	}
 
 }
