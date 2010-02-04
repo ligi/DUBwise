@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<LinearLayout android:id="@+id/LinearLayout01" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"><ScrollView android:id="@+id/ScrollView01" android:layout_height="fill_parent" android:layout_width="fill_parent"><TableLayout android:id="@+id/TableLayout01" android:layout_height="fill_parent" android:layout_width="fill_parent"><TableRow android:id="@+id/TableRow01" android:layout_width="wrap_content" android:layout_height="fill_parent"><CheckBox android:layout_height="wrap_content" android:id="@+id/TitleBarCheckBox" android:text="@string/StatusBar" android:layout_width="fill_parent"></CheckBox></TableRow>
-<TableRow android:id="@+id/TableRow02" android:layout_width="wrap_content" android:layout_height="wrap_content"><CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/FullScreenCheckBox" android:text="@string/FullScreen"></CheckBox></TableRow>
-<TableRow android:id="@+id/TableRow03" android:layout_width="wrap_content" android:layout_height="wrap_content"><CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/Logging" android:text="@string/Logging"></CheckBox></TableRow>
+<LinearLayout android:id="@+id/LinearLayout01" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"><ScrollView android:id="@+id/ScrollView01" android:layout_height="fill_parent" android:layout_width="fill_parent"><TableLayout android:id="@+id/TableLayout01" android:layout_height="fill_parent" android:layout_width="fill_parent"><TableRow android:id="@+id/TableRow01" android:layout_width="wrap_content" android:layout_height="fill_parent"><TextView android:id="@+id/TextView05" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Status Bar" android:textSize="20dp"></TextView><CheckBox android:layout_height="wrap_content" android:id="@+id/TitleBarCheckBox" android:layout_width="fill_parent" android:layout_marginLeft="10dp"></CheckBox>
+</TableRow>
+<TableRow android:id="@+id/TableRow02" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:id="@+id/TextView04" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Fullscreen" android:textSize="20dp"></TextView><CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/FullScreenCheckBox" android:layout_marginLeft="10dp"></CheckBox>
+
+
+</TableRow>
+<TableRow android:id="@+id/TableRow05" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Stay awake" android:textSize="20dp"></TextView><Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10dp" android:id="@+id/AwakeSpinner"></Spinner>
+</TableRow><TableRow android:id="@+id/TableRow03" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:id="@+id/TextView02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Logging" android:textSize="20dp"></TextView><CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/Logging" android:layout_marginLeft="10dp"></CheckBox>
+
+</TableRow>
+<TableRow android:id="@+id/TableRow04" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:id="@+id/TextView03" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Expert Mode" android:textSize="20dp"></TextView><CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/ExpertMode" android:layout_marginLeft="10dp"></CheckBox></TableRow>
 </TableLayout>
+
+
 </ScrollView>
 
   
