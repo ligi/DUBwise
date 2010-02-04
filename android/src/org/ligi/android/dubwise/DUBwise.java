@@ -43,14 +43,15 @@ public class DUBwise extends ListActivity {
 		super.onCreate(savedInstanceState);
 	
 		ActivityCalls.beforeContent(this);
-
+		settings = ActivityCalls.getSharedPreferences(this);
 		refresh_list();
 
-		settings = getSharedPreferences("DUBWISE", 0);
+		
 		Log.d("DUWISE", "create");
 	}
 
 	public void refresh_list() {
+		
 		MKCommunicator mk = MKProvider.getMK();
 		Vector<IconicMenuItem> menu_items_vector = new Vector<IconicMenuItem>();
 
@@ -61,6 +62,18 @@ public class DUBwise extends ListActivity {
 				android.R.drawable.ic_menu_preferences, new Intent(this,
 						SettingsActivity.class)));
 
+		
+		if (settings.getBoolean("expert", false))
+		menu_items_vector.add(new IconicMenuItem("OpenGL",
+				android.R.drawable.ic_menu_preferences, new Intent(this,
+						OpenGLActivity.class)));
+
+
+		if (settings.getBoolean("expert", false))
+		menu_items_vector.add(new IconicMenuItem("Control Panel",
+				android.R.drawable.ic_menu_preferences, new Intent(this,
+						ControlPanelActivity.class)));
+		
 		if (mk.connected) {
 			
 				menu_items_vector.add(new IconicMenuItem("Device Details",
@@ -151,6 +164,7 @@ public class DUBwise extends ListActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		ActivityCalls.onDestroy(this);
 	}
 
 	public void log(String msg) {
