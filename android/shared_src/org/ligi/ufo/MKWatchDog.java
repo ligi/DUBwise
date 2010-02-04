@@ -7,7 +7,6 @@
  * see README for further Infos
  *
  *
-
  **************************************/
 package org.ligi.ufo;
 
@@ -20,7 +19,6 @@ public class MKWatchDog
 
 
     public MKWatchDog( MKCommunicator _mk ) {
-
         mk = _mk;
         new Thread( this ).start(); // fire up main Thread
     }
@@ -57,7 +55,7 @@ public class MKWatchDog
 
     // #endif
 
-    int                     intitial_paramset_try = 0;
+    int intitial_paramset_try = 0;
 
 
     public void run() {
@@ -71,14 +69,7 @@ public class MKWatchDog
                 // sleeper=BASE_SLEEP;
                 if (mk.connected && (!mk.force_disconnect))// &&(mk.bootloader_stage==BOOTLOADER_STAGE_NONE))
                 {
-                    // // mk.log("watchdog pre main loop");
-                    // if (mk.init_bootloader)
-                    // {
-                    // mk.jump_bootloader();
-                    // mk.init_bootloader=false;
-                    // }
-                    // else
-
+                   
                     if (mk.is_fake()) { // fake some stuff
                         mk.stats.bytes_in++;
                     }
@@ -136,8 +127,10 @@ public class MKWatchDog
                                      */
                                 }
                                 break;
+                            
                             case USER_INTENT_RAWDEBUG:
-                                if (act_debug_name < 32) {
+                            	// fetch the debug names
+                            	if (act_debug_name < 32) {
 
                                     if (resend_timeout == 0) {
                                         mk.get_debug_name( act_debug_name );
@@ -184,6 +177,7 @@ public class MKWatchDog
                             case USER_INTENT_GPSOSD:
                                 mk.set_gpsosd_interval( mk.primary_abo );
                                 break;
+
                             case USER_INTENT_GRAPH:
                                 mk.set_debug_interval( mk.primary_abo );
                                 break;
