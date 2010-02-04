@@ -5,6 +5,8 @@ import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.android.dubwise.helper.DUBwiseBaseListActivity;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.MKDebugData;
+
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ArrayAdapter;
@@ -49,6 +51,9 @@ public class AnalogValuesActivity extends DUBwiseBaseListActivity implements Run
 	protected void onDestroy() {
 		super.onDestroy();
 		running=false;
+		ActivityCalls.onDestroy(this);
+		
+		
 	}
 	 final Handler mHandler = new Handler();
 	    
