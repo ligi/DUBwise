@@ -1,13 +1,15 @@
 package org.ligi.android.dubwise.flightsettings;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ListView;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import org.ligi.android.dubwise.con.MKProvider;
@@ -26,7 +28,7 @@ public class FlightSettingsActivity extends ListActivity implements Runnable {
 	
 	String[] name_strings=new String[MKParamsParser.MAX_PARAMSETS];
 	ArrayAdapter<String> adapter;
-	
+	AlertDialog alert;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,22 @@ public class FlightSettingsActivity extends ListActivity implements Runnable {
 		for (int i=0;i<MKParamsParser.MAX_PARAMSETS;i++)
             name_strings[i]="-";
 		        
+
+		alert=new AlertDialog.Builder(this).create();
+		
+		
+		
+		alert.setIcon(android.R.drawable.ic_dialog_alert);
+		alert.setTitle("Error");
+		
+		 alert.setButton("OK", new DialogInterface.OnClickListener() {
+		      public void onClick(DialogInterface dialog, int which) {
+		    	  finish();
+		        return;
+		      } }); 
+		
+		
+		
 		if (mk.params.last_parsed_paramset!=MKParamsParser.MAX_PARAMSETS)
 		{
 		    showDialog(DIALOG_PROGRESS);
@@ -70,13 +88,15 @@ public class FlightSettingsActivity extends ListActivity implements Runnable {
 	    		progressDialog.setMax(MKParamsParser.MAX_PARAMSETS);
 	
 	    		return progressDialog;
-	        	
+
+
 	        }
 	        return null;
 	  }
 
 	public void run() {
-		
+		 Looper.prepare();
+
 		mk.user_intent = MKCommunicator.USER_INTENT_PARAMS;
 		while(progressDialog.isShowing()) {
 			
@@ -85,7 +105,12 @@ public class FlightSettingsActivity extends ListActivity implements Runnable {
 			    progressDialog.dismiss();
 				
 			    for (int i=0;i<MKParamsParser.MAX_PARAMSETS;i++)
-                    name_strings[i]=mk.params.getParamName(i );
+			    	{
+			    	name_strings[i]=mk.params.getParamName(i );
+
+					/*if (i==mk.params.act_paramset)
+			    		menu_items[i]+="(Active)"; */ 
+			    	}
 			    
 			    
 			    this.runOnUiThread( new Runnable() {
@@ -112,6 +137,25 @@ public class FlightSettingsActivity extends ListActivity implements Runnable {
 				}
 				System.out.println(" setting last:" +mk.params.last_parsed_paramset );
 				System.out.println(" settings act:" +mk.params.act_paramset);
+								
+				if (mk.params.incompatible_flag!=MKParamsParser.INCOMPATIBLE_FLAG_NOT)
+					{
+					progressDialog.dismiss();
+
+				    this.runOnUiThread( new Runnable() {
+				  
+	                    public void run() {
+	                    	String msg="Incompatible Params (Datarevision " + mk.params.params_version+")";
+	                    	if (mk.params.incompatible_flag==MKParamsParser.INCOMPATIBLE_FLAG_FC_TOO_OLD)
+	                    		msg+=" Please Update your FC!";
+	                    	else
+	                    		if (mk.params.incompatible_flag==MKParamsParser.INCOMPATIBLE_FLAG_FC_TOO_NEW)
+		                    		msg+=" Please Update DUBwise!";
+	                    	
+	                    	alert.setMessage(msg);
+	                    	alert.show(); }});
+					}
+					
 			}
 		}
 		
