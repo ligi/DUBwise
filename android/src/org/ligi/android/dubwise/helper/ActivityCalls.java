@@ -1,8 +1,10 @@
 package org.ligi.android.dubwise.helper;
 
 import org.ligi.android.dubwise.R;
+import org.ligi.android.dubwise.SettingsActivity;
 
 import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -14,18 +16,27 @@ import android.content.SharedPreferences;
 
 public class ActivityCalls {
 
+	static WakeLock mWakeLock;
 	
 	public static void beforeContent(Activity activity) {
 		activity.requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 
+		if (getSharedPreferences(activity).getInt("awake", 0) !=SettingsActivity.AWAKE_NEVER) 
+		{
+			if (mWakeLock==null) {
 		final PowerManager pm = (PowerManager) (activity.getSystemService(Context.POWER_SERVICE)); 
-      /*  activity.mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag"); 
-        this.mWakeLock.acquire();
+		mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag"); } 
+        mWakeLock.acquire();
+		}
         
-        */ 
-		 pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag").acquire(); 
+		// pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag").acquire(); 
 	        
 	        
+	}
+	
+	public static void onDestroy(Activity activity) {
+		if(mWakeLock!=null)
+			mWakeLock.release();
 	}
 	
 	private static void setCustomTitle(boolean set_new,int value,Activity activity) {
