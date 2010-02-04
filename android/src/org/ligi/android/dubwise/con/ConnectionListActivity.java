@@ -96,4 +96,9 @@ public class ConnectionListActivity extends DUBwiseBaseListActivity {
 
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		ActivityCalls.onDestroy(this);
+	}
 }

@@ -1,11 +1,8 @@
 package org.ligi.android.dubwise.con;
 
-import org.ligi.android.dubwise.con.bluetooth.BluetoothDeviceListActivity;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.android.dubwise.helper.DUBwiseBaseListActivity;
-import org.ligi.ufo.FakeCommunicationAdapter;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -63,6 +60,7 @@ public class SwitchDeviceListActivity extends DUBwiseBaseListActivity {
                 case ACTIONID_SWITCH_NAVI:
                 	MKProvider.getMK().switch_to_navi();
                 	break;
+
                 case ACTIONID_SWITCH_FC:
                 	MKProvider.getMK().switch_to_fc();
                 	break;
@@ -79,4 +77,9 @@ public class SwitchDeviceListActivity extends DUBwiseBaseListActivity {
 		finish();
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		ActivityCalls.onDestroy(this);
+	}
 }
