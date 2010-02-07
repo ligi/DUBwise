@@ -169,6 +169,8 @@ public class FlightSettingsActivity extends ListActivity implements Runnable {
         
         // select the one touched
         MKProvider.getMK().params.act_paramset=position;
+        MKProvider.getMK().params.update_backup(position);
+        
         /*
         String res="";
         for (int i =0 ; i<MKProvider.getMK().params.field_bak[position].length;i++)
