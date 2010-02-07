@@ -1,7 +1,6 @@
 package org.ligi.android.dubwise;
 
 import java.util.Vector;
-
 import org.ligi.android.dubwise.cockpit.CockpitActivity;
 import org.ligi.android.dubwise.con.ConnectionListActivity;
 import org.ligi.android.dubwise.con.MKProvider;
@@ -14,17 +13,12 @@ import org.ligi.android.dubwise.lcd.LCDActivity;
 import org.ligi.android.dubwise.map.DUBwiseMap;
 import org.ligi.android.dubwise.piloting.PilotingListActivity;
 import org.ligi.ufo.MKCommunicator;
-
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
-
 import android.util.Log;
-
-import android.net.Uri;
-
 import android.content.SharedPreferences;
 
 public class DUBwise extends ListActivity {
@@ -135,9 +129,7 @@ public class DUBwise extends ListActivity {
 		menu_items_vector.add(new IconicMenuItem("Information Desk",
 				android.R.drawable.ic_menu_info_details, new Intent(this,
 						InformationDeskActivity.class)));
-		// i menu_items_vector.add(new IconicMenuItem("About" ,
-		// android.R.drawable.ic_menu_info_details, new Intent(
-		// "android.intent.action.VIEW", Uri.parse( "http://www.ligi.de/" ))));
+
 		// menu_items_vector.add(new IconicMenuItem("Quit" ,
 		// android.R.drawable.ic_menu_close_clear_cancel,ACTIONID_QUIT));
 
@@ -150,8 +142,8 @@ public class DUBwise extends ListActivity {
 	protected void onResume() {
 		super.onResume();
 		ActivityCalls.afterContent(this);
-		Log.d("DUBWISE", "resume");
-
+		MKProvider.getMK().do_log=settings.getBoolean("logging", false);
+		Log.d("DUBWISE", "onResume");
 		refresh_list();
 	}
 
