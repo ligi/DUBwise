@@ -88,6 +88,7 @@ public class BluetoothDeviceListActivity extends ListActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 		LocalDevice.getInstance().stopScan();
+		ActivityCalls.onDestroy(this);
 	}
 	
 	private boolean scanning=false;
