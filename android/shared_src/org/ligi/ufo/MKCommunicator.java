@@ -142,7 +142,7 @@ public class MKCommunicator
     public void log(String str)
     {
 //#ifdef android
-	//if (do_log)	Log.d("MK-Comm",str);
+    	if (do_log)	Log.d("MK-Comm",str);
 //#endif
 //	canvas.debug.log(str);
 	//	System.out.println(str);
@@ -1430,7 +1430,9 @@ public class MKCommunicator
 		if (!connected) 
 		    {
 			sleep(10);
+		
 			if (!force_disconnect) connect();
+			log ("not connected - forced:" + force_disconnect);
 		    }
 		else  if (slave_addr==FAKE_SLAVE_ADDR)
 		    {
@@ -1471,7 +1473,7 @@ public class MKCommunicator
 				for ( pos=0;pos<read_count;pos++)
 				    {
 				    //data_in_buff[pos]+=127;
-				    log("" +data_in_buff[pos] + "->" + (char)data_in_buff[pos]);
+				    //log("" +data_in_buff[pos] + "->" + (char)data_in_buff[pos]);
 					if ((data_in_buff[pos]==13)||(data_in_buff[pos]==10))
 					    {
 						data_buff[data_buff_pos]=new String(data_set, 0, data_set_pos);
