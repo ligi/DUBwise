@@ -57,6 +57,7 @@ public class MKWatchDog
 
     int intitial_paramset_try = 0;
 
+    int abo_timeout=0;
 
     public void run() {
         mk.log( "starting Watchdog" );
@@ -69,6 +70,7 @@ public class MKWatchDog
                 // sleeper=BASE_SLEEP;
                 if (mk.connected && (!mk.force_disconnect))// &&(mk.bootloader_stage==BOOTLOADER_STAGE_NONE))
                 {
+                	abo_timeout+=BASE_SLEEP;
                    
                     if (mk.is_fake()) { // fake some stuff
                         mk.stats.bytes_in++;
@@ -88,7 +90,32 @@ public class MKWatchDog
                     else if (mk.is_mk() && (mk.mixer_manager.state==MixerManager.STATE_NO_DATA))
                     		mk.trigger_mixer_read();
                     else
-                        switch (mk.user_intent) {
+                    	// set abos every 2 seconds
+                    	if (abo_timeout>1000)
+                    	{
+                    		mk.log("regenerating abos");
+                    		switch (mk.user_intent) {
+                    		case USER_INTENT_RAWDEBUG:
+                    		case USER_INTENT_GRAPH:
+                    			mk.set_debug_interval( mk.primary_abo );
+                    			mk.set_gpsosd_interval( mk.secondary_abo );
+                    			break;
+
+                            case USER_INTENT_GPSOSD:
+                    			mk.set_gpsosd_interval( mk.primary_abo );
+                                mk.set_debug_interval( mk.secondary_abo );
+                                break;
+
+                            default:
+                            	mk.set_gpsosd_interval( mk.secondary_abo );
+                                mk.set_debug_interval( mk.secondary_abo );
+                            	break;
+                            	
+                    		}
+                    		abo_timeout=0;
+                    	}                   	
+                    else
+                    	switch (mk.user_intent) {
                             case USER_INTENT_PARAMS:
 
                                 // do fake parsing
@@ -146,8 +173,12 @@ public class MKWatchDog
                                         resend_timeout--;
 
                                 }
-                                else if (!(mk.debug_data.got_name[0]))
-                                    act_debug_name = 0;
+                                else 
+                                	 if (!(mk.debug_data.got_name[0]))
+                                		act_debug_name = 0;
+                                                                 
+                                
+                                	
 
                                 break;
 
@@ -174,16 +205,7 @@ public class MKWatchDog
 
                                 break;
 
-                            case USER_INTENT_GPSOSD:
-                                mk.set_gpsosd_interval( mk.primary_abo );
-                                break;
-
-                            case USER_INTENT_GRAPH:
-                                mk.set_debug_interval( mk.primary_abo );
-                                break;
-
                             case USER_INTENT_FOLLOWME:
-
                                 // once a second
                                 if (last_fm_send != (System.currentTimeMillis() / 1000)) {
                                     last_fm_send = (int)(System.currentTimeMillis() / 1000);
@@ -202,7 +224,6 @@ public class MKWatchDog
                         if ((conn_check_timeout++) * BASE_SLEEP > 3000) {
                             conn_check_timeout = 0;
                             mk.close_connections( false );
-
                         }
                         else
                             conn_check_timeout = 0;
@@ -218,7 +239,6 @@ public class MKWatchDog
             }
         }
 
-        // mk.log("watchdog quit");
     }
 
 }
