@@ -1,5 +1,6 @@
 package org.ligi.android.dubwise;
 
+import org.ligi.android.dubwise.con.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 
 import android.os.Bundle;
@@ -31,12 +32,13 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 		((CheckBox) findViewById(R.id.FullScreenCheckBox)).setChecked(ActivityCalls.getSharedPreferences(this).getBoolean("do_fullscreen",true));
 		((CheckBox) findViewById(R.id.TitleBarCheckBox)).setChecked(ActivityCalls.getSharedPreferences(this).getBoolean("do_title",true));
 		((CheckBox) findViewById(R.id.ExpertMode)).setChecked(ActivityCalls.getSharedPreferences(this).getBoolean("expert",false));
+		((CheckBox) findViewById(R.id.Logging)).setChecked(ActivityCalls.getSharedPreferences(this).getBoolean("do_log",false));
 		
 		((CheckBox) findViewById(R.id.FullScreenCheckBox)).setOnCheckedChangeListener(this);
 		((CheckBox) findViewById(R.id.TitleBarCheckBox)).setOnCheckedChangeListener(this);
 		((CheckBox) findViewById(R.id.ExpertMode)).setOnCheckedChangeListener(this);
+		((CheckBox) findViewById(R.id.Logging)).setOnCheckedChangeListener(this);
 
-		
 		
 		Spinner awake_spinner=((Spinner) findViewById(R.id.AwakeSpinner));
 		awake_spinner.setOnItemSelectedListener(this);
@@ -73,8 +75,14 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 	
 		editor.putBoolean("expert",
 				(((CheckBox) findViewById(R.id.ExpertMode)).isChecked()));
-	
+		
+		editor.putBoolean("do_log",
+				((CheckBox) findViewById(R.id.Logging)).isChecked());
+		
 		editor.putInt("awake", ((Spinner) findViewById(R.id.AwakeSpinner)).getSelectedItemPosition() );
+
+		MKProvider.getMK().do_log=((CheckBox) findViewById(R.id.Logging)).isChecked();
+		
 		editor.commit();
 
 	}
