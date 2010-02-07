@@ -6,7 +6,8 @@ import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.MKStickData;
 
 import android.os.Bundle;
-import android.view.ViewGroup.LayoutParams;
+import android.os.Handler;
+import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
@@ -19,12 +20,10 @@ import android.app.Activity;
 public class RCDataActivity extends Activity implements Runnable
 {
 
-	
-	ProgressBar[] progress_bars;
-	
-	int channels = MKStickData.MAX_STICKS;
+	private boolean dead=false;
+	private ProgressBar[] progress_bars;
+	private int channels = MKStickData.MAX_STICKS;
 
-	// public MapView map;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -67,28 +66,48 @@ public class RCDataActivity extends Activity implements Runnable
 
 		setContentView(scroll);
 
+		dead=false;
 		new Thread(this).start();
 
 	}
-
-
+	
 	@Override
 	protected void onResume() {
 		super.onResume();
 		ActivityCalls.afterContent(this);
 	}
 
-	
+	 final Handler mHandler = new Handler();
+	    
+	 	// Create runnable for posting
+	   final Runnable mUpdateResults = new Runnable() {
+	       public void run() {
+	    	   for (int i=0;i<channels;i++)
+				{
+					progress_bars[i].setProgress(MKProvider.getMK().stick_data.stick[i]+127);
+				Log.i("DUBwise","channel " + i + " " + MKProvider.getMK().stick_data.stick[i]);
+				}	
+	       }
+	    };
+
 	public void run() {
 		MKProvider.getMK().user_intent=MKCommunicator.USER_INTENT_RCDATA;
-		while (!this.isFinishing()) {
-			for (int i=0;i<channels;i++)
-				progress_bars[i].setProgress(MKProvider.getMK().stick_data.stick[i]+127);
-				
+		while (!dead) {
+			mHandler.post(mUpdateResults);
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {	}
 			
 		}
 	}
+
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		ActivityCalls.onDestroy(this);
+		dead=true;
+	}
+
+
 }
