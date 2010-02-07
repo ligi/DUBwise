@@ -141,9 +141,9 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 		Bitmap kopter_icon = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(this.getResources(),
 				R.drawable.icon),32,32,true);
 		
-	/*	MenuItem settings_menu=menu.add(0,MENU_SETTINGS,0,"Settings");
+		MenuItem settings_menu=menu.add(0,MENU_SETTINGS,0,"Settings");
 		settings_menu.setIcon(android.R.drawable.ic_menu_preferences);
-		*/
+	
 		
 		MenuItem freeze_menu=menu.add(0,MENU_ZOOM_KOPTER,0,"Zoom to UFO");
 		freeze_menu.setIcon(new BitmapDrawable(kopter_icon));
@@ -177,18 +177,13 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	    	mapView.getController().setZoom(14);
 	    	
 	    	return true;
-	    }
-	    /*
-	    case MENU_FREEZE:
-	    	MKProvider.getMK().freeze_debug_buff=!MKProvider.getMK().freeze_debug_buff;
-	    	break;
-	    	
+	
 	    case MENU_SETTINGS:
-	        //quit();
-	    	startActivity(new Intent(this, GraphSettingsActivity.class));
+	    	startActivity(new Intent(this, MapSettingsActivity.class));
 	        return true;
+	
 	    }
-	*/
+	    
 	    return false;
 	}
 
