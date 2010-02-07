@@ -62,7 +62,7 @@ public class ActivityCalls {
 		} catch(Exception ex) {}
 		
 		
-		}
+	} // end of setCustomTitle
 	
 	public static void afterContent(Activity activity) {
 		System.out.println("oncreate activity" + activity);
