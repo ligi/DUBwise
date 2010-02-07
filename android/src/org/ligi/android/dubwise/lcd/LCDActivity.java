@@ -17,18 +17,29 @@
 package org.ligi.android.dubwise.lcd;
 
 import org.ligi.android.dubwise.con.MKProvider;
+import org.ligi.android.dubwise.con.SwitchDeviceListActivity;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.ufo.MKCommunicator;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class LCDActivity extends Activity implements OnTouchListener {
 	
@@ -65,6 +76,8 @@ public class LCDActivity extends Activity implements OnTouchListener {
 
 	public final static int MENU_PREV=0;
 	public final static int MENU_NEXT=1;
+	private static final int MENU_SWITCH = 2;
+	private static final int MENU_GOTO = 3;
 	
 	
 	/* Creates the menu items */
@@ -72,6 +85,13 @@ public class LCDActivity extends Activity implements OnTouchListener {
 	    
 		MenuItem prev_menu=menu.add(0,MENU_PREV,0,"Previous");
 		prev_menu.setIcon(android.R.drawable.btn_minus);
+
+		MenuItem switch_menu=menu.add(0,MENU_SWITCH,0,"Switch Device");
+		switch_menu.setIcon(android.R.drawable.ic_menu_edit);
+
+		MenuItem goto_menu=menu.add(0,MENU_GOTO,0,"Goto Page");
+		goto_menu.setIcon(android.R.drawable.ic_menu_mylocation);
+
 		
 		MenuItem next_menu=menu.add(0,MENU_NEXT,0,"NEXT");
 		next_menu.setIcon(android.R.drawable.btn_plus);
@@ -89,6 +109,59 @@ public class LCDActivity extends Activity implements OnTouchListener {
 	    case MENU_PREV:
 	    	MKProvider.getMK().LCD.LCD_PREVPAGE();
 	    	return true;
+	    case MENU_SWITCH:
+	    	startActivity(new Intent(this,SwitchDeviceListActivity.class));
+	    	return true;
+	    
+	    case MENU_GOTO:
+	    	
+	    	LinearLayout lin=new LinearLayout(this);
+	    	
+	    	
+	    	final SeekBar page_seeker=new SeekBar(this);
+	    	page_seeker.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+	    	page_seeker.setMax(MKProvider.getMK().LCD.pages);
+	    	final TextView page_txt=new TextView(this);
+	    	page_txt.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20.0f);
+	    	page_txt.setPadding(5, 0, 5, 0);
+	    	page_txt.setText(""+1);
+	    	lin.addView(page_txt);
+	    	lin.addView(page_seeker);
+	    	class PageSeekListener implements OnSeekBarChangeListener {
+				@Override
+				public void onProgressChanged(SeekBar arg0, int arg1,
+						boolean arg2) {
+					page_txt.setText(""+(arg1+1));
+					
+				}
+
+				@Override
+				public void onStartTrackingTouch(SeekBar arg0) {
+				}
+
+				@Override
+				public void onStopTrackingTouch(SeekBar arg0) {
+				}
+	    		
+	    	}
+	    	page_seeker.setOnSeekBarChangeListener(new PageSeekListener());
+	    	new AlertDialog.Builder(this).setTitle("Jump").setMessage("Jump to which Page?").setView(lin)
+			.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				//String value = input.getText().toString(); 
+					MKProvider.getMK().LCD.set_page(page_seeker.getProgress()+1);
+				
+	
+			}
+			}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+			// Do nothing.
+			}
+			}).show();
+
+	    	return true;
+	    
+	    	
 	    }
 	    return false;
 	}
