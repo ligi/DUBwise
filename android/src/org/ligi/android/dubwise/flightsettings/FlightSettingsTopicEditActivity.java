@@ -41,6 +41,7 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 
 	private static final int MENU_SAVE = 0;
 	private static final int MENU_HELP = 1;
+	private static final int MENU_UNDO = 2;
 
 	String[] menu_items;
 	
@@ -60,15 +61,21 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 		super.onCreate(savedInstanceState);
 		
 		ActivityCalls.beforeContent(this);
-/*
+
+		act_topic=getIntent().getIntExtra("topic",1);
+		
+		/*
+ * 
 		menu_items=new String[MKProvider.getMK().params.tab_stringids.length];
 		for (int i=0;i<menu_items.length;i++)
 		menu_items[i]=getString(DUBwiseStringHelper.table[MKProvider.getMK().params.tab_stringids[i]]);
 		*/     
-		
+		do_layout();
+	}
+
+	public void do_layout() {
 		ScrollView view=new ScrollView(this);
 		
-		act_topic=getIntent().getIntExtra("topic",1);
 		menu_items=new String[MKProvider.getMK().params.field_stringids[act_topic].length];
     
 		spinners=new Spinner[menu_items.length];;
@@ -227,8 +234,8 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 		
         view.addView(table);
         this.setContentView(view);
-	}
 
+	}
 	@Override 
 	public void onResume() {
 		super.onResume();
@@ -293,6 +300,9 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 		MenuItem settings_menu=menu.add(0,MENU_SAVE,0,"Write");
 		settings_menu.setIcon(android.R.drawable.ic_menu_save);
 	    
+		MenuItem undo_menu=menu.add(0,MENU_UNDO,0,"Undo");
+		undo_menu.setIcon(android.R.drawable.ic_menu_revert);
+	    
 		MenuItem help_menu=menu.add(0,MENU_HELP,0,"Help");
 		help_menu.setIcon(android.R.drawable.ic_menu_help);
 
@@ -311,7 +321,11 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 	    case MENU_HELP:
 	    	this.startActivity(new Intent( "android.intent.action.VIEW", 
         		Uri.parse( "http://www.mikrokopter.de/ucwiki/en/MK-Parameter")));
-	        return true;
+	    	return true;
+	    case MENU_UNDO:
+	    	MKProvider.getMK().params.use_backup();
+	    	do_layout();
+	    	return true;
 	    }
 	    return false;
 	}
