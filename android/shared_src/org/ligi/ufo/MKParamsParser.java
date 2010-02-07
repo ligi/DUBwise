@@ -20,7 +20,8 @@ public class MKParamsParser  extends ParamsClass
 	public final static byte INCOMPATIBLE_FLAG_NOT=0;
 	public final static byte INCOMPATIBLE_FLAG_FC_TOO_OLD=1;
 	public final static byte INCOMPATIBLE_FLAG_FC_TOO_NEW=2;
-	
+
+	// be positive that the params are not incompatible
 	public byte incompatible_flag=INCOMPATIBLE_FLAG_NOT;
 	
     public int[] poti_pos;
@@ -58,9 +59,10 @@ public class MKParamsParser  extends ParamsClass
     /** set the field val for the act paramset at a given position **/
     public void set_field_from_act(int pos,int val)
     { 
-	if (val>255) val=255;
-	if (val<0) val=255;
- 	field[act_paramset][pos]=val;
+    	// clip values
+    	if (val>255) val=255;
+    	if (val<0) val=0;
+    	field[act_paramset][pos]=val;
     }
 
 
@@ -103,8 +105,8 @@ public class MKParamsParser  extends ParamsClass
 		  
 		}
 
-	stick_stringids=new int[10];
-	for (int i=0;i<10;i++)
+	stick_stringids=new int[MKStickData.MAX_STICKS];
+	for (int i=0;i<MKStickData.MAX_STICKS;i++)
 	    stick_stringids[i]=STRINGID_NOTREADYET;
 	poti_pos=new int[5];
     }
@@ -128,21 +130,19 @@ public class MKParamsParser  extends ParamsClass
 
     public void use_backup()
     {
-	set_by_mk_data(field_bak[act_paramset]);
+    	set_by_mk_data(field_bak[act_paramset]);
     }
 
     public void update_backup(int to)
     {	
-	for ( int i=0 ; i<field[act_paramset].length;i++)
-	
+    	for ( int i=0 ; i<field[act_paramset].length;i++)
 	    {
-		field_bak[to][i+2]=field[act_paramset][i];
-		field[to][i]=field[act_paramset][i];
+    		field_bak[to][i+2]=field[act_paramset][i];
+    		field[to][i]=field[act_paramset][i];
 	    }
 
-	field_bak[to][0]=to+1;
-	field_bak[to][1]=params_version;
-
+    	field_bak[to][0]=to+1;
+    	field_bak[to][1]=params_version;
     }
 
     public void reset()
