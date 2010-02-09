@@ -45,12 +45,21 @@ public class MixerManager
 	public String getName() {
 		return name;
 	}
+	
+	public void setName(String name) {
+		this.name=name;
+	}
 
 	public byte[] getValuesByType(byte type) {
 		byte[] res=new byte[12];
 		for ( int i=0;i<12;i++)
 			res[i]=data_array[i*4+type];
 		return res;
+	}
+	
+	public void setValuesByType(byte type,byte[] arr) {
+		for ( int i=0;i<12;i++)
+			data_array[i*4+type]=arr[i];
 	}
 
 	int mixer_version;

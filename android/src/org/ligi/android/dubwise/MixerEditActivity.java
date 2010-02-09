@@ -21,7 +21,6 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
@@ -123,7 +122,7 @@ public class MixerEditActivity extends Activity implements OnItemSelectedListene
 			}
 			table.addView(new_row);
 		}
-		refresh_content( ) ;
+		copyMixerManagerValues2Layout( ) ;
 		/*
         for (int i=0;i<menu_items.length;i++)
         {
@@ -258,7 +257,10 @@ public class MixerEditActivity extends Activity implements OnItemSelectedListene
 		Log.d("DUWISE", msg);
 	}
 
-	public void refresh_content( ) {
+	/**
+	 * copy the values in MixerManager to the Layout
+	 */
+	public void copyMixerManagerValues2Layout() {
 		for (byte type=0;type<4;type++) {
 			byte[]	data= MKProvider.getMK().mixer_manager.getValuesByType(type);
 			
@@ -267,14 +269,36 @@ public class MixerEditActivity extends Activity implements OnItemSelectedListene
 			}
 		
 		name_edit.setText(MKProvider.getMK().mixer_manager.getName());
-		table.requestLayout();
+
+		table.requestLayout(); // relayout the table 
 	}
+
+
+	/**
+	 * copy the values in the Layout to the MixerManager
+	 */
+	public void copyLayoutValues2MixerManager() {
+		byte[]	data= new byte[12];
+		
+		for (byte type=0;type<4;type++) 
+			for (int row=0;row<12;row++)					
+				{
+				data[row]=(byte)Integer.parseInt(""+edit_texts[row][type].getText());
+				MKProvider.getMK().mixer_manager.setValuesByType(type, data);
+				}
+		
+		MKProvider.getMK().mixer_manager.setName(""+name_edit.getText());
+		
+	}
+
+	
 	
 	/* Handles item selections */
 	public boolean onOptionsItemSelected(MenuItem item) {
 		
 	    switch (item.getItemId()) {
 	    case MENU_SAVE:
+	    	copyLayoutValues2MixerManager();
 	    	MKProvider.getMK().set_mixer_table( MKProvider.getMK().mixer_manager.getFCArr());
 	    	break;
 	    case MENU_HELP:
@@ -298,7 +322,7 @@ public class MixerEditActivity extends Activity implements OnItemSelectedListene
 		//		String value = input.getText().toString(); 
 				byte id=(byte) spinner.getSelectedItemId();
 				MKProvider.getMK().mixer_manager.setDefaultValues(id);
-				refresh_content( ) ;
+				copyMixerManagerValues2Layout( ) ;
 			}
 			}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
