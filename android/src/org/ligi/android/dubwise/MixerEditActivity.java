@@ -1,6 +1,8 @@
 package org.ligi.android.dubwise;
 
 
+import java.util.Map;
+
 import org.ligi.android.dubwise.con.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.ufo.MixerManager;
@@ -10,6 +12,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -40,8 +43,11 @@ public class MixerEditActivity extends Activity implements OnItemSelectedListene
 
 	private static final int MENU_LOAD = 0;
 	private static final int MENU_HELP = 1;
-	private static final int MENU_SAVE = 2;
+	private static final int MENU_SAVE_TO_FC = 2;
+	private static final int MENU_SAVE_TO_PHONE = 3;
 
+	private final static String SHARED_PREFS_MIXER_TAG="DUBwise-mixers";
+	
 	String[] menu_items;
 	
 	// 	each is tagged with the id of the row
@@ -297,9 +303,18 @@ public class MixerEditActivity extends Activity implements OnItemSelectedListene
 	public boolean onOptionsItemSelected(MenuItem item) {
 		
 	    switch (item.getItemId()) {
-	    case MENU_SAVE:
+	    case MENU_SAVE_TO_FC:
 	    	copyLayoutValues2MixerManager();
 	    	MKProvider.getMK().set_mixer_table( MKProvider.getMK().mixer_manager.getFCArr());
+	    	break;
+	    	
+	    case MENU_SAVE_TO_PHONE:
+	    	/*Map<String,?> mixer=this.getSharedPreferences("foo", 0).getAll();
+	    	SharedPreferences.Editor edit= this.getSharedPreferences(SHARED_PREFS_MIXER_TAG, 0).edit();
+	    	edit.p .putString(arg0, arg1)
+	    	
+	    	"as".sp
+	    	*/
 	    	break;
 	    case MENU_HELP:
 	    	this.startActivity(new Intent( "android.intent.action.VIEW", 
@@ -392,10 +407,15 @@ public class MixerEditActivity extends Activity implements OnItemSelectedListene
 	/* Creates the menu items */
 	public boolean onCreateOptionsMenu(Menu menu) {
 
-		MenuItem write_menu=menu.add(0,MENU_SAVE,0,"Write");
+		MenuItem write_menu=menu.add(0,MENU_SAVE_TO_FC,0,"Write to FC");
 		write_menu.setIcon(android.R.drawable.ic_menu_save);
 		
-		MenuItem load_menu=menu.add(0,MENU_LOAD,0,"Load Default");
+		/*MenuItem write_phone_menu=menu.add(0,MENU_SAVE_TO_PHONE,0,"Save on Phone");
+		write_phone_menu.setIcon(android.R.drawable.ic_menu_save);
+		*/
+		
+		
+		MenuItem load_menu=menu.add(0,MENU_LOAD,0,"Load");
 		load_menu.setIcon(android.R.drawable.ic_menu_set_as);
 	
 		MenuItem help_menu=menu.add(0,MENU_HELP,0,"Help");
