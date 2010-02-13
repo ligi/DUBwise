@@ -5,8 +5,10 @@ import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.android.dubwise.helper.DUBwiseStringHelper;
 import org.ligi.ufo.MKParamsGeneratedDefinitions;
 import org.ligi.ufo.MKParamsParser;
+import org.ligi.ufo.MKStickData;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -53,7 +56,9 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 	TableRow[] bitmask_row;
 	EditText[] bitmask_edittext;
 	CheckBox[][] bitmask_checkbox;
-	
+
+	ScrollView view;
+
 	// public MapView map;
 	/** Called when the activity is first created. */
 	@Override
@@ -73,9 +78,10 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 		do_layout();
 	}
 
+
 	public void do_layout() {
-		ScrollView view=new ScrollView(this);
-		
+	
+		view=new ScrollView(this);
 		menu_items=new String[MKProvider.getMK().params.field_stringids[act_topic].length];
     
 		spinners=new Spinner[menu_items.length];;
@@ -86,7 +92,13 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
         bitmask_checkbox=new CheckBox[menu_items.length][8];
         
         TableLayout table=new TableLayout(this);
-		
+/*
+        LinearLayout dummy=new LinearLayout(this);
+        dummy.setFocusable(true);
+        dummy.setFocusableInTouchMode(true);
+        table.addView(dummy);
+        
+        */
 		LayoutParams lp=new TableLayout.LayoutParams();
 		lp.width=LayoutParams.FILL_PARENT;
 		table.setLayoutParams(lp);
@@ -99,6 +111,8 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
         	table.addView(row);
 			row.setPadding(0, 5, 0, 5);
 			TextView text_v=new TextView(this);
+			//text_v.setFocusable(true);
+			text_v.setFocusableInTouchMode(true);
         	text_v.setText(DUBwiseStringHelper.table[MKProvider.getMK().params.field_stringids[act_topic][i]]);
         	text_v.setMinHeight(50);
         	text_v.setPadding(3, 0, 5, 0);
@@ -112,19 +126,31 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 
         	case MKParamsGeneratedDefinitions.PARAMTYPE_STICK:
         		Spinner spinner=new Spinner(this);
-        		String stick_strings[]=new String[12];
+        		String stick_strings[]=new String[12*2+1];
         		
-        		for (int stick=0;stick<12;stick++)
+        		for (int stick=0;stick<MKStickData.MAX_STICKS;stick++)
         			stick_strings[stick]="Channel "+(stick+1);
 
+        		for (int stick=0;stick<MKStickData.MAX_STICKS;stick++)
+        			stick_strings[stick+MKStickData.MAX_STICKS]="Serial "+(stick+1);
+        		
+        		stick_strings[MKStickData.MAX_STICKS*2]="Unassigned";
+
+        		
          		ArrayAdapter<String> spinner_adapter = new ArrayAdapter<String>(this,
         	            android.R.layout.simple_spinner_item , stick_strings);
 
          		spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
          		spinner.setAdapter(spinner_adapter);
-         		spinner.setSelection(params.field[params.act_paramset][params.field_positions[act_topic][i]]);
-        		row.addView(spinner);
+         		Log.i("DUBwise","want to set to" + params.field[params.act_paramset][params.field_positions[act_topic][i]]);
+         		int stick_id=params.field[params.act_paramset][params.field_positions[act_topic][i]];
+         		if (stick_id>MKStickData.MAX_STICKS*2)
+         			spinner.setSelection(MKStickData.MAX_STICKS*2);
+         		else
+         			spinner.setSelection(stick_id);
+
+         		row.addView(spinner);
         		break;
 
         	case MKParamsGeneratedDefinitions.PARAMTYPE_BITSWITCH:
@@ -170,6 +196,8 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
         		
         	case MKParamsGeneratedDefinitions.PARAMTYPE_MKBYTE:
         		edit_texts[i]=new EditText(this);
+        	//	edit_texts[i].setFocusableInTouchMode(false);
+        		
         		edit_texts[i].setText("" +params.field[params.act_paramset][params.field_positions[act_topic][i]] );
         		
         		edit_texts[i].setTag(new Integer(i));
@@ -226,16 +254,20 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
         	    
         		row.addView(edit_texts[i]);
         		row.addView(spinners[i]);
+        		edit_texts[i].clearFocus();
+        		edit_texts[i].setPressed(false);
         		break;
         	}
         	
+        	
         }
-        
-		
+			
+        //this.set
         view.addView(table);
         this.setContentView(view);
-
-	}
+    
+                
+	} // do_layout()
 	@Override 
 	public void onResume() {
 		super.onResume();
