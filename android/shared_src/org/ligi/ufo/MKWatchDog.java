@@ -51,7 +51,9 @@ public class MKWatchDog
     // #ifdef android
     // public final static int BASE_SLEEP=50;
     // #else
-    public final static int BASE_SLEEP            = 10;
+
+    // TODO make base sleep adjustable
+    public final static int BASE_SLEEP            = 50;
 
     // #endif
 
@@ -209,7 +211,7 @@ public class MKWatchDog
                                 // once a second
                                 if (last_fm_send != (System.currentTimeMillis() / 1000)) {
                                     last_fm_send = (int)(System.currentTimeMillis() / 1000);
-                                    mk.send_follow_me( 60 );
+                                    mk.send_follow_me( 60,0,0 );
                                 }
 
                                 break;
