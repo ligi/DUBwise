@@ -13,7 +13,7 @@ package org.ligi.ufo;
 
 
 public abstract class ParamsClass
-    implements MKParamDefinitions
+    implements MKParamsGeneratedDefinitions
 {
 
     public int[]   tab_stringids;
