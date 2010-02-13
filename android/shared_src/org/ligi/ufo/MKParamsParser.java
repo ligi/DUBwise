@@ -11,7 +11,6 @@
 package org.ligi.ufo;
 
 
-
 public class MKParamsParser  extends ParamsClass
     implements MKParamsGeneratedDefinitions,org.ligi.ufo.DUBwiseLangDefs
 
@@ -108,7 +107,7 @@ public class MKParamsParser  extends ParamsClass
 	stick_stringids=new int[MKStickData.MAX_STICKS];
 	for (int i=0;i<MKStickData.MAX_STICKS;i++)
 	    stick_stringids[i]=STRINGID_NOTREADYET;
-	poti_pos=new int[5];
+	poti_pos=new int[8];
     }
 
     public  int length=0;
@@ -164,11 +163,12 @@ public class MKParamsParser  extends ParamsClass
 	return res;
     }
 
+    
+    
     public void set_by_mk_data(int[] in_arr)
     {
 	params_version=in_arr[1];
 	int definition_pos=params_version-73;
-
 
 	if ((definition_pos<0)||( (definition_pos>=all_tab_stringids.length))) 
 	    {
@@ -181,8 +181,6 @@ public class MKParamsParser  extends ParamsClass
 		found_incompatible=true;
 		return;
 	    }
-
-
 
 	last_parsed_paramset=in_arr[0]-1;
 
@@ -208,14 +206,16 @@ public class MKParamsParser  extends ParamsClass
 	    }
 
 
-	for (int i=0;i<10;i++)
+	for (int i=0;i<MKStickData.MAX_STICKS;i++)
 	    stick_stringids[i]=STRINGID_NONE_ASSIGNED;
 
 	for (int tab=0;tab<tab_stringids.length;tab++)
 	    for (int item=0;item<field_types[tab].length;item++)
 		if (field_types[tab][item]==PARAMTYPE_STICK)
 		    {
-		    stick_stringids[ field[last_parsed_paramset][field_positions[tab][item]] ] = field_stringids[tab][item];
+			if ( field[last_parsed_paramset][field_positions[tab][item]]<12)
+				stick_stringids[ field[last_parsed_paramset][field_positions[tab][item]] ] = field_stringids[tab][item];
+			
 		    switch(field_stringids[tab][item])
 			{
 			case STRINGID_POTI1:
@@ -230,11 +230,37 @@ public class MKParamsParser  extends ParamsClass
 			case STRINGID_POTI4:
 			    poti_pos[3]= field[last_parsed_paramset][field_positions[tab][item]] ;
 			    break;
+			
+			case STRINGID_POTI5:
+			    poti_pos[4]= field[last_parsed_paramset][field_positions[tab][item]] ;
+			    break;
+			    
+			case STRINGID_POTI6:
+			    poti_pos[5]= field[last_parsed_paramset][field_positions[tab][item]] ;
+			    break;
+			    
+			case STRINGID_POTI7:
+			    poti_pos[6]= field[last_parsed_paramset][field_positions[tab][item]] ;
+			    break;
+			
+			case STRINGID_POTI8:
+			    poti_pos[7]= field[last_parsed_paramset][field_positions[tab][item]] ;
+			    break;
+			
 			}
 		    }
-	
+		
+		
     }
 
+    public boolean allParamsetsKnown() {
+    	boolean _tmp_fin=true;
+		for(int i=0;i<MAX_PARAMSETS;i++)
+		{
+			_tmp_fin&=(field_bak[i]!=null);
+		}
+		return _tmp_fin;
+    }
 
 
 }
