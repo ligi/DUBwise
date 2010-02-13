@@ -31,7 +31,8 @@ import org.ligi.ufo.DUBwiseDefinitions;
 import org.ligi.ufo.DUBwiseLangDefs;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.MKFirmwareHelper;
-
+import org.ligi.ufo.MixerManager;
+import org.ligi.ufo.FakeCommunicationAdapter;
 
 public class DUBwiseCanvas
     extends Canvas
@@ -63,12 +64,14 @@ public class DUBwiseCanvas
 			phone_long = coords.getLongitude();
 			phone_lat = coords.getLatitude();
 			
+			/*
 			if (mk!=null)
 			    {
 				mk.lat=(long)phone_lat*10000000;
 				mk.lon=(long)phone_long*10000000;
 
 			    }
+			*/
 			// Start thread for handling the new coordinates
                                 // (...)
 			}
@@ -565,7 +568,11 @@ public class DUBwiseCanvas
 
 		    case STATEID_SELECT_MIXER:
 			if (act_menu_select<menu_items.length-1)
-			    mk.set_mixer_table(mixer_manager.bytes(act_menu_select));
+			    // mk.set_mixer_table(mixer_manager.bytes(act_menu_select));
+			    {
+				mixer_manager.setDefaultValues(act_menu_select);
+				mk.set_mixer_table(mixer_manager.getFCArr());
+			    }
 			else
 			    chg_state(STATEID_MAINMENU);
 
@@ -639,6 +646,7 @@ public class DUBwiseCanvas
 
 			if (bt_scanner.remote_device_count > act_menu_select)
 			    {
+				
 				connect_mk("btspp://"+bt_scanner.remote_device_mac[act_menu_select] + ":1",bt_scanner.remote_device_name[act_menu_select]);
 				chg_state(STATEID_CONN_DETAILS);
 			    }
@@ -2567,6 +2575,7 @@ lp= LocationProvider.getInstance(crit2);
 
     private void connect_mk(String url,String name)
     {
+	mk.setCommunicationAdapter(new URLCommunicationAdapter(url));
 	//	mk.ufo_prober.bluetooth_probe(url);
 	settings.connection_url=url;
 	settings.connection_name=name;
@@ -2671,7 +2680,7 @@ lp= LocationProvider.getInstance(crit2);
 		break;
 
 	    case STATEID_SELECT_MIXER:
-		setup_menu(DUBwiseHelper.combine_str_arr(mixer_manager.names,new String[] {l(STRINGID_BACK)}),null);
+		setup_menu(DUBwiseHelper.combine_str_arr(mixer_manager.getDefaultNames(),new String[] {l(STRINGID_BACK)}),null);
 		break;
 
 
@@ -3369,7 +3378,9 @@ lp= LocationProvider.getInstance(crit2);
 		break;
 
 	    case ACTIONID_CONNECT_FAKE:
+		mk.setCommunicationAdapter(new FakeCommunicationAdapter());
 		mk.connect_to("fake","fake");
+
 		break;
 
 	    case ACTIONID_CONNECT_TCP:

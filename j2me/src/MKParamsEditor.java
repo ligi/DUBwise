@@ -9,7 +9,7 @@
 import javax.microedition.lcdui.*;
 
 public class MKParamsEditor
-    implements org.ligi.ufo.MKParamDefinitions,  org.ligi.ufo.DUBwiseLangDefs
+    implements org.ligi.ufo.MKParamsGeneratedDefinitions,  org.ligi.ufo.DUBwiseLangDefs
 {
 
     public byte nextstate;
