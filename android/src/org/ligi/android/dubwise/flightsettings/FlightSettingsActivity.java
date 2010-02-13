@@ -100,7 +100,26 @@ public class FlightSettingsActivity extends ListActivity implements Runnable {
 		mk.user_intent = MKCommunicator.USER_INTENT_PARAMS;
 		while(progressDialog.isShowing()) {
 			
-			if ((mk.params.last_parsed_paramset+1)==MKParamsParser.MAX_PARAMSETS)
+			if (mk.params.incompatible_flag!=MKParamsParser.INCOMPATIBLE_FLAG_NOT)
+			{
+			progressDialog.dismiss();
+
+		    this.runOnUiThread( new Runnable() {
+		  
+                public void run() {
+                	String msg="Incompatible Params (Datarevision " + mk.params.params_version+")";
+                	if (mk.params.incompatible_flag==MKParamsParser.INCOMPATIBLE_FLAG_FC_TOO_OLD)
+                		msg+=" Please Update your FC!";
+                	else
+                		if (mk.params.incompatible_flag==MKParamsParser.INCOMPATIBLE_FLAG_FC_TOO_NEW)
+                    		msg+=" Please Update DUBwise!";
+                	
+                	alert.setMessage(msg);
+                	alert.show(); }});
+			}
+			else
+			
+			if ((mk.params.allParamsetsKnown()))
 				{
 			    progressDialog.dismiss();
 				
@@ -138,24 +157,7 @@ public class FlightSettingsActivity extends ListActivity implements Runnable {
 				System.out.println(" setting last:" +mk.params.last_parsed_paramset );
 				System.out.println(" settings act:" +mk.params.act_paramset);
 								
-				if (mk.params.incompatible_flag!=MKParamsParser.INCOMPATIBLE_FLAG_NOT)
-					{
-					progressDialog.dismiss();
-
-				    this.runOnUiThread( new Runnable() {
-				  
-	                    public void run() {
-	                    	String msg="Incompatible Params (Datarevision " + mk.params.params_version+")";
-	                    	if (mk.params.incompatible_flag==MKParamsParser.INCOMPATIBLE_FLAG_FC_TOO_OLD)
-	                    		msg+=" Please Update your FC!";
-	                    	else
-	                    		if (mk.params.incompatible_flag==MKParamsParser.INCOMPATIBLE_FLAG_FC_TOO_NEW)
-		                    		msg+=" Please Update DUBwise!";
-	                    	
-	                    	alert.setMessage(msg);
-	                    	alert.show(); }});
-					}
-					
+									
 			}
 		}
 		
