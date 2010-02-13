@@ -36,7 +36,13 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	private static final int MENU_SETTINGS = 0;
 	private static final int MENU_ZOOM_KOPTER = 1;
 	private static final int MENU_ZOOM_HOME = 2;
+	private static final int MENU_FLIGHTPLAN = 3;
+	private static final int MENU_CLEAR_FP = 4;
 	
+	private static final int MENU_START_FP = 5;
+	private static final int MENU_STOP_FP = 6;
+	
+
 	LinearLayout linearLayout;
 	MapView mapView;
 	ZoomControls mZoom;
@@ -144,10 +150,30 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 		MenuItem settings_menu=menu.add(0,MENU_SETTINGS,0,"Settings");
 		settings_menu.setIcon(android.R.drawable.ic_menu_preferences);
 	
+		MenuItem settings_flightplan=menu.add(0,MENU_FLIGHTPLAN,0,"Draw Flight Plan" + (overlay.flightplan_mode?" off":" on"));
+		settings_flightplan.setIcon(android.R.drawable.ic_menu_edit);
+
 		
 		MenuItem freeze_menu=menu.add(0,MENU_ZOOM_KOPTER,0,"Zoom to UFO");
 		freeze_menu.setIcon(new BitmapDrawable(kopter_icon));
-	
+
+		if (overlay.flightplan_mode)
+		{
+			if (overlay.fp_running)
+			{
+				MenuItem clr_fp_menu=menu.add(0,MENU_STOP_FP,0,"Pause");
+				clr_fp_menu.setIcon(android.R.drawable.ic_media_pause);
+			}
+			else
+			{
+				MenuItem clr_fp_menu=menu.add(0,MENU_START_FP,0,"Play");
+				clr_fp_menu.setIcon(android.R.drawable.ic_media_play);
+			}
+			MenuItem clr_fp_menu=menu.add(0,MENU_CLEAR_FP,0,"Clear FlightPlan");
+			clr_fp_menu.setIcon(android.R.drawable.ic_menu_close_clear_cancel);
+			
+		}
+		
 		if (overlay.p!=null) {
 			MenuItem freeze_menu2=menu.add(0,MENU_ZOOM_HOME,0,"Zoom to Home");
 			freeze_menu2.setIcon(R.drawable.rc);
@@ -166,16 +192,28 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 
 		
 	    switch (item.getItemId()) {
+	    case MENU_START_FP:
+	    case MENU_STOP_FP:
+	    	overlay.fp_running=!overlay.fp_running;
+	    	break;
+	    	
+	    case MENU_CLEAR_FP:
+	    	overlay.pnt_fp_vector.clear();
+	    	break;
+	    	
+	    case MENU_FLIGHTPLAN:
+	    	overlay.flightplan_mode=!overlay.flightplan_mode;
+	    	break;
+	    	
 	    case MENU_ZOOM_KOPTER:
 	    	GeoPoint kopterPoint=new GeoPoint(MKProvider.getMK().gps_position.Latitude/10,MKProvider.getMK().gps_position.Longitude/10);
-			
 	    	mapView.getController().setCenter(kopterPoint);
 	    	mapView.getController().setZoom(14);
 	    	return true;
+	    	
 	    case MENU_ZOOM_HOME:
 	    	mapView.getController().setCenter(overlay.p);
 	    	mapView.getController().setZoom(14);
-	    	
 	    	return true;
 	
 	    case MENU_SETTINGS:

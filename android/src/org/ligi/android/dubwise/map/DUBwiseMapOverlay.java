@@ -1,7 +1,8 @@
 package org.ligi.android.dubwise.map;
 
+import java.util.Vector;
+
 import org.ligi.android.dubwise.R;
-import org.ligi.android.dubwise.R.drawable;
 import org.ligi.android.dubwise.con.MKProvider;
 
 import android.graphics.Bitmap;
@@ -9,17 +10,23 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.view.MotionEvent;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 
-class DUBwiseMapOverlay extends com.google.android.maps.Overlay {
+class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implements Runnable {
 
 	DUBwiseMap context;
 	GeoPoint p=null;
 	Paint circle_paint;
 	Bitmap home_icon;
 	Bitmap kopter_icon;
+	
+	
+	boolean flightplan_mode=false;
+	boolean fp_running=false;
+	int act_wp=0;
 	
 	public DUBwiseMapOverlay(DUBwiseMap context) {
 		//	p=new GeoPoint(0,0);
@@ -34,8 +41,36 @@ class DUBwiseMapOverlay extends com.google.android.maps.Overlay {
 		
 		home_icon = BitmapFactory.decodeResource(context.getResources(),
 				R.drawable.rc);
+
+		pnt_fp_vector=new Vector<GeoPoint>();	
+	
+		new Thread(this).start();
 	}
 	
+	public Vector <GeoPoint> pnt_fp_vector;
+	
+	boolean last_was_up;
+	
+	public boolean onTouchEvent(MotionEvent e,MapView mapView) {
+		
+		if 	(flightplan_mode)
+		{
+			if ((e.getAction()==MotionEvent.ACTION_MOVE)||(e.getAction()==MotionEvent.ACTION_DOWN))
+				{
+				last_was_up=false;
+				}
+			
+			if (e.getAction()==MotionEvent.ACTION_UP)
+				last_was_up=true;
+	
+	
+			
+			pnt_fp_vector.add(mapView.getProjection().fromPixels  ((int)e.getX(), (int)e.getY()));
+			return true;
+		}
+			
+		return false;
+	}
 	@Override
 	public boolean draw(Canvas canvas, MapView mapView, boolean shadow,
 			long when) {
@@ -51,7 +86,6 @@ class DUBwiseMapOverlay extends com.google.android.maps.Overlay {
 			canvas.drawCircle(myScreenCoords.x, myScreenCoords.y, gps_radius_in_pixels, circle_paint);
 			canvas.drawBitmap(home_icon, myScreenCoords.x-home_icon.getWidth()/2, myScreenCoords.y-home_icon.getHeight()/2, paint);
 			canvas.drawText("lat" + p.getLatitudeE6() + " lon" + p.getLongitudeE6() , (float)myScreenCoords.x,(float)myScreenCoords.y,paint);
-			
 		}
 		
 		paint.setStrokeWidth(1);
@@ -65,7 +99,53 @@ class DUBwiseMapOverlay extends com.google.android.maps.Overlay {
 		canvas.drawCircle(kopterScreenCoords.x, kopterScreenCoords.y, gps_radius_in_pixels, circle_paint);
 		canvas.drawBitmap(kopter_icon, kopterScreenCoords.x-kopter_icon.getWidth()/2, kopterScreenCoords.y-kopter_icon.getHeight()/2, paint);
 
+		Point last_pnt=new Point();
+		Point act_pnt=new Point();
+		boolean first=true;
+		paint.setStrokeWidth(3);
+		
+		paint.setAntiAlias(true);
+		for (GeoPoint pnt:pnt_fp_vector) 
+		{
+			mapView.getProjection().toPixels(pnt, act_pnt);
+					
+			if (!first) 
+	
+				canvas.drawLine(act_pnt.x, act_pnt.y, last_pnt.x , last_pnt.y, paint);
+			
+			
+			first=false;
+			last_pnt=new Point(act_pnt);
+		}
+		
+		if ((pnt_fp_vector.size()!=0)&&(act_wp<pnt_fp_vector.size()))
+		{
+			paint.setAlpha(130);
+			
+			mapView.getProjection().toPixels(pnt_fp_vector.get(act_wp), act_pnt);
+			
+			canvas.drawBitmap(kopter_icon, act_pnt.x-kopter_icon.getWidth()/2, act_pnt.y-kopter_icon.getHeight()/2, paint);			
+		}
 		return true;
+	}
+	@Override
+	public void run() {
+	while (true)
+	{
+		try {
+			Thread.sleep(300);
+		} catch (InterruptedException e) {
+		}
+		if (fp_running) {
+		if (act_wp<pnt_fp_vector.size()-1)
+			act_wp++;
+		else
+			act_wp=0;
+		}
+			
+	}
+	
+	
 	}
 
 }
