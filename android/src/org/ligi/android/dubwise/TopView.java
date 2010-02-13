@@ -95,41 +95,43 @@ public class TopView extends View
 				symbol_paint(canvas, bt_on_img);
 			else
 				symbol_paint(canvas, bt_on_highlight_img);
+
+			act_symbol_pos += spacer_items;
+
+			// if (mk.UBatt()!=-1)
+			// mPaint.getFontMetrics().
+			
+			if (mk.UBatt() != -1) {
+				symbol_paint(canvas, batt_img);
+				canvas.drawText("" + mk.UBatt() / 10.0, act_symbol_pos, this
+						.getHeight() - 5, mTextPaint);
+				act_symbol_pos += getTextWidth("" + mk.UBatt() / 10.0);
+				act_symbol_pos += spacer_items;
+			}
+
+			if (mk.SenderOkay() >190) {
+				symbol_paint(canvas, rc_img);
+				act_symbol_pos += spacer_items;
+			}
+
+			if (mk.is_navi() || mk.is_fake()) {
+				if (mk.SatsInUse() != -1) {
+					symbol_paint(canvas, sats_img);
+					canvas.drawText("" + mk.SatsInUse(), act_symbol_pos, this
+							.getHeight() - 5, mTextPaint);
+					act_symbol_pos += getTextWidth("" + mk.SatsInUse());
+					act_symbol_pos += spacer_items;
+				}
+				if (mk.gps_position.ErrorCode != 0) {
+					symbol_paint(canvas, alert_img);
+					act_symbol_pos += spacer_items;
+				}
+			}
+
 		}
 		else
 			symbol_paint(canvas, bt_off_img);
 
-		act_symbol_pos += spacer_items;
-
-		// if (mk.UBatt()!=-1)
-		// mPaint.getFontMetrics().
-		
-		if (mk.UBatt() != -1) {
-			symbol_paint(canvas, batt_img);
-			canvas.drawText("" + mk.UBatt() / 10.0, act_symbol_pos, this
-					.getHeight() - 5, mTextPaint);
-			act_symbol_pos += getTextWidth("" + mk.UBatt() / 10.0);
-			act_symbol_pos += spacer_items;
-		}
-
-		if (mk.SenderOkay() >190) {
-			symbol_paint(canvas, rc_img);
-			act_symbol_pos += spacer_items;
-		}
-
-		if (mk.is_navi() || mk.is_fake()) {
-			if (mk.SatsInUse() != -1) {
-				symbol_paint(canvas, sats_img);
-				canvas.drawText("" + mk.SatsInUse(), act_symbol_pos, this
-						.getHeight() - 5, mTextPaint);
-				act_symbol_pos += getTextWidth("" + mk.SatsInUse());
-				act_symbol_pos += spacer_items;
-			}
-			if (mk.gps_position.ErrorCode != 0) {
-				symbol_paint(canvas, alert_img);
-				act_symbol_pos += spacer_items;
-			}
-		}
 		
 		// spend some cpu time ( Top doesnt need to be updated that often )
 		//TODO make timing editable
