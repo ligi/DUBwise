@@ -13,7 +13,7 @@ public class ConnectionDetails extends DUBwiseBaseListActivity implements Runnab
 	private String[] menu_items;
 	private ArrayAdapter<String> adapter;
 	private boolean running=true;
-	private final static int VALUE_COUNT=11;
+	private final static int VALUE_COUNT=12;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -43,9 +43,10 @@ public class ConnectionDetails extends DUBwiseBaseListActivity implements Runnab
 		menu_items[6]="LCD Data: " + mk.stats.lcd_data_count + "/" + mk.stats.lcd_data_request_count;
 		menu_items[7]="ExternalControl: " + mk.stats.external_control_confirm_frame_count + "/" + mk.stats.external_control_request_count;
 		menu_items[8]="Version: " + mk.stats.version_data_count +"/" + mk.stats.version_data_request_count;
+		menu_items[9]="Params: " + mk.stats.params_data_count +"/" + mk.stats.params_data_request_count;
 		
-		menu_items[9]="Angles: " + mk.stats.angle_data_count;
-		menu_items[10]="Motortest: " + mk.stats.motortest_request_count;
+		menu_items[10]="Angles: " + mk.stats.angle_data_count;
+		menu_items[11]="Motortest: " + mk.stats.motortest_request_count;
 		
 		
 		
