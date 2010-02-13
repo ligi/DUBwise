@@ -6,8 +6,13 @@ import org.ligi.android.dubwise.helper.ActivityCalls;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,29 +26,56 @@ import it.gerdavax.easybluetooth.ReadyListener;
 import it.gerdavax.easybluetooth.RemoteDevice;
 import it.gerdavax.easybluetooth.ScanListener;
 
-public class BluetoothDeviceListActivity extends ListActivity {
+public class BluetoothDeviceListActivity extends ListActivity implements Runnable, OnCancelListener, OnClickListener {
 	
 	private static final int MENU_SCAN = 0;
 	private static final int MENU_SCAN_STOP = 1;
 
+	private final static byte CONNECTION_STATE_IDLE=0;
+	private final static byte CONNECTION_STATE_STOP_SCAN=1;
+	private final static byte CONNECTION_STATE_STOPING_SCAN=2;
+	private final static byte CONNECTION_STATE_BUILD_COMM=3;
+	private final static byte CONNECTION_STATE_BUILDING_COMM=4;
+	private final static byte CONNECTION_STATE_WAIT4COMM =5;
+	private final static byte CONNECTION_STATE_WAIT4DEVINFO=6;
+	private final static byte CONNECTION_STATE_CONNECTED=7;
+	
+	
+	private byte conn_state=CONNECTION_STATE_IDLE;
+	
 	private ArrayAdapter<String> arrayAdapter;
 
 	private ProgressDialog progress_dialog;
+
+	private boolean scanning=false;
+	
+	
+	
+	
 	public void log(String msg) {
 	    Log.i("DUBwise", msg);
 	}
-	
+
+	Thread connection_thread=new Thread(this);
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    Log.i("DUBwise", "starting scan activity");
+
+	    
 	    
 	    ActivityCalls.beforeContent(this);
 
 		progress_dialog=new ProgressDialog(this);
 		progress_dialog.setMessage("Switching on Bluetooth ..");
+		progress_dialog.setTitle("Bluetooth");
+		progress_dialog.setCancelable(false);
+		progress_dialog.setOnCancelListener(this);
+		progress_dialog.setButton("Cancel", this);
 		progress_dialog.show();
 
+		connection_thread.start();
+		
 		LocalDevice.getInstance().init(this, new myReadyListener());
 		
 		arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
@@ -52,24 +84,30 @@ public class BluetoothDeviceListActivity extends ListActivity {
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				Log.i("DUBwise" , "user clicked on Item - stopping scan");
-				LocalDevice.getInstance().stopScan();
+				connect_to=((TextView) arg1).getText().toString();
+				conn_state=CONNECTION_STATE_STOP_SCAN;
 				
-				// that connections can go through
-				String btDeviceInfo = ((TextView) arg1).getText().toString();
-				String btHardwareAddress = btDeviceInfo.substring(btDeviceInfo
-						.length() - 17);
-								
-				Log.i("DUBwise" , "Building Communication adapter for mac " + btHardwareAddress + " name:" +  btDeviceInfo);
-				MKProvider.getMK().setCommunicationAdapter(new BluetoothCommunicationAdapter(btHardwareAddress));
-				Log.i("DUBwise" , "connecting");
-				MKProvider.getMK().connect_to("btspp://"+btHardwareAddress+"",btDeviceInfo );
-				Log.i("DUBwise" , "finishing BluetoothDeviceListActivity");
-				finish();
+				
 			}
 		});
 		
 	}
+
+	String act_dialog_str="";
+	 final Handler mHandler = new Handler();
+	    
+	 	// Create runnable for posting
+	   final Runnable mUpdateProgressText = new Runnable() {
+	       public void run() {
+	    	   if (act_dialog_str.equals(""))
+	    		   progress_dialog.hide();
+	    	   else {
+	    		   progress_dialog.show();
+	    		   progress_dialog.setTitle("Connecting");
+	    		   progress_dialog.setMessage(act_dialog_str);
+	    	   }
+	       }
+	    };
 
 	@Override
 	protected void onResume() {
@@ -90,13 +128,12 @@ public class BluetoothDeviceListActivity extends ListActivity {
 		LocalDevice.getInstance().stopScan();
 		ActivityCalls.onDestroy(this);
 	}
-	
-	private boolean scanning=false;
 		
 	class myReadyListener extends ReadyListener {
 
 		@Override
 		public void ready() {
+			scanning=true;
 			LocalDevice.getInstance().scan(new myScanListener());
 			progress_dialog.setMessage("Waiting for at least one device");
 						
@@ -125,8 +162,9 @@ public class BluetoothDeviceListActivity extends ListActivity {
 		
 	    switch (item.getItemId()) {
 	    case MENU_SCAN:
-	    	LocalDevice.getInstance().stopScan();
+	    	if (scanning) LocalDevice.getInstance().stopScan();
 	    	arrayAdapter.clear();
+	    	scanning=true;
 	    	LocalDevice.getInstance().scan(new myScanListener());	
 	    	break;
 	    }
@@ -155,6 +193,168 @@ public class BluetoothDeviceListActivity extends ListActivity {
 			}
 		}
 		
+		
+	}
+
+	String connect_to="";
+	@Override
+	public void run() {
+		
+		while (true) {
+			
+			switch (conn_state) {
+			
+			case CONNECTION_STATE_IDLE:
+				// do nothing
+				break;
+							
+			case CONNECTION_STATE_STOP_SCAN:
+				act_dialog_str="Stopping scan";
+				mHandler.post(mUpdateProgressText);
+				LocalDevice.getInstance().stopScan();
+				conn_state=CONNECTION_STATE_STOPING_SCAN;
+				break;
+				
+			case CONNECTION_STATE_STOPING_SCAN:
+				if (!scanning)
+					conn_state=CONNECTION_STATE_BUILD_COMM;
+				break;
+			case CONNECTION_STATE_BUILD_COMM:
+				act_dialog_str="Building communication adapter";
+				mHandler.post(mUpdateProgressText);
+				String btDeviceInfo = connect_to;
+				
+				String btHardwareAddress = btDeviceInfo.substring(btDeviceInfo
+						.length() - 17);
+				
+				MKProvider.getMK().setCommunicationAdapter(new BluetoothCommunicationAdapter(btHardwareAddress));
+				Log.i("DUBwise" , "connecting");
+				MKProvider.getMK().connect_to("btspp://"+btHardwareAddress+"",btDeviceInfo );
+				Log.i("DUBwise" , "finishing BluetoothDeviceListActivity");
+				conn_state=CONNECTION_STATE_BUILDING_COMM;
+				break;
+			case CONNECTION_STATE_BUILDING_COMM:
+				conn_state=CONNECTION_STATE_WAIT4COMM;
+				break;
+				
+			case CONNECTION_STATE_WAIT4COMM:
+				act_dialog_str="Waiting for Connection";
+				mHandler.post(mUpdateProgressText);
+				if (MKProvider.getMK().connected)
+					conn_state=CONNECTION_STATE_WAIT4DEVINFO;
+				break;
+				
+			case CONNECTION_STATE_WAIT4DEVINFO:
+				
+				act_dialog_str="Waiting for Device Info";
+				mHandler.post(mUpdateProgressText);
+				if ((MKProvider.getMK().version.known)&&(MKProvider.getMK().UBatt()!=-1)) 
+					conn_state=CONNECTION_STATE_CONNECTED;
+				break;
+				
+			case CONNECTION_STATE_CONNECTED:
+				finish();
+				break;
+			}
+			
+			try {
+				Thread.sleep(20);
+			} catch (InterruptedException e) {
+				
+			}
+		} // while true
+			
+			/*
+			if (connecting) {
+				
+				
+				act_dialog_str="Stopping scan";
+				mHandler.post(mUpdateProgressText);
+				
+				LocalDevice.getInstance().stopScan();
+				
+				while (scanning) {
+					try {
+						Thread.sleep(20);
+					} catch (InterruptedException e) {
+						
+					}
+				}
+				// that connections can go through
+				String btDeviceInfo = connect_to;
+				String btHardwareAddress = btDeviceInfo.substring(btDeviceInfo
+						.length() - 17);
+								
+				Log.i("DUBwise" , "Building Communication adapter for mac " + btHardwareAddress + " name:" +  btDeviceInfo);
+				
+				act_dialog_str="Building communication adapter";
+				mHandler.post(mUpdateProgressText);
+				
+				
+				MKProvider.getMK().setCommunicationAdapter(new BluetoothCommunicationAdapter(btHardwareAddress));
+				Log.i("DUBwise" , "connecting");
+				MKProvider.getMK().connect_to("btspp://"+btHardwareAddress+"",btDeviceInfo );
+				Log.i("DUBwise" , "finishing BluetoothDeviceListActivity");
+		
+				
+				act_dialog_str="Waiting for Connection";
+				mHandler.post(mUpdateProgressText);
+				
+				while (!MKProvider.getMK().connected) {
+					try {
+						Thread.sleep(20);
+					} catch (InterruptedException e) {
+						
+					}
+				}
+				
+				
+				act_dialog_str="Waiting for Device Info";
+				mHandler.post(mUpdateProgressText);
+				while ((!MKProvider.getMK().version.known)||(MKProvider.getMK().UBatt()==-1)) {
+					try {
+						Thread.sleep(20);
+					} catch (InterruptedException e) {
+						
+					}
+				}
+				
+				act_dialog_str="";
+				mHandler.post(mUpdateProgressText);
+							
+				finish();
+				connecting=false;
+			} else
+				try {
+					Thread.sleep(30);
+				} catch (InterruptedException e) {
+		
+				}
+		}*/
+		
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event)  {
+	    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+	    	Log.i("DUBwise","finishing scan activity");
+	    	connection_thread.stop();
+	    	finish();
+	        return true;
+	    }
+
+	    return super.onKeyDown(keyCode, event);
+	}
+
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		finish();
+		
+	}
+
+	@Override
+	public void onClick(DialogInterface dialog, int which) {
+		finish();
 		
 	}
 }
