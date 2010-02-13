@@ -12,7 +12,11 @@
 	<property name="build_dir" location="${basedir}/build/"/>
 	<property name="lib_dir" location="${basedir}/lib/"/>
 	<property name="src_dir" location="${basedir}/src/"/>
-	<property name="shrared_src_dir" location="${basedir}/../shared/src/"/>
+
+
+
+<!--	<property name="shrared_src_dir" location="${basedir}/../shared/src/"/> -->
+	<property name="shrared_src_dir" location="${basedir}/../android/shared_src/"/>
 
 	<property name="preprocessed_src_dir" location="${basedir}/tmp/pp_src/"/>
 
