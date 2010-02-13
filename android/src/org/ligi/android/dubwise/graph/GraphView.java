@@ -62,7 +62,7 @@ public class GraphView extends View implements DUBwiseDefinitions, OnSharedPrefe
 	protected void onDraw(Canvas canvas) {
 
 		Paint paint = mPaint;
-		paint.setAntiAlias(true);
+		paint.setAntiAlias(false);
 
 		paint.setARGB(255, 255, 0, 0);
 
