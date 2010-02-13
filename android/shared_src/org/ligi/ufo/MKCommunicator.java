@@ -1,6 +1,6 @@
 /********************************************************************************************************************************
  *                                                                     
- * Abstaction Layer to Communicate with the FlightCtrl  of the 
+ * Abstaction Layer to Communicate with Components ( FC / NC / MK3MAG ) of the 
  * MikroKopter Project (www.mikrokopter.de )  
  *                                                 
  * Author:        Marcus -LiGi- Bueschleb          
@@ -18,18 +18,17 @@ package org.ligi.ufo;
 //#endif
 
 //#ifdef android
-import android.util.Log;
+//import android.util.Log;
 //#endif
 
 public class MKCommunicator
     implements Runnable,DUBwiseDefinitions
 {
 	
-	private CommunicationAdapterInterface comm_adapter;
-	
-	
-    public byte lib_version_major=0;
-    public byte lib_version_minor=12;
+	public final static byte lib_version_major=0;
+    public final static byte lib_version_minor=14;
+
+    private CommunicationAdapterInterface comm_adapter;
 
 	public byte slave_addr=-1;
 
@@ -45,7 +44,6 @@ public class MKCommunicator
 
     public boolean disconnect_notify=false;
 
-
     public byte last_navi_error=0;
 
     public boolean mixer_change_notify=false;
@@ -54,9 +52,9 @@ public class MKCommunicator
     public boolean change_notify=false;
     public boolean thread_running=true;
 
-    public String lib_version_str()
+    public final static String lib_version_str()
     {
-	return "V"+lib_version_major+"."+lib_version_minor;
+    	return "V"+lib_version_major+"."+lib_version_minor;
     }
     
 	public int AngleNick() {
@@ -137,12 +135,10 @@ public class MKCommunicator
     public byte user_intent=0;
 
     
-
-
     public void log(String str)
     {
 //#ifdef android
-    	if (do_log)	Log.d("MK-Comm",str);
+//    	if (do_log)	Log.d("MK-Comm",str);
 //#endif
 //	canvas.debug.log(str);
 	//	System.out.println(str);
@@ -362,18 +358,21 @@ public class MKCommunicator
 	if ( _url=="fake" )
 	    {
 		connection_start_time=System.currentTimeMillis();
-		gps_position.ErrorCode=1; // its an error that its a fake - just wanna see the symbol ;-)
+		gps_position.ErrorCode=1; // its an error that its a fake - just intent to show the symbol ;-)
 		slave_addr=FAKE_SLAVE_ADDR;
 		version.set_fake_data();
 		connected=true;
 	    }
-
-
     }
 
+    
+    /**
+     * returns if connected and got a version from the Device
+     * @return
+     */
     public boolean ready()
     {
-	return (connected&&(version.major!=-1));
+    	return (connected&&(version.major!=-1));
     }
 
 
@@ -389,9 +388,7 @@ public class MKCommunicator
 	
 
     }
-    public android.content.Context context;
-    
-    
+
     
     /******************  Section: private Methods ************************************************/
     private void connect()
@@ -401,46 +398,12 @@ public class MKCommunicator
        log("trying to connect to" + mk_url);
 	
 	try{
-	    
-	    // old call
-	    // connection = (StreamConnection) Connector.open(mk_url, Connector.READ_WRITE);
-	 /*
-//#ifdef android
-	    
-	    if (mk_url.startsWith("btspp://" )) {
-	        log("getting adapter");
-	      
-	    }
-	    else
-	    {
-	        Socket socket_connection = (new java.net.Socket(mk_url.split(":")[0],Integer.parseInt(mk_url.split(":")[1])));
-	        reader=socket_connection.getInputStream();
-	        writer=socket_connection.getOutputStream();
-	    }
-	    
-	    //else
-	    //  
-	    //.Socket 
-
-	   */ 
-
 	    String magic="conn:foo bar\r\n";
-	    comm_adapter.getOutputStream().write(magic.getBytes());
+		comm_adapter.getOutputStream().write(magic.getBytes());
 	    comm_adapter.getOutputStream().flush();
-
-//#else
-
-//#	    connection = (StreamConnection) Connector.open(mk_url);
-
-//#	    reader=connection.openInputStream();
-//#	    writer=connection.openOutputStream();
-
-//#endif
 	    connection_start_time=System.currentTimeMillis();
 	    connected=true; // if we get here everything seems to be OK
-
 	    stats.reset();
-
 	    log("connecting OK");
 	}
         catch (Exception ex) 
@@ -449,8 +412,8 @@ public class MKCommunicator
 		log("Problem connecting" + "\n" + ex);
 	    }	
     }
-
-    public int[] Decode64(byte[] in_arr, int offset,int len) 
+    
+    private int[] Decode64(byte[] in_arr, int offset,int len) 
     {
 	int ptrIn=offset;	
 	int a,b,c,d,x,y,z;
@@ -531,16 +494,15 @@ public class MKCommunicator
     }
 
     public void set_mixer_table(int[] params)
-    {
-	
-	send_command(FC_SLAVE_ADDR,'m',params);
+    {	
+    	send_command(FC_SLAVE_ADDR,'m',params);
     }
 
 
-    public long lon;
-    public  long lat;
+    //    public long lon;
+    //public  long lat;
 
-    public void send_follow_me(int time)
+    public void send_follow_me(int time,long lon,long lat)
     {
 	long alt=0;
 
@@ -1441,7 +1403,7 @@ public class MKCommunicator
 			stats.debug_data_count++;
 			sleep(50);
 		    }
-		else
+	else
 			try{
 			
 			/*		
@@ -1473,7 +1435,7 @@ public class MKCommunicator
 				for ( pos=0;pos<read_count;pos++)
 				    {
 				    //data_in_buff[pos]+=127;
-				    //log("" +data_in_buff[pos] + "->" + (char)data_in_buff[pos]);
+				    log("" +data_in_buff[pos] + "->" + (char)data_in_buff[pos]);
 					if ((data_in_buff[pos]==13)||(data_in_buff[pos]==10))
 					    {
 						data_buff[data_buff_pos]=new String(data_set, 0, data_set_pos);
@@ -1619,7 +1581,8 @@ public class MKCommunicator
     }
 
     /**
-     * Set the Communication Adapter - this is needed to differ between android and J2ME
+     * Set the Communication Adapter - this is needed to differ between 
+     * android and J2ME without preprocessing
      * 
      * @param _comm_adapter - the communication adapter to use
      */
