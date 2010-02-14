@@ -23,21 +23,43 @@ Net::SFTP.start(host, user, :password => pwd) do |sftp|
   p "testing conn"
 end
 
-if ARGV.include?("-b")
-  p "building"
+
+
+build=ARGV.include?("-b")
+j2me= ARGV.include?("-j2me")
+wm= ARGV.include?("-wm")
+
+
+
+if build
+  p "building j2me"
   system "./BUILD all tmp_deploy -o -z"
+
+  p "building WM"
+  system "./WM_BUILD"
 end
 
+if j2me
 Net::SFTP.start(host, user, :password => pwd) do |sftp|
   p "uploading"
   sftp.upload!("tmp_deploy.7z" , "#{path}/new.7z")
   sftp.upload!("version" , "#{path}/version")
 end
 
+  p "extracting j2me"
+  Net::SSH.start(host, user, :password => pwd) do |ssh|
+    p ssh.exec!("cd #{path} ; mkdir new_trunk ; mv version new_trunk ;  mv new.7z new_trunk; cd new_trunk ; 7zr e new.7z ; rm new_.7z ; cd .. ; mv trunk old_trunk ; mv new_trunk trunk ; rm -rf old_trunk")
+  end
+end
 
-p "extracting"
-Net::SSH.start(host, user, :password => pwd) do |ssh|
-  p ssh.exec!("cd #{path} ; mkdir new_trunk ; mv version new_trunk ;  mv new.7z new_trunk; cd new_trunk ; 7zr e new.7z ; rm new_.7z ; cd .. ; mv trunk old_trunk ; mv new_trunk trunk ; rm -rf old_trunk")
+if wm
+  Net::SFTP.start(host, user, :password => pwd) do |sftp|
+    p "uploading wm"
+    sftp.upload!("wm_tmp/240x320.zip" , "#{path}/trunk/240x320.zip")
+    sftp.upload!("wm_tmp/340x400.zip" , "#{path}/trunk/340x400.zip")
+    sftp.upload!("wm_tmp/480x640.zip" , "#{path}/trunk/480x640.zip")
+
+  end
 end
 
 p "anouncing the new version"
