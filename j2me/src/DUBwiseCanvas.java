@@ -33,6 +33,7 @@ import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.MKFirmwareHelper;
 import org.ligi.ufo.MixerManager;
 import org.ligi.ufo.FakeCommunicationAdapter;
+import org.ligi.ufo.MKParamsParser;
 
 public class DUBwiseCanvas
     extends Canvas
@@ -1255,7 +1256,7 @@ lp= LocationProvider.getInstance(crit2);
 				lcd_lines[1]=DUBwiseHelper.pound_progress(mk.watchdog.act_paramset,5);
 				
 				
-				if (mk.params.found_incompatible)
+				if (mk.params.incompatible_flag!=MKParamsParser.INCOMPATIBLE_FLAG_NOT)
 				    {
 					act_msg="incompatible params";
 					chg_state(STATEID_ERROR_MSG);
@@ -2731,7 +2732,8 @@ lp= LocationProvider.getInstance(crit2);
 		break;
 	    case STATEID_RESET_PARAMS:
 
-		firmware_flasher=new MKFirmwareFlasher(settings.connection_url,MKFirmwareHelper.BOOTLOADER_INTENSION_RESET_PARAMS);
+		//		firmware_flasher=new MKFirmwareFlasher(settings.connection_url,MKFirmwareHelper.BOOTLOADER_INTENSION_RESET_PARAMS);
+		firmware_flasher=new MKFirmwareFlasher(mk.getCommunicationAdapter(),MKFirmwareHelper.BOOTLOADER_INTENSION_RESET_PARAMS);
 
 
 		/*		mk.bootloader_intension_flash=false;
@@ -2741,7 +2743,8 @@ lp= LocationProvider.getInstance(crit2);
 
 	    case STATEID_FLASHING:
 
-		firmware_flasher=new MKFirmwareFlasher(settings.connection_url,MKFirmwareHelper.BOOTLOADER_INTENSION_FLASH_FIRMWARE);
+		firmware_flasher=new MKFirmwareFlasher(mk.getCommunicationAdapter(),MKFirmwareHelper.BOOTLOADER_INTENSION_FLASH_FIRMWARE);
+		//		firmware_flasher=new MKFirmwareFlasher(settings.connection_url,MKFirmwareHelper.BOOTLOADER_INTENSION_FLASH_FIRMWARE);
 		firmware_flasher.in=fw_loader.get_input_str();
 
 		/*
@@ -2752,8 +2755,8 @@ lp= LocationProvider.getInstance(crit2);
 		break;
 
 	    case STATEID_GET_AVRSIG:
-
-		firmware_flasher=new MKFirmwareFlasher(settings.connection_url,MKFirmwareHelper.BOOTLOADER_INTENSION_GET_SIG);
+		firmware_flasher=new MKFirmwareFlasher(mk.getCommunicationAdapter(),MKFirmwareHelper.BOOTLOADER_INTENSION_FLASH_FIRMWARE);
+		//		firmware_flasher=new MKFirmwareFlasher(settings.connection_url,MKFirmwareHelper.BOOTLOADER_INTENSION_GET_SIG);
 
 
 		break;
@@ -3161,18 +3164,19 @@ lp= LocationProvider.getInstance(crit2);
 				    {
 					act_msg=l(STRINGID_PARAMSINCOMPATIBLE);
 					chg_state(STATEID_ERROR_MSG);
-					break;
 				    }
+				else
+				    {
+					int p_length=din.readInt();
+					params2masswrite=new int[5][p_length];
 
-				int p_length=din.readInt();
-				params2masswrite=new int[5][p_length];
-
-				for ( int p=0;p<5;p++)
-				    for ( int p_pos=0;p_pos<p_length;p_pos++)
-					params2masswrite[p][p_pos]=din.readInt();
-
-				param_masswrite_write_pos=0;
-				chg_state(STATEID_PARAM_MASSWRITE);
+					for ( int p=0;p<5;p++)
+					    for ( int p_pos=0;p_pos<p_length;p_pos++)
+						params2masswrite[p][p_pos]=din.readInt();
+					
+					param_masswrite_write_pos=0;
+					chg_state(STATEID_PARAM_MASSWRITE);
+				    }
 			    }
 			else throw(new Exception("rms err"));
 			recStore.closeRecordStore();
