@@ -1,5 +1,6 @@
 package org.ligi.android.dubwise.helper;
 
+import org.ligi.android.dubwise.DUBwisePrefs;
 import org.ligi.android.dubwise.R;
 import org.ligi.android.dubwise.SettingsActivity;
 
@@ -19,6 +20,7 @@ public class ActivityCalls {
 	static WakeLock mWakeLock;
 	
 	public static void beforeContent(Activity activity) {
+		DUBwisePrefs.init(activity);
 		activity.requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 
 		if (getSharedPreferences(activity).getInt("awake", 0) !=SettingsActivity.AWAKE_NEVER) 
@@ -55,7 +57,8 @@ public class ActivityCalls {
 		if (set_new) 
 			{((ViewGroup) activity.getWindow().findViewById
 					(titleContainerId)).setVisibility(View.VISIBLE	);
-			activity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, value);}
+			activity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, value);
+			}
 		else
 			((ViewGroup) activity.getWindow().findViewById
 					(titleContainerId)).setVisibility(View.GONE);
@@ -76,6 +79,7 @@ public class ActivityCalls {
 		
 		{
 		System.out.println("oncreate top view" + activity.getWindow().findViewById(R.layout.top));
+
 		if (shared_prefs.getBoolean("do_title", true))
 			setCustomTitle(true,R.layout.top,activity);
 		else
