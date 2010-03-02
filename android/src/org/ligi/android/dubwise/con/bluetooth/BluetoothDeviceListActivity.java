@@ -1,6 +1,9 @@
 
 package org.ligi.android.dubwise.con.bluetooth;
 
+import java.util.Vector;
+
+import org.ligi.android.dubwise.DUBwisePrefs;
 import org.ligi.android.dubwise.con.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 
@@ -20,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import it.gerdavax.easybluetooth.LocalDevice;
 import it.gerdavax.easybluetooth.ReadyListener;
@@ -44,7 +48,11 @@ public class BluetoothDeviceListActivity extends ListActivity implements Runnabl
 	private byte conn_state=CONNECTION_STATE_IDLE;
 	
 	private ArrayAdapter<String> arrayAdapter;
-
+	private Vector<String> bt_friendly_names=new Vector<String>();
+	private Vector<String> bt_macs=new Vector<String>();
+	
+	
+	
 	private ProgressDialog progress_dialog;
 
 	private boolean scanning=false;
@@ -57,6 +65,9 @@ public class BluetoothDeviceListActivity extends ListActivity implements Runnabl
 	}
 
 	Thread connection_thread=new Thread(this);
+	
+	int connect_to_id=-1;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
@@ -82,9 +93,10 @@ public class BluetoothDeviceListActivity extends ListActivity implements Runnabl
 		ListView lv = this.getListView();
 		lv.setAdapter(arrayAdapter);
 		lv.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
 					long arg3) {
-				connect_to=((TextView) arg1).getText().toString();
+		
+				connect_to_id=pos;
 				conn_state=CONNECTION_STATE_STOP_SCAN;
 				
 				
@@ -164,6 +176,9 @@ public class BluetoothDeviceListActivity extends ListActivity implements Runnabl
 	    case MENU_SCAN:
 	    	if (scanning) LocalDevice.getInstance().stopScan();
 	    	arrayAdapter.clear();
+	    	bt_friendly_names.clear();
+	    	bt_macs.clear();
+	    	
 	    	scanning=true;
 	    	LocalDevice.getInstance().scan(new myScanListener());	
 	    	break;
@@ -174,15 +189,21 @@ public class BluetoothDeviceListActivity extends ListActivity implements Runnabl
 	class myScanListener extends ScanListener {
 
 		@Override
-		public void deviceFound(RemoteDevice tobounce) {
+		public void deviceFound(RemoteDevice remote_device) {
 			progress_dialog.hide();
-			log("Device found name: " + tobounce.getFriendlyName() + " / mac: " + tobounce.getAddress() + " / rssi: " + tobounce.getRSSI() );
+			log("Device found name: " + remote_device.getFriendlyName() + " / mac: " + remote_device.getAddress() + " / rssi: " + remote_device.getRSSI() );
 			arrayAdapter
-			.add(tobounce.getFriendlyName() + " - " + tobounce.getAddress());
+			.add(remote_device.getFriendlyName() + " - " + remote_device.getAddress());
+			
+			bt_friendly_names.add(remote_device.getFriendlyName());
+			bt_macs.add(remote_device.getAddress());
 		}
 
 		@Override
 		public void scanCompleted() {
+			Toast.makeText(BluetoothDeviceListActivity.this, "Scan Completed", Toast.LENGTH_SHORT).show(); 
+
+			
 			if (arrayAdapter.getCount()>0) {
 				progress_dialog.hide();
 				scanning=false;
@@ -219,17 +240,16 @@ public class BluetoothDeviceListActivity extends ListActivity implements Runnabl
 				if (!scanning)
 					conn_state=CONNECTION_STATE_BUILD_COMM;
 				break;
+			
 			case CONNECTION_STATE_BUILD_COMM:
 				act_dialog_str="Building communication adapter";
 				mHandler.post(mUpdateProgressText);
 				String btDeviceInfo = connect_to;
 				
-				String btHardwareAddress = btDeviceInfo.substring(btDeviceInfo
-						.length() - 17);
 				
-				MKProvider.getMK().setCommunicationAdapter(new BluetoothCommunicationAdapter(btHardwareAddress));
+				MKProvider.getMK().setCommunicationAdapter(new BluetoothCommunicationAdapter(bt_macs.get(connect_to_id)));
 				Log.i("DUBwise" , "connecting");
-				MKProvider.getMK().connect_to("btspp://"+btHardwareAddress+"",btDeviceInfo );
+				MKProvider.getMK().connect_to("","" );
 				Log.i("DUBwise" , "finishing BluetoothDeviceListActivity");
 				conn_state=CONNECTION_STATE_BUILDING_COMM;
 				break;
@@ -248,11 +268,14 @@ public class BluetoothDeviceListActivity extends ListActivity implements Runnabl
 				
 				act_dialog_str="Waiting for Device Info";
 				mHandler.post(mUpdateProgressText);
-				if ((MKProvider.getMK().version.known)&&(MKProvider.getMK().UBatt()!=-1)) 
+				if (MKProvider.getMK().version.known) 
 					conn_state=CONNECTION_STATE_CONNECTED;
 				break;
 				
 			case CONNECTION_STATE_CONNECTED:
+				DUBwisePrefs.setStartConnType(DUBwisePrefs.STARTCONNTYPE_BLUETOOTH);
+				DUBwisePrefs.setStartConnBluetootName(bt_friendly_names.get(connect_to_id));
+				DUBwisePrefs.setStartConnBluetootMAC(bt_macs.get(connect_to_id));
 				finish();
 				break;
 			}
