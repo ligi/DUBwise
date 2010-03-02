@@ -555,7 +555,7 @@ if zip_bindir
   if File.exist?( "#{bindir}.7z")
     puts "Zip allready there"
   else
-    `7z a  -t7z -m0=lzma -mx=9 -mfb=64 -md=256m -ms=on   #{bindir}.7z #{bindir}`
+    `7z a  -t7z -m0=lzma -mx=9 -mfb=64 -md=128m -ms=on   #{bindir}.7z #{bindir}`
   end
 end
 
