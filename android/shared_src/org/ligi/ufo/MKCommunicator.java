@@ -1,37 +1,40 @@
-/********************************************************************************************************************************
- *                                                                     
- * Abstaction Layer to Communicate with Components ( FC / NC / MK3MAG ) of the 
- * MikroKopter Project (www.mikrokopter.de )  
- *                                                 
- * Author:        Marcus -LiGi- Bueschleb          
+/**************************************************************************
+ *                                          
+ * Main Class to Communicate with the UFO
+ *                                          
+ * Author:  Marcus -LiGi- Bueschleb   
+ *
+ * Project URL:
+ *  http://mikrokopter.de/ucwiki/en/DUBwise
  * 
- * see README for further Infos
- * 
- *******************************************************************************************************************************/
- 
+ * License:
+ *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
+ *  (Creative Commons / Non Commercial / Share Alike)
+ *  Additionally to the Creative Commons terms it is not allowed
+ *  to use this project in _any_ violent manner! 
+ *  This explicitly includes that lethal Weapon owning "People" and 
+ *  Organisations (e.g. Army & Police) 
+ *  are not allowed to use this Project!
+ *
+ **************************************************************************/
 
 package org.ligi.ufo;
-//import android.bluetooth.BluetoothSocket;
 
-//#ifdef j2me
-//# import javax.microedition.io.*;
-//#endif
-
-//#ifdef android
-//import android.util.Log;
-//#endif
+import java.util.Vector;
 
 public class MKCommunicator
     implements Runnable,DUBwiseDefinitions
 {
 	
 	public final static byte lib_version_major=0;
-    public final static byte lib_version_minor=14;
+    public final static byte lib_version_minor=15;
 
     private CommunicationAdapterInterface comm_adapter;
 
 	public byte slave_addr=-1;
 
+	//int last_avr_sig=-1;
+	
     public int primary_abo=10;
     public int secondary_abo=30;
     public int default_abo=1000;
@@ -44,7 +47,7 @@ public class MKCommunicator
 
     public boolean disconnect_notify=false;
 
-    public byte last_navi_error=0;
+    //public byte last_navi_error=0;
 
     public boolean mixer_change_notify=false;
     public boolean mixer_change_success=false;
@@ -52,6 +55,20 @@ public class MKCommunicator
     public boolean change_notify=false;
     public boolean thread_running=true;
 
+    Vector<DUBwiseNotificationListenerInterface> notify_listeners=new Vector();
+    
+    public void addNotificationListener(DUBwiseNotificationListenerInterface i) {
+    	notify_listeners.add(i);
+    }
+    
+    private void notifyAll(byte notification) {
+    	for (DUBwiseNotificationListenerInterface i : notify_listeners)
+    		try {
+    		i.processNotification(notification);
+    		}
+    		catch(Exception e){}
+    }
+    
     public final static String lib_version_str()
     {
     	return "V"+lib_version_major+"."+lib_version_minor;
@@ -89,29 +106,90 @@ public class MKCommunicator
 
 	}
     
-    public int Alt() // in dm
-    {
-	// calc bg thanx to gregor: http://forum.mikrokopter.de/topic-post112323.html#post112323
-	int alt=0;
-	if (is_mk()||is_riddim()||is_fake())
-	    alt=debug_data.analog[5]/2;
-	else	
-	    if (is_navi())
-		alt=gps_position.Altimeter/2;
-	if ( alt<0) alt=0;  // mk
-	if ( alt>20000) alt=0; // navi
+	
+	/**
+	 * 
+	 * @return -1 if value is not available otherwise the altitude in dm
+	 */
+    public int getAlt() // in dm
+    	{
+    	// 	calculation background thanks to gregor: http://forum.mikrokopter.de/topic-post112323.html#post112323
+    	int alt=0;
+    	if (is_mk()||is_riddim()||is_fake())
+    		alt=debug_data.analog[5]/2;
+    	else		
+    		if (is_navi())
+    			alt=gps_position.Altimeter/2;
+    	
+    	if ( alt<0) alt=0;  // mk
+    	if ( alt>20000) alt=0; // navi
 
-	if (is_mk()||is_navi()||is_riddim())
-	    return alt;
-	else
-	    return -1;
+    	if (is_mk()||is_navi()||is_riddim()||is_fake())
+    		return alt;
+    	else
+    		return -1;
 		
     }
+    
+    /**
+     * 
+     * @return -1 if the value is not avialable otherwise the charge in mAh
+     * 
+     */
+    public int getUsedCapacity() {
+    	
+    	// had no info about that in FC version <0.78
+    	if (is_mk()&&(version.compare(0, 78)==MKVersion.VERSION_PREVIOUS))
+    		return -1;
+    	
+    	// had no info about that in NC version <0.18
+    	if (is_navi()&&(version.compare(0, 18)==MKVersion.VERSION_PREVIOUS))
+    		return -1;
 
-    public String Alt_formated() // in dm
-    {
-	return "" + Alt()/10 + "m";
+    	if (is_mk())
+    		return debug_data.analog[23];
+    	
+    	if (is_navi())
+    		return gps_position.UsedCapacity;
+    	
+
+    	if (is_fake())
+    		return 42;
+    	
+    	return -1;
     }
+
+    /**
+     * 
+     * @return -1 if the value is not avialable otherwise the current in 0.1A
+     * 
+     */
+    public int getCurrent() {
+    	
+    	// had no info about that in FC version <0.78
+    	if (is_mk()&&(version.compare(0, 78)==MKVersion.VERSION_PREVIOUS))
+    		return -1;
+    	
+    	// had no info about that in NC version <0.18
+    	if (is_navi()&&(version.compare(0, 18)==MKVersion.VERSION_PREVIOUS))
+    		return -1;
+
+    	if (is_mk())
+    		return debug_data.analog[22];
+    	
+    	if (is_navi())
+    		return gps_position.Current;
+    	
+    	if (is_fake())
+    		return 5;
+    	return -1;
+    }
+
+    
+    public String Alt_formated()
+    	{
+    	return "" + getAlt()/10 + "m";
+    	}
     
 
     /***************** Section: public Attributes **********************************************/
@@ -135,24 +213,6 @@ public class MKCommunicator
     public byte user_intent=0;
 
     
-    public void log(String str)
-    {
-//#ifdef android
-//    	if (do_log)	Log.d("MK-Comm",str);
-//#endif
-//	canvas.debug.log(str);
-	//	System.out.println(str);
-    }
-
-    public int conn_time_in_s()
-    {
-	if (connected)
-	    return (int)((System.currentTimeMillis()-connection_start_time)/1000);
-	else
-	    return 0;
-    }
-
-
     //    byte bootloader_stage= BOOTLOADER_STAGE_NONE;
 
     public MKLCD LCD;
@@ -393,24 +453,29 @@ public class MKCommunicator
     /******************  Section: private Methods ************************************************/
     private void connect()
     {
-
+    	if(comm_adapter==null) 
+    		{
+    		log("trying to connect without communication adapter");
+    		return; // makes no sense without a communication adapter
+    		}
+    	
     	comm_adapter.connect();
-       log("trying to connect to" + mk_url);
+    	log("trying to connect to" + mk_url);
 	
-	try{
-	    String magic="conn:foo bar\r\n";
-		comm_adapter.getOutputStream().write(magic.getBytes());
-	    comm_adapter.getOutputStream().flush();
-	    connection_start_time=System.currentTimeMillis();
-	    connected=true; // if we get here everything seems to be OK
-	    stats.reset();
-	    log("connecting OK");
-	}
-        catch (Exception ex) 
-	    {
-		// TODO difference fatal errors from those which will lead to reconnection
-		log("Problem connecting" + "\n" + ex);
-	    }	
+    	try{
+    	   String magic="conn:foo bar\r\n";
+    	   comm_adapter.getOutputStream().write(magic.getBytes());
+    	   comm_adapter.getOutputStream().flush();
+    	   connection_start_time=System.currentTimeMillis();
+    	   connected=true; // if we get here everything seems to be OK
+    	   stats.reset();
+    	   log("connecting OK");
+    	}
+    	catch (Exception ex) 
+    	{
+    	   // TODO difference fatal errors from those which will lead to reconnection
+    	   log("Problem connecting" + "\n" + ex);
+    	}	
     }
     
     private int[] Decode64(byte[] in_arr, int offset,int len) 
@@ -488,53 +553,49 @@ public class MKCommunicator
      * @param array of intswith the speed for each Motor 
     **/
     public void motor_test(int[] params)
-    {
-	stats.motortest_request_count++;
-	send_command(FC_SLAVE_ADDR,'t',params);
-    }
+    	{
+    	stats.motortest_request_count++;
+		send_command(FC_SLAVE_ADDR,'t',params);
+    	}
 
     public void set_mixer_table(int[] params)
-    {	
+    	{	
     	send_command(FC_SLAVE_ADDR,'m',params);
-    }
+    	}
 
-
-    //    public long lon;
-    //public  long lat;
 
     public void send_follow_me(int time,long lon,long lat)
-    {
-	long alt=0;
+    	{
+    	long alt=0;
 
-	int[] params=new int[29];
+    	int[] params=new int[29];
 
+    	params[0]=(int)((lon)&0xFF) ;
+    	params[1]=(int)((lon>>8)&0xFF) ;
+    	params[2]=(int)((lon>>16)&0xFF) ;
+    	params[3]=(int)((lon>>24)&0xFF) 	;
 
-	params[0]=(int)((lon)&0xFF) ;
-	params[1]=(int)((lon>>8)&0xFF) ;
-	params[2]=(int)((lon>>16)&0xFF) ;
-	params[3]=(int)((lon>>24)&0xFF) 	;
+    	params[4]=(int)((lat)&0xFF) ;
+    	params[5]=(int)((lat>>8)&0xFF) ;
+    	params[6]=(int)((lat>>16)&0xFF) ;
+    	params[7]=(int)((lat>>24)&0xFF) ;
 
-	params[4]=(int)((lat)&0xFF) ;
-	params[5]=(int)((lat>>8)&0xFF) ;
-	params[6]=(int)((lat>>16)&0xFF) ;
-	params[7]=(int)((lat>>24)&0xFF) ;
+    	params[8]=(int)((alt)&0xFF );
+    	params[9]=(int)((alt>>8)&0xFF );
+    	params[10]=(int)((alt>>16)&0xFF); 
+    	params[11]=(int)((alt>>24)&0xFF );
 
-	params[8]=(int)((alt)&0xFF );
-	params[9]=(int)((alt>>8)&0xFF );
-	params[10]=(int)((alt>>16)&0xFF); 
-	params[11]=(int)((alt>>24)&0xFF );
+    	params[12]=2;  // newdata
 
-	params[12]=2;  // newdata
-
-	params[13]=0;  // heading
-	params[14]=0;  // heading
+    	params[13]=0;  // heading
+    	params[14]=0;  // heading
 	
-	params[15]=1;  // tolerance
+    	params[15]=1;  // tolerance
 
-	params[16]=time;  // time
-	params[17]=0;  // event
+    	params[16]=time;  // time
+    	params[17]=0;  // event
 
-	send_command(NAVI_SLAVE_ADDR,'s',params);
+    	send_command(NAVI_SLAVE_ADDR,'s',params);
     }
 
 
@@ -597,9 +658,10 @@ public class MKCommunicator
 
     public void switch_to_fc()
     {
-	wait4send();
-	send_command(NAVI_SLAVE_ADDR,'u',0);
-	switch_todo();
+    	wait4send();
+    	send_command(NAVI_SLAVE_ADDR,'u',0);
+    	switch_todo();
+    	switch_todo();
 
     }
 
@@ -607,9 +669,9 @@ public class MKCommunicator
 
     public void switch_to_mk3mag()
     {
-	wait4send();
-	send_command(NAVI_SLAVE_ADDR   ,'u',1);
-	switch_todo();
+    	wait4send();
+    	send_command(NAVI_SLAVE_ADDR   ,'u',1);
+    	switch_todo();
     }
 
     public final static byte[] navi_switch_magic={27,27,0x55,(byte)0xAA,0,(byte)'\r'};
@@ -951,11 +1013,11 @@ public class MKCommunicator
 	// end of c
 
 	//	slave_addr=data[1];
-	log("command " +(char)data[2] );		
+	log("command " +(char)data[2]   + "len " + len);		
 
 
 	int[] decoded_data=Decode64(data,3,len-5);
-
+	log("decoded");		
 	switch((char)data[2])
 	    {
 
@@ -965,12 +1027,12 @@ public class MKCommunicator
 		break;
 
 	    case 'B': // external_control confirm frames
-		stats.external_control_confirm_frame_count++;
+	    	stats.external_control_confirm_frame_count++;
 		break;
 
 	    case 'L': // LCD Data
-		stats.lcd_data_count++;
-		LCD.handle_lcd_data(decoded_data);
+	    	stats.lcd_data_count++;
+	    	LCD.handle_lcd_data(decoded_data);
 
 		break;
 	    
@@ -980,25 +1042,31 @@ public class MKCommunicator
 	    	break;
 	    	
 	    case 'D': // debug Data
-		log("got debug data");
-		stats.debug_data_count++;
-		debug_data.set_by_mk_data(decoded_data,version);
+	    	log("got debug data");
+	    	stats.debug_data_count++;
+	    	debug_data.set_by_mk_data(decoded_data,version);
 
-		if (is_mk())
-		    {
-			stats.process_mkflags(debug_data.motor_val(0)); // TODO remove dirty hack
-			stats.process_alt(Alt());
-		    }
-		update_debug_buff();
-		log("processed debug data");
+	    	if (is_mk())
+		    	{
+	    		stats.process_mkflags(debug_data.motor_val(0)); // TODO remove dirty hack
+	    		stats.process_alt(getAlt());
+		    	}
+	    	update_debug_buff();
+	    	log("processed debug data");
+	    	
 		break;
 		
 	    case 'V': // Version Info
-		stats.version_data_count++;
-		if (slave_addr!=data[1]-'a')
+	    	stats.version_data_count++;
+	    	
+
+	    	version.set_by_mk_data(decoded_data);
+	    	
+	    	if (slave_addr!=data[1]-'a') //new slave address
 		    {
-			slave_addr=(byte)(data[1]-'a');
-			change_notify=true;
+	    		slave_addr=(byte)(data[1]-'a');
+	    		//change_notify=true;
+	    		notifyAll(DUBwiseNotificationListenerInterface.NOTIFY_CONNECTION_CHANGED);
 		    }
 
 		/*
@@ -1019,19 +1087,20 @@ public class MKCommunicator
 		    case RE_SLAVE_ADDR:
 			ufo_prober.set_to_rangeextender();
 			break;
-
 		    default:
 			ufo_prober.set_to_incompatible();
 			break;
 		    }
 		*/
 
-		version.set_by_mk_data(decoded_data);
+		
 		break;
 
 	    case 'w':
+	    	log("processing angles");		
 		angle_nick=MKHelper.parse_signed_int_2(decoded_data[0],decoded_data[1]);
 	        angle_roll=MKHelper.parse_signed_int_2(decoded_data[2],decoded_data[3]);
+	        log("done processing angles");		
 		stats.angle_data_count++;
 		break;
 
@@ -1072,7 +1141,7 @@ public class MKCommunicator
 	    	stats.process_mkflags(gps_position.MKFlags);
 	    	stats.process_compas(gps_position.CompasHeading);
 	    	stats.process_speed(gps_position.GroundSpeed);
-	    	stats.process_alt(Alt());
+	    	stats.process_alt(getAlt());
 
 		break;
 
@@ -1083,6 +1152,7 @@ public class MKCommunicator
 
 	    }
 	
+	log("command processing done");		
     }
 
     
@@ -1092,41 +1162,25 @@ public class MKCommunicator
     public void close_connections(boolean force)
     {
 
-	//	if ((!force)&&root.canvas.do_vibra) root.vibrate(500);
-	force_disconnect|=force;
-	try{ comm_adapter.getOutputStream().close(); }
-	catch (Exception inner_ex) { }
+    	//	if ((!force)&&root.canvas.do_vibra) root.vibrate(500);
+    	force_disconnect|=force;
 
-	try{ comm_adapter.getOutputStream().close(); }
-	catch (Exception inner_ex) { }
+    	if (comm_adapter!=null) 
+    		comm_adapter.disconnect();
 	
-//#ifdef j2me
-//#	try{ connection.close(); }
-//#	catch (Exception inner_ex) { }
-//#endif
-	
-	/*
-	try {
-        bt_connection.close();
-    }
-    catch (IOException e) {
-        // XXX Auto-generated catch block
-        
-    }*/
-	
-	comm_adapter.disconnect();
-	
-	slave_addr=-1;
-	//	ufo_prober.set_to_none();
-	stats.reset(); 
-	connected=false;
-	version.reset();
-	//	if (bootloader_stage==BOOTLOADER_STAGE_NONE)
-	disconnect_notify=true;
+    	slave_addr=-1;
+    	//	ufo_prober.set_to_none();
+    	stats.reset(); 
+    	connected=false;
+    	version.reset();
+    	//	if (bootloader_stage==BOOTLOADER_STAGE_NONE)
+    	//disconnect_notify=true;
+    	
+    	notifyAll(DUBwiseNotificationListenerInterface.NOTIFY_DISCONNECT);
     }
 
 
-    int last_avr_sig=-1;
+    
     // Thread to recieve data from Connection
     public void run()
     {
@@ -1442,8 +1496,14 @@ public class MKCommunicator
 						data_buff_pos++;
 						data_buff_pos%=DATA_BUFF_LEN;
 
+
 						
-						try{process_data(data_set,data_set_pos); }
+						try{
+							
+							if (data_set_pos>3) process_data(data_set,data_set_pos); 
+							
+						
+						}
 						catch (Exception e) 
 						    { 			
 							log(".. problem processing"); 
@@ -1589,5 +1649,40 @@ public class MKCommunicator
     public void setCommunicationAdapter(CommunicationAdapterInterface _comm_adapter) {
 		comm_adapter=_comm_adapter;
 	}
+    
+    public CommunicationAdapterInterface getCommunicationAdapter() {
+    	return comm_adapter;
+    }
 	
+    
+    public String getNaviErrorString() {
+    	return error_str;
+    }
+    
+    public boolean hasNaviError() {
+    	return (gps_position.ErrorCode!=0);
+    }
+    
+    public boolean isConnected() {
+    	return ((comm_adapter!=null)&&connected);
+    }
+
+    public void log(String str)
+    {
+//#ifdef android
+    	//if (do_log)	Log.d("MK-Comm",str);
+//#endif
+//	canvas.debug.log(str);
+	//	System.out.println(str);
+    }
+
+    public int conn_time_in_s()
+    {
+	if (connected)
+	    return (int)((System.currentTimeMillis()-connection_start_time)/1000);
+	else
+	    return 0;
+    }
+
+
 }

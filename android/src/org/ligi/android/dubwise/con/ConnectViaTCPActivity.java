@@ -1,8 +1,26 @@
+/**************************************************************************
+ *                                          
+ * Activity to connect via TCP/IP
+ *                                          
+ * Author:  Marcus -LiGi- Bueschleb   
+ *
+ * Project URL:
+ *  http://mikrokopter.de/ucwiki/en/DUBwise
+ * 
+ * License:
+ *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
+ *  (Creative Commons / Non Commercial / Share Alike)
+ *  Additionally to the Creative Commons terms it is not allowed
+ *  to use this project in _any_ violent manner! 
+ *  This explicitly includes that lethal Weapon owning "People" and 
+ *  Organisations (e.g. Army & Police) 
+ *  are not allowed to use this Project!
+ *
+ **************************************************************************/
+
 package org.ligi.android.dubwise.con;
 
 import org.ligi.android.dubwise.R;
-import org.ligi.android.dubwise.R.id;
-import org.ligi.android.dubwise.R.layout;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 
 import android.os.Bundle;
@@ -73,11 +91,14 @@ public class ConnectViaTCPActivity extends Activity implements OnClickListener, 
         
 		int port=Integer.parseInt(""+port_text.getText());
 		String host=""+host_text.getText();
+		
+		String pwd=""+pwd_text.getText();
+		String user=""+user_text.getText();
+		
 		boolean qmk=qmk_check.isChecked();
 		
 		MKProvider.getMK().do_log=false;
-        MKProvider.getMK().connect_to(host_text.getText() + ":" + port , host_text.getText() + ":" + port_text.getText() );
-    
+        
         SharedPreferences settings = ActivityCalls.getSharedPreferences(this);
         
         SharedPreferences.Editor editor=settings.edit();
@@ -85,14 +106,22 @@ public class ConnectViaTCPActivity extends Activity implements OnClickListener, 
         editor.putInt("tcp-port",port);
         editor.putString("tcp-host",host);
         editor.putBoolean("tcp-qmk", qmk);
+        editor.putString("qmk-pwd", pwd);
+        editor.putString("qmk-user", user);
         
         editor.commit();
         
         Log.i("DUBwise","connecting to " + host +":" + port + " via tcp qmk:" + qmk );
         
-        TCPConnectionAdapter tcp_com=new TCPConnectionAdapter(host,port,qmk);
+        TCPConnectionAdapter tcp_com;
+        if (qmk)
+        	tcp_com=new TCPConnectionAdapter(host,port,user,pwd);
+        else
+        	tcp_com=new TCPConnectionAdapter(host,port);
         
         MKProvider.getMK().setCommunicationAdapter(tcp_com);
+        
+        MKProvider.getMK().connect_to(host_text.getText() + ":" + port , host_text.getText() + ":" + port_text.getText() );
         
 	}
 	

@@ -1,34 +1,30 @@
+/**************************************************************************
+ *                                          
+ * Class to handle DUBwise Preferences
+ *                                          
+ * Author:  Marcus -LiGi- Bueschleb   
+ *
+ * Project URL:
+ *  http://mikrokopter.de/ucwiki/en/DUBwise
+ * 
+ * License:
+ *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
+ *  (Creative Commons / Non Commercial / Share Alike)
+ *  Additionally to the Creative Commons terms it is not allowed
+ *  to use this project in _any_ violent manner! 
+ *  This explicitly includes that lethal Weapon owning "People" and 
+ *  Organisations (e.g. Army & Police) 
+ *  are not allowed to use this Project!
+ *
+ **************************************************************************/
 
 
 package org.ligi.android.dubwise;
 
 
-/**
- * gobandroid 
- * by Marcus -Ligi- Bueschleb 
- * http://ligi.de
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 3 as 
- * published by the Free Software Foundation; 
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details. 
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- * 
- **/
-
-
-import java.io.File;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 public class DUBwisePrefs {
 

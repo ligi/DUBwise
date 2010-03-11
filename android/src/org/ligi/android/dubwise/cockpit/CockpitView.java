@@ -1,3 +1,23 @@
+/**************************************************************************
+ *                                          
+ * View for the Cockpit
+ *                                          
+ * Author:  Marcus -LiGi- Bueschleb   
+ *
+ * Project URL:
+ *  http://mikrokopter.de/ucwiki/en/DUBwise
+ * 
+ * License:
+ *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
+ *  (Creative Commons / Non Commercial / Share Alike)
+ *  Additionally to the Creative Commons terms it is not allowed
+ *  to use this project in _any_ violent manner! 
+ *  This explicitly includes that lethal Weapon owning "People" and 
+ *  Organisations (e.g. Army & Police) 
+ *  are not allowed to use this Project!
+ *
+ **************************************************************************/
+
 package org.ligi.android.dubwise.cockpit;
 
 import android.app.Activity;
@@ -8,13 +28,10 @@ import android.view.View.OnTouchListener;
 import android.graphics.*;
 import android.hardware.SensorListener;
 import android.hardware.SensorManager;
-
-// not working atm - import org.bluez.*;
 import org.ligi.android.dubwise.con.MKProvider;
-import org.ligi.ufo.*;
+import org.ligi.ufo.DUBwiseDefinitions;
 
 public class CockpitView extends View implements DUBwiseDefinitions, SensorListener,OnTouchListener
-
 {
 	private Paint mPaint = new Paint();
 	private Paint altitudeTextPaint = new Paint();
@@ -84,7 +101,7 @@ public class CockpitView extends View implements DUBwiseDefinitions, SensorListe
 
         canvas.restore();
         
-        canvas.drawText("Altitude" + MKProvider.getMK().Alt(), alt_rect.left,alt_rect.right, altitudeTextPaint);
+        canvas.drawText("Altitude" + MKProvider.getMK().getAlt(), alt_rect.left,alt_rect.right, altitudeTextPaint);
 		invalidate();
 		
 		

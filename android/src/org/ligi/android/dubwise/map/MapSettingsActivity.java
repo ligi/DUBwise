@@ -1,18 +1,32 @@
+/**************************************************************************
+ *                                          
+ * Settings Activity for the DUBwise Map
+ *                                          
+ * Author:  Marcus -LiGi- Bueschleb   
+ *
+ * Project URL:
+ *  http://mikrokopter.de/ucwiki/en/DUBwise
+ * 
+ * License:
+ *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
+ *  (Creative Commons / Non Commercial / Share Alike)
+ *  Additionally to the Creative Commons terms it is not allowed
+ *  to use this project in _any_ violent manner! 
+ *  This explicitly includes that lethal Weapon owning "People" and 
+ *  Organisations (e.g. Army & Police) 
+ *  are not allowed to use this Project!
+ *
+ **************************************************************************/
+
 package org.ligi.android.dubwise.map;
 
 import org.ligi.android.dubwise.R;
-import org.ligi.android.dubwise.R.id;
-import org.ligi.android.dubwise.R.layout;
-import org.ligi.android.dubwise.con.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
@@ -20,11 +34,6 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 
 public class MapSettingsActivity extends Activity implements OnCheckedChangeListener, OnItemSelectedListener {
-
-	public final static int AWAKE_NEVER=0;
-	public final static int AWAKE_CONN=1;
-	public final static int AWAKE_ALWAYS=2;
-	private final static String[] awake_strings={"never","when connected","always" };
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

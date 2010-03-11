@@ -1,14 +1,30 @@
+/**************************************************************************
+ *                                          
+ * Activity to show a Map with the UFO
+ *                                          
+ * Author:  Marcus -LiGi- Bueschleb   
+ *
+ * Project URL:
+ *  http://mikrokopter.de/ucwiki/en/DUBwise
+ * 
+ * License:
+ *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
+ *  (Creative Commons / Non Commercial / Share Alike)
+ *  Additionally to the Creative Commons terms it is not allowed
+ *  to use this project in _any_ violent manner! 
+ *  This explicitly includes that lethal Weapon owning "People" and 
+ *  Organisations (e.g. Army & Police) 
+ *  are not allowed to use this Project!
+ *
+ **************************************************************************/
+
 package org.ligi.android.dubwise.map;
 
 import org.ligi.android.dubwise.R;
-import org.ligi.android.dubwise.R.id;
-import org.ligi.android.dubwise.R.layout;
 import org.ligi.android.dubwise.con.MKProvider;
-import org.ligi.android.dubwise.graph.GraphSettingsActivity;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.ufo.MKCommunicator;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,7 +34,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,7 +43,6 @@ import android.widget.ZoomControls;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
 public class DUBwiseMap extends MapActivity implements LocationListener {

@@ -1,7 +1,26 @@
+/**************************************************************************
+ *                                          
+ * Activity to edit the Mixer Table
+ *                                          
+ * Author:  Marcus -LiGi- Bueschleb   
+ *
+ * Project URL:
+ *  http://mikrokopter.de/ucwiki/en/DUBwise
+ * 
+ * License:
+ *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
+ *  (Creative Commons / Non Commercial / Share Alike)
+ *  Additionally to the Creative Commons terms it is not allowed
+ *  to use this project in _any_ violent manner! 
+ *  This explicitly includes that lethal Weapon owning "People" and 
+ *  Organisations (e.g. Army & Police) 
+ *  are not allowed to use this Project!
+ *
+ **************************************************************************/
+
 package org.ligi.android.dubwise;
 
 
-import java.util.Map;
 
 import org.ligi.android.dubwise.con.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
@@ -12,7 +31,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -46,7 +64,6 @@ public class MixerEditActivity extends Activity implements OnItemSelectedListene
 	private static final int MENU_SAVE_TO_FC = 2;
 	private static final int MENU_SAVE_TO_PHONE = 3;
 
-	private final static String SHARED_PREFS_MIXER_TAG="DUBwise-mixers";
 	
 	String[] menu_items;
 	
@@ -85,6 +102,7 @@ public class MixerEditActivity extends Activity implements OnItemSelectedListene
 		TableRow name_row=new TableRow(this);
 
 		TextView name_label=new TextView(this);
+		name_label.setFocusableInTouchMode(true); // so that keyboard won't pop up
 		name_label.setText("Name:");
 		name_row.addView(name_label);
 		
@@ -94,10 +112,13 @@ public class MixerEditActivity extends Activity implements OnItemSelectedListene
 		layout_p.span=4;
 		
 		name_edit.setLayoutParams(layout_p);
-		
+		name_edit.setSingleLine();
 		name_row.addView(name_edit);
 		
 		table.addView(name_row);
+		
+		for (int c=1;c<5;c++)
+			table.setColumnStretchable(c, true);
 		
 		TableRow top_row=new TableRow(this);
 		
@@ -123,7 +144,7 @@ public class MixerEditActivity extends Activity implements OnItemSelectedListene
 			for (int type=0;type<4;type++) {
 				edit_texts[edit_id][type]=new EditText(this);
 				edit_texts[edit_id][type].setInputType(InputType.TYPE_CLASS_NUMBER);
-			
+				
 				new_row.addView(edit_texts[edit_id][type]);
 			}
 			table.addView(new_row);

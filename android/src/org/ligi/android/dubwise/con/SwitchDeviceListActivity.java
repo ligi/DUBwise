@@ -1,3 +1,23 @@
+/**************************************************************************
+ *                                          
+ * Activity to switch the Device
+ *                                          
+ * Author:  Marcus -LiGi- Bueschleb   
+ *
+ * Project URL:
+ *  http://mikrokopter.de/ucwiki/en/DUBwise
+ * 
+ * License:
+ *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
+ *  (Creative Commons / Non Commercial / Share Alike)
+ *  Additionally to the Creative Commons terms it is not allowed
+ *  to use this project in _any_ violent manner! 
+ *  This explicitly includes that lethal Weapon owning "People" and 
+ *  Organisations (e.g. Army & Police) 
+ *  are not allowed to use this Project!
+ *
+ **************************************************************************/
+
 package org.ligi.android.dubwise.con;
 
 import org.ligi.android.dubwise.helper.ActivityCalls;
@@ -20,9 +40,6 @@ public class SwitchDeviceListActivity extends DUBwiseBaseListActivity {
 	public final static int ACTIONID_SWITCH_FC = 1;
 	public final static int ACTIONID_SWITCH_MK3MAG  = 2;
 	
-	
-	// public MapView map;
-	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

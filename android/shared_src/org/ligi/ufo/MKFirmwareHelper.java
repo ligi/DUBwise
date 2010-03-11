@@ -1,3 +1,25 @@
+/************************************************************************ 
+ * 
+ * Helper Class for Flashing Firmwares - e.g. crc16 calculation 
+ *                                          
+ * Author:  Marcus -LiGi- Bueschleb   
+ *
+ * Project URL:
+ *  http://mikrokopter.de/ucwiki/en/DUBwise
+ * 
+ * License:
+ *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
+ *  (Creative Commons / Non Commercial / Share Alike)
+ *  Additionally to the Creative Commons terms it is not allowed
+ *  to use this project in _any_ violent manner! 
+ *  This explicitly includes that lethal Weapon owning "People" and 
+ *  Organisations (e.g. Army & Police) 
+ *  are not allowed to use this Project!
+ *
+ **************************************************************************/
+
+                                            
+
 package org.ligi.ufo;
 
 public final class MKFirmwareHelper
@@ -46,14 +68,11 @@ public final class MKFirmwareHelper
 
     // calculation step
     public final static int CRC16(int ch, int crc)
-    { 
-	return crc16_table[((crc >> 8) ^ (ch)) & 0xFF] ^ (crc << 8);
-    }
+    	{ 
+    	return crc16_table[((crc >> 8) ^ (ch)) & 0xFF] ^ (crc << 8);
+    	}
 
 
     public final static byte[] cmd_reset_params={(byte)'B',0,4,(byte)'E',(byte)0xFF,(byte)0xFF,(byte)0xFF,(byte)0xFF};
-
-			
-
 
 }

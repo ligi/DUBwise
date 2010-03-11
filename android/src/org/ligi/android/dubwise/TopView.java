@@ -1,3 +1,23 @@
+/**************************************************************************
+ *                                          
+ * View to Draw a top bar with information like Voltage / Connection state
+ *                                          
+ * Author:  Marcus -LiGi- Bueschleb   
+ *
+ * Project URL:
+ *  http://mikrokopter.de/ucwiki/en/DUBwise
+ * 
+ * License:
+ *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
+ *  (Creative Commons / Non Commercial / Share Alike)
+ *  Additionally to the Creative Commons terms it is not allowed
+ *  to use this project in _any_ violent manner! 
+ *  This explicitly includes that lethal Weapon owning "People" and 
+ *  Organisations (e.g. Army & Police) 
+ *  are not allowed to use this Project!
+ *
+ **************************************************************************/
+
 package org.ligi.android.dubwise;
 
 import android.app.Activity;
@@ -122,7 +142,7 @@ public class TopView extends View
 					act_symbol_pos += getTextWidth("" + mk.SatsInUse());
 					act_symbol_pos += spacer_items;
 				}
-				if (mk.gps_position.ErrorCode != 0) {
+				if (mk.hasNaviError()) {
 					symbol_paint(canvas, alert_img);
 					act_symbol_pos += spacer_items;
 				}

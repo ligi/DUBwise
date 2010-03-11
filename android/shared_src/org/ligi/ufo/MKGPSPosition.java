@@ -14,6 +14,17 @@
  *
  * thanx a lot for sharing!
  *
+ * License:
+ *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
+ *  (Creative Commons / Non Commercial / Share Alike)
+ *  Additionally to the Creative Commons terms it is not allowed
+ *  to use this project in _any_ violent manner! 
+ *  This explicitly includes that lethal Weapon owning "People" and 
+ *  Organisations (e.g. Army & Police) 
+ *  are not allowed to use this Project!
+ *
+ *
+ *
  *****************************************************/
 
 package org.ligi.ufo;
@@ -68,6 +79,8 @@ public class MKGPSPosition
     public int ErrorCode= 0;
 
 
+    public int UsedCapacity =-1;
+    public int Current =-1;
 
     public int Altimeter=-1; // hight according to air pressure
     public int Variometer=-1; // climb(+) and sink(-) rate
@@ -76,6 +89,16 @@ public class MKGPSPosition
     public int GroundSpeed=-1;
     public int Heading=-1;
     public int CompasHeading=-1;
+
+    // Constructor
+    public MKGPSPosition() 
+	    {
+		LongWP=new int[MAX_WAYPOINTS];
+		LatWP=new int[MAX_WAYPOINTS];
+		NameWP=new String[MAX_WAYPOINTS];
+		last_wp=0;
+	    }
+
 
 
 
@@ -266,70 +289,43 @@ public class MKGPSPosition
     }
 
     public String GroundSpeed_str()
-    {
-	return act_speed_format_str(GroundSpeed);
-
-    }
+    	{
+    	return act_speed_format_str(GroundSpeed);
+    	}
 
     public String WP_Latitude_str(int id)
-    {
-	
-	return act_gps_format_str(LatWP[id]); //+ "''N"  ;
-    }
+    	{
+    	return act_gps_format_str(LatWP[id]); //+ "''N"  ;
+    	}
 
     public String WP_Longitude_str(int id)
-    {
-	return act_gps_format_str(LongWP[id]); //+ "''E"  ;
-
-    }
+	    {
+		return act_gps_format_str(LongWP[id]); //+ "''E"  ;
+	    }
 
     public String Latitude_str()
-    {
-	return act_gps_format_str(Latitude) ;
-    }
+	    {
+		return act_gps_format_str(Latitude) ;
+	    }
 
     public String Longitude_str()
-    {
-	return act_gps_format_str(Longitude)  ;
-    }
+	    { return act_gps_format_str(Longitude);   }
 
 
     public String TargetLatitude_str()
-    {
-	return act_gps_format_str(TargetLatitude) ;
-    }
+	    { return act_gps_format_str(TargetLatitude);   }
 
     public String TargetLongitude_str()
-    {
-	return act_gps_format_str(TargetLongitude)  ;
-    }
+    	{ return act_gps_format_str(TargetLongitude);  }
 
     public String HomeLatitude_str()
-    {
-	return act_gps_format_str(HomeLatitude) ;
-    }
+    	{ return act_gps_format_str(HomeLatitude);   }
 
     public String HomeLongitude_str()
-    {
-	return act_gps_format_str(HomeLongitude)  ;
-    }
+    	{ return act_gps_format_str(HomeLongitude);    }
 
 
-    // Constructor
-    public MKGPSPosition() 
-    {
-
-	LongWP=new int[MAX_WAYPOINTS];
-	LatWP=new int[MAX_WAYPOINTS];
-	
-
-	NameWP=new String[MAX_WAYPOINTS];
-	// predefined waypoints
-
-
-
-	last_wp=0;
-    }
+    
     private int parse_arr_4(int offset,int[] in_arr)
     {
 	return ((in_arr[offset+3]<<24) |
@@ -347,56 +343,74 @@ public class MKGPSPosition
 
 
     public void set_by_mk_data(int[] in_arr,MKVersion version)
-    {
-	int off=0;
-	if (version.proto_minor>0) // TODO fixme
-	    off++;
+    	{
+    	int off=0;
+    	if ((version.proto_major>10)||(version.proto_minor>0)) // TODO fixme
+    		off++;
 	
-	Longitude=parse_arr_4(off+0,in_arr);
-	Latitude=parse_arr_4(off+4,in_arr);
-	Altitude=parse_arr_4(off+8,in_arr);
-	//status=in_arr[12];
+    	Longitude=parse_arr_4(off+0,in_arr);
+    	Latitude=parse_arr_4(off+4,in_arr);
+    	Altitude=parse_arr_4(off+8,in_arr);
+    	//	status=in_arr[12];
 
-	TargetLongitude=parse_arr_4(off+13,in_arr);
-	TargetLatitude=parse_arr_4(off+17,in_arr);
-	TargetAltitude=parse_arr_4(off+21,in_arr);
-	//Targetstatus=in_arr[25];
+    	TargetLongitude=parse_arr_4(off+13,in_arr);
+    	TargetLatitude=parse_arr_4(off+17,in_arr);
+    	TargetAltitude=parse_arr_4(off+21,in_arr);
+    	//	Targetstatus=in_arr[25];
 
-	Distance2Target=parse_arr_2(off+26,in_arr);
-	Angle2Target=parse_arr_2(off+28,in_arr);
+    	Distance2Target=parse_arr_2(off+26,in_arr);
+    	Angle2Target=parse_arr_2(off+28,in_arr);
 
-	HomeLongitude=parse_arr_4(off+30,in_arr);
-	HomeLatitude=parse_arr_4(off+34,in_arr);
-	HomeAltitude=parse_arr_4(off+38,in_arr);
-	//Targetstatus=in_arr[42];
+    	HomeLongitude=parse_arr_4(off+30,in_arr);
+    	HomeLatitude=parse_arr_4(off+34,in_arr);
+    	HomeAltitude=parse_arr_4(off+38,in_arr);
+    	//	Targetstatus=in_arr[42];
 
-	Distance2Home=parse_arr_2(off+43,in_arr);
-	Angle2Home=parse_arr_2(off+45,in_arr);
+    	Distance2Home=parse_arr_2(off+43,in_arr);
+    	Angle2Home=parse_arr_2(off+45,in_arr);
 
-	WayPointIndex=(byte)in_arr[off+47];
-	WayPointNumber=(byte)in_arr[off+48];
+    	WayPointIndex=(byte)in_arr[off+47];
+    	WayPointNumber=(byte)in_arr[off+48];
 
-	SatsInUse=(byte)in_arr[off+49];
+    	SatsInUse=(byte)in_arr[off+49];
 	
-	Altimeter=parse_arr_2(off+50,in_arr); // hight according to air pressure
-	Variometer=parse_arr_2(off+52,in_arr);; // climb(+) and sink(-) rate
-	FlyingTime=parse_arr_2(off+54,in_arr);;
+    	Altimeter=parse_arr_2(off+50,in_arr); // hight according to air pressure
+    	Variometer=parse_arr_2(off+52,in_arr);; // climb(+) and sink(-) rate
+    	FlyingTime=parse_arr_2(off+54,in_arr);;
 	
-	UBatt= in_arr[off+56];
+    	UBatt= in_arr[off+56];
 
-	GroundSpeed= parse_arr_2(off+57,in_arr);
-	Heading= parse_arr_2(off+59,in_arr);
-	CompasHeading= parse_arr_2(off+61,in_arr); 
+		GroundSpeed= parse_arr_2(off+57,in_arr);
+		Heading= parse_arr_2(off+59,in_arr);
+		CompasHeading= parse_arr_2(off+61,in_arr); 
+		
+		AngleNick = in_arr[off+63];
+		AngleRoll = in_arr[off+64];
+		SenderOkay = in_arr[off+65];
 	
-	AngleNick = in_arr[off+63];
-	AngleRoll = in_arr[off+64];
-	SenderOkay = in_arr[off+65];
-
-	MKFlags=in_arr[off+66];
-	NCFlags=in_arr[off+67];
-
-	ErrorCode=in_arr[off+68];
-    }
+		MKFlags=in_arr[off+66];
+		NCFlags=in_arr[off+67];
+	
+		ErrorCode=in_arr[off+68];
+	    
+		
+		// 69 op radius
+		// 70-71 top speed
+		// 72 targetHoldTime
+		// 73 rc rssi
+		// 74-75 set alt
+		// 76 gas
+		// 77/78 -current
+		// 79/80 - used capacity
+		
+		if (in_arr.length>off+77)
+			Current = parse_arr_2(off+77,in_arr);
+		
+		if (in_arr.length>off+79)
+			UsedCapacity = parse_arr_2(off+79,in_arr);
+			
+			
+    	} // end of set_by_mk_data
 
 
 

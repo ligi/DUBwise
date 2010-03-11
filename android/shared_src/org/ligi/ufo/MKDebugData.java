@@ -1,12 +1,24 @@
-/*********************************************
- *                                            
+/**************************************************************************
+ *                                          
  * class representing the DebugData and the names of the values 
- *                                            
- * Author:        Marcus -LiGi- Bueschleb     
- * 
- * see README for further Infos
+ *                                          
+ * Author:  Marcus -LiGi- Bueschleb   
  *
- ********************************************/
+ * Project URL:
+ *  http://mikrokopter.de/ucwiki/en/DUBwise
+ * 
+ * License:
+ *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
+ *  (Creative Commons / Non Commercial / Share Alike)
+ *  Additionally to the Creative Commons terms it is not allowed
+ *  to use this project in _any_ violent manner! 
+ *  This explicitly includes that lethal Weapon owning "People" and 
+ *  Organisations (e.g. Army & Police) 
+ *  are not allowed to use this Project!
+ *
+ **************************************************************************/
+
+                                            
 
 package org.ligi.ufo;
 
@@ -37,7 +49,7 @@ public class MKDebugData
 
     public MKDebugData() 
     {
-	random = new Random(); // for fake conn
+    	random = new Random(); // for fake conn
 
 	names=new String[32];
 	analog=new int[32];

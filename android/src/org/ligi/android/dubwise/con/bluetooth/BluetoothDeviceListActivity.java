@@ -1,3 +1,23 @@
+/**************************************************************************
+ *                                          
+ * Activity to show results of a bluetooth scan an option 
+ * to connect to the found devices
+ *                                          
+ * Author:  Marcus -LiGi- Bueschleb   
+ *
+ * Project URL:
+ *  http://mikrokopter.de/ucwiki/en/DUBwise
+ * 
+ * License:
+ *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
+ *  (Creative Commons / Non Commercial / Share Alike)
+ *  Additionally to the Creative Commons terms it is not allowed
+ *  to use this project in _any_ violent manner! 
+ *  This explicitly includes that lethal Weapon owning "People" and 
+ *  Organisations (e.g. Army & Police) 
+ *  are not allowed to use this Project!
+ *
+ **************************************************************************/
 
 package org.ligi.android.dubwise.con.bluetooth;
 
@@ -22,7 +42,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import it.gerdavax.easybluetooth.LocalDevice;
@@ -44,21 +63,15 @@ public class BluetoothDeviceListActivity extends ListActivity implements Runnabl
 	private final static byte CONNECTION_STATE_WAIT4DEVINFO=6;
 	private final static byte CONNECTION_STATE_CONNECTED=7;
 	
-	
 	private byte conn_state=CONNECTION_STATE_IDLE;
 	
 	private ArrayAdapter<String> arrayAdapter;
 	private Vector<String> bt_friendly_names=new Vector<String>();
 	private Vector<String> bt_macs=new Vector<String>();
 	
-	
-	
 	private ProgressDialog progress_dialog;
 
 	private boolean scanning=false;
-	
-	
-	
 	
 	public void log(String msg) {
 	    Log.i("DUBwise", msg);
@@ -372,12 +385,11 @@ public class BluetoothDeviceListActivity extends ListActivity implements Runnabl
 	@Override
 	public void onCancel(DialogInterface dialog) {
 		finish();
-		
 	}
 
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
 		finish();
-		
 	}
+
 }

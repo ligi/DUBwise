@@ -1,3 +1,23 @@
+/**************************************************************************
+ *                                          
+ * Main Menu ( & startup ) Activity for DUBwise 
+ *                                          
+ * Author:  Marcus -LiGi- Bueschleb   
+ *
+ * Project URL:
+ *  http://mikrokopter.de/ucwiki/en/DUBwise
+ * 
+ * License:
+ *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
+ *  (Creative Commons / Non Commercial / Share Alike)
+ *  Additionally to the Creative Commons terms it is not allowed
+ *  to use this project in _any_ violent manner! 
+ *  This explicitly includes that lethal Weapon owning "People" and 
+ *  Organisations (e.g. Army & Police) 
+ *  are not allowed to use this Project!
+ *
+ **************************************************************************/
+
 package org.ligi.android.dubwise;
 
 import java.util.Vector;
@@ -12,6 +32,7 @@ import org.ligi.android.dubwise.helper.IconicMenuItem;
 import org.ligi.android.dubwise.lcd.LCDActivity;
 import org.ligi.android.dubwise.map.DUBwiseMap;
 import org.ligi.android.dubwise.piloting.PilotingListActivity;
+import org.ligi.ufo.DUBwiseNotificationListenerInterface;
 import org.ligi.ufo.MKCommunicator;
 import android.app.ListActivity;
 import android.content.Intent;
@@ -21,30 +42,35 @@ import android.widget.ListView;
 import android.util.Log;
 import android.content.SharedPreferences;
 
-public class DUBwise extends ListActivity {
+public class DUBwise extends ListActivity implements DUBwiseNotificationListenerInterface , Runnable{
 
-	// DUBwiseView canvas;
-	boolean do_sound;
-	boolean fullscreen;
-	SharedPreferences settings;
+	
+	
+	private SharedPreferences settings; // TODO remove&replace by DUBwisePrefs
 
 	public final static int ACTIONID_QUIT = 1;
 
+		
 	/** Called when the activity is first created. */
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	
+		StatusVoice.getInstance().init(this);
 		ActivityCalls.beforeContent(this);
 		settings = ActivityCalls.getSharedPreferences(this);
 		refresh_list();
 
-		
+		StartupConnectionService.start(this);
 		Log.d("DUWISE", "create");
+	
+		
 	}
 
 	public void refresh_list() {
+
+		
 		
 		MKCommunicator mk = MKProvider.getMK();
 		Vector<IconicMenuItem> menu_items_vector = new Vector<IconicMenuItem>();
@@ -58,15 +84,26 @@ public class DUBwise extends ListActivity {
 
 		
 		if (settings.getBoolean("expert", false))
-		menu_items_vector.add(new IconicMenuItem("OpenGL",
-				android.R.drawable.ic_menu_preferences, new Intent(this,
-						OpenGLActivity.class)));
-
+		
 
 		if (settings.getBoolean("expert", false))
-		menu_items_vector.add(new IconicMenuItem("Control Panel",
+		{
+			menu_items_vector.add(new IconicMenuItem("OpenGL",
+					android.R.drawable.ic_menu_preferences, new Intent(this,
+							OpenGLActivity.class)));
+
+			menu_items_vector.add(new IconicMenuItem("Flash Firmware",
+					android.R.drawable.ic_menu_preferences, new Intent(this,
+							FlashFirmwareActivity.class)));
+
+			menu_items_vector.add(new IconicMenuItem("Control Panel",
 				android.R.drawable.ic_menu_preferences, new Intent(this,
 						ControlPanelActivity.class)));
+		
+			menu_items_vector.add(new IconicMenuItem("Voice",
+				android.R.drawable.ic_menu_view, new Intent(this,
+						VoiceControlActivity.class)));
+		}
 		
 		if (mk.connected) {
 			
@@ -74,7 +111,7 @@ public class DUBwise extends ListActivity {
 						android.R.drawable.ic_menu_view, new Intent(this,
 								DeviceDetails.class)));
 
-			if (mk.is_mk() || mk.is_fake())
+				
 				menu_items_vector.add(new IconicMenuItem("LCD",
 						android.R.drawable.ic_menu_view, new Intent(this,
 								LCDActivity.class)));
@@ -99,7 +136,7 @@ public class DUBwise extends ListActivity {
 						android.R.drawable.ic_menu_view, new Intent(this,
 								CockpitActivity.class)));
 
-			if (mk.is_mk() || mk.is_navi() || mk.is_fake())
+			if (mk.is_mk() || mk.is_navi() || mk.is_fake() || mk.is_mk3mag())
 				menu_items_vector.add(new IconicMenuItem("Analog Values",
 						android.R.drawable.ic_menu_view, new Intent(this,
 								AnalogValuesActivity.class)));
@@ -144,7 +181,10 @@ public class DUBwise extends ListActivity {
 		ActivityCalls.afterContent(this);
 		MKProvider.getMK().do_log=settings.getBoolean("logging", false);
 		Log.d("DUBWISE", "onResume");
+		
 		refresh_list();
+		
+		MKProvider.getMK().addNotificationListener(this);
 	}
 
 	@Override
@@ -174,5 +214,23 @@ public class DUBwise extends ListActivity {
 			startActivity(item.intent);
 
 	}
+
+	
+	public void processNotification(byte notification) {
+		
+		
+		switch(notification) {
+			case NOTIFY_CONNECTION_CHANGED:
+				this.runOnUiThread(this);
+				break;
+		}
+	}
+
+	@Override
+	public void run() {
+		refresh_list();
+	}
+
+	
 
 }

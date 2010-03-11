@@ -1,3 +1,23 @@
+/**************************************************************************
+ *                                          
+ * Connection Adapter for Bluetooth Connections
+ *                                          
+ * Author:  Marcus -LiGi- Bueschleb   
+ *
+ * Project URL:
+ *  http://mikrokopter.de/ucwiki/en/DUBwise
+ * 
+ * License:
+ *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
+ *  (Creative Commons / Non Commercial / Share Alike)
+ *  Additionally to the Creative Commons terms it is not allowed
+ *  to use this project in _any_ violent manner! 
+ *  This explicitly includes that lethal Weapon owning "People" and 
+ *  Organisations (e.g. Army & Police) 
+ *  are not allowed to use this Project!
+ *
+ **************************************************************************/
+
 package org.ligi.android.dubwise.con.bluetooth;
 
 import it.gerdavax.easybluetooth.BtSocket;
@@ -15,21 +35,36 @@ import org.ligi.ufo.CommunicationAdapterInterface;
 public class BluetoothCommunicationAdapter implements
 		CommunicationAdapterInterface {
 	
-	private InputStream input_stream;
-	private OutputStream output_stream;
+	
 	private BtSocket bt_connection;
+	private RemoteDevice remote_device;
+	private String mac="";
 	
 	public void log(String what) {
 	 Log.d("DUBwise Bluetooth Communication Adapter",what);	
+
+	}
+
+	public int getRSSI() {
+		return remote_device.getRSSI();	 		
 	}
 	
 	public BluetoothCommunicationAdapter(String mac) {
+		this.mac=mac;
+	}
+
+	@Override
+	public void connect() {
+		
+		
+		
+		
 		try {
 			//LocalDevice bta = BluetoothAdapter.getDefaultAdapter();
 			// LocalBluetoothDevice.initLocalDevice(context);
 			
 			log("getting device" + mac);
-			RemoteDevice remote_device = LocalDevice.getInstance().getRemoteForAddr(mac);
+			remote_device = LocalDevice.getInstance().getRemoteForAddr(mac);
 			//BluetoothDevice bd = bta.getRemoteDevice(mac);
 					
 			remote_device.ensurePaired();
@@ -67,36 +102,43 @@ public class BluetoothCommunicationAdapter implements
 			
 			log("getting streams");
 			
-			input_stream = bt_connection.getInputStream();
-			output_stream = bt_connection.getOutputStream();
+			
 		}
 		catch(Exception e) { log(""+e); }
 	}
 
 	@Override
-	public void connect() {
-
-	}
-
-	@Override
 	public void disconnect() {
 		try {
-			input_stream.close();
-			output_stream.close();
-			bt_connection.close();
-	    }
-	    catch (IOException e) {
-	    }
+			getInputStream().close();
+	    } catch (IOException e) {	    }
+	    
+	    try {
+	    	getOutputStream().close();
+	    } catch (IOException e) {	    }
+	    
+	    try {
+	    	bt_connection.close();
+	    } catch (IOException e) {	    }
 	}
 
 	@Override
 	public InputStream getInputStream() {
-		return input_stream;
+		try {
+			return bt_connection.getInputStream();
+		} catch (Exception e) {
+			Log.i("DUBwise","getInputstream problem" + e);
+			return null;
+		}
 	}
 
 	@Override
 	public OutputStream getOutputStream() {
-		return output_stream;
+		try {
+			return bt_connection.getOutputStream();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 }

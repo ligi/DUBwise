@@ -1,10 +1,17 @@
 /**************************************************
  *                                             
- * class representing the Params Structure     
+ * class representing the MikroKopter Params Structure     
  *                                             
  * Author:        Marcus -LiGi- Bueschleb      
  * 
- * see README for further Infos
+ * License:
+ *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
+ *  (Creative Commons / Non Commercial / Share Alike)
+ *  Additionally to the Creative Commons terms it is not allowed
+ *  to use this project in _any_ violent manner! 
+ *  This explicitly includes that lethal Weapon owning "People" and 
+ *  Organisations (e.g. Army & Police) 
+ *  are not allowed to use this Project!
  *
  *************************************************/
 
@@ -46,8 +53,6 @@ public class MKParamsParser  extends ParamsClass
     public int last_parsed_paramset=-1;
     public int active_paramset=-1;
     
-    public boolean found_incompatible=false;
-
     public int[] stick_stringids;
 
     
@@ -178,7 +183,6 @@ public class MKParamsParser  extends ParamsClass
 		if( (definition_pos>=all_tab_stringids.length))
 			incompatible_flag=INCOMPATIBLE_FLAG_FC_TOO_NEW;
 		
-		found_incompatible=true;
 		return;
 	    }
 
