@@ -63,4 +63,7 @@ if wm
 end
 
 p "anouncing the new version"
-p `curl http://dubwise-download.appspot.com/refresh_download_source`
+
+3.times { # repeating is needed sometimes with appengine ;-)
+  p `curl http://dubwise-download.appspot.com/refresh_download_source`
+}
