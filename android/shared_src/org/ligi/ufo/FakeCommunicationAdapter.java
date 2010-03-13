@@ -23,10 +23,6 @@ package org.ligi.ufo;
 public class FakeCommunicationAdapter implements
 		CommunicationAdapterInterface {
 	
-	public void log(String what) {
-	
-	
-	}
 
 	public void connect() {
 		// nothing to do here in the fake adapter
@@ -36,33 +32,26 @@ public class FakeCommunicationAdapter implements
 		// nothing to do here in the fake adapter
 	}
 
-	@Override
 	public int available() {
 		return 0;
 	}
 
-	@Override
 	public void flush() {
 	}
 
-	@Override
 	public int read(byte[] b, int offset, int length) {
 		return 0;
 	}
 
-	@Override
 	public void write(byte[] buffer, int offset, int count) {
 	}
 
-	@Override
 	public void write(byte[] buffer) {
 	}
 
-	@Override
 	public void write(int oneByte) {
 	}
 	
-	@Override
 	public int read() {
 		return 0;
 	}
