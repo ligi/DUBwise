@@ -34,10 +34,14 @@ import org.ligi.ufo.MKFirmwareHelper;
 import org.ligi.ufo.MixerManager;
 import org.ligi.ufo.FakeCommunicationAdapter;
 import org.ligi.ufo.MKParamsParser;
+import org.ligi.ufo.DUBwiseNotificationListenerInterface;
 
 public class DUBwiseCanvas
     extends Canvas
-    implements Runnable,DUBwiseDefinitions , DUBwiseUIDefinitions,DUBwiseLangDefs
+    implements Runnable
+	       , DUBwiseDefinitions 
+	       , DUBwiseUIDefinitions,DUBwiseLangDefs
+	       , DUBwiseNotificationListenerInterface
 
 //#if (location=="on")&&(cldc11=="on")
 	       ,LocationListener
@@ -928,29 +932,7 @@ public class DUBwiseCanvas
 				mk.mixer_change_notify=false;
 			    }
 
-			// handle Device Change
-			if (mk.change_notify)
-			    {
-				mk.change_notify=false; // handling of event done
-
-				refresh_dynamic_menues();
-				if ((mk.is_incompatible())&&(settings.instant_error_show))
-				    {
-					act_msg=l(STRINGID_INCOMPATIBLEDEVICE);
-					chg_state(STATEID_ERROR_MSG);
-				    }
-				else
-				    {
-				    }
-
-				if (mk.connected)
-				    settings.add_recent(mk.mk_url,mk.name);
-				
-				if (state==STATEID_ERROR_MSG)
-				    chg_state(STATEID_MAINMENU);
-				
-			    }
-			
+		
 			if (mk.disconnect_notify)
 			    {
 				mk.disconnect_notify=false;				
@@ -2626,7 +2608,7 @@ lp= LocationProvider.getInstance(crit2);
 			if (settings.connection_url!="")
 			    connect_mk(settings.connection_url,settings.connection_name);
 
-
+			mk.addNotificationListener(this);
 		    }
 
 	    }
@@ -4005,7 +3987,29 @@ lp= LocationProvider.getInstance(crit2);
     }
 
   
+    public void processNotification(byte notification) {
+	switch(notification) {
+	case NOTIFY_CONNECTION_CHANGED:
 
+	    refresh_dynamic_menues();
+	    if ((mk.is_incompatible())&&(settings.instant_error_show))
+		{
+		    act_msg=l(STRINGID_INCOMPATIBLEDEVICE);
+		    chg_state(STATEID_ERROR_MSG);
+		}
+	    else
+		{
+		}
+	    
+	    if (mk.connected)
+		settings.add_recent(mk.mk_url,mk.name);
+	    
+	    if (state==STATEID_ERROR_MSG)
+		chg_state(STATEID_MAINMENU);
+
+	    break;
+	}
+    }
 
 
 
