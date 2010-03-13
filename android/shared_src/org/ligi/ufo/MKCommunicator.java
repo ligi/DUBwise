@@ -27,7 +27,7 @@ public class MKCommunicator
 {
 	
 	public final static byte lib_version_major=0;
-    public final static byte lib_version_minor=15;
+    public final static byte lib_version_minor=16;
 
     private CommunicationAdapterInterface comm_adapter;
 
@@ -41,7 +41,6 @@ public class MKCommunicator
 
     public int angle_nick=-4242;
     public int angle_roll=-4242;
-    public byte bl_retrys=0;
 
     public boolean freeze_debug_buff=false;
 
@@ -55,16 +54,16 @@ public class MKCommunicator
     public boolean change_notify=false;
     public boolean thread_running=true;
 
-    Vector<DUBwiseNotificationListenerInterface> notify_listeners=new Vector();
+    Vector notify_listeners=new Vector();
     
     public void addNotificationListener(DUBwiseNotificationListenerInterface i) {
-    	notify_listeners.add(i);
+    	notify_listeners.addElement(i);
     }
     
     private void notifyAll(byte notification) {
-    	for (DUBwiseNotificationListenerInterface i : notify_listeners)
+    	for (int i=0;i<notify_listeners.size();i++)
     		try {
-    		i.processNotification(notification);
+    		((DUBwiseNotificationListenerInterface)(notify_listeners.elementAt(i))).processNotification(notification);
     		}
     		catch(Exception e){}
     }
@@ -1683,6 +1682,5 @@ public class MKCommunicator
 	else
 	    return 0;
     }
-
 
 }
