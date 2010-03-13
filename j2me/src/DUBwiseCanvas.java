@@ -1516,18 +1516,18 @@ lp= LocationProvider.getInstance(crit2);
 		return (byte)(((mk.stats.flying_time()%60))%10+10);
 
 	    case 15:
-		return (byte)((mk.Alt()/10000)%10+10);
+		return (byte)((mk.getAlt()/10000)%10+10);
 
 	    case 16:
-		return (byte)((mk.Alt()/1000)%10+10);
+		return (byte)((mk.getAlt()/1000)%10+10);
 
 	    case 17:
-		return (byte)((mk.Alt()/100)%10+10);
+		return (byte)((mk.getAlt()/100)%10+10);
 	    case 18:
-		return (byte)((mk.Alt()/10)%10+10);
+		return (byte)((mk.getAlt()/10)%10+10);
 
 	    case 19:
-		return (byte)((mk.Alt())%10+10);
+		return (byte)((mk.getAlt())%10+10);
 
 	    default:
 		return 29;

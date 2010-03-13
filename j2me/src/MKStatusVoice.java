@@ -313,7 +313,7 @@ public class MKStatusVoice
 						
 					    }
 
-					if ((canvas.mk.Alt()!=-1)&&(canvas.settings.do_alt_voice))
+					if ((canvas.mk.getAlt()!=-1)&&(canvas.settings.do_alt_voice))
 					    {
 						if (!canvas.settings.minimal_voice) {
 						    play("altitude");
@@ -321,10 +321,10 @@ public class MKStatusVoice
 						}
 						
 						
-						play( canvas.mk.Alt()/10);
+						play( canvas.mk.getAlt()/10);
 						if (!canvas.settings.voice_nopoint) {
 						    play("point");
-						    play( canvas.mk.Alt()%10); }
+						    play( canvas.mk.getAlt()%10); }
 						
 						
 						play("meters");
@@ -380,21 +380,30 @@ public class MKStatusVoice
 						    
 						}
 					
+
+					if(canvas.settings.do_current_voice&&(canvas.mk.getCurrent()!=-1))	
+	
+						{
+						    play(canvas.mk.getCurrent());
+						    play("satellites");
+						    
+						}
+					
 				    }
 				
 				
 					
 				if (canvas.settings.do_altimeter_sound)
 				    {
-					if (last_alt==-1) last_alt=canvas.mk.Alt();
+					if (last_alt==-1) last_alt=canvas.mk.getAlt();
 					
 					
-					if (last_alt>canvas.mk.Alt()+canvas.settings.altsteps)
+					if (last_alt>canvas.mk.getAlt()+canvas.settings.altsteps)
 					    {
 						play("down");
 						last_alt-=canvas.settings.altsteps;
 					    }
-					if (last_alt<canvas.mk.Alt()-canvas.settings.altsteps)
+					if (last_alt<canvas.mk.getAlt()-canvas.settings.altsteps)
 					    {
 						play("up");
 						last_alt+=canvas.settings.altsteps;
