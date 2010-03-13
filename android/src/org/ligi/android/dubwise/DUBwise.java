@@ -72,7 +72,7 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 						ConnectionListActivity.class)));
 		menu_items_vector.add(new IconicMenuItem("Settings",
 				android.R.drawable.ic_menu_preferences, new Intent(this,
-						CockpitPrefsActivity.class)));
+						DUBwisePrefsActivity.class)));
 
 		
 		if (DUBwisePrefs.isExpertModeEnabled())
