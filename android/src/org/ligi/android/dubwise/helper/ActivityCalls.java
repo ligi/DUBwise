@@ -22,8 +22,6 @@ package org.ligi.android.dubwise.helper;
 
 import org.ligi.android.dubwise.DUBwisePrefs;
 import org.ligi.android.dubwise.R;
-import org.ligi.android.dubwise.SettingsActivity;
-
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.view.View;
@@ -43,12 +41,14 @@ public class ActivityCalls {
 		DUBwisePrefs.init(activity);
 		activity.requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 
-		if (getSharedPreferences(activity).getInt("awake", 0) !=SettingsActivity.AWAKE_NEVER) 
+		if (DUBwisePrefs.keepLightNow()) 
 		{
-			if (mWakeLock==null) {
-		final PowerManager pm = (PowerManager) (activity.getSystemService(Context.POWER_SERVICE)); 
-		mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag"); } 
-        mWakeLock.acquire();
+			if (mWakeLock==null) 
+				{
+				final PowerManager pm = (PowerManager) (activity.getSystemService(Context.POWER_SERVICE)); 
+				mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag"); 
+				} 
+			mWakeLock.acquire();
 		}
         
 		// pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag").acquire(); 
@@ -88,11 +88,9 @@ public class ActivityCalls {
 	} // end of setCustomTitle
 	
 	public static void afterContent(Activity activity) {
-		System.out.println("oncreate activity" + activity);
 		
-		SharedPreferences shared_prefs = activity.getSharedPreferences("DUBwise", 0);
-		
-		System.out.println("fullscreen:" + (shared_prefs.getBoolean("fullscreen", true)));
+		System.out.println("fullscreen:" + DUBwisePrefs.isFullscreenEnabled());
+		System.out.println("status:" + DUBwisePrefs.isStatusBarEnabled());
 		
 		activity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.top);
 		
@@ -100,7 +98,7 @@ public class ActivityCalls {
 		{
 		System.out.println("oncreate top view" + activity.getWindow().findViewById(R.layout.top));
 
-		if (shared_prefs.getBoolean("do_title", true))
+		if (DUBwisePrefs.isStatusBarEnabled())
 			setCustomTitle(true,R.layout.top,activity);
 		else
 			setCustomTitle(false,R.layout.top,activity);
@@ -112,7 +110,7 @@ public class ActivityCalls {
 		/*activity.findViewById(R.layout.text).setVisibility(View.GONE);
 		*/
 		
-		if (shared_prefs.getBoolean("do_fullscreen", true))
+		if (DUBwisePrefs.isFullscreenEnabled())
 			activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		else

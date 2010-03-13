@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
 
-    <activity android:name="SettingsActivity"></activity>
+    <activity android:name="DUBwisePrefsActivity"></activity>
 	<activity android:name="MotorTestActivity"></activity>	
 	<activity android:name="RCDataActivity"></activity>
 	<activity android:name="InformationDeskActivity"></activity>

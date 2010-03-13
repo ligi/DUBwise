@@ -40,18 +40,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.util.Log;
-import android.content.SharedPreferences;
 
 public class DUBwise extends ListActivity implements DUBwiseNotificationListenerInterface , Runnable{
 
-	
-	
-	private SharedPreferences settings; // TODO remove&replace by DUBwisePrefs
-
 	public final static int ACTIONID_QUIT = 1;
-
-		
-	/** Called when the activity is first created. */
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -59,7 +51,6 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 	
 		StatusVoice.getInstance().init(this);
 		ActivityCalls.beforeContent(this);
-		settings = ActivityCalls.getSharedPreferences(this);
 		refresh_list();
 
 		StartupConnectionService.start(this);
@@ -80,13 +71,10 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 						ConnectionListActivity.class)));
 		menu_items_vector.add(new IconicMenuItem("Settings",
 				android.R.drawable.ic_menu_preferences, new Intent(this,
-						SettingsActivity.class)));
+						DUBwisePrefsActivity.class)));
 
 		
-		if (settings.getBoolean("expert", false))
-		
-
-		if (settings.getBoolean("expert", false))
+		if (DUBwisePrefs.isExpertModeEnabled())
 		{
 			menu_items_vector.add(new IconicMenuItem("OpenGL",
 					android.R.drawable.ic_menu_preferences, new Intent(this,
@@ -179,7 +167,7 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 	protected void onResume() {
 		super.onResume();
 		ActivityCalls.afterContent(this);
-		MKProvider.getMK().do_log=settings.getBoolean("logging", false);
+		MKProvider.getMK().do_log=DUBwisePrefs.isVerboseLoggingEnabled();
 		Log.d("DUBWISE", "onResume");
 		
 		refresh_list();

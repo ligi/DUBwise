@@ -22,6 +22,8 @@
 package org.ligi.android.dubwise;
 
 
+import org.ligi.android.dubwise.con.MKProvider;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -33,7 +35,11 @@ public class DUBwisePrefs {
 	
 	
 	public static String KEY_FULLSCREEN="fullscreen";
+	public static String KEY_STATUSBAR="status_bar";
 	public static String KEY_KEEPLIGHT="keeplight";
+	public static String KEY_EXPERTMODE="expert_mode";
+	public static String KEY_VERBOSELOG="verbose_log";
+	
 	public static String KEY_STARTCONNTYPE="startconntype";
 	public static String KEY_STARTCONNBLUETOOTHMAC="startconnbtmac";
 	public static String KEY_STARTCONNBLUETOOTHNAME="startconnbtname";
@@ -45,16 +51,54 @@ public class DUBwisePrefs {
 	public final static int STARTCONNTYPE_FAKE=3;
 	
 	
+	public final static int KEEPLIGHT_NEVER=0;
+	public final static int KEEPLIGHT_CONN=1;
+	public final static int KEEPLIGHT_ALWAYS=1;
+	
+	public final static String KEEPLIGHT_DEFAULT="never";
+	
 	public static void init(Context context) {
 		shared_prefs=PreferenceManager.getDefaultSharedPreferences(context)	;
 		editor=shared_prefs.edit();
 	}
 	
-
-	public static boolean getFullscreenEnabled() {
+	public static String[] getKeepLightOptionStrings() {
+		return new String[] { "never" , "when connected" , "always" };
+	}
+ 
+	public static String getKeepLightString() {
+		return shared_prefs.getString(KEY_KEEPLIGHT, KEEPLIGHT_DEFAULT);
+	}
+	
+	
+	
+	public static boolean keepLightNow() {
+		if (getKeepLightString().equals("never"))
+			return false;
+		
+		if (getKeepLightString().equals("always"))
+			return false;
+		
+		else
+			return MKProvider.getMK().isConnected();
+		
+	}
+	
+	public static boolean isFullscreenEnabled() {
 		return shared_prefs.getBoolean(KEY_FULLSCREEN, false);
 	}
 
+	public static boolean isExpertModeEnabled() {
+		return shared_prefs.getBoolean(KEY_EXPERTMODE, false);
+	}
+
+	public static boolean isVerboseLoggingEnabled() {
+		return shared_prefs.getBoolean(KEY_VERBOSELOG, false);
+	}
+	public static boolean isStatusBarEnabled() {
+		return shared_prefs.getBoolean(KEY_STATUSBAR, true);
+	}
+	
 	public static int getStartConnType() {
 		return shared_prefs.getInt(KEY_STARTCONNTYPE, STARTCONNTYPE_NONE);
 	}
