@@ -383,9 +383,12 @@ public class MKStatusVoice
 
 					if(canvas.settings.do_current_voice&&(canvas.mk.getCurrent()!=-1))	
 	
+
 						{
-						    play(canvas.mk.getCurrent());
-						    play("satellites");
+						    play(canvas.mk.getCurrent()/10);
+						    play("point");
+						    play(canvas.mk.getCurrent()%10);
+						    play("ampere");
 						    
 						}
 					
