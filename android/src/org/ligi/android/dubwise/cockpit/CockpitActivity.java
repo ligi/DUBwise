@@ -21,14 +21,20 @@
 package org.ligi.android.dubwise.cockpit;
 
 import org.ligi.android.dubwise.con.MKProvider;
+import org.ligi.android.dubwise.graph.GraphSettingsActivity;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.ufo.MKCommunicator;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 public class CockpitActivity extends Activity {
 	
+	private static final int MENU_SETTINGS = 0;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,7 +43,6 @@ public class CockpitActivity extends Activity {
 		
 		ActivityCalls.beforeContent(this);
 		
-		//this.setContentView(new GraphView(this));
 		setContentView(new CockpitView(this));
 		ActivityCalls.afterContent(this);
 	}
@@ -59,5 +64,27 @@ public class CockpitActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 	}
+	
+	/* Creates the menu items */
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    
+		MenuItem settings_menu=menu.add(0,MENU_SETTINGS,0,"Settings");
+		settings_menu.setIcon(android.R.drawable.ic_menu_preferences);
+		
+	    return true;
+	}
+	/* Handles item selections */
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+	    switch (item.getItemId()) {
+	    	
+	    	case MENU_SETTINGS:
+	    		startActivity(new Intent(this, CockpitPrefsActivity.class));
+	    		return true;
+	    }
+	    return false;
+	}
+
+
 
 }

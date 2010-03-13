@@ -28,8 +28,12 @@ import android.view.View.OnTouchListener;
 import android.graphics.*;
 import android.hardware.SensorListener;
 import android.hardware.SensorManager;
+
+import org.ligi.android.dubwise.DUBwisePrefs;
 import org.ligi.android.dubwise.con.MKProvider;
 import org.ligi.ufo.DUBwiseDefinitions;
+import org.ligi.ufo.DUBwiseHelper;
+import org.ligi.ufo.MKCommunicator;
 
 public class CockpitView extends View implements DUBwiseDefinitions, SensorListener,OnTouchListener
 {
@@ -39,24 +43,27 @@ public class CockpitView extends View implements DUBwiseDefinitions, SensorListe
 	SensorManager sensorManager;
 	private int sensor = SensorManager.SENSOR_ORIENTATION;
 	
-	RectF alt_rect=new RectF(0.0f,0.0f,0.0f,0.0f);
 	
 	public CockpitView(Activity context) {
 		super(context);
 
+		MKProvider.getMK().user_intent=MKCommunicator.USER_INTENT_RAWDEBUG;
 		// needed to get Key Events
 		setFocusable(true);
 
 		sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 		sensorManager.registerListener(this, sensor,SensorManager.SENSOR_DELAY_FASTEST);
-		altitudeTextPaint.setTextSize(10);
-		altitudeTextPaint.setColor(0xFFFFFFFF);
+
+		
+		altitudeTextPaint.setColor(Color.WHITE);
+		altitudeTextPaint.setFakeBoldText(true);
+		altitudeTextPaint.setShadowLayer(2, 2, 2, Color.BLACK);
+
 	}
 
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		 alt_rect.left=10.0f;
-		 alt_rect.top=h - altitudeTextPaint.getTextSize()*2;
+		altitudeTextPaint.setTextSize((0.2f*w));	  
 		 
 	}
 
@@ -68,10 +75,16 @@ public class CockpitView extends View implements DUBwiseDefinitions, SensorListe
 
 		paint.setARGB(255, 255, 0, 0);
 
+		float angle_roll=0;
 		if (MKProvider.getMK().is_fake() )
-			canvas.rotate(roll,getWidth()/2,getHeight()/2);
+			angle_roll=roll*(-1);
 		else
-			canvas.rotate((MKProvider.getMK().AngleRoll()*(-90))/3000,getWidth()/2,getHeight()/2);
+			angle_roll=(MKProvider.getMK().AngleRoll()*(90))/800;
+		
+		if (DUBwisePrefs.isArtificialHorizonInverted())
+			angle_roll*=-1;
+		
+		canvas.rotate(angle_roll,getWidth()/2,getHeight()/2);
 
         
         
@@ -101,8 +114,34 @@ public class CockpitView extends View implements DUBwiseDefinitions, SensorListe
 
         canvas.restore();
         
-        canvas.drawText("Altitude" + MKProvider.getMK().getAlt(), alt_rect.left,alt_rect.right, altitudeTextPaint);
-		invalidate();
+
+        float act_text_pos=this.getHeight();
+        if (DUBwisePrefs.showAlt()) 
+        	{
+        	canvas.drawText(MKProvider.getMK().getAlt()/10.0 + "m", 7f,act_text_pos, altitudeTextPaint);
+        	act_text_pos-=altitudeTextPaint.getTextSize();
+        	}
+        
+        if (DUBwisePrefs.showFlightTime()) 
+        	{
+        	canvas.drawText(DUBwiseHelper.seconds2str(MKProvider.getMK().stats.flying_time()), 7f,act_text_pos, altitudeTextPaint);
+        	act_text_pos-=altitudeTextPaint.getTextSize();
+        	}
+        
+        if (DUBwisePrefs.showCurrent()) 
+        	{
+        	canvas.drawText(MKProvider.getMK().getCurrent()/10.0+"A" , 7f,act_text_pos, altitudeTextPaint);	
+        	act_text_pos-=altitudeTextPaint.getTextSize();
+        	}
+        
+        
+        if (DUBwisePrefs.showUsedCapacity()) 
+        	{
+        	canvas.drawText(MKProvider.getMK().getUsedCapacity() +"mAh" , 7f,act_text_pos, altitudeTextPaint);
+        	act_text_pos-=altitudeTextPaint.getTextSize();
+        	}        
+        
+        invalidate();
 		
 		
 	}

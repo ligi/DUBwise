@@ -40,6 +40,14 @@ public class DUBwisePrefs {
 	public static String KEY_EXPERTMODE="expert_mode";
 	public static String KEY_VERBOSELOG="verbose_log";
 	
+	public static String KEY_COCKPIT_SHOW_ALT="cockpit_m";
+	public static String KEY_COCKPIT_SHOW_CURRENT="cockpit_A";
+	public static String KEY_COCKPIT_SHOW_USEDCAPACITY="cockpit_mAh";
+	public static String KEY_COCKPIT_SHOW_FLIGHTTIME="cockpit_sec";
+	
+	public static String KEY_INVERT_ARTIFICIAL_HORIZON="invert_horizon";
+	
+	
 	public static String KEY_STARTCONNTYPE="startconntype";
 	public static String KEY_STARTCONNBLUETOOTHMAC="startconnbtmac";
 	public static String KEY_STARTCONNBLUETOOTHNAME="startconnbtname";
@@ -88,6 +96,10 @@ public class DUBwisePrefs {
 		return shared_prefs.getBoolean(KEY_FULLSCREEN, false);
 	}
 
+	public static boolean isArtificialHorizonInverted() {
+		return shared_prefs.getBoolean(KEY_INVERT_ARTIFICIAL_HORIZON, false);
+	}
+	
 	public static boolean isExpertModeEnabled() {
 		return shared_prefs.getBoolean(KEY_EXPERTMODE, false);
 	}
@@ -129,6 +141,24 @@ public class DUBwisePrefs {
 		editor.commit();
 	}
 
+
+	// cockipt seciton
+	
+	public static boolean showFlightTime() {
+		return shared_prefs.getBoolean(KEY_COCKPIT_SHOW_FLIGHTTIME, true);
+	}
+
+	public static boolean showUsedCapacity() {
+		return shared_prefs.getBoolean(KEY_COCKPIT_SHOW_USEDCAPACITY, true);
+	}
+
+	public static boolean showAlt() {
+		return shared_prefs.getBoolean(KEY_COCKPIT_SHOW_ALT, true);
+	}
+
+	public static boolean showCurrent() {
+		return shared_prefs.getBoolean(KEY_COCKPIT_SHOW_CURRENT, true);
+	}
 
 	
 }

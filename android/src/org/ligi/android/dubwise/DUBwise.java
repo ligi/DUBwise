@@ -22,6 +22,7 @@ package org.ligi.android.dubwise;
 
 import java.util.Vector;
 import org.ligi.android.dubwise.cockpit.CockpitActivity;
+import org.ligi.android.dubwise.cockpit.CockpitPrefsActivity;
 import org.ligi.android.dubwise.con.ConnectionListActivity;
 import org.ligi.android.dubwise.con.MKProvider;
 import org.ligi.android.dubwise.flightsettings.FlightSettingsActivity;
@@ -71,7 +72,7 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 						ConnectionListActivity.class)));
 		menu_items_vector.add(new IconicMenuItem("Settings",
 				android.R.drawable.ic_menu_preferences, new Intent(this,
-						DUBwisePrefsActivity.class)));
+						CockpitPrefsActivity.class)));
 
 		
 		if (DUBwisePrefs.isExpertModeEnabled())

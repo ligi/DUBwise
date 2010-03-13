@@ -32,6 +32,7 @@
 	<activity android:name="AnalogValuesActivity"></activity>
 	
 	<activity android:name="org.ligi.android.dubwise.cockpit.CockpitActivity"></activity>
+	<activity android:name="org.ligi.android.dubwise.cockpit.CockpitPrefsActivity"></activity>
 
 	<activity android:name="org.ligi.android.dubwise.graph.GraphSettingsActivity"></activity>
 	<activity android:name="org.ligi.android.dubwise.graph.GraphActivity"></activity>
