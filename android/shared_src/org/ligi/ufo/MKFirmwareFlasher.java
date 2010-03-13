@@ -150,29 +150,29 @@ public class MKFirmwareFlasher
 			    if ((attempt%2)==0) // after work
 				{
 			    	
-			    	comm_adapter.getOutputStream().write('#');
-				    comm_adapter.getOutputStream().write('c');
-				    comm_adapter.getOutputStream().write('R');
+			    	comm_adapter.write('#');
+				    comm_adapter.write('c');
+				    comm_adapter.write('R');
 			    
 				    // CRC
-				    comm_adapter.getOutputStream().write((char)( (((byte)'#' +(byte)'c' + (byte)'R')%4096)/64 + '='));
-				    comm_adapter.getOutputStream().write((char)( (((byte)'#' +(byte)'c' + (byte)'R')%4096)%64 + '='));
+				    comm_adapter.write((char)( (((byte)'#' +(byte)'c' + (byte)'R')%4096)/64 + '='));
+				    comm_adapter.write((char)( (((byte)'#' +(byte)'c' + (byte)'R')%4096)%64 + '='));
 				    
-				    comm_adapter.getOutputStream().write('\r');
+				    comm_adapter.write('\r');
 			    
-				    comm_adapter.getOutputStream().flush();
+				    comm_adapter.flush();
 				   sleep(random.nextInt()%50+300);
 				}
 			    
-			    comm_adapter.getOutputStream().write( 27);
-			    comm_adapter.getOutputStream().flush();
+			    comm_adapter.write( 27);
+			    comm_adapter.flush();
 			    
 			    //sleep(20); // orig
 			    //sleep(2); 
 			    sleep(random.nextInt()%100+200);
 			    
-			    comm_adapter.getOutputStream().write( 0xAA);
-			    comm_adapter.getOutputStream().flush();
+			    comm_adapter.write( 0xAA);
+			    comm_adapter.flush();
 			   // sleep(180); // orig
 			    //sleep(18); 
 			    sleep(random.nextInt()%100+800);
@@ -182,10 +182,10 @@ public class MKFirmwareFlasher
 		    init_sequence=true;
 		    //		    sleep(20);
 		    //Log.i("DUBwise", "read ing from comm adapter");
-		    //Log.i("DUBwise", "read " + comm_adapter.getInputStream().read());
-		    while ( comm_adapter.getInputStream().available() > 0 )
+		    //Log.i("DUBwise", "read " + comm_adapter.read());
+		    while ( comm_adapter.available() > 0 )
 			{
-		    	int last_read=comm_adapter.getInputStream().read();
+		    	int last_read=comm_adapter.read();
 		    	got_str+=(char)last_read;
 	
 	//	    	Log.i("DUBwise", "got char" + last_read + "  " + (char)last_read);
@@ -201,10 +201,10 @@ public class MKFirmwareFlasher
 					    bl_magic_pos=0;
 
 					    int foo,leech_cnt=0;
-					    while (( comm_adapter.getInputStream().available() != 0)&&(leech_cnt<1000))
+					    while (( comm_adapter.available() != 0)&&(leech_cnt<1000))
 						{
 						    leech_cnt++;
-						    foo=comm_adapter.getInputStream().read();
+						    foo=comm_adapter.read();
 						}
 
 					}
@@ -222,17 +222,17 @@ public class MKFirmwareFlasher
 			    //    sleep(50);
 			    flash_msgs[msg_pos++]="reading avr_sig";
 			    
-			    comm_adapter.getOutputStream().write( 't');
-			    comm_adapter.getOutputStream().flush();
+			    comm_adapter.write( 't');
+			    comm_adapter.flush();
 
 			    sleep(120);
 			    
-			    //			    if ( comm_adapter.getInputStream().available() == 0 )
+			    //			    if ( comm_adapter.available() == 0 )
 			    //throw new Exception("cant read avrsig");
 
 			    /*
 			    int sig1_timeout=0;
-			    while ( comm_adapter.getInputStream().available() == 0)
+			    while ( comm_adapter.available() == 0)
 				{ 
 				    
 				    if ((sig1_timeout++)>1000 ) 		    
@@ -241,12 +241,12 @@ public class MKFirmwareFlasher
 				}
 
 			    */
-			    avr_sig=comm_adapter.getInputStream().read();
+			    avr_sig=comm_adapter.read();
 
 			    if (avr_sig==63)
 				init_sequence=false;
 			    /*    while (avr_sig==63)
-			        avr_sig=comm_adapter.getInputStream().read();
+			        avr_sig=comm_adapter.read();
 			    */
 			    flash_msgs[msg_pos++]="got avr sig " + avr_sig;
 		
@@ -254,7 +254,7 @@ public class MKFirmwareFlasher
 			    //			    for(int sig2_timeout=0;sig2_timeout<100;sig2_timeout++)
 			    /*
 			    int sig2_timeout=0;
-			    while ( comm_adapter.getInputStream().available() == 0)
+			    while ( comm_adapter.available() == 0)
 				{ 
 				    
 				    if ((sig2_timeout++)>1000 ) 		    
@@ -262,7 +262,7 @@ public class MKFirmwareFlasher
 				    sleep(10);
 				}*/
 
-			    int avrsig_suff=comm_adapter.getInputStream().read();
+			    int avrsig_suff=comm_adapter.read();
 
 
 			    if (avrsig_suff!=0)
@@ -298,32 +298,32 @@ public class MKFirmwareFlasher
 
 	    try{
 		
-		comm_adapter.getOutputStream().write('T'); 
-		//		comm_adapter.getOutputStream().flush();
-		comm_adapter.getOutputStream().write(avr_sig);   // set devicetyp = 0x74 oder 0x76  
-		comm_adapter.getOutputStream().flush();
+		comm_adapter.write('T'); 
+		//		comm_adapter.flush();
+		comm_adapter.write(avr_sig);   // set devicetyp = 0x74 oder 0x76  
+		comm_adapter.flush();
 		
-		if (comm_adapter.getInputStream().read()!=0x0d)
+		if (comm_adapter.read()!=0x0d)
 		    throw new Exception("cant get buffer size");
 		
-		comm_adapter.getOutputStream().write('V'); 
-		comm_adapter.getOutputStream().flush();
+		comm_adapter.write('V'); 
+		comm_adapter.flush();
 		
-		int bl_version_major=comm_adapter.getInputStream().read();
-		int bl_version_minor=comm_adapter.getInputStream().read();
+		int bl_version_major=comm_adapter.read();
+		int bl_version_minor=comm_adapter.read();
 		
 		flash_msgs[msg_pos++]="BL Version " + bl_version_major+"."+bl_version_minor;
 		
 		
-		comm_adapter.getOutputStream().write('b'); 
-		comm_adapter.getOutputStream().flush();
+		comm_adapter.write('b'); 
+		comm_adapter.flush();
 		
-		if (comm_adapter.getInputStream().read()!='Y')
+		if (comm_adapter.read()!='Y')
 		    throw new Exception("cant get buffer size");
 		
 		
-		send_buff_size=comm_adapter.getInputStream().read()*0x100;
-		send_buff_size+=comm_adapter.getInputStream().read();
+		send_buff_size=comm_adapter.read()*0x100;
+		send_buff_size+=comm_adapter.read();
 
 		
 		flash_msgs[msg_pos++]="BUFF Size:" + send_buff_size;
@@ -342,9 +342,9 @@ public class MKFirmwareFlasher
 		    try{
 
 			flash_msgs[msg_pos]="reset params ..";
-			comm_adapter.getOutputStream().write( MKFirmwareHelper.cmd_reset_params);
+			comm_adapter.write( MKFirmwareHelper.cmd_reset_params);
 
-			comm_adapter.getOutputStream().flush();
+			comm_adapter.flush();
 			flash_msgs[msg_pos++]+=" done";
 			success=true;
 		    }
@@ -391,21 +391,21 @@ public class MKFirmwareFlasher
 		    //	if (true) throw new Exception("before erasing" );		
 		    
 		    flash_msgs[msg_pos++]="Erasing Flash ..";
-		    comm_adapter.getOutputStream().write('e'); 
-		    comm_adapter.getOutputStream().flush();
+		    comm_adapter.write('e'); 
+		    comm_adapter.flush();
 		    
-		    if (comm_adapter.getInputStream().read()!=0x0d)
+		    if (comm_adapter.read()!=0x0d)
 			throw new Exception("cant erase flash");
 		    
 		    flash_msgs[msg_pos]+="OK";
 		    
 		    
-		    comm_adapter.getOutputStream().write('A'); 
-		    comm_adapter.getOutputStream().write(0); 
-		    comm_adapter.getOutputStream().write(0); 
-		    comm_adapter.getOutputStream().flush();
+		    comm_adapter.write('A'); 
+		    comm_adapter.write(0); 
+		    comm_adapter.write(0); 
+		    comm_adapter.flush();
 		    
-		    if (comm_adapter.getInputStream().read()!=0x0d)
+		    if (comm_adapter.read()!=0x0d)
 			throw new Exception("cant set addr");
 		    
 		    flash_msgs[msg_pos++]="addr set";
@@ -438,15 +438,15 @@ public class MKFirmwareFlasher
 
 			    flash_msgs[msg_pos]="bl:" + (block+1) + "/" + blocks2write + " si:"+hex_bytes_read ;
 			    		    
-			    comm_adapter.getOutputStream().write('B'); 
-			    comm_adapter.getOutputStream().write((hex_bytes_read>>8)& 0xFF); 
-			    comm_adapter.getOutputStream().write((hex_bytes_read)& 0xFF); 
-			    comm_adapter.getOutputStream().write('F'); 
-			    comm_adapter.getOutputStream().flush();
+			    comm_adapter.write('B'); 
+			    comm_adapter.write((hex_bytes_read>>8)& 0xFF); 
+			    comm_adapter.write((hex_bytes_read)& 0xFF); 
+			    comm_adapter.write('F'); 
+			    comm_adapter.flush();
 			    
 			    
-			    comm_adapter.getOutputStream().write(flash_buff,0,hex_bytes_read);
-			    comm_adapter.getOutputStream().flush(); 				
+			    comm_adapter.write(flash_buff,0,hex_bytes_read);
+			    comm_adapter.flush(); 				
 			    
 			    
 			    if (avr_sig==224)
@@ -454,16 +454,16 @@ public class MKFirmwareFlasher
 				    int crc=0xFFFF;
 				    for (int crc_pos=0;crc_pos<hex_bytes_read;crc_pos++)
 					crc=MKFirmwareHelper.CRC16(flash_buff[crc_pos],crc);
-				    comm_adapter.getOutputStream().write((crc>>8)&0xff); 
-				    comm_adapter.getOutputStream().write(crc&0xff); 
-				    comm_adapter.getOutputStream().flush(); 
+				    comm_adapter.write((crc>>8)&0xff); 
+				    comm_adapter.write(crc&0xff); 
+				    comm_adapter.flush(); 
 				}
 			    //  flash_msgs[msg_pos]+="ok";
-			    //				comm_adapter.getOutputStream().flush();
+			    //				comm_adapter.flush();
 			    
 			    
 			    
-			    if (comm_adapter.getInputStream().read()!=0x0d)
+			    if (comm_adapter.read()!=0x0d)
 				throw new Exception("abort write at block"+block);
 			    
 			    
@@ -496,8 +496,8 @@ public class MKFirmwareFlasher
     public void exit_bootloader(boolean close_conn)
     {
 	try{
-	    comm_adapter.getOutputStream().write('E'); 
-	    comm_adapter.getOutputStream().flush();
+	    comm_adapter.write('E'); 
+	    comm_adapter.flush();
 	}
 	catch (Exception e)  {   
 	    flash_msgs[msg_pos++]="cant exit bootloader" ;
@@ -514,8 +514,8 @@ public class MKFirmwareFlasher
     public void exit_bootloader()
     {
 	try{
-	    comm_adapter.getOutputStream().write('E'); 
-	    comm_adapter.getOutputStream().flush();
+	    comm_adapter.write('E'); 
+	    comm_adapter.flush();
 	}
 	catch (Exception e)  {   
 	    flash_msgs[msg_pos++]="cant exit bootloader" ;

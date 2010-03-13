@@ -108,10 +108,7 @@ public class TCPConnectionAdapter implements CommunicationAdapterInterface {
 		}
 	}
 
-	@Override
 	public InputStream getInputStream() {
-		
-		
 		try {
 			return socket.getInputStream();
 		} catch (IOException e) {
@@ -119,7 +116,6 @@ public class TCPConnectionAdapter implements CommunicationAdapterInterface {
 		}
 	}
 
-	@Override
 	public OutputStream getOutputStream() {
 		try {
 			return socket.getOutputStream();
@@ -129,4 +125,44 @@ public class TCPConnectionAdapter implements CommunicationAdapterInterface {
 		}
 	}
 
+
+	@Override
+	public int available() {
+		try {
+			return getInputStream().available();
+		} catch (IOException e) {
+			return 0;
+		}
+	}
+
+	@Override
+	public void flush() throws IOException {
+			getOutputStream().flush();
+	}
+
+	@Override
+	public int read(byte[] b, int offset, int length) throws IOException {
+			return getInputStream().read(b,offset,length);
+	}
+
+	@Override
+	public void write(byte[] buffer, int offset, int count) throws IOException {
+		getOutputStream().write(buffer, offset, count);
+		
+	}
+
+	@Override
+	public void write(byte[] buffer)  throws IOException  {
+		getOutputStream().write(buffer);
+	}
+
+	@Override
+	public void write(int oneByte) throws IOException  {
+		getOutputStream().write(oneByte);
+	}
+
+	@Override
+	public int read() throws IOException {
+		return getInputStream().read();
+	}
 }

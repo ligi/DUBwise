@@ -20,6 +20,7 @@
 
 package org.ligi.ufo;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -32,9 +33,24 @@ public interface CommunicationAdapterInterface
 	
 	public void disconnect();
 	
+	public void flush()  throws IOException ;
+	
+	public void  write  (byte[] buffer, int offset, int count)  throws IOException ;
+		
+	public void  write  (byte[] buffer)  throws IOException ;
+	
+	public void  write  (int oneByte)  throws IOException ;
+	
+	public int  available  () throws IOException;
+	
+	public int  read  (byte[] b, int offset, int length) throws IOException;
+	
+	public int  read  () throws IOException;
+
+	/*
 	public InputStream getInputStream();
 	
 	public OutputStream getOutputStream();
-	
+	*/
 
 }

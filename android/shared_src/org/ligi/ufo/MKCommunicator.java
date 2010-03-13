@@ -390,8 +390,8 @@ public class MKCommunicator
 	wait4send();
 	sending=true;
 	try {
-		comm_adapter.getOutputStream().write(_data,0,_data.length);
-		comm_adapter.getOutputStream().flush(); 
+		comm_adapter.write(_data,0,_data.length);
+		comm_adapter.flush(); 
 
 	stats.bytes_out+=_data.length;
 	}
@@ -463,8 +463,8 @@ public class MKCommunicator
 	
     	try{
     	   String magic="conn:foo bar\r\n";
-    	   comm_adapter.getOutputStream().write(magic.getBytes());
-    	   comm_adapter.getOutputStream().flush();
+    	   comm_adapter.write(magic.getBytes());
+    	   comm_adapter.flush();
     	   connection_start_time=System.currentTimeMillis();
     	   connected=true; // if we get here everything seems to be OK
     	   stats.reset();
@@ -680,9 +680,9 @@ public class MKCommunicator
 	sending=true;
 	try
 	    {
-		comm_adapter.getOutputStream().write(navi_switch_magic);
+		comm_adapter.write(navi_switch_magic);
 		stats.bytes_out+=6;
-		comm_adapter.getOutputStream().flush();
+		comm_adapter.flush();
 	    }
 	catch (Exception e)  {   }
 	sending=false;
@@ -850,14 +850,14 @@ public class MKCommunicator
 		for ( int tmp_i=0; tmp_i<send_buff.length;tmp_i++)
 		    tmp_crc+=(int)send_buff[tmp_i];
 			
-		comm_adapter.getOutputStream().write(send_buff,0,send_buff.length);
+		comm_adapter.write(send_buff,0,send_buff.length);
 		tmp_crc%=4096;
 
-		comm_adapter.getOutputStream().write( (char)(tmp_crc/64 + '='));
-		comm_adapter.getOutputStream().write( (char)(tmp_crc%64 + '='));
-		comm_adapter.getOutputStream().write('\r');
+		comm_adapter.write( (char)(tmp_crc/64 + '='));
+		comm_adapter.write( (char)(tmp_crc%64 + '='));
+		comm_adapter.write('\r');
 		stats.bytes_out+=send_buff.length+3;
-		comm_adapter.getOutputStream().flush();
+		comm_adapter.flush();
 	    }
 	catch (Exception e)
 	    { // problem sending data to FC
@@ -1468,10 +1468,10 @@ public class MKCommunicator
 			recieving=true;
 			int read_count ;
 
-			if (comm_adapter.getInputStream().available()<DATA_IN_BUFF_SIZE)
-			    read_count     =comm_adapter.getInputStream().read(data_in_buff,0,comm_adapter.getInputStream().available());
+			if (comm_adapter.available()<DATA_IN_BUFF_SIZE)
+			    read_count     =comm_adapter.read(data_in_buff,0,comm_adapter.available());
 			else
-			    read_count     =comm_adapter.getInputStream().read(data_in_buff,0,DATA_IN_BUFF_SIZE);
+			    read_count     =comm_adapter.read(data_in_buff,0,DATA_IN_BUFF_SIZE);
 
 			//			log("Connected - reading data " + read_count);		
 			//	pos=0;
