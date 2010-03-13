@@ -44,6 +44,7 @@
 	<activity android:name="org.ligi.android.dubwise.piloting.MultiTouchPilotingActivity"  android:screenOrientation="landscape"></activity>
 	<activity android:name="org.ligi.android.dubwise.piloting.OrientationPilotingActivity"  android:screenOrientation="landscape"></activity>
 	<activity android:name="org.ligi.android.dubwise.piloting.PilotingListActivity"></activity>
+	<activity android:name="org.ligi.android.dubwise.piloting.PilotingPrefsActivity"></activity>
 	
 	
 	<activity android:name="org.ligi.android.dubwise.flightsettings.FlightSettingsTopicListActivity"></activity>

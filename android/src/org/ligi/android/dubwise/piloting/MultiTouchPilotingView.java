@@ -124,29 +124,46 @@ public class MultiTouchPilotingView extends View implements OnTouchListener
 		invalidate();
 	}
 	
-    public boolean onTouch( View arg0, MotionEvent arg1 ) {
+    public boolean onTouch( View arg0, MotionEvent event ) {
       
-    	for ( int mevent_i=0; mevent_i<arg1.getPointerCount(); mevent_i++ )
+    	for ( int mevent_i=0; mevent_i<event.getPointerCount(); mevent_i++ )
     		
         
-        if (arg1.getY(mevent_i)>(this.getHeight()-rect_size))
+        if (event.getY(mevent_i)>(this.getHeight()-rect_size))
         {
         	Log.i("DUBwise" , "is in y bounds");
         	
-        	if (arg1.getX(mevent_i)<rect_size)
+        	if (event.getX(mevent_i)<rect_size)
         	{
         		Log.i("DUBwise" , "left stick hit");
-        		act_gier=(int)(((arg1.getX(mevent_i)-rect_size/2)/rect_size)*127*2);
+        		act_gier=(int)(((event.getX(mevent_i)-rect_size/2)/rect_size)*127*2);
         		
-        		act_gas=(int)((arg1.getY(mevent_i)-this.getHeight()+rect_size/2)/rect_size*127*-2);
+        		act_gas=(int)((event.getY(mevent_i)-this.getHeight()+rect_size/2)/rect_size*127*-2);
+        
+        		if (event.getAction()==MotionEvent.ACTION_UP)
+        		{
+        			if (PilotingPrefs.hasLeftPadVerticalSpring())
+        				act_gas=0;	
+        			if (PilotingPrefs.hasLeftPadHorizontalSpring())
+        				act_gier=0;
+        			
+        		}
         	}
         	
-        	if (arg1.getX(mevent_i)> (this.getWidth()-rect_size))
+        	if (event.getX(mevent_i)> (this.getWidth()-rect_size))
         	{
         		Log.i("DUBwise" , "right stick hit");
-        		act_roll=(int)(((arg1.getX(mevent_i)-this.getWidth()+rect_size/2)/rect_size)*127*2);
+        		act_roll=(int)(((event.getX(mevent_i)-this.getWidth()+rect_size/2)/rect_size)*127*2);
         		
-        		act_nick=(int)((arg1.getY(mevent_i)-this.getHeight()+rect_size/2)/rect_size*127*2);
+        		act_nick=(int)((event.getY(mevent_i)-this.getHeight()+rect_size/2)/rect_size*127*2);
+        		
+        		if (event.getAction()==MotionEvent.ACTION_UP)
+        		{
+        			if (PilotingPrefs.hasRightPadVerticalSpring())
+        				act_nick=0;
+        			if (PilotingPrefs.hasRightPadHorizontalSpring())
+        				act_roll=0;
+        		}
         	}
         	
         	
