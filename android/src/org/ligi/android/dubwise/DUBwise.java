@@ -22,7 +22,6 @@ package org.ligi.android.dubwise;
 
 import java.util.Vector;
 import org.ligi.android.dubwise.cockpit.CockpitActivity;
-import org.ligi.android.dubwise.cockpit.CockpitPrefsActivity;
 import org.ligi.android.dubwise.con.ConnectionListActivity;
 import org.ligi.android.dubwise.con.MKProvider;
 import org.ligi.android.dubwise.flightsettings.FlightSettingsActivity;
@@ -56,14 +55,9 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 
 		StartupConnectionService.start(this);
 		Log.d("DUWISE", "create");
-	
-		
 	}
 
 	public void refresh_list() {
-
-		
-		
 		MKCommunicator mk = MKProvider.getMK();
 		Vector<IconicMenuItem> menu_items_vector = new Vector<IconicMenuItem>();
 
@@ -179,7 +173,6 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 	@Override
 	protected void onPause() {
 		super.onPause();
-
 	}
 
 	@Override
@@ -204,10 +197,7 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 
 	}
 
-	
 	public void processNotification(byte notification) {
-		
-		
 		switch(notification) {
 			case NOTIFY_CONNECTION_CHANGED:
 				this.runOnUiThread(this);
@@ -219,7 +209,4 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 	public void run() {
 		refresh_list();
 	}
-
-	
-
 }
