@@ -116,11 +116,14 @@ public class MultiTouchPilotingView extends View implements OnTouchListener
 		   
 	    //canvas.drawCircle(x2,y2,30,mPaint );
 	    
-	    mPaint.setColor(0xFFFFFFFF);
+	    if (PilotingPrefs.showValues()) {
+	    	mPaint.setColor(0xFFFFFFFF);
 		    
-	    mPaint.setTextSize(20);
-	    canvas.drawText("nick" + act_nick + " - roll" + act_roll + " gas"+ act_gas + " yaw" + act_gier
+	    	mPaint.setTextSize(20);
+	    	canvas.drawText("nick" + act_nick + " - roll" + act_roll + " gas"+ act_gas + " yaw" + act_gier
 	    		+" request " +MKProvider.getMK().stats.external_control_request_count + " confirm "+ MKProvider.getMK().stats.external_control_confirm_frame_count ,0,15,mPaint);
+	    }
+	    
 		invalidate();
 	}
 	
