@@ -79,7 +79,15 @@ public class PilotingPrefs {
 	public static void init(Context context) {
 		shared_prefs=PreferenceManager.getDefaultSharedPreferences(context)	;
 	}
-		
+	
+	public static boolean isExternControlEnabled() {
+		return shared_prefs.getBoolean(KEY_SENDEC, false);
+	}
+	
+	public static boolean isSerialChannelsEnabled() {
+		return shared_prefs.getBoolean(KEY_SENDSC, false);
+	}
+	
 	public static boolean hasRightPadVerticalSpring() {
 		return shared_prefs.getBoolean(KEY_RIGHT_PAD_SPRING_VERTICAL, false);
 	}

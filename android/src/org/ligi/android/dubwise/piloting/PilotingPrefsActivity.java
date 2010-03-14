@@ -46,6 +46,16 @@ public class PilotingPrefsActivity extends PreferenceActivity implements
 	private ListPreference rightPadHorizontalExternalControlMappingPref;
 	private ListPreference leftPadHorizontalExternalControlMappingPref;
 	
+	
+	private ListPreference rightPadVerticalSerialChannelMappingPref;
+	private ListPreference rightPadHorizontalSerialChanelMappingPref;
+	
+	private ListPreference leftPadVerticalSerialChannelMappingPref;
+	private ListPreference leftPadHorizontalSerialChannelMappingPref;
+
+	private CheckBoxPreference doSerialChannelsCheckBoxPref;
+	private CheckBoxPreference doExternControlCheckBoxPref;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		ActivityCalls.beforeContent(this);
@@ -81,7 +91,7 @@ public class PilotingPrefsActivity extends PreferenceActivity implements
 		miscPrefCat.addPreference(showValuesCheckBoxPref);
 
 		
-		CheckBoxPreference doExternControlCheckBoxPref = new CheckBoxPreference(this);
+		doExternControlCheckBoxPref = new CheckBoxPreference(this);
 		doExternControlCheckBoxPref.setKey(PilotingPrefs.KEY_SENDEC);
 		doExternControlCheckBoxPref.setTitle("Send Extern Control");
 		doExternControlCheckBoxPref.setSummary("mixed with RC");
@@ -89,7 +99,7 @@ public class PilotingPrefsActivity extends PreferenceActivity implements
 		miscPrefCat.addPreference(doExternControlCheckBoxPref);
 		
 
-		CheckBoxPreference doSerialChannelsCheckBoxPref = new CheckBoxPreference(this);
+		doSerialChannelsCheckBoxPref = new CheckBoxPreference(this);
 		doSerialChannelsCheckBoxPref.setKey(PilotingPrefs.KEY_SENDSC);
 		doSerialChannelsCheckBoxPref.setTitle("Send Serial Channels");
 		doSerialChannelsCheckBoxPref.setSummary("overrides RC");
@@ -119,8 +129,25 @@ public class PilotingPrefsActivity extends PreferenceActivity implements
 		leftPadHorizontalExternalControlMappingPref.setSummary(PilotingPrefs.getLeftPadHorizontalECMappingStr());
 		leftPadHorizontalExternalControlMappingPref.setOnPreferenceChangeListener(this);
 		leftPadHorizontalExternalControlMappingPref.setDefaultValue(PilotingPrefs.getLeftPadHorizontalECMappingStr());
+		leftPadHorizontalExternalControlMappingPref.setEnabled(PilotingPrefs.isExternControlEnabled());
+		
 		leftPadHorizPrefCat.addPreference(leftPadHorizontalExternalControlMappingPref);
 
+		
+		leftPadHorizontalSerialChannelMappingPref = new ListPreference(this);
+		leftPadHorizontalSerialChannelMappingPref.setEntries(PilotingPrefs.getSerialChannelMappingStrings());
+		leftPadHorizontalSerialChannelMappingPref.setEntryValues(PilotingPrefs.getSerialChannelMappingStrings());
+		leftPadHorizontalSerialChannelMappingPref.setDialogTitle("Serial Channels Mapping");
+		leftPadHorizontalSerialChannelMappingPref.setKey(PilotingPrefs.KEY_LEFT_PAD_SC_MAPPING_HORIZONTAL);
+		leftPadHorizontalSerialChannelMappingPref.setTitle("Serial Channels Mapping");
+		leftPadHorizontalSerialChannelMappingPref.setSummary(PilotingPrefs.getLeftPadHorizontalSCMappingStr());
+		leftPadHorizontalSerialChannelMappingPref.setOnPreferenceChangeListener(this);
+		leftPadHorizontalSerialChannelMappingPref.setDefaultValue(PilotingPrefs.getLeftPadHorizontalSCMappingStr());
+		leftPadHorizontalSerialChannelMappingPref.setEnabled(PilotingPrefs.isSerialChannelsEnabled());
+		
+		leftPadHorizPrefCat.addPreference(leftPadHorizontalSerialChannelMappingPref);
+
+		
 		/* Left Pad Vertical */
 		
 		PreferenceCategory leftPadVerticalPrefCat = new PreferenceCategory(this);
@@ -144,7 +171,21 @@ public class PilotingPrefsActivity extends PreferenceActivity implements
 		leftPadVerticalExternalControlMappingPref.setSummary(PilotingPrefs.getLeftPadVerticalECMappingStr());
 		leftPadVerticalExternalControlMappingPref.setOnPreferenceChangeListener(this);
 		leftPadVerticalExternalControlMappingPref.setDefaultValue(PilotingPrefs.getLeftPadVerticalECMappingStr());
+		leftPadVerticalExternalControlMappingPref.setEnabled(PilotingPrefs.isExternControlEnabled());
+		
 		leftPadVerticalPrefCat.addPreference(leftPadVerticalExternalControlMappingPref);
+
+		leftPadVerticalSerialChannelMappingPref = new ListPreference(this);
+		leftPadVerticalSerialChannelMappingPref.setEntries(PilotingPrefs.getSerialChannelMappingStrings());
+		leftPadVerticalSerialChannelMappingPref.setEntryValues(PilotingPrefs.getSerialChannelMappingStrings());
+		leftPadVerticalSerialChannelMappingPref.setDialogTitle("Serial Channel Mapping");
+		leftPadVerticalSerialChannelMappingPref.setKey(PilotingPrefs.KEY_LEFT_PAD_SC_MAPPING_VERTICAL);
+		leftPadVerticalSerialChannelMappingPref.setTitle("Serial Channel  Mapping");
+		leftPadVerticalSerialChannelMappingPref.setSummary(PilotingPrefs.getLeftPadVerticalSCMappingStr());
+		leftPadVerticalSerialChannelMappingPref.setOnPreferenceChangeListener(this);
+		leftPadVerticalSerialChannelMappingPref.setDefaultValue(PilotingPrefs.getLeftPadVerticalSCMappingStr());
+		leftPadVerticalSerialChannelMappingPref.setEnabled(PilotingPrefs.isSerialChannelsEnabled());
+		leftPadVerticalPrefCat.addPreference(leftPadVerticalSerialChannelMappingPref);
 
 		
 		
@@ -170,10 +211,24 @@ public class PilotingPrefsActivity extends PreferenceActivity implements
 		rightPadHorizontalExternalControlMappingPref.setSummary(PilotingPrefs.getRightPadHorizontalECMappingStr());
 		rightPadHorizontalExternalControlMappingPref.setOnPreferenceChangeListener(this);
 		rightPadHorizontalExternalControlMappingPref.setDefaultValue(PilotingPrefs.getRightPadHorizontalECMappingStr());
+		rightPadHorizontalExternalControlMappingPref.setEnabled(PilotingPrefs.isExternControlEnabled());
+		
 		rightPadHorizontalPrefCat.addPreference(rightPadHorizontalExternalControlMappingPref);
 
-		
+		rightPadHorizontalSerialChanelMappingPref = new ListPreference(this);
+		rightPadHorizontalSerialChanelMappingPref.setEntries(PilotingPrefs.getSerialChannelMappingStrings());
+		rightPadHorizontalSerialChanelMappingPref.setEntryValues(PilotingPrefs.getSerialChannelMappingStrings());
+		rightPadHorizontalSerialChanelMappingPref.setDialogTitle("Serial Channel  Mapping");
+		rightPadHorizontalSerialChanelMappingPref.setKey(PilotingPrefs.KEY_RIGHT_PAD_SC_MAPPING_HORIZONTAL);
+		rightPadHorizontalSerialChanelMappingPref.setTitle("Serial Channel  Mapping");
+		rightPadHorizontalSerialChanelMappingPref.setSummary(PilotingPrefs.getRightPadHorizontalSCMappingStr());
+		rightPadHorizontalSerialChanelMappingPref.setOnPreferenceChangeListener(this);
+		rightPadHorizontalSerialChanelMappingPref.setDefaultValue(PilotingPrefs.getRightPadHorizontalSCMappingStr());
+		rightPadHorizontalSerialChanelMappingPref.setEnabled(PilotingPrefs.isSerialChannelsEnabled());
+		rightPadHorizontalPrefCat.addPreference(rightPadHorizontalSerialChanelMappingPref);
 
+		
+		// Right Pad Vertical
 		PreferenceCategory rightPadVerticalPrefCat = new PreferenceCategory(this);
 		rightPadVerticalPrefCat.setTitle("Right Pad Vertical");
 		root.addPreference(rightPadVerticalPrefCat);
@@ -195,8 +250,20 @@ public class PilotingPrefsActivity extends PreferenceActivity implements
 		rightPadVerticalExternalControlMappingPref.setSummary(PilotingPrefs.getRightPadVerticalECMappingStr());
 		rightPadVerticalExternalControlMappingPref.setOnPreferenceChangeListener(this);
 		rightPadVerticalExternalControlMappingPref.setDefaultValue(PilotingPrefs.getRightPadVerticalECMappingStr());
+		rightPadVerticalExternalControlMappingPref.setEnabled(PilotingPrefs.isExternControlEnabled());
 		rightPadVerticalPrefCat.addPreference(rightPadVerticalExternalControlMappingPref);
 
+		rightPadVerticalSerialChannelMappingPref = new ListPreference(this);
+		rightPadVerticalSerialChannelMappingPref.setEntries(PilotingPrefs.getSerialChannelMappingStrings());
+		rightPadVerticalSerialChannelMappingPref.setEntryValues(PilotingPrefs.getSerialChannelMappingStrings());
+		rightPadVerticalSerialChannelMappingPref.setDialogTitle("Serial Channel  Mapping");
+		rightPadVerticalSerialChannelMappingPref.setKey(PilotingPrefs.KEY_RIGHT_PAD_SC_MAPPING_VERTICAL);
+		rightPadVerticalSerialChannelMappingPref.setTitle("Serial Channel  Mapping");
+		rightPadVerticalSerialChannelMappingPref.setSummary(PilotingPrefs.getRightPadVerticalSCMappingStr());
+		rightPadVerticalSerialChannelMappingPref.setOnPreferenceChangeListener(this);
+		rightPadVerticalSerialChannelMappingPref.setDefaultValue(PilotingPrefs.getRightPadVerticalSCMappingStr());
+		rightPadVerticalSerialChannelMappingPref.setEnabled(PilotingPrefs.isSerialChannelsEnabled());
+		rightPadVerticalPrefCat.addPreference(rightPadVerticalSerialChannelMappingPref);
 
 		return root;
 
@@ -210,6 +277,24 @@ public class PilotingPrefsActivity extends PreferenceActivity implements
 				|| (preference==leftPadHorizontalExternalControlMappingPref)
 				|| (preference==leftPadVerticalExternalControlMappingPref))
 			preference.setSummary((String)newValue);
+
+		
+		if (preference==doSerialChannelsCheckBoxPref)
+			{
+			rightPadVerticalSerialChannelMappingPref.setEnabled((Boolean)newValue);
+			leftPadVerticalSerialChannelMappingPref.setEnabled((Boolean)newValue);
+			rightPadHorizontalSerialChanelMappingPref.setEnabled((Boolean)newValue);
+			leftPadHorizontalSerialChannelMappingPref.setEnabled((Boolean)newValue);
+			}
+		
+		if (preference==doExternControlCheckBoxPref)
+			{
+			rightPadVerticalExternalControlMappingPref.setEnabled((Boolean)newValue);
+			leftPadVerticalExternalControlMappingPref.setEnabled((Boolean)newValue);
+			rightPadHorizontalExternalControlMappingPref.setEnabled((Boolean)newValue);
+			leftPadHorizontalExternalControlMappingPref.setEnabled((Boolean)newValue);
+		}
+	
 		
 		return true; // return that we are OK with preferences
 	}
