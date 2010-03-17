@@ -32,6 +32,7 @@ import org.ligi.android.dubwise.helper.IconicMenuItem;
 import org.ligi.android.dubwise.lcd.LCDActivity;
 import org.ligi.android.dubwise.map.DUBwiseMap;
 import org.ligi.android.dubwise.piloting.PilotingListActivity;
+import org.ligi.android.dubwise.voice.StatusVoice;
 import org.ligi.ufo.DUBwiseNotificationListenerInterface;
 import org.ligi.ufo.MKCommunicator;
 import android.app.ListActivity;
@@ -66,7 +67,7 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 						ConnectionListActivity.class)));
 		menu_items_vector.add(new IconicMenuItem("Settings",
 				android.R.drawable.ic_menu_preferences, new Intent(this,
-						DUBwisePrefsActivity.class)));
+						SettingsListActivity.class)));
 
 		
 		if (DUBwisePrefs.isExpertModeEnabled())
