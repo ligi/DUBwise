@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--
+/********************************************************************
+ *
+ * Settings for the Graph
+ 	
+ * Project URL:
+ *  http://mikrokopter.de/ucwiki/en/DUBwise
+ * 
+ * License:
+ *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
+ *  (Creative Commons / Non Commercial / Share Alike)
+ *  Additionally to the Creative Commons terms it is not allowed
+ *  to use this project in _any_ violent manner! 
+ *  This explicitly includes that lethal Weapon owning "People" and 
+ *  Organisations (e.g. Army & Police) 
+ *  are not allowed to use this Project!
+ *
+********************************************************************/
+-->
+
 <ScrollView android:id="@+id/ScrollView01" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"><LinearLayout android:id="@+id/LinearLayout01" android:layout_height="fill_parent" android:orientation="vertical" android:layout_width="fill_parent"><CheckBox android:id="@+id/GridCheckBox" android:layout_height="wrap_content" android:text="@string/Grid" android:layout_width="fill_parent" android:editable="false"></CheckBox>
 <CheckBox android:id="@+id/LegendCheckBox" android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="@string/Legend"></CheckBox><LinearLayout android:id="@+id/LinearLayout03" android:layout_height="wrap_content" android:layout_width="fill_parent"><TextView android:id="@+id/TextView02" android:layout_width="wrap_content" android:text="@string/Interval" android:layout_height="fill_parent"></TextView><SeekBar android:id="@+id/SeekBar01" android:layout_height="wrap_content" android:max="100" android:layout_width="fill_parent"></SeekBar>
 </LinearLayout>
