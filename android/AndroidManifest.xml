@@ -30,6 +30,7 @@
 	<activity android:name="RCDataActivity"></activity>
 	<activity android:name="InformationDeskActivity"></activity>
 	<activity android:name="AnalogValuesActivity"></activity>
+	<activity android:name="SettingsListActivity"></activity>
 	
 	<activity android:name="org.ligi.android.dubwise.cockpit.CockpitActivity"></activity>
 	<activity android:name="org.ligi.android.dubwise.cockpit.CockpitPrefsActivity"></activity>
@@ -54,6 +55,8 @@
 	<activity android:name="org.ligi.android.dubwise.lcd.LCDActivity"></activity>
 	<activity android:name="org.ligi.android.dubwise.map.DUBwiseMap"></activity>
 	<activity android:name="org.ligi.android.dubwise.map.MapSettingsActivity"></activity>
+	
+	<activity android:name="org.ligi.android.dubwise.voice.VoicePrefsActivity"></activity>
 
 	
 	<activity android:name=".con.SwitchDeviceListActivity"></activity>
