@@ -58,6 +58,7 @@ public class PilotingPrefsActivity extends PreferenceActivity implements
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		PilotingPrefs.init(this);
 		ActivityCalls.beforeContent(this);
 		super.onCreate(savedInstanceState);
 		setPreferenceScreen(createPreferenceHierarchy());
