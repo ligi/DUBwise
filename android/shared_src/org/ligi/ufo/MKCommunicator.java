@@ -51,7 +51,7 @@ public class MKCommunicator
     public boolean mixer_change_notify=false;
     public boolean mixer_change_success=false;
 
-    public boolean change_notify=false;
+    //public boolean change_notify=false;
     public boolean thread_running=true;
 
     Vector notify_listeners=new Vector();
