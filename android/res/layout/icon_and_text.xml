@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-/*
-* Copyright (C) 2009 The Android Open Source Project
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*      http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+/********************************************************************
+ *
+ *	Layout to Display an icon besides a text - used in
+ *	IconicAdapter for Menues
+ *	
+ * Project URL:
+ *  http://mikrokopter.de/ucwiki/en/DUBwise
+ * 
+ * License:
+ *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
+ *  (Creative Commons / Non Commercial / Share Alike)
+ *  Additionally to the Creative Commons terms it is not allowed
+ *  to use this project in _any_ violent manner! 
+ *  This explicitly includes that lethal Weapon owning "People" and 
+ *  Organisations (e.g. Army & Police) 
+ *  are not allowed to use this Project!
+ *
+********************************************************************/
 -->
 
-
-<LinearLayout android:id="@+id/LinearLayout01" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
-<ImageView android:id="@+id/ImageView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/icon"></ImageView><TextView android:text="@+id/TextView01" android:id="@+id/TextView01" android:textSize="23sp" android:layout_height="fill_parent" android:layout_width="wrap_content" android:layout_marginRight="20sp" android:gravity="center_vertical"></TextView>
+<LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:layout_width="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+	<TextView android:text="@+id/TextView01" android:id="@+id/TextView01" android:layout_width="wrap_content" android:textStyle="" android:layout_gravity="center_vertical" android:layout_height="wrap_content" android:textSize="27dp" android:shadowRadius="3" android:shadowDx="0" android:shadowDy="0" android:shadowColor="#FFCCCCCC">
+	</TextView>
+	<RelativeLayout android:id="@+id/RelativeLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content">
+		<ImageView android:id="@+id/ImageView01" android:layout_height="wrap_content" android:src="@drawable/icon" android:layout_alignParentRight="true" android:layout_width="wrap_content">
+		</ImageView>
+	</RelativeLayout>
 </LinearLayout>
