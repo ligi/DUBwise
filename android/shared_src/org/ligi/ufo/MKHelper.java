@@ -49,4 +49,7 @@ public final class MKHelper
 		(in_arr[offset+0]&0xFF ));
    }
    
+   public final static boolean isBitSet(int val,int pos) {
+	   return (val&(1<<pos))!=0;
+   }
 }
