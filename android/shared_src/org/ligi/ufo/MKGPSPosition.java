@@ -325,6 +325,34 @@ public class MKGPSPosition
     	{ return act_gps_format_str(HomeLongitude);    }
 
 
+    public boolean isPositionHoldEnabled() 
+    	{
+    		return MKHelper.isBitSet(NCFlags, 1); 
+    	}
+    
+
+    public boolean isComingHomeEnabled() 
+    	{
+    		return MKHelper.isBitSet(NCFlags, 2); 
+    	}
+    
+    public boolean isRangeLimitReached() 
+    	{
+    		return MKHelper.isBitSet(NCFlags, 3); 
+    	}
+
+    public boolean isTargetReached() 
+		{
+		return MKHelper.isBitSet(NCFlags, 5); 
+		}
+
+    public boolean isManualControlEnabled() 
+		{
+    		return MKHelper.isBitSet(NCFlags, 6); 
+		}
+
+    
+    
     public void set_by_mk_data(int[] in_arr,MKVersion version)
     	{
     	int off=0;
