@@ -325,64 +325,47 @@ public class MKGPSPosition
     	{ return act_gps_format_str(HomeLongitude);    }
 
 
-    
-    private int parse_arr_4(int offset,int[] in_arr)
-    {
-	return ((in_arr[offset+3]<<24) |
-		(in_arr[offset+2]<<16) |
-		(in_arr[offset+1]<<8)  |
-		(in_arr[offset+0]));
-    }
-
-    private int parse_arr_2(int offset,int[] in_arr)
-    {
-	return (((in_arr[offset+1]&0xFF)<<8)  |
-		(in_arr[offset+0]&0xFF ));
-    }
-
-
-
     public void set_by_mk_data(int[] in_arr,MKVersion version)
     	{
     	int off=0;
     	if ((version.proto_major>10)||(version.proto_minor>0)) // TODO fixme
     		off++;
 	
-    	Longitude=parse_arr_4(off+0,in_arr);
-    	Latitude=parse_arr_4(off+4,in_arr);
-    	Altitude=parse_arr_4(off+8,in_arr);
+    	Longitude=MKHelper.parse_arr_4(off+0,in_arr);
+    	Latitude=MKHelper.parse_arr_4(off+4,in_arr);
+    	Altitude=MKHelper.parse_arr_4(off+8,in_arr);
     	//	status=in_arr[12];
 
-    	TargetLongitude=parse_arr_4(off+13,in_arr);
-    	TargetLatitude=parse_arr_4(off+17,in_arr);
-    	TargetAltitude=parse_arr_4(off+21,in_arr);
+    	TargetLongitude=MKHelper.parse_arr_4(off+13,in_arr);
+    	TargetLatitude=MKHelper.parse_arr_4(off+17,in_arr);
+    	TargetAltitude=MKHelper.parse_arr_4(off+21,in_arr);
     	//	Targetstatus=in_arr[25];
 
-    	Distance2Target=parse_arr_2(off+26,in_arr);
-    	Angle2Target=parse_arr_2(off+28,in_arr);
+    	Distance2Target=MKHelper.parse_arr_2(off+26,in_arr);
+    	Angle2Target=MKHelper.parse_arr_2(off+28,in_arr);
 
-    	HomeLongitude=parse_arr_4(off+30,in_arr);
-    	HomeLatitude=parse_arr_4(off+34,in_arr);
-    	HomeAltitude=parse_arr_4(off+38,in_arr);
+    	HomeLongitude=MKHelper.parse_arr_4(off+30,in_arr);
+    	HomeLatitude=MKHelper.parse_arr_4(off+34,in_arr);
+    	HomeAltitude=MKHelper.parse_arr_4(off+38,in_arr);
     	//	Targetstatus=in_arr[42];
 
-    	Distance2Home=parse_arr_2(off+43,in_arr);
-    	Angle2Home=parse_arr_2(off+45,in_arr);
+    	Distance2Home=MKHelper.parse_arr_2(off+43,in_arr);
+    	Angle2Home=MKHelper.parse_arr_2(off+45,in_arr);
 
     	WayPointIndex=(byte)in_arr[off+47];
     	WayPointNumber=(byte)in_arr[off+48];
 
     	SatsInUse=(byte)in_arr[off+49];
 	
-    	Altimeter=parse_arr_2(off+50,in_arr); // hight according to air pressure
-    	Variometer=parse_arr_2(off+52,in_arr);; // climb(+) and sink(-) rate
-    	FlyingTime=parse_arr_2(off+54,in_arr);;
+    	Altimeter=MKHelper.parse_arr_2(off+50,in_arr); // hight according to air pressure
+    	Variometer=MKHelper.parse_arr_2(off+52,in_arr);; // climb(+) and sink(-) rate
+    	FlyingTime=MKHelper.parse_arr_2(off+54,in_arr);;
 	
     	UBatt= in_arr[off+56];
 
-		GroundSpeed= parse_arr_2(off+57,in_arr);
-		Heading= parse_arr_2(off+59,in_arr);
-		CompasHeading= parse_arr_2(off+61,in_arr); 
+		GroundSpeed= MKHelper.parse_arr_2(off+57,in_arr);
+		Heading= MKHelper.parse_arr_2(off+59,in_arr);
+		CompasHeading= MKHelper.parse_arr_2(off+61,in_arr); 
 		
 		AngleNick = in_arr[off+63];
 		AngleRoll = in_arr[off+64];
@@ -404,10 +387,10 @@ public class MKGPSPosition
 		// 79/80 - used capacity
 		
 		if (in_arr.length>off+77)
-			Current = parse_arr_2(off+77,in_arr);
+			Current = MKHelper.parse_arr_2(off+77,in_arr);
 		
 		if (in_arr.length>off+79)
-			UsedCapacity = parse_arr_2(off+79,in_arr);
+			UsedCapacity = MKHelper.parse_arr_2(off+79,in_arr);
 			
 			
     	} // end of set_by_mk_data

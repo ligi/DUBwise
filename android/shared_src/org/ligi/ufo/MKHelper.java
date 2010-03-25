@@ -34,4 +34,19 @@ public final class MKHelper
 	return (int)((i2<<8)|i1);
     }
 
+   
+   public final static int parse_arr_4(int offset,int[] in_arr)
+   {
+	return ((in_arr[offset+3]<<24) |
+		(in_arr[offset+2]<<16) |
+		(in_arr[offset+1]<<8)  |
+		(in_arr[offset+0]));
+   }
+
+   public final static int parse_arr_2(int offset,int[] in_arr)
+   {
+	return (((in_arr[offset+1]&0xFF)<<8)  |
+		(in_arr[offset+0]&0xFF ));
+   }
+   
 }
