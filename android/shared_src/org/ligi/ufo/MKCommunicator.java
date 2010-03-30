@@ -1137,7 +1137,7 @@ public class MKCommunicator
 	    
 	    	gps_position.set_by_mk_data(decoded_data,version);
 
-	    	stats.process_mkflags(gps_position.MKFlags);
+	    	stats.process_mkflags(gps_position.FCFlags);
 	    	stats.process_compas(gps_position.CompasHeading);
 	    	stats.process_speed(gps_position.GroundSpeed);
 	    	stats.process_alt(getAlt());
