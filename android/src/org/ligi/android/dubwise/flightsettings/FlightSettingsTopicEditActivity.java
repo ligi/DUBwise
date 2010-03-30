@@ -177,6 +177,8 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
         		checkboxes[i].setTag(i);
         		checkboxes[i].setOnCheckedChangeListener(this);
         		checkboxes[i].setChecked(!((MKProvider.getMK().params.get_field_from_act(MKProvider.getMK().params.field_positions[act_topic][i]/8)&(1<<MKProvider.getMK().params.field_positions[act_topic][i]%8))==0));
+        		
+        		
         		row.addView(checkboxes[i]);
         		break;
 
@@ -276,16 +278,12 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
         		edit_texts[i].setPressed(false);
         		break;
         	}
-        	
-        	
         }
-			
         //this.set
         view.addView(table);
         this.setContentView(view);
-    
-                
 	} // do_layout()
+
 	@Override 
 	public void onResume() {
 		super.onResume();
@@ -297,17 +295,17 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 	}
 
 	@Override
-	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+	public void onItemSelected(AdapterView<?> arg0, View selected_view, int arg2,
 			long arg3) {
 		try {
 		Log.d("D","on item sel ");
-		if (arg1!=null) {
+		if (selected_view!=null) {
 		// view has a parent
-		if (arg1.getParent()!=null)
+		if (selected_view.getParent()!=null)
 		{
-			Log.d("D","item with parent" + arg1.getParent());
-			if (arg1.getParent() instanceof Spinner)  {
-				Spinner spin=(Spinner)arg1.getParent();
+			Log.d("D","item with parent" + selected_view.getParent());
+			if (selected_view.getParent() instanceof Spinner)  {
+				Spinner spin=(Spinner)selected_view.getParent();
 				
 				Log.d("D","Spinner tag" + spin.getTag());
 				
@@ -337,9 +335,22 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 	}
 
 	@Override
-	public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+	public void onCheckedChanged(CompoundButton checkbox, boolean checked) {
 
-		Log.d("Checkbox " , ""+arg0.getTag());
+		int tag_id=(Integer)(checkbox.getTag());
+		
+		int val_pos=MKProvider.getMK().params.field_positions[act_topic][tag_id];
+		
+		int old_val=MKProvider.getMK().params.get_field_from_act(val_pos/8);
+
+		if (checked)
+			old_val|=1<<(val_pos%8);
+		else
+			old_val&= 0xff^(1<<(val_pos%8));
+		
+		MKProvider.getMK().params.set_field_from_act(val_pos/8,old_val);
+
+		Log.d("Checkbox " , ""+checkbox.getTag());
 		
 	}
 	
