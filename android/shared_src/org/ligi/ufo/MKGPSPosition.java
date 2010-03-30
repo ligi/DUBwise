@@ -74,7 +74,7 @@ public class MKGPSPosition
     public int AngleNick = -1;
     public int AngleRoll = -1;
     public int SenderOkay = -1;
-    public int MKFlags= -1;
+    public int FCFlags= -1;
     public int NCFlags= -1;
     public int ErrorCode= 0;
 
@@ -324,6 +324,51 @@ public class MKGPSPosition
     public String HomeLongitude_str()
     	{ return act_gps_format_str(HomeLongitude);    }
 
+    
+
+    public boolean areEnginesOn() 
+    	{
+    		return MKHelper.isBitSet(FCFlags, 0); 
+    	}
+
+
+    public boolean isFlying() 
+    	{
+    		return MKHelper.isBitSet(FCFlags, 1); 
+    	}
+
+
+    public boolean isCalibrating() 
+    	{
+    		return MKHelper.isBitSet(FCFlags, 2); 
+    	}
+
+
+    public boolean isStarting() 
+    	{
+    		return MKHelper.isBitSet(FCFlags, 3); 
+    	}
+    
+
+    public boolean isEmergencyLanding() 
+    	{
+    		return MKHelper.isBitSet(FCFlags, 4); 
+    	}
+    
+    public boolean isLowBat() 
+    	{
+		return MKHelper.isBitSet(FCFlags, 5); 
+    	}
+
+
+    public boolean isSPIRcErr() 
+    	{
+		return MKHelper.isBitSet(FCFlags, 6); 
+    	}
+    public boolean isFreeModeEnabled() 
+    	{
+    		return MKHelper.isBitSet(NCFlags, 0); 
+    	}
 
     public boolean isPositionHoldEnabled() 
     	{
@@ -399,7 +444,7 @@ public class MKGPSPosition
 		AngleRoll = in_arr[off+64];
 		SenderOkay = in_arr[off+65];
 	
-		MKFlags=in_arr[off+66];
+		FCFlags=in_arr[off+66];
 		NCFlags=in_arr[off+67];
 	
 		ErrorCode=in_arr[off+68];
