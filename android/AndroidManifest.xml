@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest package="org.ligi.android.dubwise"
-      xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="0.78" android:versionCode="12">
+      xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="0.79" android:versionCode="13">
 
 	<uses-sdk android:targetSdkVersion="3" android:minSdkVersion="3"></uses-sdk>
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
