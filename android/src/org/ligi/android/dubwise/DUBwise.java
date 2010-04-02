@@ -33,6 +33,7 @@ import org.ligi.android.dubwise.lcd.LCDActivity;
 import org.ligi.android.dubwise.map.DUBwiseMap;
 import org.ligi.android.dubwise.piloting.PilotingListActivity;
 import org.ligi.android.dubwise.voice.StatusVoice;
+import org.ligi.android.dubwise.voice.VoicePrefs;
 import org.ligi.ufo.DUBwiseNotificationListenerInterface;
 import org.ligi.ufo.MKCommunicator;
 import android.app.ListActivity;
@@ -50,7 +51,10 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	
-		StatusVoice.getInstance().init(this);
+		VoicePrefs.init(this);
+		if (VoicePrefs.isVoiceEnabled())
+			StatusVoice.getInstance().init(this);
+		
 		ActivityCalls.beforeContent(this);
 		refresh_list();
 
