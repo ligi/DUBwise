@@ -38,7 +38,7 @@ public class VoicePrefs {
 	public static String KEY_DO_VOICE_VOLTS="voice_volts";
 	public static String KEY_DO_VOICE_NCERR="voice_ncerr";
 	public static String KEY_DO_VOICE_CONNINFO="voice_conninfo";
-	
+	public static String KEY_DO_VOICE_FLIGHTTIME="voice_flighttime";
 	
 	
 	
@@ -46,6 +46,18 @@ public class VoicePrefs {
 		shared_prefs=PreferenceManager.getDefaultSharedPreferences(context)	;
 	}
 	
+	/**
+	 * @return PauseTime in ms
+	 */
+	public static int getPauseTime() {
+		return 5000;
+	}
+	
+	
+	public static boolean isFlightTimeEnabled() {
+		return shared_prefs.getBoolean(KEY_DO_VOICE_FLIGHTTIME, false);
+	}
+
 
 	public static boolean isVoiceEnabled() {
 		return shared_prefs.getBoolean(KEY_VOICE_ENABLED, false);
