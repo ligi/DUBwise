@@ -20,9 +20,7 @@
 
 package org.ligi.android.dubwise.voice;
 
-import org.ligi.android.dubwise.DUBwisePrefs;
 import org.ligi.android.dubwise.helper.ActivityCalls;
-
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
@@ -128,7 +126,15 @@ public class VoicePrefsActivity extends PreferenceActivity implements OnPreferen
         doNaviErrorCheckBoxPref.setOnPreferenceChangeListener(this);
        	valuesToSpeakPrefCat.addPreference(doNaviErrorCheckBoxPref);
 
+        CheckBoxPreference doFlightTimeCheckBoxPref = new CheckBoxPreference(this);
+        doFlightTimeCheckBoxPref.setKey(VoicePrefs.KEY_DO_VOICE_FLIGHTTIME);
+        doFlightTimeCheckBoxPref.setTitle("Flight Time");
+        doFlightTimeCheckBoxPref.setSummary("speak Flight Time");
+        doFlightTimeCheckBoxPref.setOnPreferenceChangeListener(this);
+       	valuesToSpeakPrefCat.addPreference(doFlightTimeCheckBoxPref);
+
        	valuesToSpeakPrefCat.setEnabled(VoicePrefs.isVoiceEnabled());
+       	
        	return root;
     }
     
@@ -136,8 +142,11 @@ public class VoicePrefsActivity extends PreferenceActivity implements OnPreferen
  	public boolean onPreferenceChange(Preference preference, Object newValue) {
 
     	if (preference==voiceEnabledCheckBoxPref)
+    		{
     		valuesToSpeakPrefCat.setEnabled((Boolean) newValue);
-    	
+    		if ((Boolean)newValue)
+    			StatusVoice.getInstance().init(this);
+    		}
     	return true; // return that we are OK with preferences
 	}
 
