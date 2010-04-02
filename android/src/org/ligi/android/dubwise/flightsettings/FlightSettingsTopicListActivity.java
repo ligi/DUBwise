@@ -84,10 +84,6 @@ public class FlightSettingsTopicListActivity extends ListActivity {
 		super.onListItemClick(l, v, position, id);
 		Intent edit_intent= new Intent( this, FlightSettingsTopicEditActivity.class );
 		edit_intent.putExtra("topic",position );
-		startActivity( edit_intent);
-        
-				// Start the activity
-
+		startActivity( edit_intent);	// Start the activity
 	}
-
 }
