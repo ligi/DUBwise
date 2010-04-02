@@ -54,8 +54,8 @@ public class StatusVoice implements OnInitListener, Runnable,
 		if (isInitStarted()) // don't do it again
 			return;
 		init_started=true;
-		VoicePrefs.init(activity);
-		mTts = new TextToSpeech(activity, this);
+		VoicePrefs.init(activity.getApplication());
+		mTts = new TextToSpeech(activity.getApplication(), this);
 	}
 	
 	public boolean isInitStarted() {
