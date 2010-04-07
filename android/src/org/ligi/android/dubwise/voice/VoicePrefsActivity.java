@@ -20,7 +20,13 @@
 
 package org.ligi.android.dubwise.voice;
 
+
+import org.ligi.android.dubwise.TimePreference;
 import org.ligi.android.dubwise.helper.ActivityCalls;
+
+
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
@@ -28,11 +34,13 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 import android.preference.Preference.OnPreferenceChangeListener;
+import android.util.Log;
 
 public class VoicePrefsActivity extends PreferenceActivity implements OnPreferenceChangeListener {
 
 	private CheckBoxPreference voiceEnabledCheckBoxPref;
 	private PreferenceCategory valuesToSpeakPrefCat;
+	private TimePreference pause_pref;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +58,20 @@ public class VoicePrefsActivity extends PreferenceActivity implements OnPreferen
 		ActivityCalls.afterContent(this);		
 	}
 	
+	public String formatedPause() {
+		return ""+VoicePrefs.getPauseTimeInMS() +"ms";
+	}
     private PreferenceScreen createPreferenceHierarchy() {
         // Root
         PreferenceScreen root = getPreferenceManager().createPreferenceScreen(this);
         
         root.setPersistent(true);
 
+        
+        // general settings
 
         PreferenceCategory voceGeneralPrefCat = new PreferenceCategory(this);
-        voceGeneralPrefCat.setTitle("general voice Settings");
+        voceGeneralPrefCat.setTitle("general voice settings");
         root.addPreference( voceGeneralPrefCat);
 
         
@@ -69,13 +82,41 @@ public class VoicePrefsActivity extends PreferenceActivity implements OnPreferen
         voiceEnabledCheckBoxPref.setOnPreferenceChangeListener(this);
        	voceGeneralPrefCat.addPreference(voiceEnabledCheckBoxPref);
 
-
+       	
+       	
+       	pause_pref=new TimePreference(this,null);
+       	pause_pref.setTitle("pause between blocks");
+       	pause_pref.setDialogTitle("Pause Time");
+       	
+       	pause_pref.setDialogMessage("Please enter a time in ms to pause between the blocks:");
+       	pause_pref.setDefaultValue(VoicePrefs.getPauseTimeAsString());
+       	pause_pref.setKey(VoicePrefs.KEY_VOICE_PAUSE);
+       	pause_pref.setSummary(formatedPause());
+       	pause_pref.setOnPreferenceChangeListener(this);
+       	voceGeneralPrefCat.addPreference(pause_pref);
+       	
+       	
+        
+        PreferenceScreen intentPref = getPreferenceManager().createPreferenceScreen(this);
+        intentPref.setIntent(new Intent(this,VoiceDebugActivity.class));
+        intentPref.setTitle("voice info");
+        intentPref.setSummary("show voice information");
+        voceGeneralPrefCat.addPreference(intentPref);
+  //     	voceGeneralPrefCat.addPreference(this.findPreference("map_ufo_radius"));
+        //this.addPreferencesFromResource(R.xml.map_ufo_radius) ;
+        //this.findViewById(R.xml.map_ufo_radius);
+       //	Log.i("DUBwise prefs","" + this.findPreference("map_ufo_radius") );
+       	//EditTextPreference pause_time_pref=new EditTextPreference(this);
+       	//pause_time_pref.
+       	//pause_time_pref.set
+       	 
+       	
         valuesToSpeakPrefCat = new PreferenceCategory(this);
         valuesToSpeakPrefCat.setTitle("values to speak out");
         root.addPreference( valuesToSpeakPrefCat);
 
         
-        
+        //valuesToSpeakPrefCat.addPreference(this.addPreferencesFromResource(R.xml.map_ufo_radius));
         CheckBoxPreference connectionInfoCheckBoxPref = new CheckBoxPreference(this);
         connectionInfoCheckBoxPref.setKey(VoicePrefs.KEY_DO_VOICE_CONNINFO);
         connectionInfoCheckBoxPref.setTitle("Connection Info");
@@ -141,12 +182,18 @@ public class VoicePrefsActivity extends PreferenceActivity implements OnPreferen
     @Override
  	public boolean onPreferenceChange(Preference preference, Object newValue) {
 
+    	Log.i("gobandroid","pref change " + preference + " ->" + newValue);
     	if (preference==voiceEnabledCheckBoxPref)
     		{
     		valuesToSpeakPrefCat.setEnabled((Boolean) newValue);
     		if ((Boolean)newValue)
     			StatusVoice.getInstance().init(this);
     		}
+    	else if (preference==pause_pref)
+    	{
+    		StatusVoice.getInstance().setPauseTimeout(0);
+    		pause_pref.setSummary(formatedPause());
+    	}
     	return true; // return that we are OK with preferences
 	}
 

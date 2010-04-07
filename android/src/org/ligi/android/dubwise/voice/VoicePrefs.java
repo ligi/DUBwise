@@ -27,19 +27,23 @@ import android.preference.PreferenceManager;
 
 public class VoicePrefs {
 
+	
+
 	private static SharedPreferences shared_prefs;
 	
 	// Spring settings
-	public static String KEY_VOICE_ENABLED="voice_enabled";
-	public static String KEY_DO_VOICE_ALT="voice_alt";
-	public static String KEY_DO_VOICE_CURRENT="voice_current";
-	public static String KEY_DO_VOICE_USEDCAPACITY="voice_usedcapacity";
-	public static String KEY_DO_VOICE_SATELITES="voice_satelites";
-	public static String KEY_DO_VOICE_VOLTS="voice_volts";
-	public static String KEY_DO_VOICE_NCERR="voice_ncerr";
-	public static String KEY_DO_VOICE_CONNINFO="voice_conninfo";
-	public static String KEY_DO_VOICE_FLIGHTTIME="voice_flighttime";
-	
+	public final static String KEY_VOICE_ENABLED="voice_enabled";
+	public final static String KEY_DO_VOICE_ALT="voice_alt";
+	public final static String KEY_DO_VOICE_CURRENT="voice_current";
+	public final static String KEY_DO_VOICE_USEDCAPACITY="voice_usedcapacity";
+	public final static String KEY_DO_VOICE_SATELITES="voice_satelites";
+	public final static String KEY_DO_VOICE_VOLTS="voice_volts";
+	public final static String KEY_DO_VOICE_NCERR="voice_ncerr";
+	public final static String KEY_DO_VOICE_CONNINFO="voice_conninfo";
+	public final static String KEY_DO_VOICE_FLIGHTTIME="voice_flighttime";
+	public final static String KEY_VOICE_PAUSE = "voice_pause3";
+
+	private static final int DEFAULT_PAUSE = 5000;	
 	
 	
 	public static void init(Context context) {
@@ -49,11 +53,25 @@ public class VoicePrefs {
 	/**
 	 * @return PauseTime in ms
 	 */
-	public static int getPauseTime() {
-		return 5000;
+	public static int getPauseTimeInMS() {
+		String tmp= shared_prefs.getString(KEY_VOICE_PAUSE,"");
+		String[] split=tmp.split(":");
+		if (split.length!=2)
+			return DEFAULT_PAUSE;
+		else
+			try {
+				return 1000*(Integer.parseInt(split[0])*60+Integer.parseInt(split[1]));
+			}
+			catch(Exception e)
+				{ 
+				return DEFAULT_PAUSE; 
+				}
 	}
 	
 	
+	public static String getPauseTimeAsString() {
+		return shared_prefs.getString(KEY_VOICE_PAUSE,"00:05");
+	}
 	public static boolean isFlightTimeEnabled() {
 		return shared_prefs.getBoolean(KEY_DO_VOICE_FLIGHTTIME, false);
 	}
