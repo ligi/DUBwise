@@ -43,12 +43,30 @@ public class StatusVoice implements OnInitListener, Runnable,
 	private HashMap<String, String> voice_params;
 
 	private boolean init_started=false;
-	
 
 	private MKCommunicator mk = MKProvider.getMK();
 	private int last_nc_flags=-1;
 	private int last_fc_flags=-1;
+
+	private boolean told_range_limit=false;
+	private boolean told_mc_mode=false;
 	
+	private boolean told_tr_mode=false;
+
+	private boolean told_ch_mode=false;
+	private boolean told_free_mode=false;
+	private boolean told_ph_mode=false;
+	
+	private boolean told_rclost=false;
+	
+	private final static int sleep = 10;
+	private int pause_timeout=0;
+
+	private String last_spoken;
+	private int play_pos = 0;
+
+	private String last_version_str = "";
+
 	
 	public void init(Activity activity) {
 		if (isInitStarted()) // don't do it again
@@ -86,12 +104,10 @@ public class StatusVoice implements OnInitListener, Runnable,
 		return thisRef;
 	}
 	
-	private boolean told_rclost=false;
-
+	
 	@Override
 	public void run() {
-		int sleep = 10;
-		int pause_timeout=0;
+
 		
 		while (true) {
 
@@ -101,7 +117,7 @@ public class StatusVoice implements OnInitListener, Runnable,
 				
 			if (!mTts.isSpeaking()) { // no breaking news
 				String what2speak="";
-				Log.i("DUBwise","not speaking");
+				//Log.i("DUBwise","not speaking");
 				// breaking news section
 				if ((!last_version_str.equals("" + mk.version.major + "."
 						+ mk.version.minor + " "
@@ -134,29 +150,77 @@ public class StatusVoice implements OnInitListener, Runnable,
 				{
 					last_nc_flags=mk.gps_position.NCFlags;
 
-
 					if (mk.gps_position.isFreeModeEnabled())
-						what2speak+=" Free Mode Enabled. ";
+					{
+						if (!told_free_mode)
+							what2speak+=" Free Mode Enabled. ";
+						told_free_mode=true;
+					}
+					else
+						told_free_mode=false;
+					
+					
 					
 					if (mk.gps_position.isPositionHoldEnabled())
-						what2speak+=" Position Hold Enabled. ";
+					{
+						if (!told_ph_mode)
+							what2speak+=" Position Hold Enabled. ";
+						told_ph_mode=true;
+					}
+					else
+						told_ph_mode=false;
+					
 
-					if (mk.gps_position.isComingHomeEnabled())
-						what2speak+=" Coming Home Enabled ";
+
+					
+					
+					if (mk.gps_position.isComingHomeEnabled())	
+					{
+						if (!told_ch_mode)
+							what2speak+=" Coming Home Enabled ";
+						told_ch_mode=true;
+					}
+					else
+						told_ch_mode=false;
+
 					
 
 					if (mk.gps_position.isTargetReached())
-						what2speak+=" Target Reached. ";
+					{
+						if (!told_tr_mode)
+							what2speak+=" Target Reached. ";
+						told_tr_mode=true;
+					}
+					else
+						told_tr_mode=false;
+
+					
+					if (mk.gps_position.isManualControlEnabled())
+					{
+						if (!told_mc_mode)
+							what2speak+=" Manual Control Enabled. ";
+						told_mc_mode=true;
+					}
+					else
+						told_mc_mode=false;
+
+
+			
 					
 
-					if (mk.gps_position.isManualControlEnabled())
-						what2speak+=" Manual Control Enabled. ";
-
 					if (mk.gps_position.isRangeLimitReached())
-						what2speak+=" Range Limit Reached. ";
+					{
+						if (!told_range_limit)
+							what2speak+=" Range Limit Reached. ";
+
+						told_range_limit=true;
+					}
+					else
+						told_range_limit=false;
+
 
 				}
-				else if (mk.is_navi()&&mk.gps_position.FCFlags!=last_fc_flags)
+				else if (what2speak.equals("")&&mk.is_navi()&&mk.gps_position.FCFlags!=last_fc_flags)
 				{
 					last_fc_flags=mk.gps_position.FCFlags;
 
@@ -175,7 +239,18 @@ public class StatusVoice implements OnInitListener, Runnable,
 				
 				}
 
-				else if ((pause_timeout--)<0)
+				if (what2speak.equals(""))
+					{
+					if (mk.SenderOkay()<190)
+						{
+						what2speak+=" RC Signal lost";
+						told_rclost=true;
+						}
+						else
+							told_rclost=false;
+					}
+				
+				if (((pause_timeout--)<0)&&what2speak.equals(""))
 				{
 					
 					switch ((play_pos++) % 9) {
@@ -272,14 +347,15 @@ public class StatusVoice implements OnInitListener, Runnable,
 						break;
 
 					case 8:
-						pause_timeout=VoicePrefs.getPauseTime()/sleep;
+						pause_timeout=VoicePrefs.getPauseTimeInMS()/sleep;
 						break;
 					} // switch
 				}
 
-				if (!what2speak.equals(""))
-				mTts.speak(what2speak, TextToSpeech.QUEUE_ADD, voice_params);
-
+				if (!what2speak.equals("")) {
+					last_spoken=what2speak;
+					mTts.speak(what2speak, TextToSpeech.QUEUE_ADD, voice_params);
+				 }
 				}
 			}
 
@@ -292,10 +368,17 @@ public class StatusVoice implements OnInitListener, Runnable,
 		}
 	}
 
-	int play_pos = 0;
 
-	String last_version_str = "";
-
+	public String getLastSpoken() {
+		return last_spoken;
+	}
+	public int getPauseTimeout() {
+		return pause_timeout;
+	}
+	
+	public void setPauseTimeout(int new_timeout) {
+		pause_timeout=new_timeout;
+	}
 	@Override
 	public void onUtteranceCompleted(String arg0) {
 		Log.i("DUBwise", "onuterancecomplete");
