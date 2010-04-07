@@ -57,6 +57,7 @@
 	<activity android:name="org.ligi.android.dubwise.map.MapSettingsActivity"></activity>
 	
 	<activity android:name="org.ligi.android.dubwise.voice.VoicePrefsActivity"></activity>
+	<activity android:name="org.ligi.android.dubwise.voice.VoiceDebugActivity"></activity>
 
 	
 	<activity android:name=".con.SwitchDeviceListActivity"></activity>
