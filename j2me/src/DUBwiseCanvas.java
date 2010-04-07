@@ -772,9 +772,13 @@ public class DUBwiseCanvas
     }
 
 
+    /**
+     *  loads all strings into the String[] localized_strings 
+     *  depending on the language defined via act_lang
+     **/
+
     public void load_strings()
     {
-	//	System.out.println("loading strings");
 	localized_strings=new String[STRING_COUNT];
 	
 	try {
@@ -806,14 +810,14 @@ public class DUBwiseCanvas
 			}
 
 
-		    if (tmp_s.equals(""))
+		    if (tmp_s.equals("")) // if no string in this language -> use default
 			localized_strings[i]=tmp_b;	    
 		    else
 			localized_strings[i]=tmp_s;	    
 
 		}
 	}
-	catch (Exception e) {		    System.out.println("str_load err"+e);}
+	catch (Exception e) {  debug.log("str_load err"+e);}
     }
 
 
