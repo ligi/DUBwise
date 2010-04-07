@@ -9,3 +9,4 @@ tmp_deploy/
 *.tmp/
 bin/
 tmp*/
+wm_tmp/
