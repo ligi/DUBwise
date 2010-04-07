@@ -6,7 +6,9 @@ puts `rm -rfv langpacks`
 puts `mkdir langpacks`
 langpack=rio("langpacks/l") 
 
-langdef=rio("../../shared/src/org/ligi/ufo/DUBwiseLangDefs.java") 
+
+langdef=rio("../../android/shared_src/org/ligi/ufo/DUBwiseLangDefs.java") 
+#langdef=rio("../../shared/src/org/ligi/ufo/DUBwiseLangDefs.java") 
 
 langdef < "package org.ligi.ufo;\npublic interface DUBwiseLangDefs \n { \n"
 
