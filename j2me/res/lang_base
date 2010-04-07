@@ -1,182 +1,183 @@
 LANG0;English
 LANG1;Deutsch
 LANG2;French
-CONN;Connection;Verbindung;connexion
-SETTINGS;Tool Settings;Einstellungen;Reglages
-SELECT_FIRMWARE;Select Firmware;Firmware auswählen;Selection firmware
-DEBUG;Debug;Debug;Debogage
-MOTORTEST;Motor-Test;Motor-Test;Essai Moteur
-ABOUT;About;Über;A propos de
-EDIT_SETTINGS;Edit Settings;Parameter ändern;Edition Reglages
-COPY_TO_MOBILE;Copy all to Mobile;Kopie aufs Handy;Tt copier > mobile
-LOAD_FROM_MOBILE;Load from Mobile;laden vom Handy;Charger du mobile
-REINITIALIZE_ALL;Reinitialize all;Alle zurücksetzen;Remise a zero
-BACK;Back;Zurück;Retour
-QUIT;Quit;Beenden;Quitter
-REMOTE_CAM;Remote Cam;Kammeraauslösung;Deplacer APN
-FLASH_FIRMWARE;Flash Firmware;Firmware Flashen;Maj Firmware
-SWITCH_NAVI;switch to navi;wecheseln zur Navi;Basculer vers navi
-SWITCH_MK3MAG;switch to MK3MAG;wecheseln zum MK3MAG;Basculer vers MK3MAG
-SWITCH_FC;switch to FC;wechseln zur FC;Basculer vers FC
-VIEW_GPS;view GPS-Data;view GPS-Data;Voir donnees GPS
+LANG3;Dutch
+CONN;Connection;Verbindung;connexion;Verbinding
+SETTINGS;Tool Settings;Einstellungen;Reglages;Instellingen
+SELECT_FIRMWARE;Select Firmware;Firmware auswählen;Selection firmware; Firmware selecteren
+DEBUG;Debug;Debug;Debogage;Debuggen
+MOTORTEST;Motor-Test;Motor-Test;Essai Moteur;Motortest
+ABOUT;About;Über;A propos de;Over
+EDIT_SETTINGS;Edit Settings;Parameter ändern;Edition Reglages;Instellingen wijzigen
+COPY_TO_MOBILE;Copy all to Mobile;Kopie aufs Handy;Tt copier > mobile;Kopieren nr GSM
+LOAD_FROM_MOBILE;Load from Mobile;laden vom Handy;Charger du mobile; Kopieren van GSM
+REINITIALIZE_ALL;Reinitialize all;Alle zurücksetzen;Remise a zero; Herinitialiseren
+BACK;Back;Zurück;Retour;Terug
+QUIT;Quit;Beenden;Quitter;Afsluiten
+REMOTE_CAM;Remote Cam;Kammeraauslösung;Deplacer APN;Remote camera
+FLASH_FIRMWARE;Flash Firmware;Firmware Flashen;Maj Firmware;Firmware flash
+SWITCH_NAVI;switch to navi;wecheseln zur Navi;Basculer vers navi;Naar navigatie
+SWITCH_MK3MAG;switch to MK3MAG;wecheseln zum MK3MAG;Basculer vers MK3MAG;Naar MK3MAG
+SWITCH_FC;switch to FC;wechseln zur FC;Basculer vers FC;Naar FC
+VIEW_GPS;view GPS-Data;GPS-Daten einsehen;Voir donnees GPS;GPS gegevens
 LCD;LCD
-GRAPH;Graph;Graph;Graphique
-DEBUG_VALUES;Debug Values;Debug Werte;Deboguer donnees
-KEYCONTROL;Key-Control;Tastensteuerung;Touches controles
-RCDATA;view RC-data;Werte der Funke;Voir donnees RC
-FLIGHTSETTINGS;Flight Settings;Flugeinstellungen;Reglages vol
-HORIZON;Artificial Horizon;Künstl. Horizont;Horizon artificiel
-VIEW_ERRORS;view Errors;Fehler anschaun;Voir les erreurs
-USERINTERFACE;User Interface;Nutzerinterface;Interface utilisateur
+GRAPH;Graph;Graph;Graphique;Grafiek
+DEBUG_VALUES;Debug Values;Debug Werte;Deboguer donnees;Debugging gegevens
+KEYCONTROL;Key-Control;Tastensteuerung;Touches controles;Toetsbediening
+RCDATA;view RC-data;Werte der Funke;Voir donnees RC;RCdata bekijken
+FLIGHTSETTINGS;Flight Settings;Flugeinstellungen;Reglages vol;Vluchtinstellingen
+HORIZON;Artificial Horizon;Künstl. Horizont;Horizon artificiel;Kunstmatige horizon
+VIEW_ERRORS;view Errors;Fehler anschaun;Voir les erreurs;Fotmeldingen bekijken
+USERINTERFACE;User Interface;Nutzerinterface;Interface utilisateur;Gebruikersinterface
 GPS;GPS
-SPECIALKEYS;Special Keys;Spezielle Tasten;Touches speciales
-VOICE;Voice;Sprachausgabe;Voix
-OTHER;Other;Anderes;Autres
-ALTITUDE;Altitude;Höhe;Altitude
-CAMERA;Camera;Kammera;Appareil Photo
-CHANNELS;Chanels;Kanäle;Canaux
-CONFIGURATION;Configuration;Konfiguration;Configuration
-GYRO;Gyro;Gyroskope;Gyroscope
+SPECIALKEYS;Special Keys;Spezielle Tasten;Touches speciales;Speciale toetsen
+VOICE;Voice;Sprachausgabe;Voix;Stem
+OTHER;Other;Anderes;Autres;Andere
+ALTITUDE;Altitude;Hhe;Altitude;Hoogte
+CAMERA;Camera;Kammera;Appareil Photo;Camera
+CHANNELS;Chanels;Kanäle;Canaux;Kanalen
+CONFIGURATION;Configuration;Konfiguration;Configuration;Configuratie
+GYRO;Gyro;Gyroskope;Gyroscope;Gyroscoop
 LOOP;Looping
-NAVI;Navi
-OUTPUT;Output;Ausgänge;Sortie
-STICK;Sticks;Sticks;Manches
-USERPARAMS;Userparams;Nutzerparameter;Param. Utilisateur
-EDIT_CONTENT;Edit Content;Einstellungen;Edition contenu
-RENAME;Rename;Umbenennen;Renommer
-SAVE_AS;Save As;Speichern unter;Enregistrer sous
-SAVE;Save;Speichern;Enregistrer
-REREAD;Read Again;Erneut lesen;Relire
-PACKET_TRAFFIC;Packet Traffic;Paketfluss;Traffic
-VIEW_DATA;view Data;Rohdaten ansehen;Voir les donnees
-CONNECT_BT;Connect via BT;verbinden via BT;Connexion BT
-CONNECT_TCP;Connect via TCP/IP;verbinden via IP;Connexion TCP/IP
-CONNECT_COM;Connect via COM;verbinden via COM;Connexion COM
-CONNECT_RECENT;Connect to Recent;letzte Verbindungen;Connect to Recent
-SET_PROXY;Set Proxy;Proxy einstellen;Reglage PROXY
-ON;On;An;Marche
-OFF;Off;Aus;Arret
-DARK;Dark;Dunkel;Sombre
-LIGHT;Light;Hell;Lumineux
+NAVI;Navi;Navi;Navigatie
+OUTPUT;Output;Ausgänge;Sortie;Uitgang
+STICK;Sticks;Sticks;Manches;Sticks
+USERPARAMS;Userparams;Nutzerparameter;Param. Utilisateur;Gebruikers parameters
+EDIT_CONTENT;Edit Content;Einstellungen;Edition contenu;Inhoud wijzigen
+RENAME;Rename;Umbenennen;Renommer;Hernoemen
+SAVE_AS;Save As;Speichern unter;Enregistrer sous;Opslaan als
+SAVE;Save;Speichern;Enregistrer;Opslaan
+REREAD;Read Again;Erneut lesen;Relire;Herlezen
+PACKET_TRAFFIC;Packet Traffic;Paketfluss;Traffic;Packet verkeer
+VIEW_DATA;view Data;Rohdaten ansehen;Voir les donnees;Data bekijken
+CONNECT_BT;Connect via BT;verbinden via BT;Connexion BT;BT verbinding
+CONNECT_TCP;Connect via TCP/IP;verbinden via IP;Connexion TCP/IP;Connecteren via TCP/IP
+CONNECT_COM;Connect via COM;verbinden via COM;Connexion COM;Connecteren via COM
+CONNECT_RECENT;Connect to Recent;letzte Verbindungen;Connect to Recent;Laatste verbinding
+SET_PROXY;Set Proxy;Proxy einstellen;Reglage PROXY;PROXY instellen
+ON;On;An;Marche;Aan
+OFF;Off;Aus;Arret;Uit
+DARK;Dark;Dunkel;Sombre;Donker
+LIGHT;Light;Hell;Lumineux;Licht
 KMH;km/h
 MPH;mp/h
 CMS;cm/s
-DECIMAL;Decimal;Dezimal;Decimal
-MINSEC;min sec;minuten sekunden;Min sec
-NONE_ASSIGNED;none assigned;keiner zugewiesen;Non assigne
-LANGUAGE;Language;Sprache;Langue
-SKIN;Skin;Skin;Apparence
-FULLSCREEN;Fullscreen;Vollbild;Plein ecran
-SCROLLBG;Scroll Background;Bewegter Hintergr;Defil arriere plan
-PERMALIGHT;Permanent Light;Dauerhaft Hell;Eclairage permanent
+DECIMAL;Decimal;Dezimal;Decimal;Decimaal
+MINSEC;min sec;minuten sekunden;Min sec;Min sec
+NONE_ASSIGNED;none assigned;keiner zugewiesen;Non assigne;Geen toegewezen
+LANGUAGE;Language;Sprache;Langue;Taal
+SKIN;Skin;Skin;Apparence;Skin
+FULLSCREEN;Fullscreen;Vollbild;Plein ecran;Full screen
+SCROLLBG;Scroll Background;Bewegter Hintergr;Defil arriere plan;Achtergrons scrollen
+PERMALIGHT;Permanent Light;Dauerhaft Hell;Eclairage permanent;Verlichting continu
 GPSFORMAT;GPS-Format
-SPEEDFORMAT;Speed Format;Geschwindigkeiten;Vitesse
-NICK;Nick;Nick;Tangage
-ROLL;Roll;Roll;Roulis
-GIER;Gier;Gier;Lacet
-GASINCREASE;Gas increase;Schuberhöhung;Augmenter les gaz
-HEIGHTINCREASE;Height Increase;Höhenerhöhung;Augm. la hauteur
-BACKTOMAINMENU;Back to Mainmenu;Zum Hauptmenü;Revenir menu pri.
-CLEAR;Clear;Löschen;Effacer
-LEGEND;Legend;Legende;Legende
-SCALEGRID;Scale;Skala;Echelle
-VOLTS;Volts;Spannung;Volts
-DELAYINS;Delay in Seconds;Zeitabstand;Delai en secondes
-VOLUME;Volume;Lautstärke;Volume
-SOUND;Sound;Audio;Son
-VIBRA;Vibration
-REMOTECAMSTICK;Remote Cam Stick;Kammera Stick;Deplac. Manche APN
-ALWAYSRELOADPARAMS;100% Param Reload;Param. immer laden;Remise Param. 100%
-EXPERTMODE;Expert-Mode;Expertenmodus;Mode expert
-MINACCELERATE;Min. Accelerate;Minimale Beschleunigung;Acceleration mini
-BAROD;Barometric D;Barometrisches D;D barometrique
-SETPOINT;Setpoint;Setpoint;Point réglage
-ALTITUDEP;Altitude P;Höhe P;Altitude
-GAIN;Gain;Verstärkung;Gain
+SPEEDFORMAT;Speed Format;Geschwindigkeiten;Vitesse;Snelheid
+NICK;Nick;Nick;Tangage;Nick
+ROLL;Roll;Roll;Roulis;Roll
+GIER;Gier;Gier;Lacet;Gieren
+GASINCREASE;Gas increase;Schuberöhhung;Augmenter les gaz;Vermogen verhogen
+HEIGHTINCREASE;Height Increase;Höhenerhhung;Augm. la hauteur;Hoogte vergroten
+BACKTOMAINMENU;Back to Mainmenu;Zum Hauptmenü;Revenir menu pri.;Terug naar hoofdmenu
+CLEAR;Clear;Löschen;Effacer;Wissen
+LEGEND;Legend;Legende;Legende;Legende
+SCALEGRID;Scale;Skala;Echelle;Schaal
+VOLTS;Volts;Spannung;Volts;Volt
+DELAYINS;Delay in Seconds;Zeitabstand;Delai en secondes;Vertraging in sec
+VOLUME;Volume;Lautstärke;Volume;Volume
+SOUND;Sound;Audio;Son;Geluid
+VIBRA;Vibration;Vibration;Vibratie
+REMOTECAMSTICK;Remote Cam Stick;Kammera Stick;Deplac. Manche APN;Camera stick
+ALWAYSRELOADPARAMS;100% Param Reload;Param. immer laden;Remise Param. 100%;Param. altijd herladen
+EXPERTMODE;Expert-Mode;Expertenmodus;Mode expert;Expert mode
+MINACCELERATE;Min. Accelerate;Minimale Beschleunigung;Acceleration mini;Minimale versnelling
+BAROD;Barometric D;Barometrisches D;D barometrique.Barometrische druk
+SETPOINT;Setpoint;Setpoint;Point rglage.Regelpunt
+ALTITUDEP;Altitude P;Höhe P;Altitude;Hoogte
+GAIN;Gain;Verstrkung;Gain;Versterking
 ZACC;Z-Acc
-SWITCH3;3-Way Switch;3 Wege Schalter;Interrupt. 3 voies
-SERVOCONTROL;Servo Control;Servo Kontrolle;Servo
-SERVONICKCONTROL;Servo Control Nick
-SERVOROLLCONTROL;Servo Control Roll
-NICKCOMP;Nick compensation;Nick-Kompensierung;Compensation tang.
-ROLLCOMP;Roll compensation
+SWITCH3;3-Way Switch;3 Wege Schalter;Interrupt. 3 voies;3-voudige schakelaar
+SERVOCONTROL;Servo Control;Servo Kontrolle;Servo;Servocontrole
+SERVONICKCONTROL;Servo Control Nick;Servocontrole nick
+SERVOROLLCONTROL;Servo Control Roll;Servocontrole roll
+NICKCOMP;Nick compensation;Nick-Kompensierung;Compensation tang.;Nick compensatie
+ROLLCOMP;Roll compensation;Roll-Kompensierung;;Rolcompensatie
 SERVONICKMIN;Servo Nick min
 SERVONICKMAX;Servo Nick max
 SERVOROLLMIN;Servo Roll min
 SERVOROLLMAX;Servo Roll max
-REFRESHRATE;Refresh Rate;Aktualisierungsrate;Rafraichir le taux
-INVERTDIRECTION;Inverse Direction;Inverse Direction;Inverser direction
-INVERTDIRECTIONROLL;Inverse Roll
-INVERTDIRECTIONNICK;Inverse Nick
-ACCELERATE;Accelerate;Gas;Accelerer
-POTI1;Poti1;Poti1;Potentiometre 1
-POTI2;Poti2;Poti2;Potentiometre 2
-POTI3;Poti3;Poti3;Potentiometre 3
-POTI4;Poti4;Poti4;Potentiometre 4
-POTI5;Poti5;Poti5;Potentiometre 5
-POTI6;Poti6;Poti6;Potentiometre 6
-POTI7;Poti7;Poti7;Potentiometre 7
-POTI8;Poti8;Poti8;Potentiometre 8
-ALTITUDECONTROL;Altitude Control;Höhen Kontrolle;Controle altitude
-SWITCHFORSETPOINT;Switch for Setpoint;Höhenschalter;Interr. Setpoint
-HEADINGHOLD;Heading Hold;Heading Hold;Tenue de cap
-COMPASACTIVE;Compas Active;Kompass aktiv;Boussole Active
-COMPASFIX;Compas Fix;Compas Fix;Fix Boussole
-COUPLING;Coupling;Achskopplung;Accrochage
-COUPLING2;Coupling2;Achskopplung2;Accrochage 2
-COUPLINGYAWCORRECT;Coupling Yaw Correct;Coupling Yaw Correct;Corr. Accr. Lacet
-YAWRATELIMITER;Yaw Rate Limiter;Drehratenbegrenzer;Limite Taux lacet
-YAWPOSFEEDBACK;Yaw pos. feedback;Yaw pos. feedback;Inform. Lacet +
-YAWNEGFEEDBACK;Yaw neg. feedback;Yaw neg. feedback;Inform. Lacet -
-ACCGYROFACTOR;ACC/Gyro Factor;ACC/Gyro Faktor;Facteur Acc. Gyro
+REFRESHRATE;Refresh Rate;Aktualisierungsrate;Rafraichir le taux;Verversingssnelheid
+INVERTDIRECTION;Inverse Direction;Inverse Direction;Inverser direction;Richting omkeren
+INVERTDIRECTIONROLL;Inverse Roll;;Rolrichting omkeren
+INVERTDIRECTIONNICK;Inverse Nick;;Nick richting omkeren
+ACCELERATE;Accelerate;Gas;Accelerer;Accelereren
+POTI1;Poti1;Potentiometer 1;Potentiometre 1;Potmeter 1
+POTI2;Poti2;Potentiometer 2;Potentiometre 2;Potmeter 2
+POTI3;Poti3;Potentiometer 3;Potentiometre 3;Potmeter 3
+POTI4;Poti4;Potentiometer 4;Potentiometre 4;Potmeter 4
+POTI5;Poti5;Potentiometer 5;Potentiometre 5;Potmeter 5
+POTI6;Poti6;Potentiometer 6;Potentiometre 6;Potmeter 6
+POTI7;Poti7;Potentiometer 7;Potentiometre 7;Potmeter 7
+POTI8;Poti8;Potentiometer 8;Potentiometre 8;Potmeter 8
+ALTITUDECONTROL;Altitude Control;Höhen Kontrolle;Controle altitude;Hoogteregeling
+SWITCHFORSETPOINT;Switch for Setpoint;Höhenschalter;Interr. SetpointSchakelen nr instellingspunt
+HEADINGHOLD;Heading Hold;Heading Hold;Tenue de cap;Richting houden
+COMPASACTIVE;Compas Active;Kompass aktiv;Boussole Active;Compas actief
+COMPASFIX;Compas Fix;Compas Fix;Fix Boussole;Compas vast
+COUPLING;Coupling;Achskopplung;Accrochage;Koppeling
+COUPLING2;Coupling2;Achskopplung2;Accrochage 2;Koppeling 2
+COUPLINGYAWCORRECT;Coupling Yaw Correct;Coupling Yaw Correct;Corr. Accr. Lacet;Koppeling giercorrectie
+YAWRATELIMITER;Yaw Rate Limiter;Drehratenbegrenzer;Limite Taux lacet;Gierbegrenzer
+YAWPOSFEEDBACK;Yaw pos. feedback;Yaw pos. feedback;Inform. Lacet +;Pos. gierfeedback
+YAWNEGFEEDBACK;Yaw neg. feedback;Yaw neg. feedback;Inform. Lacet -;Neg. gierfeedback
+ACCGYROFACTOR;ACC/Gyro Factor;ACC/Gyro Faktor;Facteur Acc. Gyro;ACC gyro-factor
 PRATE;P-Rate
 IRATE;I-Rate
-ACCGYROCOMP;ACC/Gyro Comp.
-DRIFTCOMP;Drift-Compensation;Drift-Kompensation;Compens. derive
-DYNAMICSTABILITY;Dynamic Stability;Stabilite dynam.
-GASLIMIT;Gas-Limit;Gas-Limit;Gaz Max.
-THRESHOLD;Threshold;Schwellwert;Seuil
+ACCGYROCOMP;ACC/Gyro Comp.;ACC/Gyro-comp.
+DRIFTCOMP;Drift-Compensation;Drift-Kompensation;Compens. derive;Driftcompensatie
+DYNAMICSTABILITY;Dynamic Stability;Stabilite dynam.;Dyn. stabiliteit
+GASLIMIT;Gas-Limit;Gas-Limit;Gaz Max.;Vermogenslimiet
+THRESHOLD;Threshold;Schwellwert;Seuil;Grenswaarde
 HYSTERESE;Hysterese
-TURNOVERNICK;TurnOver Nick;TurnOver Nick;Rafraich. tangage
-TURNOVERROLL;TurnOver Roll;TurnOver Roll;Rafraich. Roulis
-UP;Up;Hoch;Haut
-DOWN;Down;Runter;Bas
-LEFT;Links;Links;Liens
-RIGHT;Rechts;Rechts;Droite
-MODECONTROL;Mode Control;Modus Kontrolle;Controle Mode
-GPSGAIN;GPS-Gain;GPS-Verstärkung;Gain GPS
+TURNOVERNICK;TurnOver Nick;TurnOver Nick;Rafraich. tangage;Nick TurnOver 
+TURNOVERROLL;TurnOver Roll;TurnOver Roll;Rafraich. Roulis;Roll TurnOver 
+UP;Up;Hoch;Haut;Boven
+DOWN;Down;Runter;Bas;Onder
+LEFT;Left;Links;Gauche;Links
+RIGHT;Rechts;Rechts;Droite;Rechts
+MODECONTROL;Mode Control;Modus Kontrolle;Controle Mode;Contr. werkingsmodus
+GPSGAIN;GPS-Gain;GPS-Verstrkung;Gain GPS;GPS sterkte
 GPSP;GPS-P
-GPSPLIMIT;GPS-P Limit
+GPSPLIMIT;GPS-P Limit;;;GPS-P limiet
 GPSI;GPS-I
-GPSILIMIT;GPS-I Limit
+GPSILIMIT;GPS-I Limit;;;GPS-I limiet
 GPSD;GPS-D
-GPSDLIMIT;GPS-D Limit
+GPSDLIMIT;GPS-D Limit;;;GPS-D limiet
 GPSACC;GPS-ACC
-DRATE;D-Rate
-SATMIN;Satelite minimum;minimale Sateliten;Satellites mini
-STICKTHRESHOLD;Stick Threshold;Stick-Schwellwert;Seuil Manche
-WINDCORRECT;Wind Correction;Wind Korrektur;Correction vent
-SPEEDCOMP;Speed Compensation;Geschwindikeitskompensation;Compensat. vitesse
-OPERATIONRADIUS;Operation-Radius;Operationsradius;Rayon operationnel
-ANGLELIMIT;Angle-Limit;Winkellimitation;Limite inclinaison
-MINGAS;Min-Gas;Gas minimal:Gaz mini
-MAXGAS;Max-Gas;Gas maximal;Gaz maxi
-COMPASEFFECT;Compas effect;Kompass Effekt;Effet boussole
-VOLTAGEWARNING;Voltage Warning;Spannungswarnung;Alerte tension
-DISTRESSGAS;Distress Gas;Notgas;Panne de Gaz
-DISTRESSGASTIME;Distress Gas Time;Notgas Zeit;Temps alerte gaz
+DRATE;D-Rate;;D-ratio
+SATMIN;Satelite minimum;minimale Sateliten;Satellites mini;Min. satellieten
+STICKTHRESHOLD;Stick Threshold;Stick-Schwellwert;Seuil Manche;Grenswaarde stick
+WINDCORRECT;Wind Correction;Wind Korrektur;Correction vent;Windcorrectie
+SPEEDCOMP;Speed Compensation;Geschwindikeitskompensation;Compensat. vitesse;Snelheidscompensatie
+OPERATIONRADIUS;Operation-Radius;Operationsradius;Rayon operationnel;Operationele radius
+ANGLELIMIT;Angle-Limit;Winkellimitation;Limite inclinaison;Hoeklimiet
+MINGAS;Min-Gas;Gas minimal:Gaz mini;Min. vermogen
+MAXGAS;Max-Gas;Gas maximal;Gaz maxi;Max. vermogen
+COMPASEFFECT;Compas effect;Kompass Effekt;Effet boussole;Compaseffect
+VOLTAGEWARNING;Voltage Warning;Spannungswarnung;Alerte tension;Voltagewaarschuwing
+DISTRESSGAS;Distress Gas;Notgas;Panne de Gaz;Noodvermogen
+DISTRESSGASTIME;Distress Gas Time;Notgas Zeit;Temps alerte gaz;Tijd noodvermogen
 J16BITMASK;J16 Bitmask
 J17BITMASK;J17 Bitmask
-WARN_J16BITMASK;J16 Warn Bitmask
-WARN_J17BITMASK;J17 Warn Bitmask
-J16TIMING;J16 Timing;J16 Timing;Chronom. J16
-J17TIMING;J17 Timing;J17 Timing;Chronom. J17
-NICKROLLP;Nick/Roll P;Nick/Roll P;Tangage/Roulis P
-NICKROLLD;Nick/Roll D;Nick/Roll D;Tangage/Roulis D
-GIERP;Gier P;Gier P;Lacet P
-GIERI;Gier I;Gier I;Lacet I
-STICKNEUTRALPOINT;Stick Neutral
-EXTERNCONTROL;Extern Control;Extern Control;Controle externe
+WARN_J16BITMASK;J16 Warn Bitmask;;;Waarsch. J16 bitmask
+WARN_J17BITMASK;J17 Warn Bitmask;;;Waarsch. J17 bitmask
+J16TIMING;J16 Timing;;Chronom. J16;J16 timing
+J17TIMING;J17 Timing;J17 Timing;Chronom. J17;J17 timing
+NICKROLLP;Nick/Roll P;Nick/Roll P;Tangage/Roulis P;Nick/Roll P
+NICKROLLD;Nick/Roll D;Nick/Roll D;Tangage/Roulis D;Nick/Roll D
+GIERP;Yaw P;Gier P;Lacet P;Gieren P
+GIERI;Yaw I;Gier I;Lacet I;Gieren I
+STICKNEUTRALPOINT;Stick Neutral;;;Stick neutraal
+EXTERNCONTROL;Extern Control;Extern Control;Controle externe;Externe controle
 PARAM1;Param 1
 PARAM2;Param 2
 PARAM3;Param 3
@@ -185,57 +186,57 @@ PARAM5;Param 5
 PARAM6;Param 6
 PARAM7;Param 7
 PARAM8;Param 8
-NOTREADYET;Not read yet;Noch nicht gelesen;Pas encore lu
-PHLOGINTIME;PH Login Time;PH einloggzeit;Temps connexion PH
-PARAMSINCOMPATIBLE;Params Incompatible;Parameter inkompatibel;Param. incompat.
-NOPARAMSONMOBILE;No Params on Mobile;No Params on Mobile;Pas param. teleph
-PARAMWRITEOK;Parameter Write OK;Parameter geschrieben;Ecrit. Param. OK
-SAVEDSETTINGS;Saved Settings;Parameter geschrieben;Sauveg. Reglages
-SETTINGSUNDOOK;Settings Undo OK;;Settings Undo OK;Annul. Reglages ok
-INCOMPATIBLEDEVICE;incompatible Device;incompatible Device;Periph. incompat.
-PARAMRESETOK;Param Reset Success!;Param Reset Success!;RAZ Param. OK
-WRITINGPARAMS;writing params;writing params;Ecriture param.
-GRAPHINTERVAL;Interval;Interval;Intervale
-ALTIMETER;Altimeter;Altimeter;Altimetre
+NOTREADYET;Not read yet;Noch nicht gelesen;Pas encore lu;Nog niet klaar
+PHLOGINTIME;PH Login Time;PH einloggzeit;Temps connexion PH;PH login-tijd
+PARAMSINCOMPATIBLE;Params Incompatible;Parameter inkompatibel;Param. incompat.;Incompatibele param.
+NOPARAMSONMOBILE;No Params on Mobile;No Params on Mobile;Pas param. teleph;Geen param. op GSM
+PARAMWRITEOK;Parameter Write OK;Parameter geschrieben;Ecrit. Param. OK;Param. wegschrijven OK
+SAVEDSETTINGS;Saved Settings;Parameter geschrieben;Sauveg. Reglages;Opgeslagen inst.
+SETTINGSUNDOOK;Settings Undo OK;;Settings Undo OK;Annul. Reglages ok;Inst. ongedaan maken OK
+INCOMPATIBLEDEVICE;incompatible Device;incompatible Device;Periph. incompat.;Incompatibel toest.
+PARAMRESETOK;Param Reset Success!;Param Reset Success!;RAZ Param. OK;Param. reset OK
+WRITINGPARAMS;writing params;writing params;Ecriture param.;Schrijven param.
+GRAPHINTERVAL;Interval;;Intervale;Interval
+ALTIMETER;Altimeter;;Altimetre;Hoogtemeter
 COCKPIT;Cockpit
-INVERTNICK;Invert Nick;Nick Invertieren;Inverser Tangage
-INVERTROLL;Invert Roll;Roll Invertieren;Inverser Roulis
-SHOWFLIGHTTIME;Show Flight Time;Show Flight Time;Temps de vol
-SHOWALTITUDE;Show Altitude;Show Altitude;Afficher altitude
-UNITS;Units;Einheiten;Unites
-DEVMODE;Developer Mode;Entwicklermodus;Mode developpeur
-DISCONNECT;Disconnect;Verbindungsabriss;Deconnecter
-INSTANTERRORSHOW;Instant Error-Msg;Instant Error-Msg;Msg erreur inst.
-FORCERECONNECT;Reconnect;Reconnect;Reconnecter
-EDIT;Edit;Ändern;Editer
-ALTSTEPS;Altimeter Stepping;Altimeter Stepping;Etapes d'altimetre
-LOADPLAIN;Load Plain;Load Plain;Charger classique
-LOADFANCY;Load Fancy;Load Fancy;Charger fantaisie
-TIMING;Timing;Timing;Chronometre
-PRIMARYABO;Primary Data Abo;Primary Data Abo;Vitess. donnees 1
-SECONDARYABO;Secondary Data Abo;Secondary Data Abo;Vitess. donnees 2
-DEFAULTABO;Default Data Abo;Default Data Abo;Vit. donnees def.
-BIGFONTS;Big Fonts;Grosse Fonts;Big Fonts
-CONFIRMMOTORTEST;Confirm Values;Confirm Values;Confirm Values
-DENYMOTORTEST;Cancel Values;Cancel Values;Cancel Values
-PARAMSAVE;Param Save;Param Save;Param Save
-WEBREPORTER;Web Reporter;Web Reporter;Web Reporter
-INTERVAL;Interval;Interval;Interval
-CONNECT_FAKE;Fake Connection;Fake Connection;Fake Connection
-CONNECT_URL;URL Connection;URL Connection;URL Connection
-INTRO;Intro (Version);Intro (Version);Intro (Version)
-MINIMAL;Minimal;Minimal;Minimal
-VOICE_NOPOINT;decimal places;Nachkommastellen;decimal places
-SATELITES;Satelites;Sateliten;Satelites
-FLIGHTTIME;Flight Time;Flugzeit;Flight Time
-ALTERNATIVE_FIRE;Alternative Fire;Alternative Fire;Alternative Fire
-HOVERBAND;Hover Band;Hover Band;Hover Band
-GPSZ;GPS-Z;GPS-Z;GPS-Z
-SENSITIVERC;Sensitive RC;Sensibler Empfang;Sensitive RC
-VARIOBEEP;Vario Beeping;Vario Beeping;Vario Beeping
-ALTITUDELIMIT;Limit Altitude;Limit Altitude;Limit Altitude
-SERVO3;Servo 3;Servo 3;Servo 3
-SERVO4;Servo 4;Servo 4;Servo 4
-SERVO5;Servo 5;Servo 5;Servo 5
-RECEIVER;Receiver type;Empfaenger typ;Receiver type
-CURRENT;Current;Strom;Current
+INVERTNICK;Invert Nick;Nick Invertieren;Inverser Tangage;Nick omkeren
+INVERTROLL;Invert Roll;Roll Invertieren;Inverser Roulis;Roll omkeren
+SHOWFLIGHTTIME;Show Flight Time;Show Flight Time;Temps de vol;Vluchttijd tonen
+SHOWALTITUDE;Show Altitude;Show Altitude;Afficher altitude;Hoogte tonen
+UNITS;Units;Einheiten;Unites;Units
+DEVMODE;Developer Mode;Entwicklermodus;Mode developpeur;Dev mode
+DISCONNECT;Disconnect;Verbindungsabriss;Deconnecter;Ontkoppelen
+INSTANTERRORSHOW;Instant Error-Msg;Instant Error-Msg;Msg erreur inst.;Instant foutboodschap
+FORCERECONNECT;Reconnect;Reconnect;Reconnecter;Herconnecteren
+EDIT;Edit;Ändern;Editer;Editeren
+ALTSTEPS;Altimeter Stepping;Altimeter Stepping;Etapes d'altimetre;Hoogtemeterstappen
+LOADPLAIN;Load Plain;Load Plain;Charger classique;Volledige opladen
+LOADFANCY;Load Fancy;Load Fancy;Charger fantaisie;Fancy opladen
+TIMING;Timing;;Chronometre
+PRIMARYABO;Primary Data Abo;Primary Data Abo;Vitess. donnees 1;Eerste ABO dataset
+SECONDARYABO;Secondary Data Abo;Secondary Data Abo;Vitess. donnees 2;Tweede ABO dataset
+DEFAULTABO;Default Data Abo;Default Data Abo;Vit. donnees def.;Standaard ABO
+BIGFONTS;Big Fonts;Grosse Fonts;Big Fonts;Grote fonts
+CONFIRMMOTORTEST;Confirm Values;Confirm Values;Confirm Values;Confirmeer waarden
+DENYMOTORTEST;Cancel Values;Werte Verwerfen;Cancel Values; Negeer waarden
+PARAMSAVE;Param Save;Parameter speicherm;Param Save;Param. opslaan
+WEBREPORTER;Web Reporter;Web Reporter;Web Reporter;Web reporter
+INTERVAL;Interval
+CONNECT_FAKE;Fake Connection;Simul. Verbindung;Fake Connection;Fake verbinding
+CONNECT_URL;URL Connection;URL Verbindung;URL Connection;URL-verbinding
+INTRO;Intro (Version);;;Intro (versie)
+MINIMAL;Minimal;;;Minimaal
+VOICE_NOPOINT;decimal places;Nachkommastellen;decimal places;Decimale plaatsen
+SATELITES;Satelites;Sateliten;Satelites;Satellieten
+FLIGHTTIME;Flight Time;Flugzeit;Flight Time;Vluchttijd
+ALTERNATIVE_FIRE;Alternative Fire;Alternative Fire;Alternative Fire;Alternative fire
+HOVERBAND;Hover Band;Hover Band;Hover Band;Hover band
+GPSZ;GPS-Z;GPS-Z;GPS-Z;GPS-Z
+SENSITIVERC;Sensitive RC;Sensibler Empfang;Sensitive RC;Gevoeligheid RC
+VARIOBEEP;Vario Beeping;Vario Beeping;Vario Beeping;Vario beep
+ALTITUDELIMIT;Limit Altitude;Limit Altitude;Limit Altitude;Hoogtebeperking
+SERVO3;Servo 3;Servo 3;Servo 3;Servo 3
+SERVO4;Servo 4;Servo 4;Servo 4;Servo 4
+SERVO5;Servo 5;Servo 5;Servo 5;Servo 5
+RECEIVER;Receiver type;Empfaenger typ;Receiver type;Type ontvanger
+CURRENT;Current;Strom;Current;Stroom
