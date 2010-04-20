@@ -46,6 +46,8 @@ class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implements Runn
 	private Paint circle_paint;
 	private Bitmap home_icon;
 	private Bitmap kopter_icon;
+	private Bitmap phone_icon;
+	
 	private int act_wp=0;
 	
 	public DUBwiseMapOverlay(DUBwiseMap context) {
@@ -59,6 +61,10 @@ class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implements Runn
 		
 		home_icon = BitmapFactory.decodeResource(context.getResources(),
 				R.drawable.rc);
+		
+		
+		phone_icon = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(),
+				android.R.drawable.ic_menu_call),42,42,true);
 		
 		
 
@@ -104,7 +110,7 @@ class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implements Runn
 			Point myScreenCoords = new Point();
 			mapView.getProjection().toPixels(p, myScreenCoords);
 			canvas.drawCircle(myScreenCoords.x, myScreenCoords.y, gps_radius_in_pixels, circle_paint);
-			canvas.drawBitmap(home_icon, myScreenCoords.x-home_icon.getWidth()/2, myScreenCoords.y-home_icon.getHeight()/2, paint);
+			canvas.drawBitmap(phone_icon, myScreenCoords.x-phone_icon.getWidth()/2, myScreenCoords.y-phone_icon.getHeight()/2, paint);
 			canvas.drawText("lat" + p.getLatitudeE6() + " lon" + p.getLongitudeE6() , (float)myScreenCoords.x,(float)myScreenCoords.y,paint);
 		}
 		
@@ -115,13 +121,18 @@ class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implements Runn
 		GeoPoint kopterPoint=new GeoPoint(MKProvider.getMK().gps_position.Latitude/10,MKProvider.getMK().gps_position.Longitude/10);
 		Point kopterScreenCoords = new Point();
 		mapView.getProjection().toPixels(kopterPoint, kopterScreenCoords);
+		canvas.drawBitmap(kopter_icon, kopterScreenCoords.x-kopter_icon.getWidth()/2, kopterScreenCoords.y-kopter_icon.getHeight()/2, paint);
 		
+		GeoPoint homePoint=new GeoPoint(MKProvider.getMK().gps_position.HomeLatitude /10,MKProvider.getMK().gps_position.HomeLongitude/10);
+		Point homeScreenCoords = new Point();
+		mapView.getProjection().toPixels(homePoint, homeScreenCoords);
+		canvas.drawBitmap(home_icon, homeScreenCoords.x-home_icon.getWidth()/2, homeScreenCoords.y-home_icon.getHeight()/2, paint);
+		
+				
 		//canvas.drawCircle(kopterScreenCoords.x, kopterScreenCoords.y, gps_radius_in_pixels, circle_paint);
 		RectF act_rectf=new RectF(kopterScreenCoords.x-gps_radius_in_pixels/2,kopterScreenCoords.y-gps_radius_in_pixels/2,kopterScreenCoords.x+gps_radius_in_pixels/2,kopterScreenCoords.y+gps_radius_in_pixels/2);
 		canvas.drawArc(act_rectf,MKProvider.getMK().gps_position.CompasHeading-20 -90 , 40, true, circle_paint);
-		//canvas.d
-		canvas.drawBitmap(kopter_icon, kopterScreenCoords.x-kopter_icon.getWidth()/2, kopterScreenCoords.y-kopter_icon.getHeight()/2, paint);
-
+		
 		Point last_pnt=new Point();
 		Point act_pnt=new Point();
 		boolean first=true;
@@ -133,9 +144,7 @@ class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implements Runn
 			mapView.getProjection().toPixels(pnt, act_pnt);
 					
 			if (!first) 
-	
 				canvas.drawLine(act_pnt.x, act_pnt.y, last_pnt.x , last_pnt.y, paint);
-			
 			
 			first=false;
 			last_pnt=new Point(act_pnt);
