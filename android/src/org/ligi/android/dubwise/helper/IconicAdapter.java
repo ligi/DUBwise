@@ -29,7 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-public class IconicAdapter extends ArrayAdapter { 
+public class IconicAdapter extends ArrayAdapter<Object> { 
         Activity context; 
  
         Object[] items;
