@@ -31,7 +31,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class StartupConnectionService {
-
 	
 	public static void start(Context context) {
 		//if (MKProvider.getMK().getCommunicationAdapter()==null)
@@ -55,7 +54,7 @@ public class StartupConnectionService {
 						}
 					}
 					Toast.makeText(context, "Enabling Bluetooth", Toast.LENGTH_LONG).show();
-					LocalDevice.getInstance().init(context, new myReadyListener(context));
+					LocalDevice.getInstance().init(context.getApplicationContext(), new myReadyListener(context));
 				break;
 				
 			default:
