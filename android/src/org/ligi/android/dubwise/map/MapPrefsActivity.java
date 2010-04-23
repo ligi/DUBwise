@@ -74,7 +74,7 @@ public class MapPrefsActivity extends PreferenceActivity implements OnPreference
  	*/
 
         PreferenceCategory ufoPrefCat = new PreferenceCategory(this);
-        ufoPrefCat.setTitle("UFO Settings");
+        ufoPrefCat.setTitle("UFO");
         root.addPreference( ufoPrefCat);
 
         
@@ -86,6 +86,28 @@ public class MapPrefsActivity extends PreferenceActivity implements OnPreference
         showUFOCheckBoxPref.setDefaultValue(MapPrefs.showUFO());
        	ufoPrefCat.addPreference(showUFOCheckBoxPref);
 
+        
+        CheckBoxPreference showUFOHeadingCheckBoxPref = new CheckBoxPreference(this);
+        showUFOHeadingCheckBoxPref.setKey(MapPrefs.KEY_SHOW_UFO_HEADING);
+        showUFOHeadingCheckBoxPref.setTitle("Show UFO Heading");
+        showUFOHeadingCheckBoxPref.setSummary("show heading of UFO?");
+        showUFOHeadingCheckBoxPref.setOnPreferenceChangeListener(this);
+        showUFOHeadingCheckBoxPref.setDefaultValue(MapPrefs.showUFOHeading());
+       	ufoPrefCat.addPreference(showUFOHeadingCheckBoxPref);
+       	
+
+        CheckBoxPreference showUFORadiusCheckBoxPref = new CheckBoxPreference(this);
+        showUFORadiusCheckBoxPref.setKey(MapPrefs.KEY_SHOW_UFO_RADIUS);
+        showUFORadiusCheckBoxPref.setTitle("Show UFO Radius");
+        showUFORadiusCheckBoxPref.setSummary("show Radius around UFO?");
+        showUFORadiusCheckBoxPref.setOnPreferenceChangeListener(this);
+        showUFORadiusCheckBoxPref.setDefaultValue(MapPrefs.showUFORadius());
+       	ufoPrefCat.addPreference(showUFORadiusCheckBoxPref);
+
+        PreferenceCategory homePrefCat = new PreferenceCategory(this);
+        homePrefCat.setTitle("Home");
+        root.addPreference( homePrefCat);
+
 
         CheckBoxPreference showHomeCheckBoxPref = new CheckBoxPreference(this);
         showHomeCheckBoxPref.setKey(MapPrefs.KEY_SHOW_HOME);
@@ -93,8 +115,19 @@ public class MapPrefsActivity extends PreferenceActivity implements OnPreference
         showHomeCheckBoxPref.setSummary("show icon for Home?");
         showHomeCheckBoxPref.setOnPreferenceChangeListener(this);
         showHomeCheckBoxPref.setDefaultValue(MapPrefs.showHome());
-       	ufoPrefCat.addPreference(showHomeCheckBoxPref);
-       	       	
+       	homePrefCat.addPreference(showHomeCheckBoxPref);
+       	 
+        CheckBoxPreference showHomeRadiusCheckBoxPref = new CheckBoxPreference(this);
+        showHomeRadiusCheckBoxPref.setKey(MapPrefs.KEY_SHOW_HOME_RADIUS);
+        showHomeRadiusCheckBoxPref.setTitle("Show Home Radius");
+        showHomeRadiusCheckBoxPref.setSummary("show radius for Home?");
+        showHomeRadiusCheckBoxPref.setOnPreferenceChangeListener(this);
+        showHomeRadiusCheckBoxPref.setDefaultValue(MapPrefs.showHomeRadius());
+       	homePrefCat.addPreference(showHomeRadiusCheckBoxPref);
+       	
+        PreferenceCategory phonePrefCat = new PreferenceCategory(this);
+        phonePrefCat.setTitle("Phone");
+        root.addPreference( phonePrefCat);
 
         CheckBoxPreference showPhoneCheckBoxPref = new CheckBoxPreference(this);
         showPhoneCheckBoxPref.setKey(MapPrefs.KEY_SHOW_PHONE);
@@ -102,7 +135,7 @@ public class MapPrefsActivity extends PreferenceActivity implements OnPreference
         showPhoneCheckBoxPref.setSummary("show icon for Phone?");
         showPhoneCheckBoxPref.setOnPreferenceChangeListener(this);
         showPhoneCheckBoxPref.setDefaultValue(MapPrefs.showPhone());
-       	ufoPrefCat.addPreference(showPhoneCheckBoxPref);
+       	phonePrefCat.addPreference(showPhoneCheckBoxPref);
        	
        	return root;
     }

@@ -31,8 +31,14 @@ public class MapPrefs {
 	private static SharedPreferences shared_prefs;
 	
 	public final static String KEY_ZOOM2LEVEL="map_zoom2level";
+	
 	public final static String KEY_SHOW_UFO="map_show_ufo";
+	public final static String KEY_SHOW_UFO_HEADING="map_show_ufo_heading";		
+	public final static String KEY_SHOW_UFO_RADIUS="map_show_ufo_radius";		
+		
 	public final static String KEY_SHOW_HOME="map_show_home";
+	public final static String KEY_SHOW_HOME_RADIUS="map_show_home_radius";
+	
 	public final static String KEY_SHOW_PHONE="map_show_phone";
 	
 	
@@ -48,8 +54,20 @@ public class MapPrefs {
 		return shared_prefs.getBoolean(KEY_SHOW_UFO, true);
 	}
 	
+	public static boolean showUFOHeading() {
+		return shared_prefs.getBoolean(KEY_SHOW_UFO_HEADING, true);
+	}
+	
+	public static boolean showUFORadius() {
+		return shared_prefs.getBoolean(KEY_SHOW_UFO_RADIUS, true);
+	}
+	
 	public static boolean showHome() {
 		return shared_prefs.getBoolean(KEY_SHOW_HOME, true);
+	}
+	
+	public static boolean showHomeRadius() {
+		return shared_prefs.getBoolean(KEY_SHOW_HOME_RADIUS, true);
 	}
 	
 	public static boolean showPhone() {
