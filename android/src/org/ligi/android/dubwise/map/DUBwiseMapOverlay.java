@@ -145,8 +145,14 @@ class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implements Runn
 		if (MapPrefs.showHome())
 			canvas.drawBitmap(home_icon, homeScreenCoords.x-home_icon.getWidth()/2, homeScreenCoords.y-home_icon.getHeight()/2, paint);
 		
-				
-		canvas.drawCircle(kopterScreenCoords.x, kopterScreenCoords.y, gps_radius_in_pixels, radius_paint);
+		
+		if (MapPrefs.showUFORadius())		
+			canvas.drawCircle(kopterScreenCoords.x, kopterScreenCoords.y, gps_radius_in_pixels, radius_paint);
+		
+		if (MapPrefs.showHomeRadius())
+			canvas.drawCircle(homeScreenCoords.x, homeScreenCoords.y, gps_radius_in_pixels, radius_paint);
+		
+		
 		RectF act_rectf=new RectF(kopterScreenCoords.x-kopter_icon.getHeight(),kopterScreenCoords.y-kopter_icon.getHeight(),kopterScreenCoords.x+kopter_icon.getHeight(),kopterScreenCoords.y+kopter_icon.getHeight());
 		canvas.drawArc(act_rectf,MKProvider.getMK().gps_position.CompasHeading-20 -90 , 40, true, compas_heading_paint);
 		
