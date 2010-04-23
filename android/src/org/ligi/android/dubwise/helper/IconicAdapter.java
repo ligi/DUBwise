@@ -30,10 +30,9 @@ import android.widget.TextView;
 
 
 public class IconicAdapter extends ArrayAdapter<Object> { 
-        Activity context; 
  
-        Object[] items;
-
+		private Activity context; 
+        private Object[] items;
         
         public IconicAdapter(Activity context,Object[] items) {
         	super(context, R.layout.icon_and_text, items);
