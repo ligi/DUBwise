@@ -57,8 +57,8 @@ public class MKGPSPosition
     public int TargetLatitude;
     public int TargetAltitude;
 
-    public int HomeLongitude;
-    public int HomeLatitude;
+    public int HomeLongitude=123268230;
+    public int HomeLatitude= 513661730;
     public int HomeAltitude;
 
     public int Distance2Target;
