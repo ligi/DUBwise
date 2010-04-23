@@ -253,7 +253,7 @@ public class StatusVoice implements OnInitListener, Runnable,
 				if (((pause_timeout--)<0)&&what2speak.equals(""))
 				{
 					
-					switch ((play_pos++) % 9) {
+					switch ((play_pos++) % 11) {
 					case 0:
 						if (mk.is_navi() && mk.hasNaviError()
 								&& VoicePrefs.isVoiceNaviErrorEnabled()) {
@@ -316,14 +316,35 @@ public class StatusVoice implements OnInitListener, Runnable,
 									+ " meters.";
 
 						}
+						
+						
+						break;
+						
+					case 6:	
+						if ((mk.gps_position.Distance2Home >0)
+								&& (VoicePrefs.isDistance2HomeEnabled())) {
+							what2speak+=" Distance to Home " + mk.gps_position.Distance2Home/10
+									+ " meters.";
+
+						}
 						break;
 
-					case 6:
+					case 7:	
+						if ((mk.gps_position.Distance2Target >0)
+								&& (VoicePrefs.isDistance2TargetEnabled())) {
+							what2speak+=" Distance to Target " + mk.gps_position.Distance2Target/10
+									+ " meters.";
+
+						}
+						break;
+						
+					case 8:
 						if ((mk.stats.flying_time()>0)
 								&& (VoicePrefs.isFlightTimeEnabled())) {
 									what2speak+=" Flight time";
 									if ((mk.stats.flying_time()/60)!=0)
 										what2speak+=" " + mk.stats.flying_time()/60 + " minutes ";
+									
 									
 									if ((mk.stats.flying_time()%60)!=0)
 										what2speak+=" " + mk.stats.flying_time()%60 + " seconds. ";
@@ -331,12 +352,9 @@ public class StatusVoice implements OnInitListener, Runnable,
 									
 						}
 						break;
-
+				
 						
-						
-						
-						
-					case 7:
+					case 9:
 						if ((mk.is_navi() || mk.is_fake())
 								&& (VoicePrefs.isVoiceSatelitesEnabled())) {
 							what2speak+= " " + mk.SatsInUse()
@@ -346,7 +364,7 @@ public class StatusVoice implements OnInitListener, Runnable,
 
 						break;
 
-					case 8:
+					case 10:
 						pause_timeout=VoicePrefs.getPauseTimeInMS()/sleep;
 						break;
 					} // switch
