@@ -41,6 +41,12 @@ public class VoicePrefs {
 	public final static String KEY_DO_VOICE_NCERR="voice_ncerr";
 	public final static String KEY_DO_VOICE_CONNINFO="voice_conninfo";
 	public final static String KEY_DO_VOICE_FLIGHTTIME="voice_flighttime";
+	
+	public final static String KEY_DO_VOICE_DISTANCE2HOME="voice_distance2home";
+	public final static String KEY_DO_VOICE_DISTANCE2TARGET="voice_distance2target";
+	
+	
+	
 	public final static String KEY_VOICE_PAUSE = "voice_pause3";
 
 	private static final int DEFAULT_PAUSE = 5000;	
@@ -72,6 +78,7 @@ public class VoicePrefs {
 	public static String getPauseTimeAsString() {
 		return shared_prefs.getString(KEY_VOICE_PAUSE,"00:05");
 	}
+	
 	public static boolean isFlightTimeEnabled() {
 		return shared_prefs.getBoolean(KEY_DO_VOICE_FLIGHTTIME, false);
 	}
@@ -109,6 +116,13 @@ public class VoicePrefs {
 	public static boolean isConnectionInfoEnabled() {
 		return shared_prefs.getBoolean(KEY_DO_VOICE_CONNINFO, false);
 	}
+	
+	public static boolean isDistance2TargetEnabled() {
+		return shared_prefs.getBoolean(KEY_DO_VOICE_DISTANCE2TARGET, false);
+	}
 
+	public static boolean isDistance2HomeEnabled() {
+		return shared_prefs.getBoolean(KEY_DO_VOICE_DISTANCE2HOME, false);
+	}
 }
 

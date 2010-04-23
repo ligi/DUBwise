@@ -174,6 +174,22 @@ public class VoicePrefsActivity extends PreferenceActivity implements OnPreferen
         doFlightTimeCheckBoxPref.setOnPreferenceChangeListener(this);
        	valuesToSpeakPrefCat.addPreference(doFlightTimeCheckBoxPref);
 
+        CheckBoxPreference doDistance2HomeCheckBoxPref = new CheckBoxPreference(this);
+        doDistance2HomeCheckBoxPref.setKey(VoicePrefs.KEY_DO_VOICE_DISTANCE2HOME);
+        doDistance2HomeCheckBoxPref.setTitle("Distance2Home");
+        doDistance2HomeCheckBoxPref.setSummary("speak Distance to Home");
+        doDistance2HomeCheckBoxPref.setOnPreferenceChangeListener(this);
+       	valuesToSpeakPrefCat.addPreference(doDistance2HomeCheckBoxPref);
+
+       	
+        CheckBoxPreference doDistance2TargetCheckBoxPref = new CheckBoxPreference(this);
+        doDistance2TargetCheckBoxPref.setKey(VoicePrefs.KEY_DO_VOICE_DISTANCE2TARGET);
+        doDistance2TargetCheckBoxPref.setTitle("Distance2Target");
+        doDistance2TargetCheckBoxPref.setSummary("speak Distance to Target");
+        doDistance2TargetCheckBoxPref.setOnPreferenceChangeListener(this);
+       	valuesToSpeakPrefCat.addPreference(doDistance2TargetCheckBoxPref);
+
+       	
        	valuesToSpeakPrefCat.setEnabled(VoicePrefs.isVoiceEnabled());
        	
        	return root;
