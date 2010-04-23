@@ -67,6 +67,7 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		MapPrefs.init(this);
 		MKProvider.getMK().user_intent=MKCommunicator.USER_INTENT_GPSOSD;	
 		//mapView = new MapView(this, "05yE31rWh6bR5W3A9cOq2www1gYQr2XDq5ACbSg"); /* debug */
 		
@@ -227,11 +228,11 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	    	
 	    case MENU_ZOOM_HOME:
 	    	mapView.getController().setCenter(overlay.p);
-	    	mapView.getController().setZoom(14);
+	    	mapView.getController().setZoom(17);
 	    	return true;
 	
 	    case MENU_SETTINGS:
-	    	startActivity(new Intent(this, MapSettingsActivity.class));
+	    	startActivity(new Intent(this, MapPrefsActivity.class));
 	        return true;
 	
 	    }

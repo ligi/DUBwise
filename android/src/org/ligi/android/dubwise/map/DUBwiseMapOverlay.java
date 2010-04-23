@@ -43,7 +43,9 @@ class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implements Runn
 	public boolean flightplan_mode=false;
 	public boolean fp_running=false;
 	
-	private Paint circle_paint;
+	private Paint compas_heading_paint;
+	private Paint radius_paint;
+	
 	private Bitmap home_icon;
 	private Bitmap kopter_icon;
 	private Bitmap phone_icon;
@@ -51,11 +53,17 @@ class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implements Runn
 	private int act_wp=0;
 	
 	public DUBwiseMapOverlay(DUBwiseMap context) {
-		circle_paint=new Paint();
-		//paint.setColor(0x550000FF);
-		circle_paint.setColor(0x23FF0000);
-		circle_paint.setStyle(Paint.Style.FILL);
+		compas_heading_paint=new Paint();
+		
+		compas_heading_paint.setColor(0x23FF0000);
+		compas_heading_paint.setStyle(Paint.Style.FILL);
 	
+		radius_paint=new Paint();
+	
+		radius_paint.setColor(0xBB0000FF);
+		radius_paint.setStyle(Paint.Style.STROKE);
+		radius_paint.setStrokeWidth(3);
+		
 		kopter_icon = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(),
 				R.drawable.icon),42,42,true);
 		
@@ -104,12 +112,13 @@ class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implements Runn
 		super.draw(canvas, mapView, shadow);
 		Paint paint = new Paint();
 		// Converts lat/lng-Point to OUR coordinates on the screen.
-		float gps_radius_in_pixels=mapView.getProjection().metersToEquatorPixels(50.0f);
+		float gps_radius_in_pixels=mapView.getProjection().metersToEquatorPixels(500.0f);
 		
-		if (p!=null) {
+		
+		if ((p!=null)&&MapPrefs.showPhone()) {
 			Point myScreenCoords = new Point();
 			mapView.getProjection().toPixels(p, myScreenCoords);
-			canvas.drawCircle(myScreenCoords.x, myScreenCoords.y, gps_radius_in_pixels, circle_paint);
+			canvas.drawCircle(myScreenCoords.x, myScreenCoords.y, gps_radius_in_pixels, compas_heading_paint);
 			canvas.drawBitmap(phone_icon, myScreenCoords.x-phone_icon.getWidth()/2, myScreenCoords.y-phone_icon.getHeight()/2, paint);
 			canvas.drawText("lat" + p.getLatitudeE6() + " lon" + p.getLongitudeE6() , (float)myScreenCoords.x,(float)myScreenCoords.y,paint);
 		}
@@ -118,20 +127,28 @@ class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implements Runn
 		paint.setARGB(255, 255, 255, 255);
 		paint.setStyle(Paint.Style.STROKE);
 		
+		
+		
 		GeoPoint kopterPoint=new GeoPoint(MKProvider.getMK().gps_position.Latitude/10,MKProvider.getMK().gps_position.Longitude/10);
 		Point kopterScreenCoords = new Point();
 		mapView.getProjection().toPixels(kopterPoint, kopterScreenCoords);
-		canvas.drawBitmap(kopter_icon, kopterScreenCoords.x-kopter_icon.getWidth()/2, kopterScreenCoords.y-kopter_icon.getHeight()/2, paint);
+		
+		if (MapPrefs.showUFO())
+			canvas.drawBitmap(kopter_icon, kopterScreenCoords.x-kopter_icon.getWidth()/2, kopterScreenCoords.y-kopter_icon.getHeight()/2, paint);
+		
+		
 		
 		GeoPoint homePoint=new GeoPoint(MKProvider.getMK().gps_position.HomeLatitude /10,MKProvider.getMK().gps_position.HomeLongitude/10);
 		Point homeScreenCoords = new Point();
 		mapView.getProjection().toPixels(homePoint, homeScreenCoords);
-		canvas.drawBitmap(home_icon, homeScreenCoords.x-home_icon.getWidth()/2, homeScreenCoords.y-home_icon.getHeight()/2, paint);
+		
+		if (MapPrefs.showHome())
+			canvas.drawBitmap(home_icon, homeScreenCoords.x-home_icon.getWidth()/2, homeScreenCoords.y-home_icon.getHeight()/2, paint);
 		
 				
-		//canvas.drawCircle(kopterScreenCoords.x, kopterScreenCoords.y, gps_radius_in_pixels, circle_paint);
-		RectF act_rectf=new RectF(kopterScreenCoords.x-gps_radius_in_pixels/2,kopterScreenCoords.y-gps_radius_in_pixels/2,kopterScreenCoords.x+gps_radius_in_pixels/2,kopterScreenCoords.y+gps_radius_in_pixels/2);
-		canvas.drawArc(act_rectf,MKProvider.getMK().gps_position.CompasHeading-20 -90 , 40, true, circle_paint);
+		canvas.drawCircle(kopterScreenCoords.x, kopterScreenCoords.y, gps_radius_in_pixels, radius_paint);
+		RectF act_rectf=new RectF(kopterScreenCoords.x-kopter_icon.getHeight(),kopterScreenCoords.y-kopter_icon.getHeight(),kopterScreenCoords.x+kopter_icon.getHeight(),kopterScreenCoords.y+kopter_icon.getHeight());
+		canvas.drawArc(act_rectf,MKProvider.getMK().gps_position.CompasHeading-20 -90 , 40, true, compas_heading_paint);
 		
 		Point last_pnt=new Point();
 		Point act_pnt=new Point();
