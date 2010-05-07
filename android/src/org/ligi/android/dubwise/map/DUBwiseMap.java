@@ -56,12 +56,14 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	private static final int MENU_START_FP = 5;
 	private static final int MENU_STOP_FP = 6;
 	
-
-	LinearLayout linearLayout;
-	MapView mapView;
-	ZoomControls mZoom;
+	private static final int MENU_GPS2FP = 7;
 	
-	DUBwiseMapOverlay overlay;
+
+//	private LinearLayout linearLayout;
+	private MapView mapView;
+//	private ZoomControls mZoom;
+	
+	private DUBwiseMapOverlay overlay;
 	
 	@Override 
 	public void onCreate(Bundle savedInstanceState) {
