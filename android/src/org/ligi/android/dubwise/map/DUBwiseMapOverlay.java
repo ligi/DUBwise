@@ -36,10 +36,14 @@ import android.view.MotionEvent;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 
-class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implements Runnable {
+public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implements Runnable {
 
 	
-	public GeoPoint p=null;
+	public GeoPoint phonePoint=null;
+	private GeoPoint kopterPoint=null;
+	private GeoPoint homePoint=null;
+	
+	
 	public boolean flightplan_mode=false;
 	public boolean fp_running=false;
 	
@@ -51,6 +55,36 @@ class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implements Runn
 	private Bitmap phone_icon;
 	
 	private int act_wp=0;
+	
+	
+	public Bitmap getKopterIcon() {
+		return kopter_icon;
+	}
+	
+	public Bitmap getHomeIcon() {
+		return home_icon;
+	}
+	
+	public Bitmap getPhoneIcon() {
+		return phone_icon;
+	}
+	
+	public void phonepos2wp() {
+		addWP(phonePoint);
+	}
+	
+	public void homepos2wp() {
+		addWP(homePoint);
+	}
+	
+	public void ufopos2wp() {
+		addWP(kopterPoint);
+	}
+	public void addWP(GeoPoint point) {
+		if (point==null)
+			return;
+		pnt_fp_vector.add(point);	
+	}
 	
 	public DUBwiseMapOverlay(DUBwiseMap context) {
 		compas_heading_paint=new Paint();
@@ -67,8 +101,8 @@ class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implements Runn
 		kopter_icon = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(),
 				R.drawable.icon),42,42,true);
 		
-		home_icon = BitmapFactory.decodeResource(context.getResources(),
-				R.drawable.rc);
+		home_icon =Bitmap.createScaledBitmap( BitmapFactory.decodeResource(context.getResources(),
+				R.drawable.rc),42,42,true);
 		
 		
 		phone_icon = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(),
@@ -105,6 +139,8 @@ class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implements Runn
 			
 		return false;
 	}
+	
+	
 	@Override
 	public boolean draw(Canvas canvas, MapView mapView, boolean shadow,
 			long when) {
@@ -115,21 +151,19 @@ class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implements Runn
 		float gps_radius_in_pixels=mapView.getProjection().metersToEquatorPixels(500.0f);
 		
 		
-		if ((p!=null)&&MapPrefs.showPhone()) {
+		if ((phonePoint!=null)&&MapPrefs.showPhone()) {
 			Point myScreenCoords = new Point();
-			mapView.getProjection().toPixels(p, myScreenCoords);
+			mapView.getProjection().toPixels(phonePoint, myScreenCoords);
 			canvas.drawCircle(myScreenCoords.x, myScreenCoords.y, gps_radius_in_pixels, compas_heading_paint);
 			canvas.drawBitmap(phone_icon, myScreenCoords.x-phone_icon.getWidth()/2, myScreenCoords.y-phone_icon.getHeight()/2, paint);
-			canvas.drawText("lat" + p.getLatitudeE6() + " lon" + p.getLongitudeE6() , (float)myScreenCoords.x,(float)myScreenCoords.y,paint);
+			canvas.drawText("lat" + phonePoint.getLatitudeE6() + " lon" + phonePoint.getLongitudeE6() , (float)myScreenCoords.x,(float)myScreenCoords.y,paint);
 		}
 		
 		paint.setStrokeWidth(1);
 		paint.setARGB(255, 255, 255, 255);
 		paint.setStyle(Paint.Style.STROKE);
 		
-		
-		
-		GeoPoint kopterPoint=new GeoPoint(MKProvider.getMK().gps_position.Latitude/10,MKProvider.getMK().gps_position.Longitude/10);
+		kopterPoint=new GeoPoint(MKProvider.getMK().gps_position.Latitude/10,MKProvider.getMK().gps_position.Longitude/10);
 		Point kopterScreenCoords = new Point();
 		mapView.getProjection().toPixels(kopterPoint, kopterScreenCoords);
 		
@@ -137,8 +171,7 @@ class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implements Runn
 			canvas.drawBitmap(kopter_icon, kopterScreenCoords.x-kopter_icon.getWidth()/2, kopterScreenCoords.y-kopter_icon.getHeight()/2, paint);
 		
 		
-		
-		GeoPoint homePoint=new GeoPoint(MKProvider.getMK().gps_position.HomeLatitude /10,MKProvider.getMK().gps_position.HomeLongitude/10);
+		homePoint=new GeoPoint(MKProvider.getMK().gps_position.HomeLatitude /10,MKProvider.getMK().gps_position.HomeLongitude/10);
 		Point homeScreenCoords = new Point();
 		mapView.getProjection().toPixels(homePoint, homeScreenCoords);
 		

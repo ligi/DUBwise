@@ -23,6 +23,7 @@ package org.ligi.android.dubwise.map;
 import org.ligi.android.dubwise.R;
 import org.ligi.android.dubwise.con.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
+import org.ligi.android.dubwise.map.dialogs.AddWPDialog;
 import org.ligi.ufo.MKCommunicator;
 
 import android.content.Context;
@@ -39,7 +40,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ZoomControls;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -56,13 +56,9 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	private static final int MENU_START_FP = 5;
 	private static final int MENU_STOP_FP = 6;
 	
-	private static final int MENU_GPS2FP = 7;
+	private static final int MENU_FP_ADD_WP = 7; 
 	
-
-//	private LinearLayout linearLayout;
 	private MapView mapView;
-//	private ZoomControls mZoom;
-	
 	private DUBwiseMapOverlay overlay;
 	
 	@Override 
@@ -142,7 +138,7 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 			double lng = location.getLongitude();
 			GeoPoint p = new GeoPoint((int) (lat * 1000000), (int)( lng * 1000000));
 			
-			overlay.p=p;
+			overlay.phonePoint=p;
 			
 			mapView.getController().animateTo(p);
 			}
@@ -180,32 +176,20 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 
 		if (overlay.flightplan_mode)
 		{
-			if (overlay.fp_running)
-			{
-				MenuItem clr_fp_menu=menu.add(0,MENU_STOP_FP,0,"Pause");
-				clr_fp_menu.setIcon(android.R.drawable.ic_media_pause);
-			}
-			else
-			{
-				MenuItem clr_fp_menu=menu.add(0,MENU_START_FP,0,"Play");
-				clr_fp_menu.setIcon(android.R.drawable.ic_media_play);
-			}
-			MenuItem clr_fp_menu=menu.add(0,MENU_CLEAR_FP,0,"Clear FlightPlan");
-			clr_fp_menu.setIcon(android.R.drawable.ic_menu_close_clear_cancel);
+			menu.add(0,MENU_FP_ADD_WP,0,"Add WP").setIcon(android.R.drawable.ic_menu_add);
 			
+			if (overlay.fp_running)
+				menu.add(0,MENU_STOP_FP,0,"Pause").setIcon(android.R.drawable.ic_media_pause);
+			else
+				menu.add(0,MENU_START_FP,0,"Play").setIcon(android.R.drawable.ic_media_play);
+
+			menu.add(0,MENU_CLEAR_FP,0,"Clear FlightPlan").setIcon(android.R.drawable.ic_menu_close_clear_cancel);
 		}
 		
-		if (overlay.p!=null) {
-			MenuItem freeze_menu2=menu.add(0,MENU_ZOOM_HOME,0,"Zoom to Home");
-			freeze_menu2.setIcon(R.drawable.rc);
-		}
-		
-		/*
-	    Menu features_menu=menu.addSubMenu("Features");
-	    features_menu.add(0, MENU_LEGEND, 0, "New Game").setCheckable(true);
-	    features_menu.add(0, MENU_GRID, 0, "Quit").setCheckable(true);
-	    */
-	    return true;
+		if (overlay.phonePoint!=null) 
+			menu.add(0,MENU_ZOOM_HOME,0,"Zoom to Home").setIcon(R.drawable.rc);
+
+		return true;
 	}
 
 	/* Handles item selections */
@@ -233,18 +217,25 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	    	return true;
 	    	
 	    case MENU_ZOOM_HOME:
-	    	mapView.getController().setCenter(overlay.p);
+	    	mapView.getController().setCenter(overlay.phonePoint);
 	    	mapView.getController().setZoom(17);
 	    	return true;
 	
 	    case MENU_SETTINGS:
 	    	startActivity(new Intent(this, MapPrefsActivity.class));
 	        return true;
+	        
+	    case MENU_FP_ADD_WP:
+	    	AddWPDialog.show(this);
+	    	return true;
 	
 	    }
 	    
 	    return false;
 	}
 
+	public DUBwiseMapOverlay getOverlay() {
+		return overlay;
+	}
 
 }
