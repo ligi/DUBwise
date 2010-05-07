@@ -21,9 +21,6 @@
 
 package org.ligi.android.dubwise.piloting;
 
-
-import org.ligi.android.dubwise.con.MKProvider;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;

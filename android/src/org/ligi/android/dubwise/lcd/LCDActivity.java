@@ -23,6 +23,7 @@ package org.ligi.android.dubwise.lcd;
 import org.ligi.android.dubwise.con.MKProvider;
 import org.ligi.android.dubwise.con.SwitchDeviceListActivity;
 import org.ligi.android.dubwise.helper.ActivityCalls;
+import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKCommunicator;
 
 import android.app.Activity;
@@ -30,7 +31,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -170,12 +170,12 @@ public class LCDActivity extends Activity implements OnTouchListener {
 
 	//@Override
 	public boolean onTouch( View v, MotionEvent event ) {
-		Log.i("DUBwise","LCD Touch");
+		Log.i("LCD Touch");
 		if (event.getAction()==MotionEvent.ACTION_UP)
 		{
 		if (event.getX()>lcd_view.getWidth()/2) {
 			
-			Log.i("DUBwise","LCD Nextpage");
+			Log.i("LCD Nextpage");
 			MKProvider.getMK().LCD.LCD_NEXTPAGE();
 		}
 		else

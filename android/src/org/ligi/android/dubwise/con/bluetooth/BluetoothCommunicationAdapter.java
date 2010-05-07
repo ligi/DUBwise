@@ -28,8 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import android.util.Log;
-
+import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.CommunicationAdapterInterface;
 
 public class BluetoothCommunicationAdapter implements
@@ -40,11 +39,6 @@ public class BluetoothCommunicationAdapter implements
 	private RemoteDevice remote_device;
 	private String mac="";
 	
-	public void log(String what) {
-	 Log.d("DUBwise Bluetooth Communication Adapter",what);	
-
-	}
-
 	public int getRSSI() {
 		return remote_device.getRSSI();	 		
 	}
@@ -63,7 +57,7 @@ public class BluetoothCommunicationAdapter implements
 			//LocalDevice bta = BluetoothAdapter.getDefaultAdapter();
 			// LocalBluetoothDevice.initLocalDevice(context);
 			
-			log("getting device" + mac);
+			Log.i("getting device" + mac);
 			remote_device = LocalDevice.getInstance().getRemoteForAddr(mac);
 			//BluetoothDevice bd = bta.getRemoteDevice(mac);
 					
@@ -74,13 +68,13 @@ public class BluetoothCommunicationAdapter implements
 			 * while (bd.getBondState()!=bd.BOND_BONDED) { log("waiting for bond");
 			 * Thread.sleep(200 ); }
 			 */
-			log("create method");
-			log("waiting for bond");
+			Log.i("create method");
+			Log.i("waiting for bond");
 			
 			/*Method m = bd.getClass().getMethod("createRfcommSocket",
 					new Class[] { int.class });
 			 */
-			log("create connection");
+			Log.i("create connection");
 			//bt_connection = (BluetoothSocket) m.invoke(bd, 1);
 			// bt_connection.getRemoteDevice().
 			// localBluetoothDevice.initLocalDevice(context );
@@ -96,15 +90,15 @@ public class BluetoothCommunicationAdapter implements
 			// )).openSocket(1 );
 			// bt.createRfcommSocketToServiceRecord((UUID.fromString("a60f35f0-b93a-11de-8a39-08002009c666")));
 			
-			log("connect ");
+			Log.i("connect ");
 			
 			bt_connection=remote_device.openSocket(1);
 			
-			log("getting streams");
+			Log.i("getting streams");
 			
 			
 		}
-		catch(Exception e) { log(""+e); }
+		catch(Exception e) { Log.w(""+e); }
 	}
 
 	@Override

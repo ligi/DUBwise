@@ -21,6 +21,7 @@ package org.ligi.android.dubwise;
 
 import org.ligi.android.dubwise.con.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
+import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.CommunicationAdapterInterface;
 import org.ligi.ufo.MKFirmwareFlasher;
 import org.ligi.ufo.MKFirmwareHelper;
@@ -32,7 +33,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
-import android.util.Log;
 
 public class FlashFirmwareActivity extends Activity implements Runnable, OnCancelListener {
 
@@ -129,7 +129,7 @@ public class FlashFirmwareActivity extends Activity implements Runnable, OnCance
 			finish();
 		}
 		else 
-			Log.i("DUBwise", "Dialog canceled which i did not have opened");
+			Log.w( "Dialog canceled which i did not have opened");
 	}
 		
 }

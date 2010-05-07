@@ -20,8 +20,6 @@ package org.ligi.android.dubwise.piloting;
  *
  **************************************************************************/
 
-
-import org.ligi.android.dubwise.DUBwisePrefs;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 
 import android.content.SharedPreferences;
@@ -38,8 +36,6 @@ import android.preference.Preference.OnPreferenceChangeListener;
 public class PilotingPrefsActivity extends PreferenceActivity implements
 		OnPreferenceChangeListener, OnSharedPreferenceChangeListener {
 
-	
-	
 	private ListPreference rightPadVerticalExternalControlMappingPref;
 	private ListPreference leftPadVerticalExternalControlMappingPref;
 

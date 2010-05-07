@@ -21,10 +21,10 @@
 package org.ligi.android.dubwise.piloting;
 
 import org.ligi.android.dubwise.con.MKProvider;
+import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKCommunicator;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -134,11 +134,11 @@ public class MultiTouchPilotingView extends View implements OnTouchListener
         
         if (event.getY(mevent_i)>(this.getHeight()-rect_size))
         {
-        	Log.i("DUBwise" , "is in y bounds");
+        	Log.i("is in y bounds");
         	
         	if (event.getX(mevent_i)<rect_size)
         	{
-        		Log.i("DUBwise" , "left stick hit");
+        		Log.i("left stick hit");
         		act_gier=(int)(((event.getX(mevent_i)-rect_size/2)/rect_size)*127*2);
         		
         		act_gas=(int)((event.getY(mevent_i)-this.getHeight()+rect_size/2)/rect_size*127*-2);
@@ -155,7 +155,7 @@ public class MultiTouchPilotingView extends View implements OnTouchListener
         	
         	if (event.getX(mevent_i)> (this.getWidth()-rect_size))
         	{
-        		Log.i("DUBwise" , "right stick hit");
+        		Log.i("right stick hit");
         		act_roll=(int)(((event.getX(mevent_i)-this.getWidth()+rect_size/2)/rect_size)*127*2);
         		
         		act_nick=(int)((event.getY(mevent_i)-this.getHeight()+rect_size/2)/rect_size*127*2);

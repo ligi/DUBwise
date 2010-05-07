@@ -23,6 +23,7 @@ package org.ligi.android.dubwise.flightsettings;
 import org.ligi.android.dubwise.con.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.android.dubwise.helper.DUBwiseStringHelper;
+import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKParamsGeneratedDefinitions;
 import org.ligi.ufo.MKParamsParser;
 import org.ligi.ufo.MKStickData;
@@ -52,7 +53,6 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.KeyListener;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -161,7 +161,7 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
          		spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
          		spinner.setAdapter(spinner_adapter);
-         		Log.i("DUBwise","want to set to" + params.field[params.act_paramset][params.field_positions[act_topic][i]]);
+         		Log.i("want to set to" + params.field[params.act_paramset][params.field_positions[act_topic][i]]);
          		int stick_id=params.field[params.act_paramset][params.field_positions[act_topic][i]];
          		if (stick_id>MKStickData.MAX_STICKS*2)
          			spinner.setSelection(MKStickData.MAX_STICKS*2);
@@ -237,7 +237,7 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 							else if (txt_val<0)
 								txt_val=0;
 							MKProvider.getMK().params.field[MKProvider.getMK().params.act_paramset][MKProvider.getMK().params.field_positions[act_topic][act_i]]=txt_val;						// TODO Auto-generated method stub
-							Log.d("!!!" , "" + txt_val);
+							Log.d( "" + txt_val);
 							
 							if (!(""+txt_val).equals(edit_texts[act_i].getText().toString()))
 								edit_texts[act_i].setText( "" + txt_val);
@@ -290,24 +290,20 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 		ActivityCalls.afterContent(this);
 	}
 
-	public void log(String msg) {
-		Log.d("DUWISE", msg);
-	}
-
 	@Override
 	public void onItemSelected(AdapterView<?> arg0, View selected_view, int arg2,
 			long arg3) {
 		try {
-		Log.d("D","on item sel ");
+		Log.d("on item sel ");
 		if (selected_view!=null) {
 		// view has a parent
 		if (selected_view.getParent()!=null)
 		{
-			Log.d("D","item with parent" + selected_view.getParent());
+			Log.d("item with parent" + selected_view.getParent());
 			if (selected_view.getParent() instanceof Spinner)  {
 				Spinner spin=(Spinner)selected_view.getParent();
 				
-				Log.d("D","Spinner tag" + spin.getTag());
+				Log.d("Spinner tag" + spin.getTag());
 				
 				if (arg2==0)
 					edit_texts[(Integer)(spin.getTag())].setEnabled(true);
@@ -323,7 +319,7 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 		}
 		}
 		}
-		catch (Exception e) { Log.d("D","DD" + e); }
+		catch (Exception e) { Log.d("DD" + e); }
 		
 		//arg1.getParent()
 		
@@ -350,7 +346,7 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 		
 		MKProvider.getMK().params.set_field_from_act(val_pos/8,old_val);
 
-		Log.d("Checkbox " , ""+checkbox.getTag());
+		Log.d(""+checkbox.getTag());
 		
 	}
 	
@@ -406,7 +402,7 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 
 	@Override
 	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-		Log.d("DUBwise", "text cahnged2" + v.getText() );
+		Log.d( "text cahnged2" + v.getText() );
 		return false;
 	}
 

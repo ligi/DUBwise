@@ -22,12 +22,12 @@ package org.ligi.android.dubwise;
 
 import org.ligi.android.dubwise.con.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
+import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.MKStickData;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
@@ -105,7 +105,7 @@ public class RCDataActivity extends Activity implements Runnable
 	    	   for (int i=0;i<channels;i++)
 				{
 					progress_bars[i].setProgress(MKProvider.getMK().stick_data.stick[i]+127);
-				Log.i("DUBwise","channel " + i + " " + MKProvider.getMK().stick_data.stick[i]);
+				Log.i("channel " + i + " " + MKProvider.getMK().stick_data.stick[i]);
 				}	
 	       }
 	    };

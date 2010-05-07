@@ -27,8 +27,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
-import android.util.Log;
-
 import android.widget.ArrayAdapter;
 
 public class SwitchDeviceListActivity extends DUBwiseBaseListActivity {
@@ -54,10 +52,6 @@ public class SwitchDeviceListActivity extends DUBwiseBaseListActivity {
 	protected void onResume() {
 		super.onResume();
 		ActivityCalls.afterContent(this);
-	}
-
-	public void log(String msg) {
-		Log.d("DUWISE", msg);
 	}
 
 	public void quit() {

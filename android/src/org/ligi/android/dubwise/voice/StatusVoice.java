@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import org.ligi.android.dubwise.con.MKProvider;
+import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKCommunicator;
 
 import android.app.Activity;
@@ -31,7 +32,6 @@ import android.media.AudioManager;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
-import android.util.Log;
 
 public class StatusVoice implements OnInitListener, Runnable,
 		OnUtteranceCompletedListener {
@@ -399,7 +399,7 @@ public class StatusVoice implements OnInitListener, Runnable,
 	}
 	@Override
 	public void onUtteranceCompleted(String arg0) {
-		Log.i("DUBwise", "onuterancecomplete");
+		Log.i( "onuterancecomplete");
 		/*
 		voice_params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
 				"start uterance pp" + play_pos);

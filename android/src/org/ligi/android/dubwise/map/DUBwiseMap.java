@@ -97,7 +97,11 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 		 zoomView.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
 		 mapView.addView(zoomView);
 	
-		 mapView.getController().setZoom(3);
+		 mapView.getController().setZoom(19);
+		 
+		 GeoPoint kopterPoint=new GeoPoint(MKProvider.getMK().gps_position.Latitude/10,MKProvider.getMK().gps_position.Longitude/10);
+		 mapView.getController().setCenter(kopterPoint);
+	    	
 		 
 		 //mapView.getZoomButtonsController().setVisible(true);
 		 

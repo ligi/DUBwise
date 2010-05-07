@@ -22,10 +22,10 @@ package org.ligi.android.dubwise;
 
 import org.ligi.android.dubwise.con.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
+import org.ligi.tracedroid.logging.Log;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -165,7 +165,7 @@ public class MotorTestActivity extends Activity implements OnSeekBarChangeListen
 
 				MKProvider.getMK().motor_test(mt_param );
 				
-				Log.d("DUBWise-Motortest","updated");
+				Log.d("motortest updated");
 			} catch (InterruptedException e) {
 				// sleep no important
 			}

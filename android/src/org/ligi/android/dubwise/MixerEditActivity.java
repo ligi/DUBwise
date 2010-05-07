@@ -24,6 +24,7 @@ package org.ligi.android.dubwise;
 
 import org.ligi.android.dubwise.con.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
+import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MixerManager;
 
 
@@ -51,7 +52,6 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.KeyListener;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -280,10 +280,6 @@ public class MixerEditActivity extends Activity implements OnItemSelectedListene
 		ActivityCalls.afterContent(this);
 	}
 
-	public void log(String msg) {
-		Log.d("DUWISE", msg);
-	}
-
 	/**
 	 * copy the values in MixerManager to the Layout
 	 */
@@ -381,7 +377,7 @@ public class MixerEditActivity extends Activity implements OnItemSelectedListene
 	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
 			long arg3) {
 		try {
-		Log.d("D","on item sel ");
+		Log.d("on item sel ");
 		if (arg1!=null) {
 		// view has a parent
 		if (arg1.getParent()!=null)
@@ -406,7 +402,7 @@ public class MixerEditActivity extends Activity implements OnItemSelectedListene
 		}
 		}
 		}
-		catch (Exception e) { Log.d("D","DD" + e); }
+		catch (Exception e) { Log.d("DD" + e); }
 		
 		//arg1.getParent()
 		
@@ -420,7 +416,7 @@ public class MixerEditActivity extends Activity implements OnItemSelectedListene
 	@Override
 	public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 
-		Log.d("Checkbox " , ""+arg0.getTag());
+		Log.d( ""+arg0.getTag());
 		
 	}
 	
@@ -445,13 +441,10 @@ public class MixerEditActivity extends Activity implements OnItemSelectedListene
 		return true;
 	}
 	
-
-
-	
 	@Override
 	public void afterTextChanged(Editable s) {
-		Log.d("DUBwise", "text cahnged" + s );
-		Log.d("DUwise", "text cahnged" + ((View)s).getTag() );
+		Log.d( "text cahnged" + s );
+		Log.d( "text cahnged" + ((View)s).getTag() );
 	}
 
 	@Override
@@ -467,7 +460,7 @@ public class MixerEditActivity extends Activity implements OnItemSelectedListene
 
 	@Override
 	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-		Log.d("DUBwise", "text cahnged2" + v.getText() );
+		Log.d( "text cahnged2" + v.getText() );
 		return false;
 	}
 

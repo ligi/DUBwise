@@ -22,9 +22,9 @@ package org.ligi.android.dubwise.con;
 
 import org.ligi.android.dubwise.R;
 import org.ligi.android.dubwise.helper.ActivityCalls;
+import org.ligi.tracedroid.logging.Log;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
@@ -111,7 +111,7 @@ public class ConnectViaTCPActivity extends Activity implements OnClickListener, 
         
         editor.commit();
         
-        Log.i("DUBwise","connecting to " + host +":" + port + " via tcp qmk:" + qmk );
+        Log.i("connecting to " + host +":" + port + " via tcp qmk:" + qmk );
         
         TCPConnectionAdapter tcp_com;
         if (qmk)

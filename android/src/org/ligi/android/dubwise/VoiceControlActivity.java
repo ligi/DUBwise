@@ -22,10 +22,11 @@ package org.ligi.android.dubwise;
 
 import java.util.ArrayList;
 import org.ligi.android.dubwise.helper.ActivityCalls;
+import org.ligi.tracedroid.logging.Log;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 public class VoiceControlActivity extends Activity {
 
@@ -83,7 +84,7 @@ public class VoiceControlActivity extends Activity {
 	    ArrayList<String> results = data.getExtras().getStringArrayList("results");  
 	  
 	    for (String result:results) {
-	    	Log.i("DUBwise", "voice result " + result);
+	    	Log.i("voice result " + result);
 	    }
 	    }  
 	

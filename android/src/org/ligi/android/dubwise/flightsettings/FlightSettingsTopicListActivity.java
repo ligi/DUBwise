@@ -30,7 +30,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 public class FlightSettingsTopicListActivity extends ListActivity {
@@ -60,10 +59,6 @@ public class FlightSettingsTopicListActivity extends ListActivity {
 		*/      
 		this.setListAdapter(new ArrayAdapter<String>(this,
 		 android.R.layout.simple_list_item_1, menu_items));
-	}
-
-	public void log(String msg) {
-		Log.d("DUWISE", msg);
 	}
 
 	public void quit() {

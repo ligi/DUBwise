@@ -21,7 +21,6 @@
 package org.ligi.android.dubwise.cockpit;
 
 import org.ligi.android.dubwise.con.MKProvider;
-import org.ligi.android.dubwise.graph.GraphSettingsActivity;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.ufo.MKCommunicator;
 

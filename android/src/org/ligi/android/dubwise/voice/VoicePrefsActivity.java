@@ -23,6 +23,7 @@ package org.ligi.android.dubwise.voice;
 
 import org.ligi.android.dubwise.TimePreference;
 import org.ligi.android.dubwise.helper.ActivityCalls;
+import org.ligi.tracedroid.logging.Log;
 
 
 import android.content.Intent;
@@ -34,7 +35,6 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.util.Log;
 
 public class VoicePrefsActivity extends PreferenceActivity implements OnPreferenceChangeListener {
 
@@ -198,7 +198,7 @@ public class VoicePrefsActivity extends PreferenceActivity implements OnPreferen
     @Override
  	public boolean onPreferenceChange(Preference preference, Object newValue) {
 
-    	Log.i("gobandroid","pref change " + preference + " ->" + newValue);
+    	Log.i("pref change " + preference + " ->" + newValue);
     	if (preference==voiceEnabledCheckBoxPref)
     		{
     		valuesToSpeakPrefCat.setEnabled((Boolean) newValue);

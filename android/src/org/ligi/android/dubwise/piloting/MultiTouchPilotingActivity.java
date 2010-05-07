@@ -22,13 +22,12 @@
 package org.ligi.android.dubwise.piloting;
 
 import org.ligi.android.dubwise.con.MKProvider;
-import org.ligi.android.dubwise.graph.GraphSettingsActivity;
 import org.ligi.android.dubwise.helper.ActivityCalls;
+import org.ligi.tracedroid.logging.Log;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -90,10 +89,10 @@ public class MultiTouchPilotingActivity extends Activity {
 
 	
 	public boolean onTouch(View v, MotionEvent event) {
-		Log.i("DUBwise","touch graph"+event.getAction() + " " + MotionEvent.ACTION_UP);
+		Log.i("touch graph"+event.getAction() + " " + MotionEvent.ACTION_UP);
 		if (event.getAction()==MotionEvent.ACTION_UP)
 		{
-			Log.i("DUBwise","touch graph up !!");
+			Log.i("touch graph up !!");
 		
 			MKProvider.getMK().freeze_debug_buff=!MKProvider.getMK().freeze_debug_buff;
 		

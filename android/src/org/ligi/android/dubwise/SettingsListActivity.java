@@ -29,12 +29,13 @@ import org.ligi.android.dubwise.helper.IconicMenuItem;
 import org.ligi.android.dubwise.map.MapSettingsActivity;
 import org.ligi.android.dubwise.piloting.PilotingPrefsActivity;
 import org.ligi.android.dubwise.voice.VoicePrefsActivity;
+import org.ligi.tracedroid.logging.Log;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
-import android.util.Log;
 
 public class SettingsListActivity extends ListActivity {
 
@@ -47,7 +48,7 @@ public class SettingsListActivity extends ListActivity {
 		ActivityCalls.beforeContent(this);
 		refresh_list();
 
-		Log.d("DUWISE", "create");
+		Log.d("onCreate SettingsListActivity");
 	}
 
 	public void refresh_list() {
@@ -95,10 +96,6 @@ public class SettingsListActivity extends ListActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 		ActivityCalls.onDestroy(this);
-	}
-
-	public void log(String msg) {
-		Log.d("DUWISE", msg);
 	}
 
 	@Override

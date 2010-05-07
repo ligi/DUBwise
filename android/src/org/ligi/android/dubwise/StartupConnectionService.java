@@ -25,9 +25,9 @@ import it.gerdavax.easybluetooth.ReadyListener;
 
 import org.ligi.android.dubwise.con.MKProvider;
 import org.ligi.android.dubwise.con.bluetooth.BluetoothCommunicationAdapter;
+import org.ligi.tracedroid.logging.Log;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 public class StartupConnectionService {
@@ -48,7 +48,7 @@ public class StartupConnectionService {
 							Toast.makeText(context, "Conecting to " + DUBwisePrefs.getStartConnBluetootName() + " - " + DUBwisePrefs.getStartConnBluetootMAC(), Toast.LENGTH_LONG).show();
 
 							MKProvider.getMK().setCommunicationAdapter(new BluetoothCommunicationAdapter(DUBwisePrefs.getStartConnBluetootMAC()));
-							Log.i("DUBwise" , "connecting");
+							Log.i( "connecting");
 							MKProvider.getMK().connect_to("","" );
 						
 						}

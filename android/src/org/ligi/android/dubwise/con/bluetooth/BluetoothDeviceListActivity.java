@@ -26,6 +26,7 @@ import java.util.Vector;
 import org.ligi.android.dubwise.DUBwisePrefs;
 import org.ligi.android.dubwise.con.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
+import org.ligi.tracedroid.logging.Log;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
@@ -34,7 +35,6 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -74,7 +74,7 @@ public class BluetoothDeviceListActivity extends ListActivity implements Runnabl
 	private boolean scanning=false;
 	
 	public void log(String msg) {
-	    Log.i("DUBwise", msg);
+	    Log.i( msg);
 	}
 
 	Thread connection_thread=new Thread(this);
@@ -84,7 +84,7 @@ public class BluetoothDeviceListActivity extends ListActivity implements Runnabl
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-	    Log.i("DUBwise", "starting scan activity");
+	    Log.i("starting scan activity");
 
 	    
 	    
@@ -261,9 +261,9 @@ public class BluetoothDeviceListActivity extends ListActivity implements Runnabl
 				
 				
 				MKProvider.getMK().setCommunicationAdapter(new BluetoothCommunicationAdapter(bt_macs.get(connect_to_id)));
-				Log.i("DUBwise" , "connecting");
+				Log.i( "connecting");
 				MKProvider.getMK().connect_to("","" );
-				Log.i("DUBwise" , "finishing BluetoothDeviceListActivity");
+				Log.i( "finishing BluetoothDeviceListActivity");
 				conn_state=CONNECTION_STATE_BUILDING_COMM;
 				break;
 			case CONNECTION_STATE_BUILDING_COMM:
@@ -373,7 +373,7 @@ public class BluetoothDeviceListActivity extends ListActivity implements Runnabl
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)  {
 	    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-	    	Log.i("DUBwise","finishing scan activity");
+	    	Log.i("finishing scan activity");
 	    	connection_thread.stop();
 	    	finish();
 	        return true;

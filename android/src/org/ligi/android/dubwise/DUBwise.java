@@ -34,6 +34,9 @@ import org.ligi.android.dubwise.map.DUBwiseMap;
 import org.ligi.android.dubwise.piloting.PilotingListActivity;
 import org.ligi.android.dubwise.voice.StatusVoice;
 import org.ligi.android.dubwise.voice.VoicePrefs;
+import org.ligi.tracedroid.TraceDroid;
+import org.ligi.tracedroid.logging.Log;
+import org.ligi.tracedroid.sending.TraceDroidEmailSender;
 import org.ligi.ufo.DUBwiseNotificationListenerInterface;
 import org.ligi.ufo.MKCommunicator;
 import android.app.ListActivity;
@@ -41,7 +44,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
-import android.util.Log;
 
 public class DUBwise extends ListActivity implements DUBwiseNotificationListenerInterface , Runnable{
 
@@ -51,6 +53,10 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	
+		Log.setTAG("DUBwise");
+		TraceDroid.init(this);
+		TraceDroidEmailSender.sendStackTraces("ligi@ligi.de", this);
+
 		VoicePrefs.init(this);
 		if (VoicePrefs.isVoiceEnabled())
 			StatusVoice.getInstance().init(this);
@@ -59,7 +65,8 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 		refresh_list();
 
 		StartupConnectionService.start(this);
-		Log.d("DUWISE", "create");
+		Log.d("create");
+
 	}
 
 	public void refresh_list() {
@@ -69,6 +76,7 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 		menu_items_vector.add(new IconicMenuItem("Connection",
 				android.R.drawable.ic_menu_share, new Intent(this,
 						ConnectionListActivity.class)));
+	
 		menu_items_vector.add(new IconicMenuItem("Settings",
 				android.R.drawable.ic_menu_preferences, new Intent(this,
 						SettingsListActivity.class)));
@@ -168,7 +176,7 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 		super.onResume();
 		ActivityCalls.afterContent(this);
 		MKProvider.getMK().do_log=DUBwisePrefs.isVerboseLoggingEnabled();
-		Log.d("DUBWISE", "onResume");
+		Log.d("onResume DUBwise.java");
 		
 		refresh_list();
 		
@@ -184,10 +192,6 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 	protected void onDestroy() {
 		super.onDestroy();
 		ActivityCalls.onDestroy(this);
-	}
-
-	public void log(String msg) {
-		Log.d("DUWISE", msg);
 	}
 
 	@Override

@@ -22,8 +22,9 @@ package org.ligi.android.dubwise;
 
 import org.ligi.android.dubwise.con.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
+import org.ligi.tracedroid.logging.Log;
+
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -86,7 +87,7 @@ public class ControlPanelActivity extends Activity implements OnCheckedChangeLis
 		if (setting_id!=0) 
 			{
 				MKProvider.getMK().set_active_paramset(setting_id);
-				Log.i("DUBwise","switching paramset to " + setting_id);
+				Log.i("switching paramset to " + setting_id);
 			}
 		
 	}
