@@ -3,10 +3,13 @@ package org.ligi.android.dubwise.map.dialogs;
 import org.ligi.android.dubwise.map.DUBwiseMap;
 
 import android.app.AlertDialog;
+import android.graphics.Matrix;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.LinearLayout.LayoutParams;
 
 public class AddWPDialog {
 
@@ -14,26 +17,28 @@ public class AddWPDialog {
 
 			AlertDialog.Builder alert=new AlertDialog.Builder(ctx);
 
-			TableRow row=new TableRow(ctx);
+			LinearLayout lin=new LinearLayout(ctx);
+			LayoutParams lp=new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT,1);
+			
+			lin.setOrientation(LinearLayout.HORIZONTAL);
 			ImageButton myLocation=new ImageButton(ctx);
 			
 			myLocation.setImageBitmap(ctx.getOverlay().getPhoneIcon());
-			row.addView(myLocation);
+			myLocation.setLayoutParams(lp);
+			
+			lin.addView(myLocation);
 			ImageButton ufoLocation=new ImageButton(ctx);
 			ufoLocation.setImageBitmap(ctx.getOverlay().getKopterIcon());
-			row.addView(ufoLocation);
+			ufoLocation.setLayoutParams(lp);
+			lin.addView(ufoLocation);
 			ImageButton homeLocation=new ImageButton(ctx);
 			homeLocation.setImageBitmap(ctx.getOverlay().getHomeIcon());
 			
-			row.addView(homeLocation);
 			
-			TableLayout table=new TableLayout(ctx);
-			table.addView(row);
-			table.setColumnStretchable(0, true);
-			table.setColumnStretchable(2, true);
-			table.setColumnStretchable(1, true);
+			homeLocation.setLayoutParams(lp);
+			lin.addView(homeLocation);
 			
-			alert.setView(table);
+			alert.setView(lin);
 			alert.setTitle("Place WP").setMessage("Where should I Place the Waypoint?");
 			
 			final AlertDialog alert_dlg=alert.show();

@@ -101,8 +101,8 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 		kopter_icon = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(),
 				R.drawable.icon),42,42,true);
 		
-		home_icon =Bitmap.createScaledBitmap( BitmapFactory.decodeResource(context.getResources(),
-				R.drawable.rc),42,42,true);
+		home_icon =( BitmapFactory.decodeResource(context.getResources(),
+				R.drawable.rc));
 		
 		
 		phone_icon = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(),
