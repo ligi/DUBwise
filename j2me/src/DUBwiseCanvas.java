@@ -1989,7 +1989,7 @@ lp= LocationProvider.getInstance(crit2);
 		    g.drawString("Used Sats: " + mk.gps_position.SatsInUse + " | Packages: " + mk.stats.navi_data_count ,0,y_off,Graphics.TOP | Graphics.LEFT);   
 		    y_off+=spacer_small;
 
-		    g.drawString("Err: " + mk.gps_position.ErrorCode + " NC-Flags:" + mk.gps_position.NCFlags + " MK-Flags:" + mk.gps_position.MKFlags ,0,y_off,Graphics.TOP | Graphics.LEFT);   
+		    g.drawString("Err: " + mk.gps_position.ErrorCode + " NC-Flags:" + mk.gps_position.NCFlags + " MK-Flags:" + mk.gps_position.FCFlags ,0,y_off,Graphics.TOP | Graphics.LEFT);   
 		    y_off+=spacer_small;
 
 		    g.drawString("Lat: " + mk.gps_position.Latitude_str() ,0,y_off,Graphics.TOP | Graphics.LEFT);
