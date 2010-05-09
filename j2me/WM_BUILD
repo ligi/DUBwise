@@ -1,4 +1,12 @@
 #!/usr/bin/env ruby
+#
+# script to build windows mobile builds of DUBwise
+#
+# by Marcus -ligi- Bueschleb
+#
+#
+
+require 'fileutils'
 
 tmp_dir="wm_tmp"
 
