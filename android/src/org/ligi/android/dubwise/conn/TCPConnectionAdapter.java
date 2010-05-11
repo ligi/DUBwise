@@ -18,7 +18,7 @@
  *
  **************************************************************************/
 
-package org.ligi.android.dubwise.con;
+package org.ligi.android.dubwise.conn;
 
 import java.io.IOException;
 import java.io.InputStream;

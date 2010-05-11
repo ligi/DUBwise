@@ -20,8 +20,8 @@
 
 package org.ligi.android.dubwise.lcd;
 
-import org.ligi.android.dubwise.con.MKProvider;
-import org.ligi.android.dubwise.con.SwitchDeviceListActivity;
+import org.ligi.android.dubwise.conn.MKProvider;
+import org.ligi.android.dubwise.conn.SwitchDeviceListActivity;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKCommunicator;

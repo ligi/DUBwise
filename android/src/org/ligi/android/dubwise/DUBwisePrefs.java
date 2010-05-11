@@ -22,7 +22,7 @@
 package org.ligi.android.dubwise;
 
 
-import org.ligi.android.dubwise.con.MKProvider;
+import org.ligi.android.dubwise.conn.MKProvider;
 
 import android.content.Context;
 import android.content.SharedPreferences;

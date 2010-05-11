@@ -28,7 +28,7 @@ import android.view.View;
 import android.graphics.*;
 import android.graphics.Paint.Align;
 
-import org.ligi.android.dubwise.con.MKProvider;
+import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.ufo.*;
 
 public class LCDView extends View implements DUBwiseDefinitions

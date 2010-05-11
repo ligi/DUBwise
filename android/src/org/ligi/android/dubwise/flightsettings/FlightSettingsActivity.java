@@ -32,7 +32,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
 
-import org.ligi.android.dubwise.con.MKProvider;
+import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.MKParamsParser;

@@ -20,7 +20,7 @@
 
 package org.ligi.android.dubwise.piloting;
 
-import org.ligi.android.dubwise.con.MKProvider;
+import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.ufo.MKCommunicator;
 
 import android.app.Activity;

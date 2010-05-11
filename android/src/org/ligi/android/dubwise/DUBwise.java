@@ -22,8 +22,8 @@ package org.ligi.android.dubwise;
 
 import java.util.Vector;
 import org.ligi.android.dubwise.cockpit.CockpitActivity;
-import org.ligi.android.dubwise.con.ConnectionListActivity;
-import org.ligi.android.dubwise.con.MKProvider;
+import org.ligi.android.dubwise.conn.ConnectionListActivity;
+import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.android.dubwise.flightsettings.FlightSettingsActivity;
 import org.ligi.android.dubwise.graph.GraphActivity;
 import org.ligi.android.dubwise.helper.ActivityCalls;

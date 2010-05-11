@@ -40,8 +40,8 @@
 	<activity android:name="org.ligi.android.dubwise.graph.GraphSettingsActivity"></activity>
 	<activity android:name="org.ligi.android.dubwise.graph.GraphActivity"></activity>
 	
-	<activity android:name="org.ligi.android.dubwise.con.ConnectionListActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.con.ConnectViaTCPActivity"></activity>
+	<activity android:name="org.ligi.android.dubwise.conn.ConnectionListActivity"></activity>
+	<activity android:name="org.ligi.android.dubwise.conn.ConnectViaTCPActivity"></activity>
 	<activity android:name="org.ligi.android.dubwise.con.bluetooth.BluetoothDeviceListActivity"></activity>
 	
 	<activity android:name="org.ligi.android.dubwise.piloting.MultiTouchPilotingActivity"  android:screenOrientation="landscape"></activity>
@@ -63,9 +63,9 @@
 	<activity android:name="org.ligi.android.dubwise.voice.VoiceDebugActivity"></activity>
 
 	
-	<activity android:name=".con.SwitchDeviceListActivity"></activity>
+	<activity android:name=".conn.SwitchDeviceListActivity"></activity>
 	<activity android:name="DeviceDetails"></activity>
-	<activity android:name=".con.ConnectionDetails"></activity>
+	<activity android:name=".conn.ConnectionDetails"></activity>
 	<activity android:name="MixerEditActivity"></activity>
 	<activity android:name="OpenGLActivity"></activity>
 	<activity android:name="ControlPanelActivity"></activity>

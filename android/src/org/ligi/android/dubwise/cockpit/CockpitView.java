@@ -30,7 +30,7 @@ import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 
 import org.ligi.android.dubwise.DUBwisePrefs;
-import org.ligi.android.dubwise.con.MKProvider;
+import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.ufo.DUBwiseDefinitions;
 import org.ligi.ufo.DUBwiseHelper;
 import org.ligi.ufo.MKCommunicator;

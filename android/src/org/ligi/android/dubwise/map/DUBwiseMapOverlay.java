@@ -23,7 +23,7 @@ package org.ligi.android.dubwise.map;
 import java.util.Vector;
 
 import org.ligi.android.dubwise.R;
-import org.ligi.android.dubwise.con.MKProvider;
+import org.ligi.android.dubwise.conn.MKProvider;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

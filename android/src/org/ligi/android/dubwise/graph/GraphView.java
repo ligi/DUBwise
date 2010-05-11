@@ -30,7 +30,7 @@ import android.graphics.*;
 import android.graphics.Paint.Align;
 
 // not working atm - import org.bluez.*;
-import org.ligi.android.dubwise.con.MKProvider;
+import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.ufo.*;
 
 public class GraphView extends View implements DUBwiseDefinitions, OnSharedPreferenceChangeListener

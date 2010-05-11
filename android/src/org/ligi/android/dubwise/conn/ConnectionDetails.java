@@ -18,7 +18,7 @@
  *
  **************************************************************************/
 
-package org.ligi.android.dubwise.con;
+package org.ligi.android.dubwise.conn;
 
 import org.ligi.android.dubwise.con.bluetooth.BluetoothCommunicationAdapter;
 import org.ligi.android.dubwise.helper.ActivityCalls;

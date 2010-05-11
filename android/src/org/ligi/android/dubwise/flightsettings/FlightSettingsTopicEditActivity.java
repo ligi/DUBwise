@@ -20,7 +20,7 @@
 
 package org.ligi.android.dubwise.flightsettings;
 
-import org.ligi.android.dubwise.con.MKProvider;
+import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.android.dubwise.helper.DUBwiseStringHelper;
 import org.ligi.tracedroid.logging.Log;

@@ -23,7 +23,7 @@ package org.ligi.android.dubwise.voice;
 import java.util.HashMap;
 import java.util.Locale;
 
-import org.ligi.android.dubwise.con.MKProvider;
+import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKCommunicator;
 

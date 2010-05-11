@@ -27,7 +27,7 @@ import android.view.View;
 import android.graphics.*;
 
 // not working atm - import org.bluez.*;
-import org.ligi.android.dubwise.con.MKProvider;
+import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.ufo.*;
 
 public class TopView extends View
