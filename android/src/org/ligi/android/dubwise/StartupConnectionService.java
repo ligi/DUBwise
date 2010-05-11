@@ -23,8 +23,8 @@ package org.ligi.android.dubwise;
 import it.gerdavax.easybluetooth.LocalDevice;
 import it.gerdavax.easybluetooth.ReadyListener;
 
-import org.ligi.android.dubwise.con.bluetooth.BluetoothCommunicationAdapter;
 import org.ligi.android.dubwise.conn.MKProvider;
+import org.ligi.android.dubwise.conn.bluetooth.BluetoothCommunicationAdapter;
 import org.ligi.tracedroid.logging.Log;
 
 import android.content.Context;

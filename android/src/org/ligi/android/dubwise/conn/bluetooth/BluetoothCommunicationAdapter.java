@@ -18,7 +18,7 @@
  *
  **************************************************************************/
 
-package org.ligi.android.dubwise.con.bluetooth;
+package org.ligi.android.dubwise.conn.bluetooth;
 
 import it.gerdavax.easybluetooth.BtSocket;
 import it.gerdavax.easybluetooth.LocalDevice;

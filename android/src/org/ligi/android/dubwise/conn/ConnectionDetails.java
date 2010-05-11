@@ -20,7 +20,7 @@
 
 package org.ligi.android.dubwise.conn;
 
-import org.ligi.android.dubwise.con.bluetooth.BluetoothCommunicationAdapter;
+import org.ligi.android.dubwise.conn.bluetooth.BluetoothCommunicationAdapter;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.android.dubwise.helper.DUBwiseBaseListActivity;
 import org.ligi.ufo.MKCommunicator;

@@ -19,7 +19,7 @@
  *
  **************************************************************************/
 
-package org.ligi.android.dubwise.con.bluetooth;
+package org.ligi.android.dubwise.conn.bluetooth;
 
 import java.util.Vector;
 
