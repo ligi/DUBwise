@@ -238,4 +238,7 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 		return overlay;
 	}
 
+	public MapView getMapView() {
+		return mapView;	
+	}
 }

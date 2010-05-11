@@ -80,6 +80,10 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 	public void ufopos2wp() {
 		addWP(kopterPoint);
 	}
+	
+	public boolean hasPhonePos() {
+		return (phonePoint!=null);
+	}
 	public void addWP(GeoPoint point) {
 		if (point==null)
 			return;
@@ -194,6 +198,7 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 		boolean first=true;
 		paint.setStrokeWidth(3);
 		
+		paint.setShadowLayer(2, 1, 1, 0xCC000000);
 		paint.setAntiAlias(true);
 		for (GeoPoint pnt:pnt_fp_vector) 
 		{
