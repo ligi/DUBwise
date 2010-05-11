@@ -169,7 +169,7 @@ case ARGV[0]
 
  when "allwm"
   screensizes=["240x320","340x400","480x640"]
-  voice_modes=["no_voice"]
+  voice_modes=["en_wav"]
   bluetooth_modes=["on"]
   fileapi_modes=["off"]
   devicecontrol_modes=["off"]
