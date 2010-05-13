@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * Layout for the map
+ * rename this file to map.xml and enter your map api key on the bottom
+ *                                          
+ * Author:  Marcus -LiGi- Bueschleb   
+ *
+ * Project URL:
+ *  http://mikrokopter.de/ucwiki/en/DUBwise
+ * 
+ * License:
+ *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
+ *  (Creative Commons / Non Commercial / Share Alike)
+ *  Additionally to the Creative Commons terms it is not allowed
+ *  to use this project in _any_ violent manner! 
+ *  This explicitly includes that lethal Weapon owning "People" and 
+ *  Organisations (e.g. Army & Police) 
+ *  are not allowed to use this Project!
+*/
+-->
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainlayout"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <com.google.android.maps.MapView
+        android:id="@+id/mapview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:clickable="true"
+
+        android:apiKey="!!insert your Maps API Key here!!"
+	
+    />
+</RelativeLayout>
