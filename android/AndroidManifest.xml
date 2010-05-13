@@ -42,7 +42,7 @@
 	
 	<activity android:name="org.ligi.android.dubwise.conn.ConnectionListActivity"></activity>
 	<activity android:name="org.ligi.android.dubwise.conn.ConnectViaTCPActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.con.bluetooth.BluetoothDeviceListActivity"></activity>
+	<activity android:name="org.ligi.android.dubwise.conn.bluetooth.BluetoothDeviceListActivity"></activity>
 	
 	<activity android:name="org.ligi.android.dubwise.piloting.MultiTouchPilotingActivity"  android:screenOrientation="landscape"></activity>
 	<activity android:name="org.ligi.android.dubwise.piloting.OrientationPilotingActivity"  android:screenOrientation="landscape"></activity>
