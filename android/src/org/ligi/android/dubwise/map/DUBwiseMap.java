@@ -24,6 +24,7 @@ import org.ligi.android.dubwise.R;
 import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.android.dubwise.map.dialogs.AddWPDialog;
+import org.ligi.android.dubwise.map.dialogs.ZoomToDialog;
 import org.ligi.ufo.MKCommunicator;
 
 import android.content.Context;
@@ -48,8 +49,8 @@ import com.google.android.maps.MapView;
 public class DUBwiseMap extends MapActivity implements LocationListener {
 	
 	private static final int MENU_SETTINGS = 0;
-	private static final int MENU_ZOOM_KOPTER = 1;
-	private static final int MENU_ZOOM_HOME = 2;
+	private static final int MENU_ZOOM = 1;
+	
 	private static final int MENU_FLIGHTPLAN = 3;
 	private static final int MENU_CLEAR_FP = 4;
 	
@@ -161,9 +162,6 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 
 		menu.clear();
 		
-		Bitmap kopter_icon = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(this.getResources(),
-				R.drawable.icon),32,32,true);
-		
 		MenuItem settings_menu=menu.add(0,MENU_SETTINGS,0,"Settings");
 		settings_menu.setIcon(android.R.drawable.ic_menu_preferences);
 	
@@ -171,8 +169,8 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 		settings_flightplan.setIcon(android.R.drawable.ic_menu_edit);
 
 		
-		MenuItem freeze_menu=menu.add(0,MENU_ZOOM_KOPTER,0,"Zoom to UFO");
-		freeze_menu.setIcon(new BitmapDrawable(kopter_icon));
+		MenuItem freeze_menu=menu.add(0,MENU_ZOOM,0,"Zoom to");
+		freeze_menu.setIcon(android.R.drawable.ic_menu_zoom);
 
 		if (overlay.flightplan_mode)
 		{
@@ -186,9 +184,6 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 			menu.add(0,MENU_CLEAR_FP,0,"Clear FlightPlan").setIcon(android.R.drawable.ic_menu_close_clear_cancel);
 		}
 		
-		if (overlay.phonePoint!=null) 
-			menu.add(0,MENU_ZOOM_HOME,0,"Zoom to Home").setIcon(R.drawable.rc);
-
 		return true;
 	}
 
@@ -210,7 +205,9 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	    	overlay.flightplan_mode=!overlay.flightplan_mode;
 	    	break;
 	    	
-	    case MENU_ZOOM_KOPTER:
+	    case MENU_ZOOM:
+	    	ZoomToDialog.show(this);
+	    	/*
 	    	GeoPoint kopterPoint=new GeoPoint(MKProvider.getMK().gps_position.Latitude/10,MKProvider.getMK().gps_position.Longitude/10);
 	    	mapView.getController().setCenter(kopterPoint);
 	    	mapView.getController().setZoom(14);
@@ -219,6 +216,7 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	    case MENU_ZOOM_HOME:
 	    	mapView.getController().setCenter(overlay.phonePoint);
 	    	mapView.getController().setZoom(17);
+	    	*/
 	    	return true;
 	
 	    case MENU_SETTINGS:

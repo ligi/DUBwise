@@ -42,14 +42,21 @@ public class MapPrefs {
 	public final static String KEY_SHOW_PHONE="map_show_phone";
 	
 	
+	
+	
 	public static void init(Context context) {
 		shared_prefs=PreferenceManager.getDefaultSharedPreferences(context)	;
 	}
 	
 	public static int getZoom2level() {
-		return shared_prefs.getInt(KEY_ZOOM2LEVEL,10);
+		return shared_prefs.getInt(KEY_ZOOM2LEVEL,20);
 	}
 
+
+	public static void setZoom2level(int level) {
+		shared_prefs.edit().putInt(KEY_ZOOM2LEVEL, level).commit();
+	}
+	
 	public static boolean showUFO() {
 		return shared_prefs.getBoolean(KEY_SHOW_UFO, true);
 	}

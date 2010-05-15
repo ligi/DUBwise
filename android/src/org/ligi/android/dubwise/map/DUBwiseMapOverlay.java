@@ -70,6 +70,17 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 		return phone_icon;
 	}
 	
+	public GeoPoint getPhonePos() {
+		return phonePoint;
+	}
+	
+	public GeoPoint getUFOPos() {
+		return kopterPoint;
+	}
+	
+	public GeoPoint getHomePos() {
+		return homePoint;
+	}
 	public void phonepos2wp() {
 		FlightPlanProvider.addWP(phonePoint);
 	}
