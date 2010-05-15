@@ -385,7 +385,7 @@ public class StatusVoice implements OnInitListener, Runnable,
 
 					case 12:
 
-						if ((mk.getAlt() != -1)
+						if ((mk.stats.max_alt != -1)
 								&& (VoicePrefs.isVoiceMaxAltEnabled())) {
 							what2speak+=" Max height was " + mk.stats.max_alt / 10
 									+ " meters.";

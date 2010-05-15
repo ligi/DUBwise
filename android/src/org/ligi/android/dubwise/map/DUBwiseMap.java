@@ -203,7 +203,7 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	    	break;
 	    	
 	    case MENU_CLEAR_FP:
-	    	overlay.pnt_fp_vector.clear();
+	    	FlightPlanProvider.getWPList().clear();
 	    	break;
 	    	
 	    case MENU_FLIGHTPLAN:
