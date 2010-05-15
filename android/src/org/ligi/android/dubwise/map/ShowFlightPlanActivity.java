@@ -25,11 +25,12 @@ public class ShowFlightPlanActivity extends Activity implements OnClickListener 
 		
 		ScrollView sv=new ScrollView(this);
 		int id=0;
-		for (GeoPoint p:FlightPlanProvider.getWPList())
+		for (WayPoint p:FlightPlanProvider.getWPList())
 		{
 			id++;
 			TextView tv=new TextView(this);
-			tv.setText("wp: " + id +  "lat: " + p.getLatitudeE6()/1000000.0 + " lon: " + p.getLongitudeE6()/1000000.0);
+			tv.setText("wp: " + id +  "lat: " + p.getGeoPoint().getLatitudeE6()/1000000.0 + " lon: " + p.getGeoPoint().getLongitudeE6()/1000000.0);
+			
 			ImageButton del_btn=new ImageButton(this);
 			del_btn.setTag(id);
 			del_btn.setOnClickListener(this);

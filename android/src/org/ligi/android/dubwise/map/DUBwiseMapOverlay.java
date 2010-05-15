@@ -82,15 +82,15 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 		return homePoint;
 	}
 	public void phonepos2wp() {
-		FlightPlanProvider.addWP(phonePoint);
+		FlightPlanProvider.addWP(phonePoint,5);
 	}
 	
 	public void homepos2wp() {
-		FlightPlanProvider.addWP(homePoint);
+		FlightPlanProvider.addWP(homePoint,5);
 	}
 	
 	public void ufopos2wp() {
-		FlightPlanProvider.addWP(kopterPoint);
+		FlightPlanProvider.addWP(kopterPoint,5);
 	}
 	
 	public boolean hasPhonePos() {
@@ -141,7 +141,7 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 	
 	
 			
-			FlightPlanProvider.addWP(mapView.getProjection().fromPixels  ((int)e.getX(), (int)e.getY()));
+			FlightPlanProvider.addWP(mapView.getProjection().fromPixels  ((int)e.getX(), (int)e.getY()) ,5 );
 			return true;
 		}
 			
@@ -177,10 +177,10 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 			
 			int wp_id=0;
 			FontMetrics fm=wp_text_paint.getFontMetrics();
-			for (GeoPoint pnt:FlightPlanProvider.getWPList()) 
+			for (WayPoint pnt:FlightPlanProvider.getWPList()) 
 			{
 				
-				mapView.getProjection().toPixels(pnt, act_pnt);
+				mapView.getProjection().toPixels(pnt.getGeoPoint(), act_pnt);
 						
 				if (!first)
 					{
@@ -201,7 +201,7 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 			{
 				paint.setAlpha(130);
 				
-				mapView.getProjection().toPixels(FlightPlanProvider.getWPList().get(act_wp), act_pnt);
+				mapView.getProjection().toPixels(FlightPlanProvider.getWPList().get(act_wp).getGeoPoint(), act_pnt);
 				
 				canvas.drawBitmap(kopter_icon, act_pnt.x-kopter_icon.getWidth()/2, act_pnt.y-kopter_icon.getHeight()/2, paint);			
 			}
