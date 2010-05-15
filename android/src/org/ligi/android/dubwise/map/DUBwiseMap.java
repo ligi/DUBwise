@@ -37,12 +37,15 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -76,13 +79,6 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 
 		MapPrefs.init(this);
 		MKProvider.getMK().user_intent=MKCommunicator.USER_INTENT_GPSOSD;	
-		//mapView = new MapView(this, "05yE31rWh6bR5W3A9cOq2www1gYQr2XDq5ACbSg"); /* debug */
-		
-		
-		//	mapView = new MapView(this, "0VahPvPsWqqSbx0xm-ooX92szbtlSVcjq59N0Tw"); //  debug for marcus.bueschleb
-		//mapView = new MapView(this, "0VahPvPsWqqRxfGPKknpotgPXNW29Jxqk-BcgDQ"); //  release for marcus.bueschleb
-		
-		//mapView = new MapView(this, "05yE31rWh6bQ0CDBqMorFro7SJA-udQb_n1fRgg"); /* ligi */
 		
 		ActivityCalls.beforeContent(this);
 		
@@ -92,8 +88,6 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 		 mapView=(MapView)findViewById(R.id.mapview);
 
 		 mapView.setSatellite(true);
-		 
-		 //mapView.setZ .setZoom(23);
 		 
 		 LinearLayout zoomView = (LinearLayout) mapView.getZoomControls();
 
@@ -232,6 +226,10 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	    	return true;
 	    	
 	    case MENU_FP_UPLOAD:
+	    	if (FlightPlanProvider.getWPList().size()>20) {
+	    		new AlertDialog.Builder(this).setTitle("Error").setMessage("too much waypoints for NC - reduce the number of WP's so that it is not over 20!").show();
+	    		return true;
+	    	}
 	    	upload_progress=new ProgressBar(this,null, android.R.attr.progressBarStyleHorizontal);
 	    	upload_progress.setMax(FlightPlanProvider.getWPList().size());
 	    	upload_alert=new AlertDialog.Builder(this).setTitle("Uploading").setMessage("Uploading Waypoints to UFO")
@@ -271,7 +269,7 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 					
 					
 					for (WayPoint wp:FlightPlanProvider.getWPList()) {
-						
+						Log.i("!!!" + i);
 						handler.post(new ProgressUpdater(i));
 						while(mk.gps_position.WayPointNumber!=(i+1)) {
 							MKProvider.getMK().add_gps_wp(MKGPSPosition.STATUS_NEWDATA, i+1,wp.getGeoPoint().getLongitudeE6(), wp.getGeoPoint().getLatitudeE6(), wp.getHoldTime());

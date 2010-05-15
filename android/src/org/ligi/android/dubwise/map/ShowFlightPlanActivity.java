@@ -1,15 +1,20 @@
 package org.ligi.android.dubwise.map;
 
-import org.ligi.android.dubwise.conn.MKProvider;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import org.ligi.tracedroid.logging.Log;
 
-import com.google.android.maps.GeoPoint;
-
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -19,6 +24,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class ShowFlightPlanActivity extends Activity implements OnClickListener {
+	private static final int MENU_SAVE = 0;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -102,5 +109,60 @@ public class ShowFlightPlanActivity extends Activity implements OnClickListener 
 			createContent() ;
 		}
 	}
+	
+	/* Creates the menu items */
+	public boolean onPrepareOptionsMenu(Menu menu) {
+
+		menu.clear();
+	
+		menu.add(0,MENU_SAVE,0,"Save").setIcon(android.R.drawable.ic_menu_save);
+		
+		return true;
+	}
+	
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		
+	    switch (item.getItemId()) {
+	    case MENU_SAVE:
+	    	final EditText input = new EditText(this);   
+			input.setText("default");
+
+			new AlertDialog.Builder(this).setTitle("Save GPX").setMessage("How should the file I will write to " +MapPrefs.getGPXPath() + " be named?").setView(input)
+			.setPositiveButton("OK" , new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				String value = input.getText().toString(); 
+					
+				File f = new File(MapPrefs.getGPXPath());
+				
+				if (!f.isDirectory())
+					f.mkdirs();
+				
+				try {
+					f=new File(MapPrefs.getGPXPath() + "/"+value+".gpx");
+					f.createNewFile();
+					
+					FileWriter sgf_writer = new FileWriter(f);
+					
+					BufferedWriter out = new BufferedWriter(sgf_writer);
+					
+					out.write(FlightPlanProvider.toGPX());
+					out.close();
+					sgf_writer.close();
+				} catch (IOException e) {
+					Log.i(""+e);
+				}
+	
+			}
+			}).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+			// Do nothing.
+			}
+			}).show();
+	    	return true;
+	    }
+	    return true;
+	}
+
 
 }

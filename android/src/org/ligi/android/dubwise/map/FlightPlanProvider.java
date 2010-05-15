@@ -29,4 +29,36 @@ public class FlightPlanProvider {
 		addWP(new WayPoint(point,hold_time));	
 	}
 	
+	private static String formatGPXLatLon(int latlon) {
+		String prefix="+";
+		if (latlon<0) {
+			prefix="-";
+			latlon*=-1;
+			}
+		
+		return prefix+latlon/1000000 +"." + latlon%1000000;
+	}
+	
+	public static String toGPX() {
+		String res="<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n";
+		res+="<gpx creator=\"DUBwise\" version=\"1.0\" >\n";
+		res+="<metadata>\n";
+		res+="\t<link href=\"http://www.ligi.de\">\n";
+		res+="\t\t<text>DUBwise</text>\n";
+		res+="\t</link>\n";
+		res+="</metadata>\n";
+
+		res+="<trk>\n\t<name>FlightPlan</name>\n\t<trkseg>\n";
+		
+		for (WayPoint wp:getWPList())
+		{
+			res+="\t\t<trkpt lat=\"" +formatGPXLatLon( wp.getGeoPoint().getLatitudeE6())+"\" lon=\"" + formatGPXLatLon(wp.getGeoPoint().getLongitudeE6())+"\">\n";
+			res+="\t\t\t<HoldTime>" + wp.getHoldTime() + "</HoldTime>\n";
+			res+="\t\t</trkpt>\n";
+		}
+		res+="\t</trkseg>\n</trk>\n</gpx>";
+
+		return res;
+	}
+	
 }

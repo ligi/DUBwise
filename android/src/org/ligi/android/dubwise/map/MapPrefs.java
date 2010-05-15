@@ -80,5 +80,9 @@ public class MapPrefs {
 	public static boolean showPhone() {
 		return shared_prefs.getBoolean(KEY_SHOW_PHONE, true);
 	}
+	
+	public static String getGPXPath() {
+		return "/sdcard/DUBwise/gpx";
+	}
 }
 
