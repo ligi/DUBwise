@@ -34,6 +34,7 @@ public class VoicePrefs {
 	// Spring settings
 	public final static String KEY_VOICE_ENABLED="voice_enabled";
 	public final static String KEY_DO_VOICE_ALT="voice_alt";
+	public final static String KEY_DO_VOICE_MAX_ALT="voice_max_alt";
 	public final static String KEY_DO_VOICE_CURRENT="voice_current";
 	public final static String KEY_DO_VOICE_USEDCAPACITY="voice_usedcapacity";
 	public final static String KEY_DO_VOICE_SATELITES="voice_satelites";
@@ -46,6 +47,8 @@ public class VoicePrefs {
 	public final static String KEY_DO_VOICE_DISTANCE2TARGET="voice_distance2target";
 	
 	
+	public final static String KEY_DO_VOICE_SPEED="voice_speed";
+	public final static String KEY_DO_VOICE_MAX_SPEED="voice_max_speed";
 	
 	public final static String KEY_VOICE_PAUSE = "voice_pause3";
 
@@ -93,6 +96,10 @@ public class VoicePrefs {
 		return shared_prefs.getBoolean(KEY_DO_VOICE_ALT, false);
 	}
 	
+	public static boolean isVoiceMaxAltEnabled() {
+		return shared_prefs.getBoolean(KEY_DO_VOICE_MAX_ALT, false);
+	}
+	
 	public static boolean isVoiceVoltsEnabled() {
 		return shared_prefs.getBoolean(KEY_DO_VOICE_VOLTS, false);
 	}
@@ -121,8 +128,17 @@ public class VoicePrefs {
 		return shared_prefs.getBoolean(KEY_DO_VOICE_DISTANCE2TARGET, false);
 	}
 
+	
 	public static boolean isDistance2HomeEnabled() {
 		return shared_prefs.getBoolean(KEY_DO_VOICE_DISTANCE2HOME, false);
+	}
+	
+	public static boolean isSpeedEnabled() {
+		return shared_prefs.getBoolean(KEY_DO_VOICE_SPEED, false);
+	}
+	
+	public static boolean isMaxSpeedEnabled() {
+		return shared_prefs.getBoolean(KEY_DO_VOICE_MAX_SPEED, false);
 	}
 }
 

@@ -58,10 +58,10 @@ public class MKStatistics
     public int max_speed=0;
 
 
-    public long speed_sum=0;
+    public long speed_sum=-1;
     public int speed_cnt=1;
 
-    public int max_alt=0;
+    public int max_alt=-1;
 
 
     public MKStatistics()

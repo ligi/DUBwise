@@ -253,7 +253,7 @@ public class StatusVoice implements OnInitListener, Runnable,
 				if (((pause_timeout--)<0)&&what2speak.equals(""))
 				{
 					
-					switch ((play_pos++) % 11) {
+					switch ((play_pos++) % 14) {
 					case 0:
 						if (mk.is_navi() && mk.hasNaviError()
 								&& VoicePrefs.isVoiceNaviErrorEnabled()) {
@@ -365,6 +365,37 @@ public class StatusVoice implements OnInitListener, Runnable,
 						break;
 
 					case 10:
+						if ((mk.is_navi() || mk.is_fake())
+								&& (VoicePrefs.isSpeedEnabled())) {
+							what2speak+= " Current speed " + ((int)(mk.gps_position.GroundSpeed*0.36))*0.1
+									+ " kilometer per hour.";
+
+						}
+
+						break;
+
+					case 11:
+						if ((mk.is_navi() || mk.is_fake())
+								&& (VoicePrefs.isSpeedEnabled())) {
+							what2speak+= " Max speed " + ((int)(mk.stats.max_speed*0.36))*0.1
+									+ " kilometer per hour. ";
+
+						}
+						break;
+
+					case 12:
+
+						if ((mk.getAlt() != -1)
+								&& (VoicePrefs.isVoiceMaxAltEnabled())) {
+							what2speak+=" Max height was " + mk.stats.max_alt / 10
+									+ " meters.";
+
+						}
+						
+						
+						break;
+
+					case 13:
 						pause_timeout=VoicePrefs.getPauseTimeInMS()/sleep;
 						break;
 					} // switch

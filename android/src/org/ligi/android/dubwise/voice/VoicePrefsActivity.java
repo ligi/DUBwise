@@ -125,13 +125,22 @@ public class VoicePrefsActivity extends PreferenceActivity implements OnPreferen
        	valuesToSpeakPrefCat.addPreference(connectionInfoCheckBoxPref);
 
 
-        CheckBoxPreference invertArtificialHorizonCheckBoxPref = new CheckBoxPreference(this);
-        invertArtificialHorizonCheckBoxPref.setKey(VoicePrefs.KEY_DO_VOICE_ALT);
-        invertArtificialHorizonCheckBoxPref.setTitle("Altitude");
-        invertArtificialHorizonCheckBoxPref.setSummary("Speak Altitude in meters");
-        invertArtificialHorizonCheckBoxPref.setOnPreferenceChangeListener(this);
-       	valuesToSpeakPrefCat.addPreference(invertArtificialHorizonCheckBoxPref);
+        CheckBoxPreference doAltCheckBoxPref = new CheckBoxPreference(this);
+        doAltCheckBoxPref.setKey(VoicePrefs.KEY_DO_VOICE_ALT);
+        doAltCheckBoxPref.setTitle("Altitude");
+        doAltCheckBoxPref.setSummary("Speak Altitude in meters");
+        doAltCheckBoxPref.setOnPreferenceChangeListener(this);
+       	valuesToSpeakPrefCat.addPreference(doAltCheckBoxPref);
 
+        CheckBoxPreference doMaxAltCheckBoxPref = new CheckBoxPreference(this);
+        doMaxAltCheckBoxPref.setKey(VoicePrefs.KEY_DO_VOICE_MAX_ALT);
+        doMaxAltCheckBoxPref.setTitle("Max Altitude");
+        doMaxAltCheckBoxPref.setSummary("Speak max Altitude in meters");
+        doMaxAltCheckBoxPref.setOnPreferenceChangeListener(this);
+        
+       	valuesToSpeakPrefCat.addPreference(doMaxAltCheckBoxPref);
+
+       	
         CheckBoxPreference doSatelitesCheckBoxPref = new CheckBoxPreference(this);
         doSatelitesCheckBoxPref.setKey(VoicePrefs.KEY_DO_VOICE_SATELITES);
         doSatelitesCheckBoxPref.setTitle("Satelites");
@@ -189,7 +198,20 @@ public class VoicePrefsActivity extends PreferenceActivity implements OnPreferen
         doDistance2TargetCheckBoxPref.setOnPreferenceChangeListener(this);
        	valuesToSpeakPrefCat.addPreference(doDistance2TargetCheckBoxPref);
 
-       	
+        CheckBoxPreference doSpeedCheckBoxPref = new CheckBoxPreference(this);
+        doSpeedCheckBoxPref.setKey(VoicePrefs.KEY_DO_VOICE_SPEED);
+        doSpeedCheckBoxPref.setTitle("Speed");
+        doSpeedCheckBoxPref.setSummary("speak act speed");
+        doSpeedCheckBoxPref.setOnPreferenceChangeListener(this);
+       	valuesToSpeakPrefCat.addPreference(doSpeedCheckBoxPref);
+
+        CheckBoxPreference doSpeedMaxCheckBoxPref = new CheckBoxPreference(this);
+        doSpeedMaxCheckBoxPref.setKey(VoicePrefs.KEY_DO_VOICE_MAX_SPEED);
+        doSpeedMaxCheckBoxPref.setTitle("Max Speed");
+        doSpeedMaxCheckBoxPref.setSummary("speak maximal speed");
+        doSpeedMaxCheckBoxPref.setOnPreferenceChangeListener(this);
+       	valuesToSpeakPrefCat.addPreference(doSpeedMaxCheckBoxPref);
+
        	valuesToSpeakPrefCat.setEnabled(VoicePrefs.isVoiceEnabled());
        	
        	return root;
