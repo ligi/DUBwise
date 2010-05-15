@@ -35,6 +35,9 @@ public class MKGPSPosition
     implements DUBwiseDefinitions
 {
 
+	public final static int STATUS_INVALID=0;
+	public final static int STATUS_NEWDATA=1;
+	
     public byte act_gps_format=GPS_FORMAT_DECIMAL;
     public byte act_speed_format=SPEED_FORMAT_KMH;
 

@@ -25,22 +25,24 @@ import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.android.dubwise.map.dialogs.AddWPDialog;
 import org.ligi.android.dubwise.map.dialogs.ZoomToDialog;
+import org.ligi.tracedroid.Log;
 import org.ligi.ufo.MKCommunicator;
+import org.ligi.ufo.MKGPSPosition;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -59,10 +61,14 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	
 	private static final int MENU_FP_ADD_WP = 7; 
 	
-	private static final int MENU_FP_SHOW = 8; 
+	private static final int MENU_FP_SHOW = 8;
+	
+	private static final int MENU_FP_UPLOAD = 9; 
 	
 	private MapView mapView;
 	private DUBwiseMapOverlay overlay;
+	
+	private Handler handler=new Handler();
 	
 	@Override 
 	public void onCreate(Bundle savedInstanceState) {
@@ -178,6 +184,8 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 				menu.add(0,MENU_START_FP,0,"Play").setIcon(android.R.drawable.ic_media_play);
 
 			menu.add(0,MENU_CLEAR_FP,0,"Clear FlightPlan").setIcon(android.R.drawable.ic_menu_close_clear_cancel);
+			
+			menu.add(0,MENU_FP_UPLOAD,0,"FlightPlan2UFO").setIcon(android.R.drawable.ic_menu_share);
 		}
 		else {
 			menu.add(0,MENU_ZOOM,0,"Zoom to").setIcon(android.R.drawable.ic_menu_zoom);
@@ -185,7 +193,9 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 		}
 		return true;
 	}
-
+	ProgressBar upload_progress;
+	AlertDialog upload_alert;
+	
 	/* Handles item selections */
 	public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -219,6 +229,80 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	        
 	    case MENU_FP_ADD_WP:
 	    	AddWPDialog.show(this);
+	    	return true;
+	    	
+	    case MENU_FP_UPLOAD:
+	    	upload_progress=new ProgressBar(this,null, android.R.attr.progressBarStyleHorizontal);
+	    	upload_progress.setMax(FlightPlanProvider.getWPList().size());
+	    	upload_alert=new AlertDialog.Builder(this).setTitle("Uploading").setMessage("Uploading Waypoints to UFO")
+	    	.setView(upload_progress).show();
+	    	
+
+	    	
+	    
+	    	class FPUploader implements Runnable {
+	    		class ProgressUpdater implements Runnable {
+
+	    			int progress=0;
+	    			public ProgressUpdater(int progress) {
+	    				this.progress=progress;
+	    			}
+	    			
+					@Override
+					public void run() {
+						upload_progress.setProgress(progress);
+						
+					}
+	    			
+	    		}
+				@Override
+				public void run() {
+					int i=0;
+					MKCommunicator mk=MKProvider.getMK();
+					
+					// clear the list
+					while(mk.gps_position.WayPointNumber!=0) {
+						MKProvider.getMK().add_gps_wp(MKGPSPosition.STATUS_INVALID, 0,0, 0, 0);
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {	}
+					
+					}
+					
+					
+					for (WayPoint wp:FlightPlanProvider.getWPList()) {
+						
+						handler.post(new ProgressUpdater(i));
+						while(mk.gps_position.WayPointNumber!=(i+1)) {
+							MKProvider.getMK().add_gps_wp(MKGPSPosition.STATUS_NEWDATA, i+1,wp.getGeoPoint().getLongitudeE6(), wp.getGeoPoint().getLatitudeE6(), wp.getHoldTime());
+							try {
+								Thread.sleep(300);
+							} catch (InterruptedException e) {	}
+						
+						}
+						
+					
+						i++;
+					}
+					// when finished hide the progress dialog
+			    	handler.post(new Runnable() {
+						@Override
+						public void run() {
+							upload_alert.hide();
+						}
+			    		
+			    	});
+					
+				}
+				
+	    		
+	    	}
+	    	
+	    	new Thread(new FPUploader()).start();
+	    	
+	    	
+	    	
+	    	
 	    	return true;
 	
 	    }

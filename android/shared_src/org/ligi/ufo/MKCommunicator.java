@@ -537,6 +537,7 @@ public class MKCommunicator
 	send_command(0,'v');
     }
 
+    // TODO FIxme
     public void set_gps_target(int longitude,int latitude)
     {
 	int[] target=new int[8];
@@ -545,6 +546,50 @@ public class MKCommunicator
 	target[2]= (0xFF)&(longitude<<8);
 	target[3]= (0xFF)&(longitude);
 	//	send_command(0,'s',target);
+    }
+
+    public void add_gps_wp(int status,int index,int longitude,int latitude,int hold_time)
+    {
+	int[] waypoint_struct=new int[30];
+	waypoint_struct[0]= (0xFF)&(longitude<<24);
+	waypoint_struct[1]= (0xFF)&(longitude<<16);
+	waypoint_struct[2]= (0xFF)&(longitude<<8);
+	waypoint_struct[3]= (0xFF)&(longitude);
+	
+	waypoint_struct[4]= (0xFF)&(latitude<<24);
+	waypoint_struct[5]= (0xFF)&(latitude<<16);
+	waypoint_struct[6]= (0xFF)&(latitude<<8);
+	waypoint_struct[7]= (0xFF)&(latitude);
+	
+	// alt
+	waypoint_struct[8]= (0xFF)&(0);
+	waypoint_struct[9]= (0xFF)&(0);
+	waypoint_struct[10]= (0xFF)&(0);
+	waypoint_struct[11]= (0xFF)&(0);
+	
+	// status
+	waypoint_struct[12]= (0xFF)&(status);
+	
+	// heading
+	waypoint_struct[13]= (0xFF)&(0);
+	waypoint_struct[14]= (0xFF)&(0);
+	
+	// tolerance
+	waypoint_struct[15]= (0xFF)&(0);
+	
+	// holdtime
+	waypoint_struct[16]= (0xFF)&(hold_time);
+	
+	// event flag
+	waypoint_struct[17]= (0xFF)&(0);
+	
+	//index
+	waypoint_struct[18]= (0xFF)&(index);
+	
+	
+	// 11 reserved
+	
+	send_command(NAVI_SLAVE_ADDR,'w',waypoint_struct);
     }
 
     /** 
