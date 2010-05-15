@@ -58,6 +58,7 @@
 	<activity android:name="org.ligi.android.dubwise.map.DUBwiseMap"></activity>
 	<activity android:name="org.ligi.android.dubwise.map.MapSettingsActivity"></activity>
 	<activity android:name="org.ligi.android.dubwise.map.MapPrefsActivity"></activity>
+	<activity android:name="org.ligi.android.dubwise.map.GPXListActivity"></activity>
 	
 	<activity android:name="org.ligi.android.dubwise.voice.VoicePrefsActivity"></activity>
 	<activity android:name="org.ligi.android.dubwise.voice.VoiceDebugActivity"></activity>

@@ -9,6 +9,7 @@ import org.ligi.tracedroid.logging.Log;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 
 public class ShowFlightPlanActivity extends Activity implements OnClickListener {
 	private static final int MENU_SAVE = 0;
+	private static final int MENU_LOAD = 1;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -116,6 +118,7 @@ public class ShowFlightPlanActivity extends Activity implements OnClickListener 
 		menu.clear();
 	
 		menu.add(0,MENU_SAVE,0,"Save").setIcon(android.R.drawable.ic_menu_save);
+		menu.add(0,MENU_LOAD,0,"Load").setIcon(android.R.drawable.ic_menu_more);
 		
 		return true;
 	}
@@ -124,6 +127,9 @@ public class ShowFlightPlanActivity extends Activity implements OnClickListener 
 
 		
 	    switch (item.getItemId()) {
+	    	case MENU_LOAD:
+	    		this.startActivity(new Intent(this,GPXListActivity.class));
+	    		break;
 	    case MENU_SAVE:
 	    	final EditText input = new EditText(this);   
 			input.setText("default");

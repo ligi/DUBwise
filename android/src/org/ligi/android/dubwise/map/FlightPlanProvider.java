@@ -1,6 +1,19 @@
 package org.ligi.android.dubwise.map;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.Vector;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.ligi.tracedroid.Log;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+
 
 import com.google.android.maps.GeoPoint;
 
@@ -60,5 +73,35 @@ public class FlightPlanProvider {
 
 		return res;
 	}
-	
+
+	public static void fromGPX(File gpx) {
+		 pnt_fp_vector=null;
+		        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		        
+		        try {
+		            DocumentBuilder builder = factory.newDocumentBuilder();
+		            Document dom = builder.parse(gpx);
+		            Element root = dom.getDocumentElement();
+		            NodeList items = root.getElementsByTagName("trkpt");
+		            for (int i=0;i<items.getLength();i++){
+		                
+		                Node item = items.item(i);
+		                String lat_str=item.getAttributes().getNamedItem("lat").getNodeValue().substring(1);
+		                String lon_str=item.getAttributes().getNamedItem("lon").getNodeValue().substring(1);
+		                Log.i("lat: " + lat_str);
+		                Log.i("lon: " + lon_str);
+		                // TODO better find hold time
+		                int hold_time=Integer.parseInt(item.getChildNodes().item(0).getNodeValue());
+		                int lat = (int)(1000000*Double.parseDouble(lat_str));
+		                int lon = (int)(1000000*Double.parseDouble(lon_str));
+		                
+		                addWP(new WayPoint(new GeoPoint(lat,lon),hold_time));
+		               }
+		        } catch (Exception e) {
+		            throw new RuntimeException(e);
+		        } 
+		        
+		    
+
+	}
 }
