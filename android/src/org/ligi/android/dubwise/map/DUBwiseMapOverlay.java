@@ -163,39 +163,51 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 		wp_text_paint.setTextAlign(Paint.Align.CENTER );
 		
 		// 	draw the waypoint lines
-		Point last_pnt=new Point();
-		Point act_pnt=new Point();
-		boolean first=true;
-		paint.setStrokeWidth(3);
-		paint.setARGB(255, 255, 255, 255);
-		paint.setStyle(Paint.Style.STROKE);
-		
-		paint.setShadowLayer(2, 1, 1, 0xCC000000);
-		paint.setAntiAlias(true);
-		wp_circle_paint.setAntiAlias(true);
-		
-		int wp_id=0;
-		FontMetrics fm=wp_text_paint.getFontMetrics();
-		for (GeoPoint pnt:FlightPlanProvider.getWPList()) 
-		{
+		if (FlightPlanProvider.getWPList().size()>0) {
+			Point last_pnt=new Point();
+			Point act_pnt=new Point();
+			boolean first=true;
+			paint.setStrokeWidth(3);
+			paint.setARGB(255, 255, 255, 255);
+			paint.setStyle(Paint.Style.STROKE);
 			
-			mapView.getProjection().toPixels(pnt, act_pnt);
-					
-			if (!first)
-				{
-				canvas.drawLine(act_pnt.x, act_pnt.y, last_pnt.x , last_pnt.y, paint);
-				canvas.drawCircle(last_pnt.x, last_pnt.y, 10, wp_circle_paint);
-				canvas.drawText(""+wp_id,last_pnt.x, last_pnt.y-5-(fm.top+fm.bottom), wp_text_paint);
-				}
+			paint.setShadowLayer(2, 1, 1, 0xCC000000);
+			paint.setAntiAlias(true);
+			wp_circle_paint.setAntiAlias(true);
 			
-			wp_id++;
-			first=false;
-			last_pnt=new Point(act_pnt);
-		
+			int wp_id=0;
+			FontMetrics fm=wp_text_paint.getFontMetrics();
+			for (GeoPoint pnt:FlightPlanProvider.getWPList()) 
+			{
+				
+				mapView.getProjection().toPixels(pnt, act_pnt);
+						
+				if (!first)
+					{
+					canvas.drawLine(act_pnt.x, act_pnt.y, last_pnt.x , last_pnt.y, paint);
+					canvas.drawCircle(last_pnt.x, last_pnt.y, 10, wp_circle_paint);
+					canvas.drawText(""+wp_id,last_pnt.x, last_pnt.y-5-(fm.top+fm.bottom), wp_text_paint);
+					}
+				
+				wp_id++;
+				first=false;
+				last_pnt=new Point(act_pnt);
+			
+			}
+			canvas.drawCircle(last_pnt.x, last_pnt.y, 10, wp_circle_paint);
+			canvas.drawText(""+wp_id,last_pnt.x, last_pnt.y-5-(fm.top+fm.bottom), wp_text_paint);
+	
+			if (act_wp<FlightPlanProvider.getWPList().size())
+			{
+				paint.setAlpha(130);
+				
+				mapView.getProjection().toPixels(FlightPlanProvider.getWPList().get(act_wp), act_pnt);
+				
+				canvas.drawBitmap(kopter_icon, act_pnt.x-kopter_icon.getWidth()/2, act_pnt.y-kopter_icon.getHeight()/2, paint);			
+			}
+			
 		}
-		canvas.drawCircle(last_pnt.x, last_pnt.y, 10, wp_circle_paint);
-		canvas.drawText(""+wp_id,last_pnt.x, last_pnt.y-5-(fm.top+fm.bottom), wp_text_paint);
-
+		
 		
 		// Converts lat/lng-Point to OUR coordinates on the screen.
 		float gps_radius_in_pixels=mapView.getProjection().metersToEquatorPixels(500.0f);
@@ -236,14 +248,8 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 		RectF act_rectf=new RectF(kopterScreenCoords.x-kopter_icon.getHeight(),kopterScreenCoords.y-kopter_icon.getHeight(),kopterScreenCoords.x+kopter_icon.getHeight(),kopterScreenCoords.y+kopter_icon.getHeight());
 		canvas.drawArc(act_rectf,MKProvider.getMK().gps_position.CompasHeading-20 -90 , 40, true, compas_heading_paint);
 		
-		if ((FlightPlanProvider.getWPList().size()!=0)&&(act_wp<FlightPlanProvider.getWPList().size()))
-		{
-			paint.setAlpha(130);
-			
-			mapView.getProjection().toPixels(FlightPlanProvider.getWPList().get(act_wp), act_pnt);
-			
-			canvas.drawBitmap(kopter_icon, act_pnt.x-kopter_icon.getWidth()/2, act_pnt.y-kopter_icon.getHeight()/2, paint);			
-		}
+		
+		
 		return true;
 	}
 	@Override
