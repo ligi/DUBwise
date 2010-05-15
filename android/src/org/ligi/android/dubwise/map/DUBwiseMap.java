@@ -163,21 +163,13 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 
 		menu.clear();
-		
-		MenuItem settings_menu=menu.add(0,MENU_SETTINGS,0,"Settings");
-		settings_menu.setIcon(android.R.drawable.ic_menu_preferences);
 	
-		MenuItem settings_flightplan=menu.add(0,MENU_FLIGHTPLAN,0,"Draw Flight Plan" + (overlay.flightplan_mode?" off":" on"));
-		settings_flightplan.setIcon(android.R.drawable.ic_menu_edit);
+		menu.add(0,MENU_FLIGHTPLAN,0,"Draw Flight Plan" + (overlay.flightplan_mode?" off":" on")).setIcon(android.R.drawable.ic_menu_edit);
 		
-		menu.add(0,MENU_FP_SHOW,0,"Show FlightPlan").setIcon(android.R.drawable.ic_menu_view);
-
-		
-		MenuItem freeze_menu=menu.add(0,MENU_ZOOM,0,"Zoom to");
-		freeze_menu.setIcon(android.R.drawable.ic_menu_zoom);
-
 		if (overlay.flightplan_mode)
 		{
+			menu.add(0,MENU_FP_SHOW,0,"Show FlightPlan").setIcon(android.R.drawable.ic_menu_view);
+
 			menu.add(0,MENU_FP_ADD_WP,0,"Add WP").setIcon(android.R.drawable.ic_menu_add);
 			
 			if (overlay.fp_running)
@@ -187,7 +179,10 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 
 			menu.add(0,MENU_CLEAR_FP,0,"Clear FlightPlan").setIcon(android.R.drawable.ic_menu_close_clear_cancel);
 		}
-		
+		else {
+			menu.add(0,MENU_ZOOM,0,"Zoom to").setIcon(android.R.drawable.ic_menu_zoom);
+			menu.add(0,MENU_SETTINGS,0,"Settings").setIcon(android.R.drawable.ic_menu_preferences);
+		}
 		return true;
 	}
 
