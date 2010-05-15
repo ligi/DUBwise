@@ -61,7 +61,7 @@
 	
 	<activity android:name="org.ligi.android.dubwise.voice.VoicePrefsActivity"></activity>
 	<activity android:name="org.ligi.android.dubwise.voice.VoiceDebugActivity"></activity>
-
+	<activity android:name="org.ligi.android.dubwise.map.ShowFlightPlanActivity"></activity>
 	
 	<activity android:name=".conn.SwitchDeviceListActivity"></activity>
 	<activity android:name="DeviceDetails"></activity>
@@ -71,6 +71,9 @@
 	<activity android:name="ControlPanelActivity"></activity>
 	<activity android:name="VoiceControlActivity"></activity>
 	<activity android:name="FlashFirmwareActivity"></activity>
+	
+	
+	
 </application>
 
 </manifest> 

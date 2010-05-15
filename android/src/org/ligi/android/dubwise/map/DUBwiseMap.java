@@ -59,6 +59,8 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	
 	private static final int MENU_FP_ADD_WP = 7; 
 	
+	private static final int MENU_FP_SHOW = 8; 
+	
 	private MapView mapView;
 	private DUBwiseMapOverlay overlay;
 	
@@ -167,6 +169,8 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	
 		MenuItem settings_flightplan=menu.add(0,MENU_FLIGHTPLAN,0,"Draw Flight Plan" + (overlay.flightplan_mode?" off":" on"));
 		settings_flightplan.setIcon(android.R.drawable.ic_menu_edit);
+		
+		menu.add(0,MENU_FP_SHOW,0,"Show FlightPlan").setIcon(android.R.drawable.ic_menu_view);
 
 		
 		MenuItem freeze_menu=menu.add(0,MENU_ZOOM,0,"Zoom to");
@@ -207,20 +211,15 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	    	
 	    case MENU_ZOOM:
 	    	ZoomToDialog.show(this);
-	    	/*
-	    	GeoPoint kopterPoint=new GeoPoint(MKProvider.getMK().gps_position.Latitude/10,MKProvider.getMK().gps_position.Longitude/10);
-	    	mapView.getController().setCenter(kopterPoint);
-	    	mapView.getController().setZoom(14);
-	    	return true;
-	    	
-	    case MENU_ZOOM_HOME:
-	    	mapView.getController().setCenter(overlay.phonePoint);
-	    	mapView.getController().setZoom(17);
-	    	*/
 	    	return true;
 	
 	    case MENU_SETTINGS:
 	    	startActivity(new Intent(this, MapPrefsActivity.class));
+	        return true;
+	        
+
+	    case MENU_FP_SHOW:
+	    	startActivity(new Intent(this, ShowFlightPlanActivity.class));
 	        return true;
 	        
 	    case MENU_FP_ADD_WP:
