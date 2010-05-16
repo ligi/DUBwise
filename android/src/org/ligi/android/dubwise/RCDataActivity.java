@@ -1,7 +1,5 @@
 /**************************************************************************
- *                                          
- * Activity to show the RC-Data
- *                                          
+ *                      
  * Author:  Marcus -LiGi- Bueschleb   
  *
  * Project URL:
@@ -34,13 +32,18 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 
 import android.widget.TextView;
 
 import android.app.Activity;
 
+/**
+ *                           
+ * Activity to show the RC-Data
+ *                    
+ * @author ligi
+ *
+ */
 public class RCDataActivity extends Activity implements Runnable
 {
 
