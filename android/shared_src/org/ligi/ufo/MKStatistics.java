@@ -106,6 +106,9 @@ public class MKStatistics
 	last_heading=heading;
     }
 
+    /**
+     * @return the time in seconds the UFO is Flying
+     */
     public int flying_time()
     {
 	if (flying_start!=-1)
