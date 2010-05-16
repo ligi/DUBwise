@@ -18,6 +18,8 @@
 
 package org.ligi.ufo;
 
+import org.ligi.tracedroid.logging.Log;
+
 public class MKWatchDog
         implements Runnable, DUBwiseDefinitions {
 
@@ -99,6 +101,30 @@ public class MKWatchDog
                     }
                     else if (mk.is_mk() && (mk.mixer_manager.state==MixerManager.STATE_NO_DATA))
                     		mk.trigger_mixer_read();
+                	
+                 // fetch the debug names
+                    else if (act_debug_name < 32) {
+               		
+               		Log.i("!!! " + act_debug_name + " " + resend_timeout);
+                       if (resend_timeout == 0) {
+                           mk.requestDebugName( act_debug_name );
+                           resend_timeout = 50;
+                       }
+
+                       // sleeper+=100;
+                       if (mk.debug_data.got_name[act_debug_name]) {
+                       	act_debug_name++;
+                       	mk.requestDebugName(act_debug_name );
+                           resend_timeout = 10;
+                       }
+                       else
+                           resend_timeout--;
+
+                   }
+                   else if (!(mk.debug_data.got_name[0]))
+                   		act_debug_name = 0;
+                   	
+                    
                     else
                     	// set abos every 2 seconds
                     	if (abo_timeout>1000)
@@ -166,29 +192,9 @@ public class MKWatchDog
                                 break;
                             
                             case USER_INTENT_RAWDEBUG:
-                            	// fetch the debug names
-                            	if (act_debug_name < 32) {
-
-                                    if (resend_timeout == 0) {
-                                        mk.get_debug_name( act_debug_name );
-                                        resend_timeout = 50;
-                                    }
-
-                                    // sleeper+=100;
-                                    if (mk.debug_data.got_name[act_debug_name]) {
-                                        mk.get_debug_name( ++act_debug_name );
-                                        resend_timeout = 50;
-                                    }
-                                    else
-                                        resend_timeout--;
-
-                                }
-                                else 
-                                	 if (!(mk.debug_data.got_name[0]))
-                                		act_debug_name = 0;
+                            
                                                                  
-                                
-                                	
+                            	
 
                                 break;
 
