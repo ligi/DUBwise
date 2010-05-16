@@ -1,7 +1,5 @@
 /**************************************************************************
- *                                          
- * Overlay for the DUBwise Map
- *                                          
+ *                                   
  * Author:  Marcus -LiGi- Bueschleb   
  *
  * Project URL:
@@ -13,14 +11,12 @@
  *  Additionally to the Creative Commons terms it is not allowed
  *  to use this project in _any_ violent manner! 
  *  This explicitly includes that lethal Weapon owning "People" and 
- *  Organisations (e.g. Army & Police) 
+ *  Organizations (e.g. Army & Police) 
  *  are not allowed to use this Project!
  *
  **************************************************************************/
 
 package org.ligi.android.dubwise.map;
-
-import java.util.Vector;
 
 import org.ligi.android.dubwise.R;
 import org.ligi.android.dubwise.conn.MKProvider;
@@ -36,7 +32,13 @@ import android.view.MotionEvent;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
-
+/**
+ *                                        
+ * Overlay for the DUBwise Map
+ *       
+ * @author ligi
+ *
+ */
 public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implements Runnable {
 
 	
