@@ -22,12 +22,16 @@ package org.ligi.android.dubwise;
 
 import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
+import org.ligi.android.dubwise.helper.DUBwiseStringHelper;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.MKStickData;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
@@ -42,6 +46,8 @@ public class RCDataActivity extends Activity implements Runnable
 
 	private boolean dead=false;
 	private ProgressBar[] progress_bars;
+	private TextView[] text_overlays;
+	
 	private int channels = MKStickData.MAX_STICKS;
 
 	/** Called when the activity is first created. */
@@ -52,37 +58,38 @@ public class RCDataActivity extends Activity implements Runnable
 
 		ScrollView scroll=new ScrollView(this);
 		
-		TableLayout table=new TableLayout(this);
 		
-		scroll.addView(table);
+		LinearLayout lin=new LinearLayout(this);
 		
-		//LayoutParams lp=new TableLayout.LayoutParams();
-		//lp.width=LayoutParams.FILL_PARENT;
-		//table.setLayoutParams(lp);
+		lin.setOrientation(LinearLayout.VERTICAL);
 		
-		table.setColumnStretchable(1, true);
 		progress_bars = new ProgressBar[channels];
+		text_overlays = new TextView[channels];
 		
 		for (int i = 0; i < channels; i++) {
-			TableRow row=new TableRow(this);
-			table.addView(row);
+			LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT);
 			
-			row.setPadding(0, 5, 0, 5);
-			
+			FrameLayout frame=new FrameLayout(this);
+			frame.setLayoutParams(lp);
 			
 			progress_bars[i] = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);;
 			progress_bars[i].setMax(256);
 			progress_bars[i].setVerticalFadingEdgeEnabled(false);
-			progress_bars[i].setPadding(10, 0, 5, 0);
+			progress_bars[i].setPadding(7, 7, 7, 1);
 			
+			frame.addView(progress_bars[i]);
 			
-			TextView tmp_text = new TextView(this);
-			tmp_text.setText("Channel " + (i+1)  );
-			row.addView(tmp_text);
-		
-			
-			row.addView(progress_bars[i]);
+			text_overlays[i] = new TextView(this);
+			String txt=	"Channel " + (i+1) +this.getResources().getString(DUBwiseStringHelper.table[MKProvider.getMK().params.stick_stringids[i]]) + " ";
+			text_overlays[i].setTag( txt );
+			text_overlays[i].setTextColor(0xFF000000);
+			text_overlays[i].setShadowLayer(2, 1, 1, 0xffffffff);
+			text_overlays[i].setPadding(17, 7, 7, 1);
+			frame.addView(text_overlays[i]);
+			lin.addView(frame);
 		}
+
+		scroll.addView(lin);
 
 		setContentView(scroll);
 
@@ -105,7 +112,9 @@ public class RCDataActivity extends Activity implements Runnable
 	    	   for (int i=0;i<channels;i++)
 				{
 					progress_bars[i].setProgress(MKProvider.getMK().stick_data.stick[i]+127);
-				Log.i("channel " + i + " " + MKProvider.getMK().stick_data.stick[i]);
+				
+					text_overlays[i].setText(text_overlays[i].getTag() + "(" +MKProvider.getMK().stick_data.stick[i]+")" );
+					Log.i("channel " + i + " " + MKProvider.getMK().stick_data.stick[i]);
 				}	
 	       }
 	    };
