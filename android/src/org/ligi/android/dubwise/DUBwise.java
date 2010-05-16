@@ -21,6 +21,8 @@
 package org.ligi.android.dubwise;
 
 import java.util.Vector;
+
+import org.ligi.android.dubwise.blackbox.BlackBox;
 import org.ligi.android.dubwise.cockpit.CockpitActivity;
 import org.ligi.android.dubwise.conn.ConnectionListActivity;
 import org.ligi.android.dubwise.conn.MKProvider;
@@ -58,6 +60,7 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 		TraceDroidEmailSender.sendStackTraces("ligi@ligi.de", this);
 
 		VoicePrefs.init(this);
+		
 		if (VoicePrefs.isVoiceEnabled())
 			StatusVoice.getInstance().init(this);
 		
@@ -65,6 +68,7 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 		refresh_list();
 
 		StartupConnectionService.start(this);
+		BlackBox.init();
 		Log.d("create");
 
 	}
