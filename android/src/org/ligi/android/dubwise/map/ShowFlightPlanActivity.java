@@ -1,3 +1,21 @@
+/**************************************************************************
+ *                                          
+ * Author:  Marcus -LiGi- Bueschleb   
+ *
+ * Project URL:
+ *  http://mikrokopter.de/ucwiki/en/DUBwise
+ * 
+ * License:
+ *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
+ *  (Creative Commons / Non Commercial / Share Alike)
+ *  Additionally to the Creative Commons terms it is not allowed
+ *  to use this project in _any_ violent manner! 
+ *  This explicitly includes that lethal Weapon owning "People" and 
+ *  Organizations (e.g. Army & Police) 
+ *  are not allowed to use this Project!
+ *
+ **************************************************************************/
+
 package org.ligi.android.dubwise.map;
 
 import java.io.BufferedWriter;
@@ -24,6 +42,12 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+/**
+ * Activity to show the FlightPlan set HoldTimes and delete WayPoints
+ * 
+ * @author Marcus -LiGi- Bueschleb   
+ *
+ */
 public class ShowFlightPlanActivity extends Activity implements OnClickListener {
 	private static final int MENU_SAVE = 0;
 	private static final int MENU_LOAD = 1;
@@ -129,6 +153,7 @@ public class ShowFlightPlanActivity extends Activity implements OnClickListener 
 	    switch (item.getItemId()) {
 	    	case MENU_LOAD:
 	    		this.startActivity(new Intent(this,GPXListActivity.class));
+	    		finish();
 	    		break;
 	    case MENU_SAVE:
 	    	final EditText input = new EditText(this);   
