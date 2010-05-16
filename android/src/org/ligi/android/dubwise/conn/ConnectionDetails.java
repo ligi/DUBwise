@@ -56,7 +56,7 @@ public class ConnectionDetails extends DUBwiseBaseListActivity implements Runnab
 		MKCommunicator mk=MKProvider.getMK();
 		int pos=0;
 		
-		menu_items[pos++]="Time: " + mk.conn_time_in_s() + " s";
+		menu_items[pos++]="Time: " + mk.getConnectionTime() + " s";
 		menu_items[pos++]="Bytes in: " + mk.stats.bytes_in;
 		menu_items[pos++]="Bytes out: " + mk.stats.bytes_out;
 		menu_items[pos++]="CRC Fails: " + mk.stats.crc_fail;
