@@ -1,7 +1,5 @@
 /**************************************************************************
- *                                          
- * Class to use TTS for presenting the user some status information
- *                                          
+ *                                                                           
  * Author:  Marcus -LiGi- Bueschleb   
  *
  * Project URL:
@@ -13,7 +11,7 @@
  *  Additionally to the Creative Commons terms it is not allowed
  *  to use this project in _any_ violent manner! 
  *  This explicitly includes that lethal Weapon owning "People" and 
- *  Organisations (e.g. Army & Police) 
+ *  Organizations (e.g. Army & Police) 
  *  are not allowed to use this Project!
  *
  **************************************************************************/
@@ -32,7 +30,13 @@ import android.media.AudioManager;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
-
+/**
+ * 
+ * Class to use TTS for presenting the user some status information
+ *      
+ * @author ligi
+ *
+ */
 public class StatusVoice implements OnInitListener, Runnable,
 		OnUtteranceCompletedListener {
 
