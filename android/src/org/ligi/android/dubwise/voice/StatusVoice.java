@@ -367,7 +367,7 @@ public class StatusVoice implements OnInitListener, Runnable,
 					case 10:
 						if ((mk.is_navi() || mk.is_fake())
 								&& (VoicePrefs.isSpeedEnabled())) {
-							what2speak+= " Current speed " + ((int)(mk.gps_position.GroundSpeed*0.36))*0.1
+							what2speak+= " Current speed " + formatSpeedValue(mk.gps_position.GroundSpeed)
 									+ " kilometer per hour.";
 
 						}
@@ -376,8 +376,8 @@ public class StatusVoice implements OnInitListener, Runnable,
 
 					case 11:
 						if ((mk.is_navi() || mk.is_fake())
-								&& (VoicePrefs.isSpeedEnabled())) {
-							what2speak+= " Max speed " + ((int)(mk.stats.max_speed*0.36))*0.1
+								&& (VoicePrefs.isMaxSpeedEnabled())) {
+							what2speak+= " Max speed " + formatSpeedValue(mk.stats.max_speed)
 									+ " kilometer per hour. ";
 
 						}
@@ -428,6 +428,12 @@ public class StatusVoice implements OnInitListener, Runnable,
 	public void setPauseTimeout(int new_timeout) {
 		pause_timeout=new_timeout;
 	}
+	
+	public String formatSpeedValue(int speed) {
+		return "" + ((int)(speed*0.36)/10) + "." +((int)(speed*0.36)%10);
+	}
+	
+	
 	@Override
 	public void onUtteranceCompleted(String arg0) {
 		Log.i( "onuterancecomplete");
