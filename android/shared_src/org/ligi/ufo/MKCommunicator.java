@@ -1,7 +1,5 @@
 /**************************************************************************
- *                                          
- * Main Class to Communicate with the UFO
- *                                          
+ *                                   
  * Author:  Marcus -LiGi- Bueschleb   
  *
  * Project URL:
@@ -22,12 +20,21 @@ package org.ligi.ufo;
 
 import java.util.Vector;
 
+import org.ligi.tracedroid.logging.Log;
+
+/**
+ *                                          
+ * Main Class to Communicate with the UFO
+ *       
+ * @author ligi
+ *
+ */
 public class MKCommunicator
     implements Runnable,DUBwiseDefinitions
 {
 	
 	public final static byte lib_version_major=0;
-    public final static byte lib_version_minor=16;
+    public final static byte lib_version_minor=17;
 
     private CommunicationAdapterInterface comm_adapter;
 
@@ -669,19 +676,22 @@ public class MKCommunicator
     	send_command(FC_SLAVE_ADDR,'f',id);
     }
 
-   public void get_debug_name(int id)
-    {
-
-	wait4send();
-	send_command(0,'a',id);
+    /**
+     * request a Debug Name ( names for analog Values )
+     * 
+     * @param id the Id of the Value
+     */
+    public void requestDebugName(int id) {
+    	stats.debug_name_request_count++;
+    	wait4send();
+		send_command(0,'a',id);
     }
 
  
-    public void trigger_LCD_by_page(int page)
-    {
-	wait4send();
-	send_command(0,'l',page);
-	stats.lcd_data_request_count++;
+    public void trigger_LCD_by_page(int page) {
+    	wait4send();
+    	send_command(0,'l',page);
+    	stats.lcd_data_request_count++;
     }
 
     public void trigger_debug()
@@ -1066,8 +1076,9 @@ public class MKCommunicator
 	    {
 
 	    case 'A': // debug Data Names
-		stats.debug_names_count++;
-		debug_data.set_names_by_mk_data(decoded_data);
+	    	stats.debug_names_count++;
+	    	Log.i("got debug label" + decoded_data[0]);
+	    	debug_data.set_names_by_mk_data(decoded_data);
 		break;
 
 	    case 'B': // external_control confirm frames
@@ -1720,12 +1731,22 @@ public class MKCommunicator
 	//	System.out.println(str);
     }
 
-    public int conn_time_in_s()
+    /**
+     * @return the time in seconds we are connected 
+     */
+    public int getConnectionTime()
     {
 	if (connected)
 	    return (int)((System.currentTimeMillis()-connection_start_time)/1000);
 	else
 	    return 0;
     }
-
+    
+    /**
+     * @return if the UFO is flying
+     */
+    public boolean isFlying() {
+    	// TODO read from flags
+    	return stats.flying_time()>0;
+    }
 }
