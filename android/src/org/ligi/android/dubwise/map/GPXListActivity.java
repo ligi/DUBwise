@@ -20,8 +20,11 @@
 package org.ligi.android.dubwise.map;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileReader;
 import java.util.Vector;
+
+import org.ligi.tracedroid.Log;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -72,7 +75,12 @@ public class GPXListActivity extends ListActivity {
             return;
             }
 
-        files=dir.listFiles();
+        files=dir.listFiles(new FileFilter() {
+
+			@Override
+			public boolean accept(File pathname) {
+				return (pathname.getName().endsWith(".gpx"));
+			} });
         
         
         if (files==null){
@@ -100,11 +108,8 @@ public class GPXListActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        
         FlightPlanProvider.fromGPX(files[position]);
         finish();
-        
-        
     }
     
 }
