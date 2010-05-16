@@ -1,7 +1,24 @@
+/**************************************************************************
+ *                                          
+ * Author:  Marcus -LiGi- Bueschleb   
+ *
+ * Project URL:
+ *  http://mikrokopter.de/ucwiki/en/DUBwise
+ * 
+ * License:
+ *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
+ *  (Creative Commons / Non Commercial / Share Alike)
+ *  Additionally to the Creative Commons terms it is not allowed
+ *  to use this project in _any_ violent manner! 
+ *  This explicitly includes that lethal Weapon owning "People" and 
+ *  Organizations (e.g. Army & Police) 
+ *  are not allowed to use this Project!
+ *
+ **************************************************************************/
+
 package org.ligi.android.dubwise.map;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -13,10 +30,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-
-
 import com.google.android.maps.GeoPoint;
 
+/**
+ * class to handle the FlightPlan ( Waypoint List )
+ * 
+ * @author ligi
+ *
+ */
 public class FlightPlanProvider {
 	
 	private static Vector <WayPoint> pnt_fp_vector=null;
@@ -91,10 +112,19 @@ public class FlightPlanProvider {
 		                Log.i("lat: " + lat_str);
 		                Log.i("lon: " + lon_str);
 		                // TODO better find hold time
-		                int hold_time=Integer.parseInt(item.getChildNodes().item(0).getNodeValue());
+		                int hold_time=5;
+		                NodeList properties = item.getChildNodes();
+		                for (int j=0;j<properties.getLength();j++){
+		                    Node property = properties.item(j);
+		                    String name = property.getNodeName();
+		                    if (name.equalsIgnoreCase("holdtime")){
+		                    	 hold_time=Integer.parseInt (property.getFirstChild().getNodeValue());
+		                    } 
+		                }
+		                    
+		                
 		                int lat = (int)(1000000*Double.parseDouble(lat_str));
 		                int lon = (int)(1000000*Double.parseDouble(lon_str));
-		                
 		                addWP(new WayPoint(new GeoPoint(lat,lon),hold_time));
 		               }
 		        } catch (Exception e) {
