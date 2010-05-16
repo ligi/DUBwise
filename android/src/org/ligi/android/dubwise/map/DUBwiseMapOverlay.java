@@ -32,6 +32,7 @@ import android.view.MotionEvent;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
+
 /**
  *                                        
  * Overlay for the DUBwise Map
@@ -39,6 +40,7 @@ import com.google.android.maps.MapView;
  * @author ligi
  *
  */
+
 public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implements Runnable {
 
 	
@@ -46,8 +48,7 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 	private GeoPoint kopterPoint=null;
 	private GeoPoint homePoint=null;
 	
-	
-	public boolean flightplan_mode=false;
+ 	public boolean flightplan_mode=false;
 	public boolean fp_running=false;
 	
 	private Paint compas_heading_paint;
@@ -58,7 +59,6 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 	private Bitmap phone_icon;
 	
 	private int act_wp=0;
-	
 	
 	public Bitmap getKopterIcon() {
 		return kopter_icon;
@@ -120,29 +120,15 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 		phone_icon = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(),
 				android.R.drawable.ic_menu_call),42,42,true);
 		
-		
-
-		
-	
 		new Thread(this).start();
 	}
 	
 	
-	
-	boolean last_was_up;
-	
+
 	public boolean onTouchEvent(MotionEvent e,MapView mapView) {
 		
-		if 	(flightplan_mode)
+		if 	(flightplan_mode&&(e.getAction()!=MotionEvent.ACTION_UP))
 		{
-			if ((e.getAction()==MotionEvent.ACTION_MOVE)||(e.getAction()==MotionEvent.ACTION_DOWN))
-				last_was_up=false;
-			
-			if (e.getAction()==MotionEvent.ACTION_UP)
-				last_was_up=true;
-	
-	
-			
 			FlightPlanProvider.addWP(mapView.getProjection().fromPixels  ((int)e.getX(), (int)e.getY()) ,5 );
 			return true;
 		}
