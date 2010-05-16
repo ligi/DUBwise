@@ -1,7 +1,5 @@
 /**************************************************************************
  *                                          
- * Singleton Class to hold the connection 
- *                                          
  * Author:  Marcus -LiGi- Bueschleb   
  *
  * Project URL:
@@ -22,6 +20,12 @@ package org.ligi.android.dubwise.conn;
 
 import org.ligi.ufo.MKCommunicator;
 
+/**
+ * Singleton Class to hold the connection 
+ *                                          
+ * @author ligi
+ *
+ */
 public final class MKProvider  {
 
 	static MKCommunicator mk=null;
