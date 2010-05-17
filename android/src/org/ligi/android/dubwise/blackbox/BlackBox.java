@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.ligi.android.dubwise.conn.MKProvider;
+import org.ligi.tracedroid.collecting.TraceDroidMetaInfo;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKCommunicator;
 
@@ -105,6 +106,13 @@ public class BlackBox implements Runnable {
 					
 					
 					writer.close();
+					
+					FileWriter meta_writer=new FileWriter(new File(act_fname+".metadata"));
+					meta_writer.write("Client: " + mk.getExtendedConnectionName());
+					meta_writer.write("\nVersion: " + mk.version.version_str);
+					meta_writer.write("\nRecords: " + act_records);
+					meta_writer.write("\nDUBwise Version: " + TraceDroidMetaInfo.getAppVersion());
+					meta_writer.close();
 					
 				} catch (IOException e) {
 					Log.w("problem writing the BlackBox File" + e);
