@@ -1,7 +1,5 @@
 /**************************************************************************
- *                                          
- * View part of the Graph
- * 
+ *
  * Author:  Marcus -LiGi- Bueschleb   
  *
  * Project URL:
@@ -32,7 +30,13 @@ import android.graphics.Paint.Align;
 // not working atm - import org.bluez.*;
 import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.ufo.*;
-
+/**
+ *                                           
+ * View part of the Graph
+ * 
+ * @author  Marcus -LiGi- Bueschleb   
+ *
+ */
 public class GraphView extends View implements DUBwiseDefinitions, OnSharedPreferenceChangeListener
 
 {
