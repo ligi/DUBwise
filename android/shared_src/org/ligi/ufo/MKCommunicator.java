@@ -311,7 +311,7 @@ public class MKCommunicator
 	    }
     }
 
-    public String extended_name()
+    public String getExtendedConnectionName()
     {
 	switch (slave_addr)
 	    {
