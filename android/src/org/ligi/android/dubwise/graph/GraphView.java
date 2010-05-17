@@ -49,17 +49,16 @@ public class GraphView extends View implements DUBwiseDefinitions, OnSharedPrefe
 			"roll acc" };
 
 	public final static int GRAPH_COUNT = 4;
-	int canvas_height = 100;
-	int canvas_width = 100;
-	int line_middle_y = 100;
+	private int canvas_height = 100;
+	private int canvas_width = 100;
+	private int line_middle_y = 100;
 
-	boolean do_grid;
-	boolean do_legend;
-	SharedPreferences settings;
+	private boolean do_grid;
+	private boolean do_legend;
+	private SharedPreferences settings;
+	
 	public GraphView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-
-		
 	}
 	public GraphView(Activity context) {
 		super(context);
