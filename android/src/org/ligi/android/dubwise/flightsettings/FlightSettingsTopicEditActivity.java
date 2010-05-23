@@ -131,6 +131,7 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 			TextView text_v=new TextView(this);
 			//text_v.setFocusable(true);
 			text_v.setFocusableInTouchMode(true);
+			
         	text_v.setText(DUBwiseStringHelper.table[MKProvider.getMK().params.field_stringids[act_topic][i]]);
         	text_v.setMinHeight(50);
         	text_v.setPadding(3, 0, 5, 0);
@@ -161,6 +162,24 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
          		spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
          		spinner.setAdapter(spinner_adapter);
+         		class SpinnerChangeListener implements OnItemSelectedListener {
+         			private int pos;
+         			public SpinnerChangeListener(int pos) {
+         				this.pos=pos;
+         			}
+					@Override
+					public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+						MKParamsParser params=MKProvider.getMK().params;
+						params.field[params.act_paramset][params.field_positions[act_topic][pos]]=arg2;
+					}
+
+					@Override
+					public void onNothingSelected(AdapterView<?> arg0) {
+						// TODO Auto-generated method stub
+						
+					} }
+         		spinner.setOnItemSelectedListener(new SpinnerChangeListener(i) );
+         		
          		Log.i("want to set to" + params.field[params.act_paramset][params.field_positions[act_topic][i]]);
          		int stick_id=params.field[params.act_paramset][params.field_positions[act_topic][i]];
          		if (stick_id>MKStickData.MAX_STICKS*2)
