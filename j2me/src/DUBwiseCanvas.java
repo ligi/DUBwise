@@ -2274,7 +2274,7 @@ lp= LocationProvider.getInstance(crit2);
 		    g.drawString(" Name:" + mk.name,0,y_off,Graphics.TOP | Graphics.LEFT);
 		    y_off+=spacer_small; 
 
-		    g.drawString(" "+mk.extended_name()+ " (" + (mk.connected?("open"+((System.currentTimeMillis()- mk.connection_start_time)/1000)+"s"):"closed")+"):",0,y_off,Graphics.TOP | Graphics.LEFT);
+		    g.drawString(" "+mk.getExtendedConnectionName()+ " (" + (mk.connected?("open"+((System.currentTimeMillis()- mk.connection_start_time)/1000)+"s"):"closed")+"):",0,y_off,Graphics.TOP | Graphics.LEFT);
 		    y_off+=spacer_small;
 		    g.drawString(" Software Version:" + mk.version.version_str ,0,y_off,Graphics.TOP | Graphics.LEFT);
 		    y_off+=spacer_small;
@@ -2290,10 +2290,10 @@ lp= LocationProvider.getInstance(crit2);
 		case STATEID_TRAFFIC:
 		    		   
 		    g.setFont(font_medium);
-		    g.drawString("Packet Traffic (over "+mk.conn_time_in_s()+"s):",0,y_off,Graphics.TOP | Graphics.LEFT);
+		    g.drawString("Packet Traffic (over "+mk.getConnectionTime()+"s):",0,y_off,Graphics.TOP | Graphics.LEFT);
 		    y_off+=spacer_medium;
 		    g.setFont(font_small);
-		    g.drawString( ">>in:"+mk.stats.bytes_in+ " bytes => " + mk.stats.bytes_in/mk.conn_time_in_s() + " bytes/s",0,y_off,Graphics.TOP | Graphics.LEFT);
+		    g.drawString( ">>in:"+mk.stats.bytes_in+ " bytes => " + mk.stats.bytes_in/mk.getConnectionTime() + " bytes/s",0,y_off,Graphics.TOP | Graphics.LEFT);
 		    y_off+=spacer_small; 
 
 		    g.drawString( " crcFail:"+mk.stats.crc_fail +" unknown:" +mk.stats.other_data_count,0,y_off,Graphics.TOP | Graphics.LEFT);
@@ -2310,7 +2310,7 @@ lp= LocationProvider.getInstance(crit2);
 		    //		    g.drawString( " other:"+mk.stats.other_data_count,0,y_off,Graphics.TOP | Graphics.LEFT);
 
 		    y_off+=spacer_small+3; 
-		    g.drawString( "<<out:"+mk.stats.bytes_out + " bytes =>" + mk.stats.bytes_out/mk.conn_time_in_s() + "bytes/s", 0,y_off,Graphics.TOP | Graphics.LEFT);
+		    g.drawString( "<<out:"+mk.stats.bytes_out + " bytes =>" + mk.stats.bytes_out/mk.getConnectionTime() + "bytes/s", 0,y_off,Graphics.TOP | Graphics.LEFT);
 		    y_off+=spacer_small; 
 		    g.drawString( " LCD:" + mk.stats.lcd_data_request_count + " vers:" + mk.stats.version_data_request_count,0,y_off,Graphics.TOP | Graphics.LEFT);
 		    y_off+=spacer_small; 
