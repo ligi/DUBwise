@@ -124,6 +124,17 @@ case ARGV[0]
   location_modes=["no_location"]
   map_modes=["J2MEMap"]
 
+ when "K800i"
+  screensizes=["240x320"]
+  voice_modes=["en_mp3_32kbit"]
+  bluetooth_modes=["on"]
+  devicecontrol_modes=["on"]
+  fileapi_modes=["off"]
+  cldc11_modes=["on"]
+  firmware_modes=["no_firmwares"]
+  location_modes=["no_location"]
+  map_modes=["no_map"]
+
  when "N80"
   screensizes=["340x400"]
   voice_modes=["en_mp3_32kbit"]
