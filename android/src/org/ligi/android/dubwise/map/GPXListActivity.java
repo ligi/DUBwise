@@ -32,7 +32,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 /**
- * This is the main Activity of gobandroid
+ * Activity to list available GPX files with the option to load them
  * 
  * @author <a href="http://ligi.de">Marcus -Ligi- Bueschleb</a>
  *         
@@ -48,8 +48,6 @@ public class GPXListActivity extends ListActivity {
         super.onCreate(savedInstanceState);
 
         MapPrefs.init(this);
-        
-        
         
         String gpx_path=MapPrefs.getGPXPath();
         
