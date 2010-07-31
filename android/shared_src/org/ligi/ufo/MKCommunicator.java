@@ -20,7 +20,7 @@ package org.ligi.ufo;
 
 import java.util.Vector;
 
-import org.ligi.tracedroid.logging.Log;
+//import org.ligi.tracedroid.logging.Log;
 
 /**
  *                                          
@@ -868,50 +868,26 @@ public class MKCommunicator
     	send_command(modul,cmd,params);
     }
 
+    
     public void send_command_nocheck(byte modul,char cmd,int[] params)
     {
-//	char[] send_buff=new char[5 + (params.length/3 + (params.length%3==0?0:1) )*4]; // 5=1*start_char+1*addr+1*cmd+2*crc
 
-	byte[] send_buff=new byte[3 + (params.length/3 + (params.length%3==0?0:1) )*4]; // 5=1*start_char+1*addr+1*cmd+2*crc
-	send_buff[0]='#';
-	send_buff[1]=(byte)(modul+'a');
-	send_buff[2]=(byte)cmd;
+	byte[] send_buff=MKHelper.encodeCommand(modul, cmd, params);
 	
-	for(int param_pos=0;param_pos<(params.length/3 + (params.length%3==0?0:1)) ;param_pos++)
-	    {
-		int a = (param_pos*3<params.length)?params[param_pos*3]:0;
-		int b = ((param_pos*3+1)<params.length)?params[param_pos*3+1]:0;
-		int c = ((param_pos*3+2)<params.length)?params[param_pos*3+2]:0;
-
-		send_buff[3+param_pos*4] =  (byte)((a >> 2)+'=' );
-		send_buff[3+param_pos*4+1] = (byte)('=' + (((a & 0x03) << 4) | ((b & 0xf0) >> 4)));
-		send_buff[3+param_pos*4+2] = (byte)('=' + (((b & 0x0f) << 2) | ((c & 0xc0) >> 6)));
-		send_buff[3+param_pos*4+3] = (byte)('=' + ( c & 0x3f));
-
-		//send_buff[3+foo]='=';
-	    }
-
-	/*	for(int foo=0;foo<(params.length/3 + (params.length%3==0?0:1) )*4;foo++)
-		{
-		int a = (foo<params.length) params[foo];
-		int a = params[foo];
-		
-		//send_buff[3+foo]='=';
-		}
-	*/
 	try 
 	    {
-		int tmp_crc=0;
+		/*int tmp_crc=0;
 		for ( int tmp_i=0; tmp_i<send_buff.length;tmp_i++)
 		    tmp_crc+=(int)send_buff[tmp_i];
-			
+	*/		
 		comm_adapter.write(send_buff,0,send_buff.length);
-		tmp_crc%=4096;
+/*		tmp_crc%=4096;
 
 		comm_adapter.write( (char)(tmp_crc/64 + '='));
 		comm_adapter.write( (char)(tmp_crc%64 + '='));
-		comm_adapter.write('\r');
-		stats.bytes_out+=send_buff.length+3;
+		
+		comm_adapter.write('\r');*/
+		stats.bytes_out+=send_buff.length; //+3;
 		comm_adapter.flush();
 	    }
 	catch (Exception e)
@@ -1077,7 +1053,7 @@ public class MKCommunicator
 
 	    case 'A': // debug Data Names
 	    	stats.debug_names_count++;
-	    	Log.i("got debug label" + decoded_data[0]);
+		//	    	Log.i("got debug label" + decoded_data[0]);
 	    	debug_data.set_names_by_mk_data(decoded_data);
 		break;
 
