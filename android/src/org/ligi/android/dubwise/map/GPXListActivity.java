@@ -21,16 +21,11 @@ package org.ligi.android.dubwise.map;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileReader;
 import java.util.Vector;
-
-import org.ligi.tracedroid.Log;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
