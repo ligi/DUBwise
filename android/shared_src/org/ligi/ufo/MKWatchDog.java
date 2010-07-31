@@ -18,8 +18,6 @@
 
 package org.ligi.ufo;
 
-import org.ligi.tracedroid.logging.Log;
-
 public class MKWatchDog
         implements Runnable, DUBwiseDefinitions {
 
@@ -104,8 +102,7 @@ public class MKWatchDog
                 	
                  // fetch the debug names
                     else if (act_debug_name < 32) {
-               		
-               		Log.i("!!! " + act_debug_name + " " + resend_timeout);
+
                        if (resend_timeout == 0) {
                            mk.requestDebugName( act_debug_name );
                            resend_timeout = 50;
