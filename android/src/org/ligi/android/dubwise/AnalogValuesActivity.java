@@ -70,17 +70,17 @@ public class AnalogValuesActivity extends DUBwiseBaseListActivity implements Run
 		super.onDestroy();
 		running=false;
 		ActivityCalls.onDestroy(this);
-		
-		
 	}
+	
 	 final Handler mHandler = new Handler();
 	    
-	 	// Create runnable for posting
-	   final Runnable mUpdateResults = new Runnable() {
-	       public void run() {
-	    	   adapter.notifyDataSetChanged();
-	       }
-	    };
+	 // Create runnable for posting
+	 final Runnable mUpdateResults = new Runnable() {
+		 public void run() {
+			 adapter.notifyDataSetChanged();
+		 }
+	 };
+	    
 	@Override
 	public void run() {
 		while (running) {
