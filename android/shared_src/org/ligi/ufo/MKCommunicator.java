@@ -61,7 +61,10 @@ public class MKCommunicator
     //public boolean change_notify=false;
     public boolean thread_running=true;
 
-    Vector notify_listeners=new Vector();
+    private Vector notify_listeners=new Vector();
+
+    public boolean force_disconnect=true;
+
     
     public void addNotificationListener(DUBwiseNotificationListenerInterface i) {
     	notify_listeners.addElement(i);
@@ -1053,20 +1056,18 @@ public class MKCommunicator
 
 	    case 'A': // debug Data Names
 	    	stats.debug_names_count++;
-		//	    	Log.i("got debug label" + decoded_data[0]);
+	    	// Log.i("got debug label" + decoded_data[0]);
 	    	debug_data.set_names_by_mk_data(decoded_data);
-		break;
+	    	break;
 
 	    case 'B': // external_control confirm frames
 	    	stats.external_control_confirm_frame_count++;
-		break;
+	    	break;
 
 	    case 'L': // LCD Data
 	    	stats.lcd_data_count++;
 	    	LCD.handle_lcd_data(decoded_data);
-
-		break;
-	    
+	    	break;
 	    
 	    case 'N': // debug Data
 	    	mixer_manager.setByMKData(decoded_data);
@@ -1077,15 +1078,14 @@ public class MKCommunicator
 	    	stats.debug_data_count++;
 	    	debug_data.set_by_mk_data(decoded_data,version);
 
-	    	if (is_mk())
-		    	{
+	    	if (is_mk()) {
 	    		stats.process_mkflags(debug_data.motor_val(0)); // TODO remove dirty hack
 	    		stats.process_alt(getAlt());
 		    	}
 	    	update_debug_buff();
 	    	log("processed debug data");
 	    	
-		break;
+	    	break;
 		
 	    case 'V': // Version Info
 	    	stats.version_data_count++;
@@ -1093,8 +1093,7 @@ public class MKCommunicator
 
 	    	version.set_by_mk_data(decoded_data);
 	    	
-	    	if (slave_addr!=data[1]-'a') //new slave address
-		    {
+	    	if (slave_addr!=data[1]-'a') { //new slave address
 	    		slave_addr=(byte)(data[1]-'a');
 	    		//change_notify=true;
 	    		notifyAll(DUBwiseNotificationListenerInterface.NOTIFY_CONNECTION_CHANGED);
@@ -1129,25 +1128,25 @@ public class MKCommunicator
 
 	    case 'w':
 	    	log("processing angles");		
-		angle_nick=MKHelper.parse_signed_int_2(decoded_data[0],decoded_data[1]);
+	    	angle_nick=MKHelper.parse_signed_int_2(decoded_data[0],decoded_data[1]);
 	        angle_roll=MKHelper.parse_signed_int_2(decoded_data[2],decoded_data[3]);
 	        log("done processing angles");		
-		stats.angle_data_count++;
-		break;
+	        stats.angle_data_count++;
+	        break;
 
 
 	    case 'Q':
-		if (is_mk())
-		    {
-			stats.params_data_count++;
-			params.set_by_mk_data(decoded_data);
-		    }
-		break;
+	    	if (is_mk()) {
+	    		stats.params_data_count++;
+				params.set_by_mk_data(decoded_data);
+		    	}
+	    	break;
 
 	    case 'M':
-		mixer_change_notify=true;
-		mixer_change_success=(decoded_data[0]==1);
-		break;
+	    	mixer_change_notify=true;
+	    	mixer_change_success=(decoded_data[0]==1);
+	    	break;
+	    	
 	    case 'P':
 	    	stats.stick_data_count++;
 	    	stick_data.set_by_mk_data(decoded_data);
@@ -1159,7 +1158,7 @@ public class MKCommunicator
         	for(int foo=0;foo<20;foo++)
         		if (decoded_data[foo]!=0) 
         			error_str+=(char)decoded_data[foo];
-		break;
+        	break;
 
 		
 	    case 'O': // OSD Values Str from Navi
@@ -1174,12 +1173,11 @@ public class MKCommunicator
 	    	stats.process_speed(gps_position.GroundSpeed);
 	    	stats.process_alt(getAlt());
 
-		break;
-
+	    	break;
 
 	    default:
 	    	stats.other_data_count++;
-		break;
+	    	break;
 
 	    }
 	
@@ -1188,10 +1186,7 @@ public class MKCommunicator
 
     
 
-    public boolean force_disconnect=true;
-
-    public void close_connections(boolean force)
-    {
+    public void close_connections(boolean force)  {
 
     	//	if ((!force)&&root.canvas.do_vibra) root.vibrate(500);
     	force_disconnect|=force;
