@@ -240,3 +240,6 @@ SERVO4;Servo 4;Servo 4;Servo 4;Servo 4
 SERVO5;Servo 5;Servo 5;Servo 5;Servo 5
 RECEIVER;Receiver type;Empfaenger typ;Receiver type;Type ontvanger
 CURRENT;Current;Strom;Current;Stroom
+ORIENTATIONMODE;CareFree;CareFree;CareFree;CareFree
+ORIENTATIONANGLE;Orientation Angle;Orientierung Winkel;Orientation Angle;Orientation Angle
+GYROSTABILITY;Gyro Stability;Gyro Stability;Gyro Stability;Gyro Stability
