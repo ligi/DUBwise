@@ -51,7 +51,7 @@ public class DeviceDetails extends DUBwiseBaseListActivity {
 	
 	private void refresh_values() {
 		MKCommunicator mk=MKProvider.getMK();
-		menu_items[0]="Type: " + mk.extended_name();
+		menu_items[0]="Type: " + mk.getExtendedConnectionName();
 		
 		menu_items[1]="Version: " + mk.version.version_str;
 		menu_items[2]="Protocol: " + mk.version.proto_str;
