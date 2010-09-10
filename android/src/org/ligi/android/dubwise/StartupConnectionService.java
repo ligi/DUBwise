@@ -49,7 +49,7 @@ public class StartupConnectionService {
 
 							MKProvider.getMK().setCommunicationAdapter(new BluetoothCommunicationAdapter(DUBwisePrefs.getStartConnBluetootMAC()));
 							Log.i( "connecting");
-							MKProvider.getMK().connect_to("","" );
+							MKProvider.getMK().connect_to("","");
 						
 						}
 					}
