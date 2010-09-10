@@ -63,7 +63,7 @@ public class BlackBox implements Runnable {
 		while (true)
 		{
 			MKCommunicator mk=MKProvider.getMK();
-			if (mk.isConnected()&&mk.isFlying())
+			if (BlackBoxPrefs.isBlackBoxEnabled()&&mk.isConnected()&&mk.isFlying())
 			{
 				
 				 DateFormat path_dateFormat = new SimpleDateFormat("dd.MM.yyyy");
@@ -89,7 +89,6 @@ public class BlackBox implements Runnable {
 					while (mk.isConnected()&&mk.isFlying())
 					{
 						String act_line="";
-						
 						
 						for (int i =0 ; i<mk.debug_data.names.length;i++)
 							act_line+=((i==0)?"":";") + mk.debug_data.analog[i];
@@ -120,7 +119,8 @@ public class BlackBox implements Runnable {
 			}
 			
 			try {
-				Thread.sleep(100);
+				// wait a long time when blackbox iss disabled - a short time when enabled
+				Thread.sleep(BlackBoxPrefs.isBlackBoxEnabled()?100:7000);
 			} catch (InterruptedException e) {}
 		}
 	
