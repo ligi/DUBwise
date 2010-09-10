@@ -29,4 +29,8 @@ public class BlackBoxPrefs {
 	public static String getPath() {
 		return "/sdcard/DUBwise/BlackBox";
 	}
+	
+	public static boolean isBlackBoxEnabled() {
+		return true;
+	}
 }
