@@ -26,6 +26,7 @@ import org.ligi.android.dubwise.blackbox.BlackBox;
 import org.ligi.android.dubwise.cockpit.CockpitActivity;
 import org.ligi.android.dubwise.conn.ConnectionListActivity;
 import org.ligi.android.dubwise.conn.MKProvider;
+import org.ligi.android.dubwise.conn.bluetooth.BluetoothMaster;
 import org.ligi.android.dubwise.flightsettings.FlightSettingsActivity;
 import org.ligi.android.dubwise.graph.GraphActivity;
 import org.ligi.android.dubwise.helper.ActivityCalls;
@@ -55,10 +56,14 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	
+		
 		Log.setTAG("DUBwise");
 		TraceDroid.init(this);
 		TraceDroidEmailSender.sendStackTraces("ligi@ligi.de", this);
 
+		
+		BluetoothMaster.init(this);
+		
 		VoicePrefs.init(this);
 		
 		if (VoicePrefs.isVoiceEnabled())
