@@ -22,6 +22,8 @@ package org.ligi.android.dubwise.helper;
 
 import org.ligi.android.dubwise.DUBwisePrefs;
 import org.ligi.android.dubwise.R;
+import org.ligi.tracedroid.logging.Log;
+
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.view.View;
@@ -35,25 +37,20 @@ import android.content.SharedPreferences;
 
 public class ActivityCalls {
 
-	static WakeLock mWakeLock;
+	private static WakeLock mWakeLock;
 	
 	public static void beforeContent(Activity activity) {
 		DUBwisePrefs.init(activity);
 		activity.requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 
-		if (DUBwisePrefs.keepLightNow()) 
-		{
-			if (mWakeLock==null) 
-				{
+		if (DUBwisePrefs.keepLightNow()) {
+			if (mWakeLock==null) {
 				final PowerManager pm = (PowerManager) (activity.getSystemService(Context.POWER_SERVICE)); 
 				mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag"); 
-				} 
+			} 
 			mWakeLock.acquire();
 		}
-        
 		// pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag").acquire(); 
-	        
-	        
 	}
 	
 	public static void onDestroy(Activity activity) {
@@ -83,30 +80,26 @@ public class ActivityCalls {
 			((ViewGroup) activity.getWindow().findViewById
 					(titleContainerId)).setVisibility(View.GONE);
 		} catch(Exception ex) {}
-		
-		
 	} // end of setCustomTitle
 	
 	public static void afterContent(Activity activity) {
 		
-		System.out.println("fullscreen:" + DUBwisePrefs.isFullscreenEnabled());
-		System.out.println("status:" + DUBwisePrefs.isStatusBarEnabled());
+		Log.i("fullscreen:" + DUBwisePrefs.isFullscreenEnabled());
+		Log.i("status:" + DUBwisePrefs.isStatusBarEnabled());
 		
 		activity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.top);
 		
-		
-		{
-		System.out.println("oncreate top view" + activity.getWindow().findViewById(R.layout.top));
+		Log.i("oncreate top view" + activity.getWindow().findViewById(R.layout.top));
 
 		if (DUBwisePrefs.isStatusBarEnabled())
 			setCustomTitle(true,R.layout.top,activity);
 		else
 			setCustomTitle(false,R.layout.top,activity);
+		
 		//	activity.getWindow().findViewById(R.layout.text).setVisibility(View.VISIBLE);
 		//else
 		//	activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		;;
-		}
+
 		/*activity.findViewById(R.layout.text).setVisibility(View.GONE);
 		*/
 		
@@ -117,12 +110,9 @@ public class ActivityCalls {
 			activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	
 		// http://www.anddev.org/viewtopic.php?p=12381
-	
 	}
 
 	public static SharedPreferences getSharedPreferences(Activity activity) {
 		return activity.getSharedPreferences("DUBwise", 0);
 	}
 }
-
-
