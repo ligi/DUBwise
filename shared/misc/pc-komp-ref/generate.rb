@@ -149,5 +149,5 @@ interface_file <<  "// -- end generated code --"+ "\n"
 
 interface_file << "}"+ "\n"
 
-puts "written " + interface_name
+puts "written " + interface_fname
 
