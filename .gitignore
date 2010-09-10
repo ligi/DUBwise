@@ -1,4 +1,10 @@
-../shared/src/DUBwiseLangDefs.java
 bin/
 android/gen/
 android/bin/
+
+# generated source files
+android/shared_src/org/ligi/ufo/DUBwiseLangDefs.java
+../shared/src/DUBwiseLangDefs.java
+
+
+
