@@ -50,9 +50,6 @@ public class BluetoothCommunicationAdapter implements
 	@Override
 	public void connect() {
 		
-		
-		
-		
 		try {
 			//LocalDevice bta = BluetoothAdapter.getDefaultAdapter();
 			// LocalBluetoothDevice.initLocalDevice(context);
