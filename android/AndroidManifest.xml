@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest package="org.ligi.android.dubwise"
-      xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="0.83" android:versionCode="17">
+      xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="0.84" android:versionCode="18">
 
-	<uses-sdk android:targetSdkVersion="3" android:minSdkVersion="3"></uses-sdk>
+	<uses-sdk android:targetSdkVersion="3" android:minSdkVersion="4"></uses-sdk>
+	
+	
+     <supports-screens android:largeScreens="true"
+						  android:normalScreens="true" 
+						  android:smallScreens="true"
+						  android:anyDensity="true" /> 
+						  
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
 	<uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
