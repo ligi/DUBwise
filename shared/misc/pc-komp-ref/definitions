@@ -113,8 +113,17 @@
 --Gas_Max;
   to_cat("OTHER", [{ :pos=>act_pos , :function=>"MAXGAS" , :typ=>"MKBYTE" }] ) 
  act_pos+=1
+--OrientationAngle;
+  to_cat("OTHER", [{ :pos=>act_pos , :function=>"ORIENTATIONANGLE" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+--OrientationModeControl;
+  to_cat("OTHER", [{ :pos=>act_pos , :function=>"ORIENTATIONMODE" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
 --GyroAccFaktor;
-   to_cat("GYRO", [{ :pos=>act_pos , :function=>"ACCGYROFACTOR" , :typ=>"MKBYTE" }] ) 
+  to_cat("GYRO", [{ :pos=>act_pos , :function=>"ACCGYROFACTOR" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+--Gyro_Stability;
+  to_cat("GYRO", [{ :pos=>act_pos , :function=>"GYROSTABILITY" , :typ=>"MKBYTE" }] ) 
  act_pos+=1
 --KompassWirkung;
   to_cat("OTHER", [{ :pos=>act_pos , :function=>"COMPASEFFECT" , :typ=>"MKBYTE" }] ) 
@@ -384,6 +393,10 @@
  to_cat("ALTITUDE", [{ :pos=>act_pos , :function=>"GPSZ" , :typ=>"MKBYTE" }] ) 
  act_pos+=1
 
+--crc
+ act_pos+=1
+--Revision
+# act_pos+=0
 --Reserved[3]
  act_pos+=3
 --Reserved[4]
