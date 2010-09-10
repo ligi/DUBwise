@@ -1,35 +1,29 @@
 #!/usr/bin/env ruby
 #
-#
 # Deploy script for DUBwise
-# (cc) 2009 Marcus -Ligi- Bueschleb
+# (cc) 2009-2010 Marcus -Ligi- Bueschleb
 # mail to ligi attttt ligi dotttt de
 #
 #
 
-require 'net/sftp'
+require 'net/scp'
 require 'highline/import'
 
-host='78.46.192.125'
-user='s4m'
+host='bluepill.freestone.net'
+user='ligi'
 
-path="/home/s4m/rails/www_en/public/ligi/dubwise_dl"
+path="/var/www/users/ligi/htdocs"
 
-pwd= ask("Enter password #{user}@#{host}:  " ) { |q| q.echo = "*" }  
-
-
-
-Net::SFTP.start(host, user, :password => pwd) do |sftp|
-  p "testing conn"
+Net::SCP.start(host, user ) do |sftp|
+  puts "testing conn .."
 end
 
+p " OK"
 
-
+# parse cli
 build=ARGV.include?("-b")
 j2me= ARGV.include?("-j2me")
 wm= ARGV.include?("-wm")
-
-
 
 if build
   p "building j2me"
@@ -40,30 +34,39 @@ if build
 end
 
 if j2me
-Net::SFTP.start(host, user, :password => pwd) do |sftp|
-  p "uploading"
-  sftp.upload!("tmp_deploy.7z" , "#{path}/new.7z")
-  sftp.upload!("version" , "#{path}/version")
-end
+  Net::SCP.start(host, user) do |scp|
+    p "uploading"
+    scp.upload!("tmp_deploy.7z" , "#{path}/new.7z")
+    scp.upload!("version" , "#{path}/version")
+  end
+
 
   p "extracting j2me"
-  Net::SSH.start(host, user, :password => pwd) do |ssh|
-    p ssh.exec!("cd #{path} ; mkdir new_trunk ; mv version new_trunk ;  mv new.7z new_trunk; cd new_trunk ; 7zr e new.7z ; rm new_.7z ; cd .. ; mv trunk old_trunk ; mv new_trunk trunk ; rm -rf old_trunk")
+  Net::SSH.start(host, user) do |ssh|
+ #   p ssh.exec!("cd #{path} ; mkdir new_trunk ; mv version new_trunk ;  mv new.7z new_trunk; cd new_trunk ; 7zr e new.7z ; rm new_.7z ; cd .. ; mv trunk old_trunk ; mv new_trunk trunk ; rm -rf old_trunk")
+
+    p ssh.exec!("mkdir #{path}/new_trunk")
+    p ssh.exec!("7za e -o#{path}/new_trunk  #{path}/new.7z")
+    p ssh.exec!("mv #{path}/version #{path}/new_trunk ")
+    p ssh.exec!("mv #{path}/trunk #{path}/old_trunk ")
+    p ssh.exec!("mv #{path}/new_trunk #{path}/trunk ")
+    p ssh.exec!("rm #{path}/new.7z ")
   end
 end
 
 if wm
-  Net::SFTP.start(host, user, :password => pwd) do |sftp|
+  Net::SCP.start(host, user) do |scp|
     p "uploading wm"
-    sftp.upload!("wm_tmp/240x320.zip" , "#{path}/trunk/240x320.zip")
-    sftp.upload!("wm_tmp/340x400.zip" , "#{path}/trunk/340x400.zip")
-    sftp.upload!("wm_tmp/480x640.zip" , "#{path}/trunk/480x640.zip")
-
+    scp.upload!("wm_tmp/240x320.zip" , "#{path}/trunk/240x320.zip")
+    scp.upload!("wm_tmp/340x400.zip" , "#{path}/trunk/340x400.zip")
+    scp.upload!("wm_tmp/480x640.zip" , "#{path}/trunk/480x640.zip")
   end
 end
 
 p "anouncing the new version"
 
 3.times { # repeating is needed sometimes with appengine ;-)
+  p "refreshing @ appengine"
   p `curl http://dubwise-download.appspot.com/refresh_download_source`
+  sleep 1
 }
