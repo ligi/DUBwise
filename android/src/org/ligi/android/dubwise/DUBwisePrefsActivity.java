@@ -1,5 +1,3 @@
-package org.ligi.android.dubwise;
-
 /**************************************************************************
  *                                          
  * Activity to edit the DUBwise Preferences
@@ -20,6 +18,8 @@ package org.ligi.android.dubwise;
  *
  **************************************************************************/
 
+package org.ligi.android.dubwise;
+
 import org.ligi.android.dubwise.DUBwisePrefs;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 
@@ -34,6 +34,13 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 import android.preference.Preference.OnPreferenceChangeListener;
 
+/**
+ *                                            
+ * Activity to edit the DUBwise Preferences
+ *                                          
+ * @author   Marcus -LiGi- Bueschleb   
+ *
+ */
 public class DUBwisePrefsActivity extends PreferenceActivity implements
 		OnPreferenceChangeListener, OnSharedPreferenceChangeListener {
 
