@@ -17,10 +17,10 @@ Dir["mixer_definitions/*.mkm"].each { |file|
 
     res+="," if engine_id!=12
   }
-  mkms[file.gsub(".mkm","")]=res
+  mkms[file.gsub(".mkm","").gsub("mixer_definitions/","")]=res
 }
 
 
-puts "String[] names={\"" + mkms.keys.sort.join("\",\"") + "\"};"
-puts "int[][] arrays={{" + mkms.keys.sort.map{ |e| mkms[e] }.join("},{") + "}};"
+puts "public final static String[] default_names={\"" + mkms.keys.sort.join("\",\"") + "\"};"
+puts "public final static byte[][] default_arrays={{" + mkms.keys.sort.map{ |e| mkms[e] }.join("},{") + "}};"
 
