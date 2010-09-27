@@ -33,7 +33,11 @@ import android.widget.Toast;
 public class StartupConnectionService {
 	
 	public static void start(Context context) {
-		//if (MKProvider.getMK().getCommunicationAdapter()==null)
+		//if (MKProvider.getMK().getCommunicationAdapter() ==null)
+		// stop if allready connected
+		if (MKProvider.getMK().isConnected())
+			return;
+		
 			switch(DUBwisePrefs.getStartConnType()) {
 				case DUBwisePrefs.STARTCONNTYPE_BLUETOOTH:
 					class myReadyListener extends ReadyListener {
