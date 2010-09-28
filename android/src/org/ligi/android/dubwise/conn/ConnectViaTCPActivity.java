@@ -25,6 +25,7 @@ import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.tracedroid.logging.Log;
 
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
@@ -61,6 +62,7 @@ public class ConnectViaTCPActivity extends Activity implements OnClickListener, 
 
 		port_text=((EditText) findViewById(R.id.PortEditText));
 		port_text.setText(""+settings.getInt("tcp-port", 64400) );
+		port_text.setInputType(InputType.TYPE_CLASS_NUMBER); // must be a number
 		
 		user_text=((EditText) findViewById(R.id.UserNameEditText));
 		user_text.setText(settings.getString("qmk-user", "anonymous") );
