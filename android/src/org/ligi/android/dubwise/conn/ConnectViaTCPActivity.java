@@ -41,15 +41,12 @@ import android.content.SharedPreferences;
 
 public class ConnectViaTCPActivity extends Activity implements OnClickListener, OnCheckedChangeListener {
 
-	// public MapView map;
-	/** Called when the activity is first created. */
+    private EditText port_text;
+    private EditText host_text;
+    private EditText user_text;
+    private EditText pwd_text;
     
-    EditText port_text;
-    EditText host_text;
-    EditText user_text;
-    EditText pwd_text;
-    
-    CheckBox qmk_check;
+    private CheckBox qmk_check;
     
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
