@@ -72,6 +72,7 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 		ActivityCalls.beforeContent(this);
 		refresh_list();
 
+		// start the default connection
 		StartupConnectionService.start(this);
 		BlackBox.init();
 		Log.d("create");
