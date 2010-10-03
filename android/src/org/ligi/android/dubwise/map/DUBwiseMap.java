@@ -69,7 +69,10 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	private DUBwiseMapOverlay overlay;
 	
 	private Handler handler=new Handler();
-	
+
+	private ProgressBar upload_progress;
+	private AlertDialog upload_alert;
+
 	@Override 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -79,44 +82,42 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 		
 		ActivityCalls.beforeContent(this);
 		
-		 this.setContentView(R.layout.map);
-		
+		this.setContentView(R.layout.map);
 		 
-		 mapView=(MapView)findViewById(R.id.mapview);
+		mapView=(MapView)findViewById(R.id.mapview);
 
-		 mapView.setSatellite(true);
+		mapView.setSatellite(true);
 		 
-		 LinearLayout zoomView = (LinearLayout) mapView.getZoomControls();
+		LinearLayout zoomView = (LinearLayout) mapView.getZoomControls();
 
-		 zoomView.setLayoutParams(new ViewGroup.LayoutParams
+		zoomView.setLayoutParams(new ViewGroup.LayoutParams
 		   (ViewGroup.LayoutParams.WRAP_CONTENT,
 		    ViewGroup.LayoutParams.WRAP_CONTENT)); 
 
-		 zoomView.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
-		 mapView.addView(zoomView);
+		zoomView.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+		mapView.addView(zoomView);
 	
-		 mapView.getController().setZoom(19);
+		mapView.getController().setZoom(19);
 		 
-		 GeoPoint kopterPoint=new GeoPoint(MKProvider.getMK().gps_position.Latitude/10,MKProvider.getMK().gps_position.Longitude/10);
-		 mapView.getController().setCenter(kopterPoint);
+		GeoPoint kopterPoint=new GeoPoint(MKProvider.getMK().gps_position.Latitude/10,MKProvider.getMK().gps_position.Longitude/10);
+		mapView.getController().setCenter(kopterPoint);
 	    	
 		 
-		 //mapView.getZoomButtonsController().setVisible(true);
+		//mapView.getZoomButtonsController().setVisible(true);
 		 
-		 //LinearLayout lin=new LinearLayout(this);
-		 //lin.addView(mapView);
+		//LinearLayout lin=new LinearLayout(this);
+		//lin.addView(mapView);
 		
 		 
-		 //.setVisible(true);
-		 //lin.addView(mZoom);
+		//.setVisible(true);
+		//lin.addView(mZoom);
 		// this.setContentView(mapView);
-		 	
 		 
-		 overlay=new DUBwiseMapOverlay(this);
-		 mapView.getOverlays().add(overlay);
+		overlay=new DUBwiseMapOverlay(this);
+		mapView.getOverlays().add(overlay);
 		 
-		 LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-		 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 5.0f, this);
+		LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 5.0f, this);
 		 
 	}
 
@@ -137,24 +138,19 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 			double lat = location.getLatitude();
 			double lng = location.getLongitude();
 			GeoPoint p = new GeoPoint((int) (lat * 1000000), (int)( lng * 1000000));
-			
 			overlay.phonePoint=p;
-			
 			mapView.getController().animateTo(p);
 			}
 	}
 
 	@Override
-	public void onProviderDisabled(String provider) {
-	}
+	public void onProviderDisabled(String provider) {}
 
 	@Override
-	public void onProviderEnabled(String provider) {
-	}
+	public void onProviderEnabled(String provider) {}
 
 	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-	}
+	public void onStatusChanged(String provider, int status, Bundle extras) {}
 
 	/* Creates the menu items */
 	public boolean onPrepareOptionsMenu(Menu menu) {
@@ -163,8 +159,7 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	
 		menu.add(0,MENU_FLIGHTPLAN,0,"Draw Flight Plan" + (overlay.flightplan_mode?" off":" on")).setIcon(android.R.drawable.ic_menu_edit);
 		
-		if (overlay.flightplan_mode)
-		{
+		if (overlay.flightplan_mode) {
 			menu.add(0,MENU_FP_SHOW,0,"Show FlightPlan").setIcon(android.R.drawable.ic_menu_view);
 
 			menu.add(0,MENU_FP_ADD_WP,0,"Add WP").setIcon(android.R.drawable.ic_menu_add);
@@ -184,13 +179,10 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 		}
 		return true;
 	}
-	ProgressBar upload_progress;
-	AlertDialog upload_alert;
 	
 	/* Handles item selections */
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-		
 	    switch (item.getItemId()) {
 	    case MENU_START_FP:
 	    case MENU_STOP_FP:
@@ -212,7 +204,6 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	    case MENU_SETTINGS:
 	    	startActivity(new Intent(this, MapPrefsActivity.class));
 	        return true;
-	        
 
 	    case MENU_FP_SHOW:
 	    	startActivity(new Intent(this, ShowFlightPlanActivity.class));
@@ -231,13 +222,9 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	    	upload_progress.setMax(FlightPlanProvider.getWPList().size());
 	    	upload_alert=new AlertDialog.Builder(this).setTitle("Uploading").setMessage("Uploading Waypoints to UFO")
 	    	.setView(upload_progress).show();
-	    	
-
-	    	
 	    
 	    	class FPUploader implements Runnable {
 	    		class ProgressUpdater implements Runnable {
-
 	    			int progress=0;
 	    			public ProgressUpdater(int progress) {
 	    				this.progress=progress;
@@ -246,9 +233,7 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 					@Override
 					public void run() {
 						upload_progress.setProgress(progress);
-						
 					}
-	    			
 	    		}
 				@Override
 				public void run() {
@@ -257,51 +242,42 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 					
 					// clear the list
 					while(mk.gps_position.WayPointNumber!=0) {
-						MKProvider.getMK().add_gps_wp(MKGPSPosition.STATUS_INVALID, 0,0, 0, 0);
+						mk.add_gps_wp(MKGPSPosition.STATUS_INVALID, 0,0, 0, 0);
 						try {
 							Thread.sleep(100);
 						} catch (InterruptedException e) {	}
 					
 					}
 					
-					
+					// upload wp's
 					for (WayPoint wp:FlightPlanProvider.getWPList()) {
-						Log.i("!!!" + i);
+						Log.i("uploading WayPoint " + (i+1));
 						handler.post(new ProgressUpdater(i));
 						while(mk.gps_position.WayPointNumber!=(i+1)) {
-							MKProvider.getMK().add_gps_wp(MKGPSPosition.STATUS_NEWDATA, i+1,wp.getGeoPoint().getLongitudeE6(), wp.getGeoPoint().getLatitudeE6(), wp.getHoldTime());
+							mk.add_gps_wp(MKGPSPosition.STATUS_NEWDATA, i+1,wp.getGeoPoint().getLongitudeE6(), wp.getGeoPoint().getLatitudeE6(), wp.getHoldTime());
 							try {
 								Thread.sleep(300);
 							} catch (InterruptedException e) {	}
 						
 						}
-						
-					
 						i++;
-					}
+					} // for all WayPoints
+					
 					// when finished hide the progress dialog
 			    	handler.post(new Runnable() {
 						@Override
 						public void run() {
 							upload_alert.hide();
 						}
-			    		
 			    	});
-					
 				}
-				
-	    		
 	    	}
 	    	
 	    	new Thread(new FPUploader()).start();
-	    	
-	    	
-	    	
-	    	
+
 	    	return true;
 	
 	    }
-	    
 	    return false;
 	}
 
