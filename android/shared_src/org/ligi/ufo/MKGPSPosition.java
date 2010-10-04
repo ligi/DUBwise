@@ -81,7 +81,6 @@ public class MKGPSPosition
     public int NCFlags= -1;
     public int ErrorCode= 0;
 
-
     public int UsedCapacity =-1;
     public int Current =-1;
 
@@ -94,16 +93,12 @@ public class MKGPSPosition
     public int CompasHeading=-1;
 
     // Constructor
-    public MKGPSPosition() 
-	    {
+    public MKGPSPosition() {
 		LongWP=new int[MAX_WAYPOINTS];
 		LatWP=new int[MAX_WAYPOINTS];
 		NameWP=new String[MAX_WAYPOINTS];
 		last_wp=0;
 	    }
-
-
-
 
 //#if cldc11=="on"
     public static final double PI = Math.PI;
@@ -123,10 +118,7 @@ public class MKGPSPosition
     private static final double q1 = 0.207933497444540981287275926e4;
     private static final double q0 = 0.89678597403663861962481162e3;
 
-
-
-    private static double _ATAN(double X) 
-    {
+    private static double _ATAN(double X) {
 	if (X < 0.414213562373095048802)
 	    return _ATANX(X);
         else if (X > 2.414213562373095048802)
@@ -135,92 +127,75 @@ public class MKGPSPosition
 	    return PI_div4 + _ATANX((X - 1.0) / (X + 1.0));
     }
 
-
-    private static double _ATANX(double X) 
-    {
-	double XX = X * X;
-	return X * ((((p4 * XX + p3) * XX + p2) * XX + p1) * XX + p0)/ (((((XX + q4) * XX + q3) * XX + q2) * XX + q1) * XX + q0);
+    private static double _ATANX(double X){
+    	double XX = X * X;
+    	return X * ((((p4 * XX + p3) * XX + p2) * XX + p1) * XX + p0)/ (((((XX + q4) * XX + q3) * XX + q2) * XX + q1) * XX + q0);
     }
 
+    public double aTan2(double Y, double X) {
 
-
-    public double aTan2(double Y, double X) 
-    {
-
-	if (X == 0.0) {
-	    if (Y > 0.0) 
-		return PI_div2;
-      
-	    else if (Y < 0.0) 
-		return -PI_div2;
-	    else 
-		return 0.0;
-	}
-
-	// X<0
-	else if (X < 0.0) {
-	    if (Y >= 0.0) 
-		return (PI - _ATAN(Y / -X)); // Y>=0,X<0 |Y/X|
-	    else 
-		return -(PI - _ATAN(Y / X)); // Y<0,X<0 |Y/X|
+		if (X == 0.0) {
+		    if (Y > 0.0) 
+			return PI_div2;
+	      
+		    else if (Y < 0.0) 
+			return -PI_div2;
+		    else 
+			return 0.0;
+		}
 	
-	}
-
-	// X>0
-	else if (X > 0.0) 
-	    {
-	    if (Y > 0.0) 
-		return _ATAN(Y / X);
-	    else 
-		return -_ATAN(-Y / X);
-	    
-	    }
+		// X<0
+		else if (X < 0.0) {
+		    if (Y >= 0.0) 
+			return (PI - _ATAN(Y / -X)); // Y>=0,X<0 |Y/X|
+		    else 
+			return -(PI - _ATAN(Y / X)); // Y<0,X<0 |Y/X|
+		
+		}
+	
+		// X>0
+		else if (X > 0.0) {
+		    if (Y > 0.0) 
+			return _ATAN(Y / X);
+		    else 
+			return -_ATAN(-Y / X);
+		    }
 
     return 0.0;
-
   }
 
-    public int distance2wp(int id)
-    {
-	double lat1=(Latitude/10000000.0)*RADIANS;
-	double long1=(Longitude/10000000.0)*RADIANS;
-
-	double lat2=(LatWP[id]/10000000.0)*RADIANS;
-	double long2=(LongWP[id]/10000000.0)*RADIANS;
-
-
-	double dLat= (lat2-lat1);
-	double dLon= (long2-long1);
-
-	double a = Math.sin(dLat/2.0) * Math.sin(dLat/2.0) +
-        Math.cos(lat1) * Math.cos(lat2) * 
-        Math.sin(dLon/2.0) * Math.sin(dLon/2.0); 
-
-	return (int)(( 2.0 * aTan2(Math.sqrt(a), Math.sqrt(1.0-a)) )*6371008.8);
+    public int distance2wp(int id) {
+		double lat1=(Latitude/10000000.0)*RADIANS;
+		double long1=(Longitude/10000000.0)*RADIANS;
+	
+		double lat2=(LatWP[id]/10000000.0)*RADIANS;
+		double long2=(LongWP[id]/10000000.0)*RADIANS;
+	
+		double dLat= (lat2-lat1);
+		double dLon= (long2-long1);
+	
+		double a = Math.sin(dLat/2.0) * Math.sin(dLat/2.0) +
+	        Math.cos(lat1) * Math.cos(lat2) * 
+	        Math.sin(dLon/2.0) * Math.sin(dLon/2.0); 
+	
+		return (int)(( 2.0 * aTan2(Math.sqrt(a), Math.sqrt(1.0-a)) )*6371008.8);
     }
 
-
-
-
-    public int angle2wp(int id)
-    {
-	// TODO reuse from distance
-	double lat1=(Latitude/10000000.0)*RADIANS;
-	double long1=(Longitude/10000000.0)*RADIANS;
-
-	double lat2=(LatWP[id]/10000000.0)*RADIANS;
-	double long2=(LongWP[id]/10000000.0)*RADIANS;
-
-
-	double dLat= (lat2-lat1);
-	double dLon= (long2-long1);
-
+    public int angle2wp(int id) {
+    	
+		// TODO reuse from distance
+		double lat1=(Latitude/10000000.0)*RADIANS;
+		double long1=(Longitude/10000000.0)*RADIANS;
 	
-
-	double y = Math.sin(dLon) * Math.cos(lat2);
-	double x = Math.cos(lat1)*Math.sin(lat2) -   Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
-	return ((int)(aTan2(y, x)*DEGREES)+360)%360;
-
+		double lat2=(LatWP[id]/10000000.0)*RADIANS;
+		double long2=(LongWP[id]/10000000.0)*RADIANS;
+	
+		double dLat= (lat2-lat1);
+		double dLon= (long2-long1);
+	
+		double y = Math.sin(dLon) * Math.cos(lat2);
+		double x = Math.cos(lat1)*Math.sin(lat2) -   Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
+		return ((int)(aTan2(y, x)*DEGREES)+360)%360;
     }
 
 
@@ -238,12 +213,10 @@ public class MKGPSPosition
 //#    }
 //#endif
 
-    public void push_wp()
-    {
-	LongWP[last_wp]=Longitude;
-	LatWP[last_wp]=Latitude;
-
-	last_wp++;
+    public void push_wp() {
+		LongWP[last_wp]=Longitude;
+		LatWP[last_wp]=Latitude;
+		last_wp++;
     }
 
     /*    public void next_gps_format()
@@ -251,158 +224,133 @@ public class MKGPSPosition
 	act_gps_format=(byte)((act_gps_format+1)%GPS_FORMAT_COUNT);
 	}*/
 
-
-
-    public String gps_format_str(int val,int format)
-    {
-	switch(format)
-	    {
+    public String gps_format_str(int val,int format) {
+    	switch(format) {
 	    case GPS_FORMAT_DECIMAL:
-		return "" + val/10000000 + "." +val%10000000  ;
+	    	return "" + val/10000000 + "." +val%10000000  ;
+	    
 	    case GPS_FORMAT_MINSEC:
-		return "" +  val/10000000 + "^" +  ((val%10000000)*60)/10000000 + "'" + ((((val%10000000)*60)%10000000)*60)/10000000 +  "." + ((((val%10000000)*60)%10000000)*60)%10000000;
+	    	return "" +  val/10000000 + "^" +  ((val%10000000)*60)/10000000 + "'" + ((((val%10000000)*60)%10000000)*60)/10000000 +  "." + ((((val%10000000)*60)%10000000)*60)%10000000;
+	    
 	    default: 
-		return "invalid format" + act_gps_format;
-	    }
-    }
-    public String act_gps_format_str(int val)
-    {
-	return gps_format_str(val,act_gps_format);
-
-    }
-
-    
-
-    public String act_speed_format_str(int val)
-    {
-	switch(act_speed_format)
-	    {
-	    case SPEED_FORMAT_KMH:
-		return "" +  ((((val*60)/100)*60)/1000) + " km/h";
-
-	    case SPEED_FORMAT_MPH:
-		return "" +  (((((val*60)/100)*60)/1000)*10)/16 + " m/h";
-
-	    case SPEED_FORMAT_CMS:
-		return "" + val+ " cm/s";
-		
-	    default: 
-		return "invalid speed format";
+	    	return "invalid format" + act_gps_format;
 	    }
     }
 
-    public String GroundSpeed_str()
-    	{
+        
+    public String act_gps_format_str(int val) {
+    	return gps_format_str(val,act_gps_format);
+    }
+
+    public String act_speed_format_str(int val) {
+		switch(act_speed_format) {
+		    case SPEED_FORMAT_KMH:
+			return "" +  ((((val*60)/100)*60)/1000) + " km/h";
+	
+		    case SPEED_FORMAT_MPH:
+			return "" +  (((((val*60)/100)*60)/1000)*10)/16 + " m/h";
+	
+		    case SPEED_FORMAT_CMS:
+			return "" + val+ " cm/s";
+			
+		    default: 
+			return "invalid speed format";
+		    }
+    }
+
+    public String GroundSpeed_str() {
     	return act_speed_format_str(GroundSpeed);
-    	}
+    }
 
-    public String WP_Latitude_str(int id)
-    	{
+    public String WP_Latitude_str(int id) {
     	return act_gps_format_str(LatWP[id]); //+ "''N"  ;
-    	}
+    }
 
-    public String WP_Longitude_str(int id)
-	    {
+    public String WP_Longitude_str(int id) {
 		return act_gps_format_str(LongWP[id]); //+ "''E"  ;
-	    }
+	}
 
-    public String Latitude_str()
-	    {
+    public String Latitude_str() {
 		return act_gps_format_str(Latitude) ;
-	    }
+	}
 
-    public String Longitude_str()
-	    { return act_gps_format_str(Longitude);   }
+    public String Longitude_str() { 
+    	return act_gps_format_str(Longitude);   
+    }
+
+    public String TargetLatitude_str() { 
+    	return act_gps_format_str(TargetLatitude);   
+    }
+
+    public String TargetLongitude_str() {
+    	return act_gps_format_str(TargetLongitude);  
+    }
+
+    public String HomeLatitude_str() { 
+    	return act_gps_format_str(HomeLatitude);   
+    }
+
+    public String HomeLongitude_str() { 
+    	return act_gps_format_str(HomeLongitude);    
+    }
+
+    public boolean areEnginesOn() {
+    	return MKHelper.isBitSet(FCFlags, 0); 
+    }
+
+    public boolean isFlying() {
+    	return MKHelper.isBitSet(FCFlags, 1); 
+    }
+
+    public boolean isCalibrating() {
+    	return MKHelper.isBitSet(FCFlags, 2); 
+    }
 
 
-    public String TargetLatitude_str()
-	    { return act_gps_format_str(TargetLatitude);   }
-
-    public String TargetLongitude_str()
-    	{ return act_gps_format_str(TargetLongitude);  }
-
-    public String HomeLatitude_str()
-    	{ return act_gps_format_str(HomeLatitude);   }
-
-    public String HomeLongitude_str()
-    	{ return act_gps_format_str(HomeLongitude);    }
-
+    public boolean isStarting() {
+    	return MKHelper.isBitSet(FCFlags, 3); 
+    }
     
 
-    public boolean areEnginesOn() 
-    	{
-    		return MKHelper.isBitSet(FCFlags, 0); 
-    	}
-
-
-    public boolean isFlying() 
-    	{
-    		return MKHelper.isBitSet(FCFlags, 1); 
-    	}
-
-
-    public boolean isCalibrating() 
-    	{
-    		return MKHelper.isBitSet(FCFlags, 2); 
-    	}
-
-
-    public boolean isStarting() 
-    	{
-    		return MKHelper.isBitSet(FCFlags, 3); 
-    	}
+    public boolean isEmergencyLanding()	{
+   		return MKHelper.isBitSet(FCFlags, 4); 
+    }
     
-
-    public boolean isEmergencyLanding() 
-    	{
-    		return MKHelper.isBitSet(FCFlags, 4); 
-    	}
-    
-    public boolean isLowBat() 
-    	{
+    public boolean isLowBat() {
 		return MKHelper.isBitSet(FCFlags, 5); 
-    	}
+    }
 
 
-    public boolean isSPIRcErr() 
-    	{
+    public boolean isSPIRcErr()	{
 		return MKHelper.isBitSet(FCFlags, 6); 
-    	}
-    public boolean isFreeModeEnabled() 
-    	{
-    		return MKHelper.isBitSet(NCFlags, 0); 
-    	}
+    }	
+    
+    public boolean isFreeModeEnabled() {
+    	return MKHelper.isBitSet(NCFlags, 0); 
+    }
 
-    public boolean isPositionHoldEnabled() 
-    	{
-    		return MKHelper.isBitSet(NCFlags, 1); 
-    	}
+    public boolean isPositionHoldEnabled() {
+    	return MKHelper.isBitSet(NCFlags, 1); 
+    }
     
 
-    public boolean isComingHomeEnabled() 
-    	{
-    		return MKHelper.isBitSet(NCFlags, 2); 
-    	}
+    public boolean isComingHomeEnabled() {
+    	return MKHelper.isBitSet(NCFlags, 2); 
+    }
     
-    public boolean isRangeLimitReached() 
-    	{
-    		return MKHelper.isBitSet(NCFlags, 3); 
-    	}
+    public boolean isRangeLimitReached() {
+    	return MKHelper.isBitSet(NCFlags, 3); 
+    }
 
-    public boolean isTargetReached() 
-		{
+    public boolean isTargetReached(){
 		return MKHelper.isBitSet(NCFlags, 5); 
-		}
+	}
 
-    public boolean isManualControlEnabled() 
-		{
-    		return MKHelper.isBitSet(NCFlags, 6); 
-		}
+    public boolean isManualControlEnabled() {
+    	return MKHelper.isBitSet(NCFlags, 6); 
+	}
 
-    
-    
-    public void set_by_mk_data(int[] in_arr,MKVersion version)
-    	{
+    public void set_by_mk_data(int[] in_arr,MKVersion version){
     	int off=0;
     	if ((version.proto_major>10)||(version.proto_minor>0)) // TODO fixme
     		off++;
@@ -470,7 +418,4 @@ public class MKGPSPosition
 			
 			
     	} // end of set_by_mk_data
-
-
-
 }
