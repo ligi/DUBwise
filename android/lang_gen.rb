@@ -1,66 +1,86 @@
 #
 # Script to generate the String Stuff for Android
 #
+# (cc) 2009-2010 by Marcus -ligi- Bueschleb 
+#
+#
 
 require 'rubygems'
 require 'rio'
 require 'iconv'
+require 'fileutils'
 
 last_i=0
-#puts `rm -rfv langpacks`
-#puts `mkdir langpacks`
-#langpack=rio("langpacks/l")
 
-xml_en=rio("res/values-en/strings.xml")
-xml_de=rio("res/values-de/strings.xml")
-xml_fr=rio("res/values-fr/strings.xml")
+xmls={}
+langs=["en","de","fr"]
 
-xml_en < "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r<resources>"
-xml_de < "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r<resources>"
-xml_fr < "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r<resources>"
+langs.each { |l|
+
+  act_path="res/values-"+l
+  act_fname=act_path+"/strings.xml"
+
+  # create the path if not exist
+  FileUtils.mkdir(act_path) if !File.exist?(act_path)
+
+  # create the file if not existing
+  File.new(act_fname,File::CREAT) if !File.exist?(act_fname)  
+
+  # open rio handle
+  xmls[l]=rio(act_fname)
+
+  # initial content
+  xmls[l] <  "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r<resources>"
+}
 
 
 langdef=rio("shared_src/org/ligi/ufo/DUBwiseLangDefs.java")
-
 langdef < "package org.ligi.ufo;\npublic interface DUBwiseLangDefs \n { \n"
 
 
+def escape(str2)
+str=str2
+  str.gsub!(">","&gt;")
+  str.gsub!("<","&lt;")
+  str.gsub!("'","`")  # TODO FIXME - Dirty Hack - android R could not be build with a ' inside a str - broke fr lang ..
+  return str
+end
+
 to_rs=[]
 
-
  Iconv.iconv( "UTF-8","ISO8859-1", rio("../j2me/res/lang_base").read).join.split("\n").each_with_index { |l,i|
-splitted=l.split(";")
+  splitted=l.split(";")
   langdef <<  " public final static int STRINGID_" + splitted.first+"="+i.to_s+";\n"
 
   # "case " + i.to_s + ": return R.string." + splitted.first                                                                                                                                                               
-  
-  
   to_rs<<"R.string."+splitted.first
   
-  xml_en << "\t<string name=\"" + splitted.first +  "\">"+splitted[1]+"</string>\r"
+  xmls["en"] << "\t<string name=\"" + splitted.first +  "\">"+escape(splitted[1])+"</string>\r"
 
-  if splitted.length>2
-    xml_de << "\t<string name=\"" + splitted.first +  "\">"+splitted[1]+"</string>\r"
+  if splitted.length>2 && splitted[2]!=""
+    xmls["de"] << "\t<string name=\"" + splitted.first +  "\">"+escape(splitted[2])+"</string>\r"
   else
-    xml_de << "\t<string name=\"" + splitted.first +  "\">"+splitted[1]+"</string>\r"
+    xmls["de"] << "\t<string name=\"" + splitted.first +  "\">"+escape(splitted[1])+"</string>\r"
   end
   
-  if splitted.length>3
-    xml_fr << "\t<string name=\"" + splitted.first +  "\">"+splitted[1]+"</string>\r"
+  if splitted.length>3 && splitted[3]!=""
+    xmls["fr"] << "\t<string name=\"" + splitted.first +  "\">"+escape(splitted[3])+"</string>\r"
   else
-    xml_fr << "\t<string name=\"" + splitted.first +  "\">"+splitted[1]+"</string>\r"
+    xmls["fr"] << "\t<string name=\"" + splitted.first +  "\">"+escape(splitted[1])+"</string>\r"
   end
-  
-  #langpack<<l
   
   last_i=i                                                                                                                                                   
 }                                                                                                                                                            
 
-p to_rs.join(",")
-xml_en << "</resources>"
-xml_de << "</resources>"
-xml_fr << "</resources>"
-                                                                                                                                                             
+stringhelper=rio("src/org/ligi/android/dubwise/helper/DUBwiseStringHelper.java")
+stringhelper < ("package org.ligi.android.dubwise.helper;\n import org.ligi.android.dubwise.R;\npublic class DUBwiseStringHelper {\n  public final static int[] table= {" + to_rs.join(",") + "};}" )
+
+
+langs.each { |l|
+  xmls[l] << "</resources>"
+  xmls[l].close 
+}
+  
 
 langdef <<  " public final static int STRING_COUNT=" + (last_i+1).to_s+";"
 langdef << "\n}\n"
