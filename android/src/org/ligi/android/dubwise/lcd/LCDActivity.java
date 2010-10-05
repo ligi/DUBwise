@@ -122,7 +122,7 @@ public class LCDActivity extends Activity implements OnTouchListener {
 	    	
 	    	final SeekBar page_seeker=new SeekBar(this);
 	    	page_seeker.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-	    	page_seeker.setMax(MKProvider.getMK().LCD.pages);
+	    	page_seeker.setMax(MKProvider.getMK().LCD.getPageCount());
 	    	final TextView page_txt=new TextView(this);
 	    	page_txt.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20.0f);
 	    	page_txt.setPadding(5, 0, 5, 0);
