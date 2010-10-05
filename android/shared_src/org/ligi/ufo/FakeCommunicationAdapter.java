@@ -55,5 +55,4 @@ public class FakeCommunicationAdapter implements
 	public int read() {
 		return 0;
 	}
-
 }

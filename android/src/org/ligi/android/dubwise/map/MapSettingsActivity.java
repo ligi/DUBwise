@@ -40,38 +40,10 @@ public class MapSettingsActivity extends Activity implements OnCheckedChangeList
 		super.onCreate(savedInstanceState);
 		ActivityCalls.beforeContent(this);		
 		setContentView(R.layout.map_settings);
-		
-		/*
-		((CheckBox) findViewById(R.id.FullScreenCheckBox)).setChecked(ActivityCalls.getSharedPreferences(this).getBoolean("do_fullscreen",true));
-		((CheckBox) findViewById(R.id.TitleBarCheckBox)).setChecked(ActivityCalls.getSharedPreferences(this).getBoolean("do_title",true));
-		((CheckBox) findViewById(R.id.ExpertMode)).setChecked(ActivityCalls.getSharedPreferences(this).getBoolean("expert",false));
-		((CheckBox) findViewById(R.id.Logging)).setChecked(ActivityCalls.getSharedPreferences(this).getBoolean("do_log",false));
-		
-		((CheckBox) findViewById(R.id.FullScreenCheckBox)).setOnCheckedChangeListener(this);
-		((CheckBox) findViewById(R.id.TitleBarCheckBox)).setOnCheckedChangeListener(this);
-		((CheckBox) findViewById(R.id.ExpertMode)).setOnCheckedChangeListener(this);
-		((CheckBox) findViewById(R.id.Logging)).setOnCheckedChangeListener(this);
-
-		
-		Spinner awake_spinner=((Spinner) findViewById(R.id.AwakeSpinner));
-		awake_spinner.setOnItemSelectedListener(this);
-
-		
-		ArrayAdapter<String> spinner_adapter = new ArrayAdapter<String>(this,
-	            android.R.layout.simple_spinner_item , awake_strings);
-
- 		spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
- 		awake_spinner.setAdapter(spinner_adapter);
-	
- 		awake_spinner.setSelection(ActivityCalls.getSharedPreferences(this).getInt("awake", 0));
- 		
- 		*/
- 		ActivityCalls.afterContent(this);		
+		ActivityCalls.afterContent(this);		
 	}
 	
 /*
-
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
@@ -81,31 +53,11 @@ public class MapSettingsActivity extends Activity implements OnCheckedChangeList
 
 	public void update() {
 		SharedPreferences.Editor editor = ActivityCalls.getSharedPreferences(this).edit();
-
-	/*	editor.putBoolean("do_fullscreen",
-				(((CheckBox) findViewById(R.id.FullScreenCheckBox)).isChecked()));
-	
-		editor.putBoolean("do_title",
-				(((CheckBox) findViewById(R.id.TitleBarCheckBox)).isChecked()));
-	
-		editor.putBoolean("expert",
-				(((CheckBox) findViewById(R.id.ExpertMode)).isChecked()));
-		
-		editor.putBoolean("do_log",
-				((CheckBox) findViewById(R.id.Logging)).isChecked());
-		
-		editor.putInt("awake", ((Spinner) findViewById(R.id.AwakeSpinner)).getSelectedItemPosition() );
-
-		MKProvider.getMK().do_log=((CheckBox) findViewById(R.id.Logging)).isChecked();
-		*/
 		editor.commit();
-
 	}
 
 	public void onCheckedChanged(CompoundButton btn, boolean arg1) {
 		update();
-		//update_ui_preferences();
-		//update();
 		ActivityCalls.afterContent(this);
 	}
 
@@ -119,6 +71,4 @@ public class MapSettingsActivity extends Activity implements OnCheckedChangeList
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
 	}
-
-
 }
