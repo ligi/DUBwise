@@ -27,11 +27,9 @@ public final class MKHelper
 
     }
 
-
    public final static int parse_unsigned_int_2(int i1,int i2) {
 	return (int)((i2<<8)|i1);
     }
-
    
    public final static int parse_arr_4(int offset,int[] in_arr) {
 	return ((in_arr[offset+3]<<24) |
@@ -86,6 +84,13 @@ public final class MKHelper
 		res[res.length-2]=(byte)((char)(tmp_crc%64+'='));
 		res[res.length-1]=(byte)('\r');
 		return res;
+   }
+
+   /**
+    * @return the magic sequence which swithes the MK to navi mode
+    */
+   public final static byte[] getNaviSwitchMagicSequence() {
+	   return new byte[] {27,27,0x55,(byte)0xAA,0,(byte)'\r'};
    }
 
 }
