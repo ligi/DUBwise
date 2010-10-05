@@ -1,4 +1,4 @@
-/****************************************************
+/***	*************************************************
  *                                            
  * class representing the MK Navi OSD Data Structure 
  *                                            
@@ -47,7 +47,7 @@ public class MKGPSPosition
     public int[] LatWP;
     public String[] NameWP;
 
-    int UBatt;
+    public int UBatt;
 
     public int last_wp=0;
 
