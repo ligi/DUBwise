@@ -234,12 +234,8 @@ public class MKCommunicator
     public MKStatistics stats ;
     //    public DUBwiseDebug debug;
 
-    //    public UFOProber	ufo_prober;
     public long connection_start_time=-1;
-
-
     public String error_str = null;
-    
 
     public final static byte FC_SLAVE_ADDR              = 1;
     public final static byte NAVI_SLAVE_ADDR            = 2;
@@ -251,20 +247,13 @@ public class MKCommunicator
 
     public final static byte FAKE_SLAVE_ADDR              = 42;
 
-
-
-
-
-    public boolean is_navi()
-    {
-	return (slave_addr==NAVI_SLAVE_ADDR);
+    public boolean is_navi() {
+    	return (slave_addr==NAVI_SLAVE_ADDR);
     }
 
-    public boolean is_fake()
-    {
-	return (slave_addr==FAKE_SLAVE_ADDR);
+    public boolean is_fake()  {
+    	return (slave_addr==FAKE_SLAVE_ADDR);
     }
-
 
     public boolean is_mk() {
     	return (slave_addr==FC_SLAVE_ADDR);
@@ -370,7 +359,6 @@ public class MKCommunicator
 		gps_position=new MKGPSPosition();
 		stats = new MKStatistics();
 		proxy =new MKProxy(this);
-		//	ufo_prober=new UFOProber();
 		new Thread( this ).start(); // fire up main Thread 
     }
 
@@ -393,6 +381,7 @@ public class MKCommunicator
     
     //    int port;
 
+    
     //  URL string: "btspp://XXXXXXXXXXXX:1" - the X-Part is the MAC-Adress of the Bluetooth-Device connected to the Fligth-Control
     public void connect_to(String _url,String _name) {
     
@@ -401,7 +390,7 @@ public class MKCommunicator
 		force_disconnect=false;
 		connected=false;
 	
-		if ( _url=="fake" )	    {
+		if ( _url=="fake" ) {
 			connection_start_time=System.currentTimeMillis();
 			gps_position.ErrorCode=1; // its an error that its a fake - just intent to show the symbol ;-)
 			slave_addr=FAKE_SLAVE_ADDR;
@@ -409,28 +398,22 @@ public class MKCommunicator
 			connected=true;
 		    }
     }
-
     
     /**
      * returns if connected and got a version from the Device
      * @return
      */
-    public boolean ready()
-    {
+    public boolean ready() {
     	return (connected&&(version.major!=-1));
     }
 
-
-    public String get_buff(int age)
-    {
-
-	age%=DATA_BUFF_LEN;
-	
- 	if (age<=data_buff_pos)
-	    return ""+data_buff[data_buff_pos-age];
-	else
-	    return ""+data_buff[DATA_BUFF_LEN+data_buff_pos-age];
-	
+    public String get_buff(int age) {
+		age%=DATA_BUFF_LEN;
+		
+	 	if (age<=data_buff_pos)
+		    return ""+data_buff[data_buff_pos-age];
+		else
+		    return ""+data_buff[DATA_BUFF_LEN+data_buff_pos-age];
 
     }
 
@@ -438,8 +421,7 @@ public class MKCommunicator
     /******************  Section: private Methods ************************************************/
     private void connect()
     {
-    	if(comm_adapter==null) 
-    		{
+    	if(comm_adapter==null)  {
     		log("trying to connect without communication adapter");
     		return; // makes no sense without a communication adapter
     		}
@@ -456,8 +438,7 @@ public class MKCommunicator
     	   stats.reset();
     	   log("connecting OK");
     	}
-    	catch (Exception ex) 
-    	{
+    	catch (Exception ex) {
     	   // TODO difference fatal errors from those which will lead to reconnection
     	   log("Problem connecting" + "\n" + ex);
     	}	
@@ -499,19 +480,14 @@ public class MKCommunicator
 
     }
 
-
-
-    public void wait4send()
-    {
-	while(sending) //||recieving)
-	    sleep(51);
+    public void wait4send() {
+		while(sending) //||recieving)
+		    sleep(51);
     }
 
-
-    public void sleep(int time)
-    {
-	try { Thread.sleep(time); }
-	catch (Exception e)  {   }
+    public void sleep(int time) {
+    	try { Thread.sleep(time); }
+    	catch (Exception e)  {   }
     }
 
     // FC - Function Mappers
@@ -987,32 +963,7 @@ public class MKCommunicator
 	    		//change_notify=true;
 	    		notifyAll(DUBwiseNotificationListenerInterface.NOTIFY_CONNECTION_CHANGED);
 		    }
-
-		/*
-		switch(slave_addr)
-		    {
-		    case FC_SLAVE_ADDR:
-			ufo_prober.set_to_mk();
-			break;
-
-		    case NAVI_SLAVE_ADDR:
-			ufo_prober.set_to_navi();
-			break;
-
-		    case MK3MAG_SLAVE_ADDR:
-			ufo_prober.set_to_mk3mag();
-			break;
-
-		    case RE_SLAVE_ADDR:
-			ufo_prober.set_to_rangeextender();
-			break;
-		    default:
-			ufo_prober.set_to_incompatible();
-			break;
-		    }
-		*/
-
-		
+	
 		break;
 
 	    case 'w':
@@ -1084,7 +1035,6 @@ public class MKCommunicator
     		comm_adapter.disconnect();
 	
     	slave_addr=-1;
-    	//	ufo_prober.set_to_none();
     	stats.reset(); 
     	connected=false;
     	version.reset();
@@ -1129,113 +1079,68 @@ public class MKCommunicator
 		else
 				try{
 				
-				/*		
-					while(sending)
-					{try { Thread.sleep(50); }
-					catch (Exception e)  {   }
-					}
-				*/
-				recieving=true;
-				int read_count ;
-	
-				if (comm_adapter.available()<DATA_IN_BUFF_SIZE)
-				    read_count     =comm_adapter.read(data_in_buff,0,comm_adapter.available());
-				else
-				    read_count     =comm_adapter.read(data_in_buff,0,DATA_IN_BUFF_SIZE);
-	
-				//			log("Connected - reading data " + read_count);		
-				//	pos=0;
-				input=0;
-				//data_buff[data_buff_pos]="";
-				// recieve data-set
-	
-				//			int read_count =reader.read(data_in_buff,0,reader.available());
-				stats.bytes_in+=read_count;
-				if (read_count>0)
-				    {
-					log("read" + read_count + " ds_pos" + data_set_pos);		
-				
-					for ( pos=0;pos<read_count;pos++)
+					recieving=true;
+					int read_count ;
+		
+					if (comm_adapter.available()<DATA_IN_BUFF_SIZE)
+					    read_count     =comm_adapter.read(data_in_buff,0,comm_adapter.available());
+					else
+					    read_count     =comm_adapter.read(data_in_buff,0,DATA_IN_BUFF_SIZE);
+		
+					//			log("Connected - reading data " + read_count);		
+					//	pos=0;
+					input=0;
+					//data_buff[data_buff_pos]="";
+					// recieve data-set
+		
+					//			int read_count =reader.read(data_in_buff,0,reader.available());
+					stats.bytes_in+=read_count;
+					if (read_count>0)
 					    {
-					    //data_in_buff[pos]+=127;
-					    log("" +data_in_buff[pos] + "->" + (char)data_in_buff[pos]);
-						if ((data_in_buff[pos]==13)||(data_in_buff[pos]==10))
+						log("read" + read_count + " ds_pos" + data_set_pos);		
+					
+						for ( pos=0;pos<read_count;pos++)
 						    {
-							data_buff[data_buff_pos]=new String(data_set, 0, data_set_pos);
-							data_buff_pos++;
-							data_buff_pos%=DATA_BUFF_LEN;
-	
-	
-							
-							try{
+						    //data_in_buff[pos]+=127;
+						    log("" +data_in_buff[pos] + "->" + (char)data_in_buff[pos]);
+							if ((data_in_buff[pos]==13)||(data_in_buff[pos]==10))
+							    {
+								data_buff[data_buff_pos]=new String(data_set, 0, data_set_pos);
+								data_buff_pos++;
+								data_buff_pos%=DATA_BUFF_LEN;
+		
+		
 								
-								if (data_set_pos>3) process_data(data_set,data_set_pos); 
-								
-							
-							}
-							catch (Exception e) 
-							    { 			
-								log(".. problem processing"); 
-								log(e.toString()); 
+								try{
+									if (data_set_pos>3) 
+										process_data(data_set,data_set_pos); 
 								}
+								catch (Exception e)    { 			
+									log(".. problem processing"); 
+									log(e.toString()); 
+									}
 	
-	
-	
-	
-							proxy.write(data_set,0,data_set_pos);
-							//							proxy.writer.write('\r');
-							//proxy.writer.write('\n');
-							//proxy.writer.flush();
-							/*
-							if (proxy!=null)
-							    {
-								
-	
-	
+								proxy.write(data_set,0,data_set_pos);
+								data_set_pos=0;
+		
 							    }
-							*/
-							data_set_pos=0;
-	
+							else
+								data_set[data_set_pos++]=data_in_buff[pos];
 						    }
-						else
-						    // {
-							data_set[data_set_pos++]=data_in_buff[pos];
-							
-							/*
-	
-							if ( (data_set_pos>4) && (data_set[data_set_pos-4]==(byte)'M') && (data_set[data_set_pos-3]==(byte)'K')  && (data_set[data_set_pos-2]==(byte)'B') && (data_set[data_set_pos-1]==(byte)'L'))
-	
-							    {
-	
-								bootloader_stage= BOOTLOADER_STAGE_GOT_MKBL;
-								return;
-							    }
-							
-							    }*/
-	
 					    }
-						
-				
-				    }
-				else  {
-					recieving=false;
-					sleep(21); 
-				    }
+					else  {
+							recieving=false;
+							sleep(21); 
+					 }
 			    }
-			    catch (Exception ex) 
-				{
+			    catch (Exception ex) {
 				    log("Problem reading from MK -> closing conn");
 				    log(ex.toString());
 				    // close the connection 
 				    close_connections(false);
 				}	
 			
-			// sleep a bit to  get someting more done
-			//		sleep(5); //50
-			
 		    } // while
-		//	log("Leaving Communicator thread");
-
     } // run()
 
     public int getPotiValue(int poti_id) {
@@ -1275,8 +1180,7 @@ public class MKCommunicator
     	return ((comm_adapter!=null)&&connected);
     }
 
-    public void log(String str)
-    {
+    public void log(String str) {
 //#ifdef android
     	//if (do_log)	Log.d("MK-Comm",str);
 //#endif
