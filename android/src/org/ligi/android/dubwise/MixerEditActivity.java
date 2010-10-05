@@ -143,7 +143,7 @@ public class MixerEditActivity extends Activity implements OnItemSelectedListene
 		
 			for (int type=0;type<4;type++) {
 				edit_texts[edit_id][type]=new EditText(this);
-				edit_texts[edit_id][type].setInputType(InputType.TYPE_CLASS_NUMBER);
+				edit_texts[edit_id][type].setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
 				
 				new_row.addView(edit_texts[edit_id][type]);
 			}
