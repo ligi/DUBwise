@@ -90,8 +90,8 @@ REMOTECAMSTICK;Remote Cam Stick;Kammera Stick;Deplac. Manche APN;Camera stick
 ALWAYSRELOADPARAMS;100% Param Reload;Param. immer laden;Remise Param. 100%;Param. altijd herladen
 EXPERTMODE;Expert-Mode;Expertenmodus;Mode expert;Expert mode
 MINACCELERATE;Min. Accelerate;Minimale Beschleunigung;Acceleration mini;Minimale versnelling
-BAROD;Barometric D;Barometrisches D;D barometrique.Barometrische druk
-SETPOINT;Setpoint;Setpoint;Point rglage.Regelpunt
+BAROD;Barometric D;Barometrisches D;D barometrique;Barometrische druk
+SETPOINT;Setpoint;Setpoint;Point rglage;Regelpunt
 ALTITUDEP;Altitude P;Höhe P;Altitude;Hoogte
 GAIN;Gain;Verstrkung;Gain;Versterking
 ZACC;Z-Acc
@@ -119,7 +119,7 @@ POTI6;Poti6;Potentiometer 6;Potentiometre 6;Potmeter 6
 POTI7;Poti7;Potentiometer 7;Potentiometre 7;Potmeter 7
 POTI8;Poti8;Potentiometer 8;Potentiometre 8;Potmeter 8
 ALTITUDECONTROL;Altitude Control;Höhen Kontrolle;Controle altitude;Hoogteregeling
-SWITCHFORSETPOINT;Switch for Setpoint;Höhenschalter;Interr. SetpointSchakelen nr instellingspunt
+SWITCHFORSETPOINT;Switch for Setpoint;Höhenschalter;Interr. Setpoint;Schakelen nr instellingspunt
 HEADINGHOLD;Heading Hold;Heading Hold;Tenue de cap;Richting houden
 COMPASACTIVE;Compas Active;Kompass aktiv;Boussole Active;Compas actief
 COMPASFIX;Compas Fix;Compas Fix;Fix Boussole;Compas vast
