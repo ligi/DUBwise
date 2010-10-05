@@ -20,11 +20,9 @@ package org.ligi.ufo;
 
 import java.util.Vector;
 
-//import org.ligi.tracedroid.logging.Log;
-
 /**
  *                                          
- * Main Class to Communicate with the UFO
+ * Main Class to Communicate with MikroKopter Hardware
  *       
  * @author ligi
  *
@@ -65,6 +63,15 @@ public class MKCommunicator
 
     public boolean force_disconnect=true;
 
+    public    int[][] debug_buff=null;
+    public    int     debug_buff_off=0;
+    public    int     debug_buff_len=0;
+    public    int    debug_buff_interval=0;
+    public    int    debug_buff_lastset=0;
+    public    int    debug_buff_max=1;
+
+    public    int[] debug_buff_targets=null;
+
     
     public void addNotificationListener(DUBwiseNotificationListenerInterface i) {
     	notify_listeners.addElement(i);
@@ -78,8 +85,7 @@ public class MKCommunicator
     		catch(Exception e){}
     }
     
-    public final static String lib_version_str()
-    {
+    public final static String lib_version_str() {
     	return "V"+lib_version_major+"."+lib_version_minor;
     }
     
@@ -112,16 +118,13 @@ public class MKCommunicator
 		default:
 			return -1;
 		}
-
 	}
     
 	
 	/**
-	 * 
 	 * @return -1 if value is not available otherwise the altitude in dm
 	 */
-    public int getAlt() // in dm
-    	{
+    public int getAlt()   {
     	// 	calculation background thanks to gregor: http://forum.mikrokopter.de/topic-post112323.html#post112323
     	int alt=0;
     	if (is_mk()||is_riddim()||is_fake())
@@ -141,9 +144,7 @@ public class MKCommunicator
     }
     
     /**
-     * 
      * @return -1 if the value is not avialable otherwise the charge in mAh
-     * 
      */
     public int getUsedCapacity() {
     	
@@ -161,7 +162,6 @@ public class MKCommunicator
     	if (is_navi())
     		return gps_position.UsedCapacity;
     	
-
     	if (is_fake())
     		return 42;
     	
@@ -169,9 +169,7 @@ public class MKCommunicator
     }
 
     /**
-     * 
      * @return -1 if the value is not avialable otherwise the current in 0.1A
-     * 
      */
     public int getCurrent() {
     	
@@ -195,12 +193,10 @@ public class MKCommunicator
     }
 
     
-    public String Alt_formated()
-    	{
+    public String Alt_formated() 	{
     	return "" + getAlt()/10 + "m";
-    	}
+    }
     
-
     /***************** Section: public Attributes **********************************************/
     public boolean connected=false; // flag for the connection state
 
@@ -213,14 +209,12 @@ public class MKCommunicator
     //    boolean do_log=false;
     public boolean do_log=true;
 
-    int data_buff_pos=0;
+    private int data_buff_pos=0;
 
     //    public final static int DATA_IN_BUFF_SIZE=512;
     public final static int DATA_IN_BUFF_SIZE=2048;
     //    public final static int DATA_IN_BUFF_SIZE=4096;
-
     public byte user_intent=0;
-
     
     //    byte bootloader_stage= BOOTLOADER_STAGE_NONE;
 
@@ -272,79 +266,71 @@ public class MKCommunicator
     }
 
 
-    public boolean is_mk()
-    {
-	return (slave_addr==FC_SLAVE_ADDR);
+    public boolean is_mk() {
+    	return (slave_addr==FC_SLAVE_ADDR);
     }
 
-    public boolean is_mk3mag()
-    {
-	return (slave_addr==MK3MAG_SLAVE_ADDR);
+    public boolean is_mk3mag() {
+    	return (slave_addr==MK3MAG_SLAVE_ADDR);
     }
 
-    public boolean is_rangeextender()
-    {
-	return (slave_addr==RE_SLAVE_ADDR);
+    public boolean is_rangeextender() {
+    	return (slave_addr==RE_SLAVE_ADDR);
     }
 
-    public boolean is_followme()
-    {
-	return (slave_addr==FOLLOWME_SLAVE_ADDR);
+    public boolean is_followme() {
+    	return (slave_addr==FOLLOWME_SLAVE_ADDR);
     }
 
-    public boolean is_riddim()
-    {
-	return (slave_addr==RIDDIM_SLAVE_ADDR);
+    public boolean is_riddim() {
+    	return (slave_addr==RIDDIM_SLAVE_ADDR);
     }
 
-    public boolean is_incompatible()
-    {
-	switch (slave_addr)
-	    {
-	    case FC_SLAVE_ADDR:
-	    case NAVI_SLAVE_ADDR:
-	    case MK3MAG_SLAVE_ADDR:
-	    case FOLLOWME_SLAVE_ADDR:
-	    case RE_SLAVE_ADDR:
-	    case RIDDIM_SLAVE_ADDR:
-	    case FAKE_SLAVE_ADDR:
-		return false;
-	    default:
-		return true;
+    public boolean is_incompatible() {
+    	switch (slave_addr){
+    		case FC_SLAVE_ADDR:
+		    case NAVI_SLAVE_ADDR:
+		    case MK3MAG_SLAVE_ADDR:
+		    case FOLLOWME_SLAVE_ADDR:
+		    case RE_SLAVE_ADDR:
+		    case RIDDIM_SLAVE_ADDR:
+		    case FAKE_SLAVE_ADDR:
+		    		return false;
+		    default:
+		    		return true;
 	    }
     }
 
-    public String getExtendedConnectionName()
-    {
-	switch (slave_addr)
-	    {
-	    case -1:
-		return "No Device";
-
-	    case FC_SLAVE_ADDR:
-		return "MK-Connection";
-
-	    case NAVI_SLAVE_ADDR:
-		return "Navi-Connection";
-
-	    case MK3MAG_SLAVE_ADDR:
-		return "MK3MAG-Connection";
-
-	    case FOLLOWME_SLAVE_ADDR:
-		return "FollowMe Connection";
-
-	    case RE_SLAVE_ADDR:
-		return "RangeExtender Connection";
-
-	    case RIDDIM_SLAVE_ADDR:
-		return "Riddim Connection";
-
-	    case FAKE_SLAVE_ADDR:
-		return "Fake Connection";
-
-	    default:
-		return "Incompatible Device";
-	    }
+    public String getExtendedConnectionName() {
+		switch (slave_addr)
+		    {
+		    case -1:
+			return "No Device";
+	
+		    case FC_SLAVE_ADDR:
+			return "MK-Connection";
+	
+		    case NAVI_SLAVE_ADDR:
+			return "Navi-Connection";
+	
+		    case MK3MAG_SLAVE_ADDR:
+			return "MK3MAG-Connection";
+	
+		    case FOLLOWME_SLAVE_ADDR:
+			return "FollowMe Connection";
+	
+		    case RE_SLAVE_ADDR:
+			return "RangeExtender Connection";
+	
+		    case RIDDIM_SLAVE_ADDR:
+			return "Riddim Connection";
+	
+		    case FAKE_SLAVE_ADDR:
+			return "Fake Connection";
+	
+		    default:
+			return "Incompatible Device";
+		    }
     }
 
     /****************** Section: private Attributes **********************************************/
@@ -356,82 +342,72 @@ public class MKCommunicator
     //private java.io.InputStream	reader;    
     //private java.io.OutputStream writer;    
 
-
     public String name;
-    //    DUBwise root;
-
 
     private boolean sending=false;
     private boolean recieving=false;
 
-
     /******************  Section: public Methods ************************************************/
-    public MKCommunicator()   
-    {
-
-	data_buff=new String[DATA_BUFF_LEN];
-	for (int i=0;i<DATA_BUFF_LEN;i++)
-	    data_buff[i]="";
-	//	debug=debug_;
-	//	root=root_;
-	version=new MKVersion();
-	debug_data=new MKDebugData();
-	stick_data=new MKStickData();
-	mixer_manager=new MixerManager();
+    public MKCommunicator() {
 	
-	params=new MKParamsParser();
-	extern_control=new int[EXTERN_CONTROL_LENGTH];
-	extern_control[EXTERN_CONTROL_CONFIG]=1;
-	extern_control[EXTERN_CONTROL_FRAME]=1;
-	
-	LCD= new MKLCD(this);
-	watchdog=new MKWatchDog(this);
-	gps_position=new MKGPSPosition();
-	stats = new MKStatistics();
-	proxy =new MKProxy(this);
-	//	ufo_prober=new UFOProber();
-	new Thread( this ).start(); // fire up main Thread 
+		data_buff=new String[DATA_BUFF_LEN];
+		for (int i=0;i<DATA_BUFF_LEN;i++)
+		    data_buff[i]="";
+		//	debug=debug_;
+		//	root=root_;
+		version=new MKVersion();
+		debug_data=new MKDebugData();
+		stick_data=new MKStickData();
+		mixer_manager=new MixerManager();
+		
+		params=new MKParamsParser();
+		extern_control=new int[EXTERN_CONTROL_LENGTH];
+		extern_control[EXTERN_CONTROL_CONFIG]=1;
+		extern_control[EXTERN_CONTROL_FRAME]=1;
+		
+		LCD= new MKLCD(this);
+		watchdog=new MKWatchDog(this);
+		gps_position=new MKGPSPosition();
+		stats = new MKStatistics();
+		proxy =new MKProxy(this);
+		//	ufo_prober=new UFOProber();
+		new Thread( this ).start(); // fire up main Thread 
     }
 
-
-
-    public void write_raw(byte[] _data)
-    {
-	wait4send();
-	sending=true;
-	try {
-		comm_adapter.write(_data,0,_data.length);
-		comm_adapter.flush(); 
-
-	stats.bytes_out+=_data.length;
-	}
-	catch ( Exception e){}
-	sending=false;
+    public void write_raw(byte[] _data) {
+		wait4send();
+		sending=true;
+		try {
+			comm_adapter.write(_data,0,_data.length);
+			comm_adapter.flush(); 
+	
+		stats.bytes_out+=_data.length;
+		}
+		catch ( Exception e){}
+		sending=false;
     }
 
-    public void do_proxy(String proxy_url)
-    {
-	proxy.connect(proxy_url);
+    public void do_proxy(String proxy_url) {
+    	proxy.connect(proxy_url);
     }
     
     //    int port;
 
     //  URL string: "btspp://XXXXXXXXXXXX:1" - the X-Part is the MAC-Adress of the Bluetooth-Device connected to the Fligth-Control
-    public void connect_to(String _url,String _name)
-    {
-	name=_name;
-	mk_url=_url; // remember URL for connecting / reconnecting later
-	force_disconnect=false;
-	connected=false;
-
-	if ( _url=="fake" )
-	    {
-		connection_start_time=System.currentTimeMillis();
-		gps_position.ErrorCode=1; // its an error that its a fake - just intent to show the symbol ;-)
-		slave_addr=FAKE_SLAVE_ADDR;
-		version.set_fake_data();
-		connected=true;
-	    }
+    public void connect_to(String _url,String _name) {
+    
+    	name=_name;
+		mk_url=_url; // remember URL for connecting / reconnecting later
+		force_disconnect=false;
+		connected=false;
+	
+		if ( _url=="fake" )	    {
+			connection_start_time=System.currentTimeMillis();
+			gps_position.ErrorCode=1; // its an error that its a fake - just intent to show the symbol ;-)
+			slave_addr=FAKE_SLAVE_ADDR;
+			version.set_fake_data();
+			connected=true;
+		    }
     }
 
     
@@ -548,78 +524,76 @@ public class MKCommunicator
     }
 
     // TODO FIxme
-    public void set_gps_target(int longitude,int latitude)
-    {
-	int[] target=new int[8];
-	target[0]= (0xFF)&(longitude<<24);
-	target[1]= (0xFF)&(longitude<<16);
-	target[2]= (0xFF)&(longitude<<8);
-	target[3]= (0xFF)&(longitude);
-	//	send_command(0,'s',target);
-    }
+    public void set_gps_target(int longitude,int latitude)    {
+		int[] target=new int[8];
+		target[0]= (0xFF)&(longitude<<24);
+		target[1]= (0xFF)&(longitude<<16);
+		target[2]= (0xFF)&(longitude<<8);
+		target[3]= (0xFF)&(longitude);
+		//	send_command(0,'s',target);
+	}
 
-    public void add_gps_wp(int status,int index,int longitude,int latitude,int hold_time)
-    {
-	int[] waypoint_struct=new int[30];
-	waypoint_struct[0]= (0xFF)&(longitude<<24);
-	waypoint_struct[1]= (0xFF)&(longitude<<16);
-	waypoint_struct[2]= (0xFF)&(longitude<<8);
-	waypoint_struct[3]= (0xFF)&(longitude);
-	
-	waypoint_struct[4]= (0xFF)&(latitude<<24);
-	waypoint_struct[5]= (0xFF)&(latitude<<16);
-	waypoint_struct[6]= (0xFF)&(latitude<<8);
-	waypoint_struct[7]= (0xFF)&(latitude);
-	
-	// alt
-	waypoint_struct[8]= (0xFF)&(0);
-	waypoint_struct[9]= (0xFF)&(0);
-	waypoint_struct[10]= (0xFF)&(0);
-	waypoint_struct[11]= (0xFF)&(0);
-	
-	// status
-	waypoint_struct[12]= (0xFF)&(status);
-	
-	// heading
-	waypoint_struct[13]= (0xFF)&(0);
-	waypoint_struct[14]= (0xFF)&(0);
-	
-	// tolerance
-	waypoint_struct[15]= (0xFF)&(0);
-	
-	// holdtime
-	waypoint_struct[16]= (0xFF)&(hold_time);
-	
-	// event flag
-	waypoint_struct[17]= (0xFF)&(0);
-	
-	//index
-	waypoint_struct[18]= (0xFF)&(index);
-	
-	
-	// 11 reserved
-	
-	send_command(NAVI_SLAVE_ADDR,'w',waypoint_struct);
+    public void add_gps_wp(int status,int index,int longitude,int latitude,int hold_time) {
+		int[] waypoint_struct=new int[30];
+		waypoint_struct[0]= (0xFF)&(longitude<<24);
+		waypoint_struct[1]= (0xFF)&(longitude<<16);
+		waypoint_struct[2]= (0xFF)&(longitude<<8);
+		waypoint_struct[3]= (0xFF)&(longitude);
+		
+		waypoint_struct[4]= (0xFF)&(latitude<<24);
+		waypoint_struct[5]= (0xFF)&(latitude<<16);
+		waypoint_struct[6]= (0xFF)&(latitude<<8);
+		waypoint_struct[7]= (0xFF)&(latitude);
+		
+		// alt
+		waypoint_struct[8]= (0xFF)&(0);
+		waypoint_struct[9]= (0xFF)&(0);
+		waypoint_struct[10]= (0xFF)&(0);
+		waypoint_struct[11]= (0xFF)&(0);
+		
+		// status
+		waypoint_struct[12]= (0xFF)&(status);
+		
+		// heading
+		waypoint_struct[13]= (0xFF)&(0);
+		waypoint_struct[14]= (0xFF)&(0);
+		
+		// tolerance
+		waypoint_struct[15]= (0xFF)&(0);
+		
+		// holdtime
+		waypoint_struct[16]= (0xFF)&(hold_time);
+		
+		// event flag
+		waypoint_struct[17]= (0xFF)&(0);
+		
+		//index
+		waypoint_struct[18]= (0xFF)&(index);
+		
+		// 11 reserved
+		send_command(NAVI_SLAVE_ADDR,'w',waypoint_struct);
     }
 
     /** 
      * send a MotorTest request 
      * @param array of intswith the speed for each Motor 
     **/
-    public void motor_test(int[] params)
-    	{
+    public void motor_test(int[] params) {
     	stats.motortest_request_count++;
 		send_command(FC_SLAVE_ADDR,'t',params);
-    	}
+    }
 
-    public void set_mixer_table(int[] params)
-    	{	
+    /**
+     * sets the mixer table
+     * 
+     * @param params - the new mixxer table
+     */
+    public void set_mixer_table(int[] params) {	
     	send_command(FC_SLAVE_ADDR,'m',params);
-    	}
+    }
 
 
-    public void send_follow_me(int time,long lon,long lat)
-    	{
+    public void send_follow_me(int time,long lon,long lat) 	{
     	long alt=0;
 
     	int[] params=new int[29];
@@ -667,10 +641,10 @@ public class MKCommunicator
 	  }*/
     
     // get params
-    public void get_params(int id)    {
-	wait4send();
-	send_command(FC_SLAVE_ADDR,'q',id+1);
-	stats.params_data_request_count++;
+    public void get_params(int id) {
+		wait4send();
+		send_command(FC_SLAVE_ADDR,'q',id+1);
+		stats.params_data_request_count++;
     }
     
     
@@ -697,20 +671,17 @@ public class MKCommunicator
     	stats.lcd_data_request_count++;
     }
 
-    public void trigger_debug()
-    {
-	if (sending||recieving) return; // its not that important - can be dropped
-	send_command(0,'c');
+    public void trigger_debug() {
+    	if (sending||recieving) 
+    		return; // its not that important - can be dropped
+    	send_command(0,'c');
     }
 
-
-    public void switch_todo()
-    {
-	sleep(150);
-	version.reset();
-	//	LCD= new MKLCD(this);
-	debug_data=new MKDebugData();
-
+    public void switch_todo() {
+		sleep(150);
+		version.reset();
+		//	LCD= new MKLCD(this);
+		debug_data=new MKDebugData();
     }
 
     public void switch_to_fc()
@@ -724,140 +695,72 @@ public class MKCommunicator
 
     
 
-    public void switch_to_mk3mag()
-    {
+    public void switch_to_mk3mag() {
     	wait4send();
     	send_command(NAVI_SLAVE_ADDR   ,'u',1);
     	switch_todo();
     }
 
-    public final static byte[] navi_switch_magic={27,27,0x55,(byte)0xAA,0,(byte)'\r'};
-    public void switch_to_navi()
-    {
-	wait4send();
-	sending=true;
-	try
-	    {
-		comm_adapter.write(navi_switch_magic);
-		stats.bytes_out+=6;
-		comm_adapter.flush();
-	    }
-	catch (Exception e)  {   }
-	sending=false;
-	
-	switch_todo();
-
-    }
-
-
-    public void start_engines()
-    {
-	int[] start_cmd = { 1,0,0,0,0 };
-	wait4send();
-	send_command(FC_SLAVE_ADDR,'e',start_cmd);
-    }
-	int msg_pos=0;
-
-
-    //    public boolean bootloader_intension_flash=false;
-
-    //    public boolean bootloader_finish_ok=false;
-
-
-    //    public void jump_bootloader()
-    // {
-	/*
-	bootloader_finish_ok=false;
-	msg_pos=0;
-	bootloader_stage= BOOTLOADER_STAGE_NONE;
-	//   flash_msgs=new String[100];
-	//   flash_msgs[msg_pos++]="Initiializing Bootloader";
-	wait4send();
-	sending=true;
-	
-	try
-	    {
-		int attempt=0;
-
-		while(bootloader_stage!= BOOTLOADER_STAGE_GOT_MKBL)
-		    {
-			flash_msgs[msg_pos]="attempt "+attempt;
-			attempt++;
-			send_command_nocheck((byte)FC_SLAVE_ADDR,'R',new int[0]);
-			
-			try{
-			writer.write( 27);
-			writer.flush();
-
-			sleep(20);
-			
-			writer.write( 0xAA);
-			writer.flush();
-			}
-			catch (Exception e)  { }
-			sleep((attempt%2==0)?80:800); //800
+  
+    public void switch_to_navi() {
+		wait4send();
+		sending=true;
+		try {
+			comm_adapter.write(MKHelper.getNaviSwitchMagicSequence());
+			stats.bytes_out+=6;
+			comm_adapter.flush();
 		    }
-		msg_pos++;
-	    }
-
-	catch (Exception e)  {   
-		flash_msgs[msg_pos++]="Exception:" +e.getMessage() ;
-		flash_msgs[msg_pos++]=e.toString() ;
-	}
-
-	new Thread( this ).start(); // fire up main Thread 
-	*/
-    //    }
-
-
-    public void get_error_str()
-    {
-	send_command(NAVI_SLAVE_ADDR,'e');
-    }
-
-    public void trigger_rcdata()
-    {
-	send_command(FC_SLAVE_ADDR,'p');
+		catch (Exception e)  {   }
+		sending=false;
+		
+		switch_todo();
     }
 
 
-    public void trigger_mixer_read()
-    {
+    public void start_engines() {
+		int[] start_cmd = { 1,0,0,0,0 };
+		wait4send();
+		send_command(FC_SLAVE_ADDR,'e',start_cmd);
+    }
+    
+	
+    public void get_error_str() {
+    	send_command(NAVI_SLAVE_ADDR,'e');
+    }
+
+    public void trigger_rcdata()  {
+    	send_command(FC_SLAVE_ADDR,'p');
+    }
+
+
+    public void trigger_mixer_read() {
     	send_command(FC_SLAVE_ADDR,'n');
     }
 
-    public void write_params(int to) 
-    {
-	params.update_backup(to);
-	write_params_(to) ;
+    public void write_params(int to) {
+    	params.update_backup(to);
+    	write_params_(to) ;
     }
 
-    public void write_params_(int to) 
-    {
-	wait4send();
-	params.active_paramset=to;
-	send_command(FC_SLAVE_ADDR,'s',params.field_bak[to]);
-    
+    public void write_params_(int to) {
+		wait4send();
+		params.active_paramset=to;
+		send_command(FC_SLAVE_ADDR,'s',params.field_bak[to]);
     }
 
-    public void set_debug_interval(int interval)
-    {
-	send_command(2,'d',interval);
+    public void set_debug_interval(int interval) {
+    	send_command(2,'d',interval);
     }
 
 
-    public void set_gpsosd_interval(int interval)
-    {
-	send_command(NAVI_SLAVE_ADDR,'o',interval);
+    public void set_gpsosd_interval(int interval) {
+    	send_command(NAVI_SLAVE_ADDR,'o',interval);
     }
 
-    public void send_command(int modul,char cmd)
-    {
-	send_command(modul,cmd,new int[0]);
+    public void send_command(int modul,char cmd) {
+    	send_command(modul,cmd,new int[0]);
     }
 
-
-    
     /**
      * send a command with one int param
      * 
@@ -872,130 +775,116 @@ public class MKCommunicator
     }
 
     
-    public void send_command_nocheck(byte modul,char cmd,int[] params)
-    {
+    public void send_command_nocheck(byte modul,char cmd,int[] params) {
 
-	byte[] send_buff=MKHelper.encodeCommand(modul, cmd, params);
+		byte[] send_buff=MKHelper.encodeCommand(modul, cmd, params);
+		
+		try 
+		    {
+			/*int tmp_crc=0;
+			for ( int tmp_i=0; tmp_i<send_buff.length;tmp_i++)
+			    tmp_crc+=(int)send_buff[tmp_i];
+		*/		
+			comm_adapter.write(send_buff,0,send_buff.length);
+	/*		tmp_crc%=4096;
 	
-	try 
-	    {
-		/*int tmp_crc=0;
-		for ( int tmp_i=0; tmp_i<send_buff.length;tmp_i++)
-		    tmp_crc+=(int)send_buff[tmp_i];
-	*/		
-		comm_adapter.write(send_buff,0,send_buff.length);
-/*		tmp_crc%=4096;
-
-		comm_adapter.write( (char)(tmp_crc/64 + '='));
-		comm_adapter.write( (char)(tmp_crc%64 + '='));
-		
-		comm_adapter.write('\r');*/
-		stats.bytes_out+=send_buff.length; //+3;
-		comm_adapter.flush();
-	    }
-	catch (Exception e)
-	    { // problem sending data to FC
-	    }
+			comm_adapter.write( (char)(tmp_crc/64 + '='));
+			comm_adapter.write( (char)(tmp_crc%64 + '='));
+			
+			comm_adapter.write('\r');*/
+			stats.bytes_out+=send_buff.length; //+3;
+			comm_adapter.flush();
+		    }
+		catch (Exception e)
+		    { // problem sending data to FC
+		    }
 
     }
-    // send command to FC ( add crc and pack into pseudo Base64
-    public void send_command(int modul,char cmd,int[] params)
-    {
-	//	if (modul==0) return;
-	sending=true;
-	send_command_nocheck((byte)modul,cmd,params);
-	sending=false;
+
+    /**
+     *  send command to FC 
+     *  add crc and pack into pseudo Base64
+     * 
+     * @param modul
+     * @param cmd
+     * @param params
+     */
+    public void send_command(int modul,char cmd,int[] params) {
+		//	if (modul==0) return;
+		sending=true;
+		send_command_nocheck((byte)modul,cmd,params);
+		sending=false;
     }
 
+    public int UBatt() {
+    	switch (slave_addr) {
+    		case FC_SLAVE_ADDR:
+    		case RIDDIM_SLAVE_ADDR:
+   				return debug_data.analog[9];
 
+    		case NAVI_SLAVE_ADDR:
+    			return gps_position.UBatt;
 
+    		case FOLLOWME_SLAVE_ADDR:
+    			return debug_data.analog[8];
 
-
-    public int UBatt()
-    {
-
-	switch (slave_addr)
-	    {
-	    case FC_SLAVE_ADDR:
-	    case RIDDIM_SLAVE_ADDR:
-		return debug_data.analog[9];
-
-	    case NAVI_SLAVE_ADDR:
-		return gps_position.UBatt;
-
-	    case FOLLOWME_SLAVE_ADDR:
-		return debug_data.analog[8];
-
-	    case FAKE_SLAVE_ADDR:
-		return 127;
+    		case FAKE_SLAVE_ADDR:
+    			return 127;
 
 		
-	    default:
-		return -1; // No Info
-	    }
-
-    }
-
-    public int SatsInUse()
-    {
-
-	switch (slave_addr)
-	    {
-	    case NAVI_SLAVE_ADDR:
-		return gps_position.SatsInUse;
-
-	    case FOLLOWME_SLAVE_ADDR:
-		return debug_data.analog[12];
-
-	    case FAKE_SLAVE_ADDR:
-		return 7;
-
-	    default:
-		return -1; // No Info
-	    }
-
-    }
-
-    public int SenderOkay()
-    {
-	switch (slave_addr)
-	    {
-	    case FC_SLAVE_ADDR:
-		return debug_data.analog[10];
-
-	    case NAVI_SLAVE_ADDR:
-		return gps_position.SenderOkay;
-
-	    case FAKE_SLAVE_ADDR:
-		return 200;
-
-	    default:
-		return -1; // No Info
+    		default:
+    			return -1; // No Info
 	    }
     }
 
+    public int SatsInUse() {
 
-    public    int[][] debug_buff=null;
-    public    int     debug_buff_off=0;
-    public    int     debug_buff_len=0;
-    public    int    debug_buff_interval=0;
-    public    int    debug_buff_lastset=0;
-    public    int    debug_buff_max=1;
+		switch (slave_addr) {
+		    case NAVI_SLAVE_ADDR:
+			return gps_position.SatsInUse;
+	
+		    case FOLLOWME_SLAVE_ADDR:
+			return debug_data.analog[12];
+	
+		    case FAKE_SLAVE_ADDR:
+			return 7;
+	
+		    default:
+			return -1; // No Info
+		    }
 
-    public    int[] debug_buff_targets=null;
+    }
 
-    public void setup_debug_buff(int[] targets,int len,int interval)
-    {
-	debug_buff=new int[len][targets.length];
+    public int SenderOkay() {
+		switch (slave_addr)
+		    {
+		    case FC_SLAVE_ADDR:
+			return debug_data.analog[10];
+	
+		    case NAVI_SLAVE_ADDR:
+			return gps_position.SenderOkay;
+	
+		    case FAKE_SLAVE_ADDR:
+			return 200;
+	
+		    default:
+			return -1; // No Info
+		    }
+    }
 
-	debug_buff_off=0;
-	debug_buff_len=len;
 
-	debug_buff_interval=interval;
-	if (debug_buff_interval<2)debug_buff_interval=2;
-	debug_buff_targets=targets;
-	debug_buff_max=1;
-	debug_buff_lastset=0;
+    public void setup_debug_buff(int[] targets,int len,int interval) {
+		debug_buff=new int[len][targets.length];
+	
+		debug_buff_off=0;
+		debug_buff_len=len;
+	
+		debug_buff_interval=interval;
+		if (debug_buff_interval<2)
+			debug_buff_interval=2;
+		debug_buff_targets=targets;
+		debug_buff_max=1;
+		debug_buff_lastset=0;
     }
 
     public int chg_debug_max(int val)
@@ -1208,454 +1097,148 @@ public class MKCommunicator
 
     
     // Thread to recieve data from Connection
-    public void run()
-    {
-	//	boolean sigfail=false;
-	/*	if (bootloader_stage==BOOTLOADER_STAGE_GOT_MKBL)
-	    {
-	    try {
+    public void run() {
 
-			//			if (send_buff_size>128)
-			//    send_buff_size=128;
-
-			//			if (!bootloader_intension
-			if (bootloader_intension_flash)
-			    {		
-				
-				byte[] flash_buff =new byte[send_buff_size]; ///!!
-				
-				String firmware_filename=(avr_sig==224)?"/navi.bin":((avr_sig==120)?"/mk3.bin":"/fc.bin");
-				flash_msgs[msg_pos++]="Opening firmware " + firmware_filename + "..";
-				
-				
-				InputStream in;
-				try {
-				    in=this.getClass().getResourceAsStream(firmware_filename);	    
-				}
-				
-				catch (Exception e) { 		    throw new Exception(" .. cant open firmware");			}
-				int firmware_size=-1;
-				try {
-								    
-				firmware_size= ((int)in.read()<<24) |((int)in.read()<<16) | ((int)in.read()<<8) | ((int)in.read()&0xff) ;
-				}
-				catch (Exception e) { 		    throw new Exception(" .. cant read size");			}
-				
-				int blocks2write=((firmware_size/send_buff_size)); 
-				flash_msgs[msg_pos++]=".. open("+blocks2write+" blocks," + firmware_size + "bytes)";
-				
-				
-				//			if (true) throw new Exception("before erasing");
-				
-				//	if (true) throw new Exception("before erasing" );		
-				
-				flash_msgs[msg_pos++]="Erasing Flash ..";
-				writer.write('e'); 
-				writer.flush();
-				
-				if (reader.read()!=0x0d)
-				    throw new Exception("cant erase flash");
-				
-				flash_msgs[msg_pos]+="OK";
-				
-				
-				writer.write('A'); 
-				writer.write(0); 
-				writer.write(0); 
-				writer.flush();
-				
-				if (reader.read()!=0x0d)
-				    throw new Exception("cant set addr");
-				
-				flash_msgs[msg_pos++]="addr set";
-				
-				
-				//			int blocks2write=((firmware_size/send_buff_size));
-				if ((firmware_size%send_buff_size)>0)
-				    blocks2write++;
-				
-				for ( int block=0; block<blocks2write; block ++)
-				    {
-					int hex_bytes_read=in.read(flash_buff,0,send_buff_size);
-					
-					flash_msgs[msg_pos]="bl:" + block + "/" + blocks2write + " si:"+hex_bytes_read ;
-					
-					
-					writer.write('B'); 
-					writer.write((hex_bytes_read>>8)& 0xFF); 
-					writer.write((hex_bytes_read)& 0xFF); 
-					writer.write('F'); 
-					writer.flush();
-					
-					
-					writer.write(flash_buff,0,hex_bytes_read);
-					writer.flush(); 				
-					
-					
-					if (avr_sig==224)
-					    {
-						int crc=0xFFFF;
-						for (int crc_pos=0;crc_pos<hex_bytes_read;crc_pos++)
-						    crc=CRC16(flash_buff[crc_pos],crc);
-						writer.write(crc>>8); 
-						writer.write(crc&0xff); 
-						writer.flush(); 
-					    }
-					//  flash_msgs[msg_pos]+="ok";
-					//				writer.flush();
-					
-					
-					
-					if (reader.read()!=0x0d)
-					    throw new Exception("abort write at block"+block);
-					
-					
-					
-					//			       sleep(1000);
-				    }
-
-
-	*/
-				//		flash_msgs[msg_pos]="bl:" + block + "/" + blocks2write + " si:"+hex_bytes_read ;
-				/*
-				  
-			int inp=0;
-			int block=0;
-			while (inp!=-1)
-			    {
-				int flash_buff_pos=0;
-				int crc=0xFFFF;
-				
-				while ((flash_buff_pos<send_buff_size)&&(inp!=-1))
-				    {
-					inp=in.read();
-					if (inp!=-1)
-					    {
-						crc=CRC16(inp,crc);
-						flash_buff[flash_buff_pos++]=(byte)inp;
-					    }
-				    }
-				//				flash_msgs[msg_pos]="block" + block + "size:"+flash_buff_pos;
-				
-				block++;        
-			
-				boolean block_fin=false;
-
-
-				while(!block_fin)
-				    {
-					
-					writer.write('B'); 
-					writer.write((flash_buff_pos>>8)& 0xFF); 
-					writer.write((flash_buff_pos)& 0xFF); 
-					writer.write('F'); 
-					writer.flush();
-
-					//					int ret_v=-1;
-					
-					writer.write(flash_buff,0,flash_buff_pos);
-					flash_msgs[msg_pos]="bl:" + block + "si:"+flash_buff_pos ;
-					
-					writer.flush(); 				
-					//				    flash_msgs[msg_pos]+="wtc";
-					
-					
-					// append crc if navi
-					if (avr_sig==224)
-					    {
-						writer.write(crc>>8); 
-						writer.write(crc&0xff); 
-						writer.flush(); 
-					    }
-					//  flash_msgs[msg_pos]+="ok";
-					//				writer.flush();
-					// 			if (reader.read()!=0x0d)
-					//				    throw new Exception("abort write at block"+block);
-					
-					
-					//ret_v=reader.read();
-					//				    flash_msgs[msg_pos]="ret"+ret_v + "crc"+crc;
-					
-					if (reader.read()==0x0d)
-					    block_fin=true;
-					
-				    }
-
-			    }
-			*/
-
-
-
-	/**
-			flash_msgs[++msg_pos]="written last block ";
-			msg_pos++;
-			flash_buff=null;
-
-			ufo_prober.set_to_none();
-			stats.reset();
-			version=new MKVersion();
-			System.gc();
-		    }
-		else // bootloader intension clear settings
-		    {
-
-			flash_msgs[msg_pos]="reset params ..";
-			writer.write('B'); 
-			writer.write(0); 
-			writer.write(4);
-			writer.write('E'); 
-			writer.flush();
-			
-			writer.write(0xFF); 
-			writer.write(0xFF); 
-			writer.write(0xFF); 
-			writer.write(0xFF); 
-			writer.flush();
-			flash_msgs[msg_pos++]+=" done";
-		    }
-
-	    flash_msgs[msg_pos++]="Exiting Bootloader" ;
-	    params=new MKParamsParser();
-	    try{
-		writer.write('E'); 
-		writer.flush();
-	    }
-	    catch (Exception e)  {   
-		flash_msgs[msg_pos++]="cant exit bootloader" ;
-	    }
-	    flash_msgs[msg_pos++]="Exit BL done" ;	    
-
-	    bootloader_finish_ok=true;
-	    }
-	    
-	    catch (Exception e)  {   
-		flash_msgs[msg_pos++]="Fail:" +e.getMessage() ;
-
-
-	    flash_msgs[msg_pos++]="Exiting Bootloader" ;
-	    params=new MKParamsParser();
-	    try{
-		writer.write('E'); 
-		writer.flush();
-	    }
-	    catch (Exception e2)  {   
-		flash_msgs[msg_pos++]="cant exit bootloader" ;
-	    }
-	    flash_msgs[msg_pos++]="Exit BL done" ;
-	    if (sigfail&&(bl_retrys<3))
-		{
-		    bl_retrys++;
-		    init_bootloader=true;
-		}
-	    close_connections(false);
-	    }
-
-
-	    sending=false;
-	    }
-
-	**/
-
-	byte[] data_set=new byte[1024];
-	int data_set_pos=0;
-
-	byte[] data_in_buff=new byte[DATA_IN_BUFF_SIZE];
+		byte[] data_set=new byte[1024];
+		int data_set_pos=0;
 	
-	int input;
-	int pos=0;
-
-	log("Thread started");
-	while(thread_running)
-	    {
-
+		byte[] data_in_buff=new byte[DATA_IN_BUFF_SIZE];
 		
-		if (!connected) 
+		int input;
+		int pos=0;
+	
+		log("Thread started");
+		while(thread_running)
 		    {
-			sleep(10);
-		
-			if (!force_disconnect) connect();
-			log ("not connected - forced:" + force_disconnect);
-		    }
-		else  if (slave_addr==FAKE_SLAVE_ADDR)
-		    {
-			debug_data.set_fake_data();
-			update_debug_buff();
-			stats.debug_data_count++;
-			sleep(50);
-		    }
-	else
-			try{
+	
 			
-			/*		
-				while(sending)
-				{try { Thread.sleep(50); }
-				catch (Exception e)  {   }
-				}
-			*/
-			recieving=true;
-			int read_count ;
-
-			if (comm_adapter.available()<DATA_IN_BUFF_SIZE)
-			    read_count     =comm_adapter.read(data_in_buff,0,comm_adapter.available());
-			else
-			    read_count     =comm_adapter.read(data_in_buff,0,DATA_IN_BUFF_SIZE);
-
-			//			log("Connected - reading data " + read_count);		
-			//	pos=0;
-			input=0;
-			//data_buff[data_buff_pos]="";
-			// recieve data-set
-
-			//			int read_count =reader.read(data_in_buff,0,reader.available());
-			stats.bytes_in+=read_count;
-			if (read_count>0)
+			if (!connected) 
 			    {
-				log("read" + read_count + " ds_pos" + data_set_pos);		
+				sleep(10);
 			
-				for ( pos=0;pos<read_count;pos++)
+				if (!force_disconnect) connect();
+				log ("not connected - forced:" + force_disconnect);
+			    }
+			else  if (slave_addr==FAKE_SLAVE_ADDR)
+			    {
+				debug_data.set_fake_data();
+				update_debug_buff();
+				stats.debug_data_count++;
+				sleep(50);
+			    }
+		else
+				try{
+				
+				/*		
+					while(sending)
+					{try { Thread.sleep(50); }
+					catch (Exception e)  {   }
+					}
+				*/
+				recieving=true;
+				int read_count ;
+	
+				if (comm_adapter.available()<DATA_IN_BUFF_SIZE)
+				    read_count     =comm_adapter.read(data_in_buff,0,comm_adapter.available());
+				else
+				    read_count     =comm_adapter.read(data_in_buff,0,DATA_IN_BUFF_SIZE);
+	
+				//			log("Connected - reading data " + read_count);		
+				//	pos=0;
+				input=0;
+				//data_buff[data_buff_pos]="";
+				// recieve data-set
+	
+				//			int read_count =reader.read(data_in_buff,0,reader.available());
+				stats.bytes_in+=read_count;
+				if (read_count>0)
 				    {
-				    //data_in_buff[pos]+=127;
-				    log("" +data_in_buff[pos] + "->" + (char)data_in_buff[pos]);
-					if ((data_in_buff[pos]==13)||(data_in_buff[pos]==10))
+					log("read" + read_count + " ds_pos" + data_set_pos);		
+				
+					for ( pos=0;pos<read_count;pos++)
 					    {
-						data_buff[data_buff_pos]=new String(data_set, 0, data_set_pos);
-						data_buff_pos++;
-						data_buff_pos%=DATA_BUFF_LEN;
-
-
-						
-						try{
+					    //data_in_buff[pos]+=127;
+					    log("" +data_in_buff[pos] + "->" + (char)data_in_buff[pos]);
+						if ((data_in_buff[pos]==13)||(data_in_buff[pos]==10))
+						    {
+							data_buff[data_buff_pos]=new String(data_set, 0, data_set_pos);
+							data_buff_pos++;
+							data_buff_pos%=DATA_BUFF_LEN;
+	
+	
 							
-							if (data_set_pos>3) process_data(data_set,data_set_pos); 
+							try{
+								
+								if (data_set_pos>3) process_data(data_set,data_set_pos); 
+								
 							
-						
-						}
-						catch (Exception e) 
-						    { 			
-							log(".. problem processing"); 
-							log(e.toString()); 
 							}
-
-
-
-
-						proxy.write(data_set,0,data_set_pos);
-						//							proxy.writer.write('\r');
-						//proxy.writer.write('\n');
-						//proxy.writer.flush();
-						/*
-						if (proxy!=null)
-						    {
+							catch (Exception e) 
+							    { 			
+								log(".. problem processing"); 
+								log(e.toString()); 
+								}
+	
+	
+	
+	
+							proxy.write(data_set,0,data_set_pos);
+							//							proxy.writer.write('\r');
+							//proxy.writer.write('\n');
+							//proxy.writer.flush();
+							/*
+							if (proxy!=null)
+							    {
+								
+	
+	
+							    }
+							*/
+							data_set_pos=0;
+	
+						    }
+						else
+						    // {
+							data_set[data_set_pos++]=data_in_buff[pos];
 							
-
-
-						    }
-						*/
-						data_set_pos=0;
-
+							/*
+	
+							if ( (data_set_pos>4) && (data_set[data_set_pos-4]==(byte)'M') && (data_set[data_set_pos-3]==(byte)'K')  && (data_set[data_set_pos-2]==(byte)'B') && (data_set[data_set_pos-1]==(byte)'L'))
+	
+							    {
+	
+								bootloader_stage= BOOTLOADER_STAGE_GOT_MKBL;
+								return;
+							    }
+							
+							    }*/
+	
 					    }
-					else
-					    // {
-						data_set[data_set_pos++]=data_in_buff[pos];
 						
-						/*
-
-						if ( (data_set_pos>4) && (data_set[data_set_pos-4]==(byte)'M') && (data_set[data_set_pos-3]==(byte)'K')  && (data_set[data_set_pos-2]==(byte)'B') && (data_set[data_set_pos-1]==(byte)'L'))
-
-						    {
-
-							bootloader_stage= BOOTLOADER_STAGE_GOT_MKBL;
-							return;
-						    }
-						
-						    }*/
-
+				
 				    }
-					
-			
+				else  {
+					recieving=false;
+					sleep(21); 
+				    }
 			    }
-			else
-			    {
-				recieving=false;
-				sleep(21); 
-			    }
-			/*
-			while ((input != 13)) //&&(input!=-1))
-			    {
+			    catch (Exception ex) 
 				{
-				    //log("pre read");		
-				    log(""+reader.available());
-				    input = reader.read() ; 
-				    log("Byte rcv" + input +"pos"+ pos);		
-				    
-				    proxy.write(input);
-				    
-				    data_buff[data_buff_pos]+=(char)input;
-				    
-				    if ((data_buff[data_buff_pos].length()>3)&&(data_buff[data_buff_pos].substring(data_buff[data_buff_pos].length()-4,data_buff[data_buff_pos].length()).equals("MKBL")))
-					{
-					    bootloader_stage= BOOTLOADER_STAGE_GOT_MKBL;
-					    return;
-					}
-				    if (input==-1) throw new Exception("disconnect");
-				    else 
-					{
-					    stats.bytes_in++;
-					    data_set[pos]=input;
-					    pos++; 
-					}
-				}
-				
-			    }
+				    log("Problem reading from MK -> closing conn");
+				    log(ex.toString());
+				    // close the connection 
+				    close_connections(false);
+				}	
 			
+			// sleep a bit to  get someting more done
+			//		sleep(5); //50
 			
-
-			data_buff_pos++;
-			data_buff_pos%=DATA_BUFF_LEN;
-			recieving=false;
-			log("Data recieved (" + pos + "Bytes)");		
-			log("processing ..");		
-			*/
-
-			/*
-			  if (proxy!=null)
-			  {
-			  proxy.writer.write('\r');
-			  proxy.writer.write('\n');
-			  proxy.writer.flush();
-			  }
-			*/
-			/*if (pos>5) 
-			    {
-				try{process_data(data_set,pos); }
-				catch (Exception e) 
-				    { 			
-					log(".. problem processing"); 
-					log(e.toString()); 
-				    }
-				
-				log(".. processing done");		
-			    }
-			*/
-		    }
-		    catch (Exception ex) 
-			{
-			    log("Problem reading from MK -> closing conn");
-			    log(ex.toString());
-			    // close the connection 
-			    close_connections(false);
-			}	
-		
-		// sleep a bit to  get someting more done
-		//		sleep(5); //50
-		
-	    } // while
-	//	log("Leaving Communicator thread");
+		    } // while
+		//	log("Leaving Communicator thread");
 
     } // run()
 
-    public int getPotiValue(int poti_id)
-    {
+    public int getPotiValue(int poti_id) {
     	int val=stick_data.stick[params.poti_pos[poti_id]]+127;
     	
     	// clip the values
@@ -1680,7 +1263,6 @@ public class MKCommunicator
     	return comm_adapter;
     }
 	
-    
     public String getNaviErrorString() {
     	return error_str;
     }
@@ -1705,12 +1287,11 @@ public class MKCommunicator
     /**
      * @return the time in seconds we are connected 
      */
-    public int getConnectionTime()
-    {
-	if (connected)
-	    return (int)((System.currentTimeMillis()-connection_start_time)/1000);
-	else
-	    return 0;
+    public int getConnectionTime() {
+    	if (connected)
+    		return (int)((System.currentTimeMillis()-connection_start_time)/1000);
+    	else
+    		return 0;
     }
     
     /**
