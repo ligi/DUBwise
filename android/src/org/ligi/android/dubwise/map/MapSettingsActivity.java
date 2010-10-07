@@ -1,8 +1,9 @@
 /**************************************************************************
  *                                          
- * Settings Activity for the DUBwise Map
- *                                          
+ * this file is a part of DUBwise
+ *                            
  * Author:  Marcus -LiGi- Bueschleb   
+ * http://ligi.de
  *
  * Project URL:
  *  http://mikrokopter.de/ucwiki/en/DUBwise
@@ -33,6 +34,12 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.app.Activity;
 import android.content.SharedPreferences;
 
+/**
+ * Settings Activity for the DUBwise Map
+ * 
+ * @author ligi
+ *
+ */
 public class MapSettingsActivity extends Activity implements OnCheckedChangeListener, OnItemSelectedListener {
 	
 	@Override
@@ -62,9 +69,7 @@ public class MapSettingsActivity extends Activity implements OnCheckedChangeList
 	}
 
 	@Override
-	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
-			long arg3) {
-		
+	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
 		update();
 	}
 
