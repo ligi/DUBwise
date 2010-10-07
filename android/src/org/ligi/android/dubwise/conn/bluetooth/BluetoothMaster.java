@@ -74,7 +74,12 @@ public class BluetoothMaster implements Runnable {
 	public static void restart() {
 		new Thread(singleton).start();
 	}
-	
+
+	/**
+	 * initialize the bluetooth master
+	 * 
+	 * @param ctx the context
+	 */
 	public static void init(Context ctx) {
 		if (singleton==null)
 			singleton=new BluetoothMaster(ctx);
