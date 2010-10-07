@@ -56,14 +56,9 @@ public class MKWatchDog
         return false;
     }
 
-    // #ifdef android
-    // public final static int BASE_SLEEP=50;
-    // #else
-
+    
     // TODO make base sleep adjustable
     public final static int BASE_SLEEP            = 50;
-
-    // #endif
 
     int intitial_paramset_try = 0;
 
@@ -82,9 +77,6 @@ public class MKWatchDog
                 {
                 	abo_timeout+=BASE_SLEEP;
                    
-                    if (mk.is_fake()) { // fake some stuff
-                        mk.stats.bytes_in++;
-                    }
                     if (mk.version.major == -1)
                         mk.get_version();
                     else if (mk.is_navi() && (mk.error_str == null))
@@ -150,72 +142,39 @@ public class MKWatchDog
                     else
                     	switch (mk.user_intent) {
                             case USER_INTENT_PARAMS:
+                            	if ((act_paramset < 5)) {
+                            		if (resend_timeout == 0) {
+                            			mk.get_params( act_paramset );
+                            			resend_timeout = 120;
+                                        	}
 
-                                // do fake parsing
-                                if (mk.is_fake()) {
-                                    if ((mk.params.last_parsed_paramset < 4)) {
-                                        if (resend_timeout == 0) {
-                                            mk.params.set_by_mk_data(mk.params.default_params[mk.params.last_parsed_paramset+1]);
-                                            resend_timeout = 20;
-                                        }
-                                        resend_timeout--;
-                                    }
-                                    int test=0;
-                                }
-                                else {
-                                    // do real parsing
-                                    if ((act_paramset < 5)) {
-
-                                        if (resend_timeout == 0) {
-                                            mk.get_params( act_paramset );
-                                            resend_timeout = 120;
-                                        }
-
-                                        if (mk.params.field[act_paramset] != null) {
-                                            mk.get_params( ++act_paramset );
-                                            resend_timeout = 120;
-                                        }
-                                        else
-                                            resend_timeout--;
-                                    }
-                                    /*
-                                     * // act_paramset++;
-                                     * else
-                                     * mk.get_params(act_paramset);
-                                     * 
-                                     * sleeper+=1200;
-                                     */
+                                    if (mk.params.field[act_paramset] != null) {
+                                    	mk.get_params( ++act_paramset );
+                                    	resend_timeout = 120;
+                                     }
+                                    else
+                                    	resend_timeout--;
+                                    
                                 }
                                 break;
                             
                             case USER_INTENT_RAWDEBUG:
                             
-                                                                 
-                            	
-
-                                break;
+                                 break;
 
                             case USER_INTENT_RCDATA:
-                                if (mk.is_fake()) {
-                                    // fake some data ;-)
-                                    for (int i = 0; i < MKStickData.MAX_STICKS; i++)
-                                        mk.stick_data.stick[i] = mk.debug_data.analog[i] % 127;
-                                }
-                                else if (resend_check( mk.stats.stick_data_count ))
+                                if (resend_check( mk.stats.stick_data_count ))
                                     mk.trigger_rcdata();
                                 break;
 
                             case USER_INTENT_EXTERNAL_CONTROL:
-                                if (resend_check( mk.stats.external_control_confirm_frame_count )) {
+                                if (resend_check( mk.stats.external_control_confirm_frame_count )) 
                                     mk.send_extern_control();
-                                    }
-
                                 break;
 
                             case USER_INTENT_LCD:
                                 if (resend_check( mk.stats.lcd_data_count ))
                                     mk.LCD.trigger_LCD();
-
                                 break;
 
                             case USER_INTENT_FOLLOWME:
