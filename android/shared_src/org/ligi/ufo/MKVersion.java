@@ -37,29 +37,24 @@ public class MKVersion
     public final static byte VERSION_PREVIOUS=2;
 
     
-    public void reset()
-    {
-	major=-1;
-	minor=-1;
-	proto_major=-1;
-	proto_minor=-1;
-	patch=-1;
-
-	version_str="";
-	proto_str="";
+    public void reset()    {
+		major=-1;
+		minor=-1;
+		proto_major=-1;
+		proto_minor=-1;
+		patch=-1;
+	
+		version_str="";
+		proto_str="";
     }
     
 
-
-
-    public void set_fake_data()
-    {
-	int[] fake_data={0,23,0,5,5};
-	set_by_mk_data(fake_data);
+    public void set_fake_data() {
+		int[] fake_data={0,23,0,5,5};
+		set_by_mk_data(fake_data);
     }
 
-    public void set_by_mk_data(int[] data)
-    {
+    public void set_by_mk_data(int[] data) {
     	major=data[0];
     	minor=data[1];
     	proto_major=data[2];
