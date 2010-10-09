@@ -24,6 +24,7 @@ import java.util.Locale;
 import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKCommunicator;
+import org.ligi.ufo.VesselData;
 
 import android.app.Activity;
 import android.media.AudioManager;
@@ -104,15 +105,11 @@ public class StatusVoice implements OnInitListener, Runnable,
 	public static StatusVoice getInstance() {
 		if (thisRef == null)
 			thisRef = new StatusVoice();
-
 		return thisRef;
 	}
 	
-	
 	@Override
 	public void run() {
-
-		
 		while (true) {
 
 			// Log.i("DUBwise","mk"+mk.ready() + "  init"+ init_done);
@@ -126,36 +123,33 @@ public class StatusVoice implements OnInitListener, Runnable,
 				if ((!last_version_str.equals("" + mk.version.major + "."
 						+ mk.version.minor + " "
 						+ (char) ('A' + mk.version.patch)))
-						&& (VoicePrefs.isConnectionInfoEnabled())) 
-					{
-
-					last_version_str = "" + mk.version.major + "."
-							+ mk.version.minor + " "
-							+ (char) ('A' + mk.version.patch);
-					if (mk.is_mk())
-						what2speak+="Connected to Flight Control Version "
-								+ last_version_str;
-					else if (mk.is_navi())
-						what2speak+="Connected to Navigation Control Version "
-								+ last_version_str;
-					else if (mk.is_mk3mag())
-						what2speak+="Connected to Mikrokopter Compas Version "
-								+ last_version_str;
-					else if (mk.is_fake())
-						what2speak+=
-								"Connected to a Simulated connection Version "
+						&& (VoicePrefs.isConnectionInfoEnabled())) {
+		
+							last_version_str = "" + mk.version.major + "."
+									+ mk.version.minor + " "
+									+ (char) ('A' + mk.version.patch);
+							if (mk.is_mk())
+								what2speak+="Connected to Flight Control Version "
 										+ last_version_str;
-					else
-						what2speak+="Connected to the unknown "
-								+ last_version_str;
+							else if (mk.is_navi())
+								what2speak+="Connected to Navigation Control Version "
+										+ last_version_str;
+							else if (mk.is_mk3mag())
+								what2speak+="Connected to Mikrokopter Compas Version "
+										+ last_version_str;
+							else if (mk.is_fake())
+								what2speak+=
+										"Connected to a Simulated connection Version "
+												+ last_version_str;
+							else
+								what2speak+="Connected to the unknown "
+										+ last_version_str;
 					}
 				
-				else if (mk.is_navi()&&mk.gps_position.NCFlags!=last_nc_flags)
-				{
+				else if (mk.is_navi()&&mk.gps_position.NCFlags!=last_nc_flags)	{
 					last_nc_flags=mk.gps_position.NCFlags;
 
-					if (mk.gps_position.isFreeModeEnabled())
-					{
+					if (mk.gps_position.isFreeModeEnabled()) {
 						if (!told_free_mode)
 							what2speak+=" Free Mode Enabled. ";
 						told_free_mode=true;
@@ -163,10 +157,7 @@ public class StatusVoice implements OnInitListener, Runnable,
 					else
 						told_free_mode=false;
 					
-					
-					
-					if (mk.gps_position.isPositionHoldEnabled())
-					{
+					if (mk.gps_position.isPositionHoldEnabled()) {
 						if (!told_ph_mode)
 							what2speak+=" Position Hold Enabled. ";
 						told_ph_mode=true;
@@ -174,12 +165,7 @@ public class StatusVoice implements OnInitListener, Runnable,
 					else
 						told_ph_mode=false;
 					
-
-
-					
-					
-					if (mk.gps_position.isComingHomeEnabled())	
-					{
+					if (mk.gps_position.isComingHomeEnabled()) {
 						if (!told_ch_mode)
 							what2speak+=" Coming Home Enabled ";
 						told_ch_mode=true;
@@ -187,10 +173,7 @@ public class StatusVoice implements OnInitListener, Runnable,
 					else
 						told_ch_mode=false;
 
-					
-
-					if (mk.gps_position.isTargetReached())
-					{
+					if (mk.gps_position.isTargetReached())	{
 						if (!told_tr_mode)
 							what2speak+=" Target Reached. ";
 						told_tr_mode=true;
@@ -199,8 +182,7 @@ public class StatusVoice implements OnInitListener, Runnable,
 						told_tr_mode=false;
 
 					
-					if (mk.gps_position.isManualControlEnabled())
-					{
+					if (mk.gps_position.isManualControlEnabled()) {
 						if (!told_mc_mode)
 							what2speak+=" Manual Control Enabled. ";
 						told_mc_mode=true;
@@ -208,15 +190,9 @@ public class StatusVoice implements OnInitListener, Runnable,
 					else
 						told_mc_mode=false;
 
-
-			
-					
-
-					if (mk.gps_position.isRangeLimitReached())
-					{
+					if (mk.gps_position.isRangeLimitReached()) 	{
 						if (!told_range_limit)
 							what2speak+=" Range Limit Reached. ";
-
 						told_range_limit=true;
 					}
 					else
@@ -243,165 +219,162 @@ public class StatusVoice implements OnInitListener, Runnable,
 				
 				}
 
-				if (what2speak.equals(""))
-					{
-					if (mk.SenderOkay()<190)
-						{
+				if (what2speak.equals("")) {
+					if (mk.SenderOkay()<190) {
 						what2speak+=" RC Signal lost";
 						told_rclost=true;
 						}
-						else
-							told_rclost=false;
+					else
+						told_rclost=false;
 					}
 				
-				if (((pause_timeout--)<0)&&what2speak.equals(""))
-				{
+				if (((pause_timeout--)<0)&&what2speak.equals("")) {
 					
 					switch ((play_pos++) % 14) {
-					case 0:
-						if (mk.is_navi() && mk.hasNaviError()
-								&& VoicePrefs.isVoiceNaviErrorEnabled()) {
-							what2speak+=
-									" Navigation Control has the following Error "
-											+ mk.getNaviErrorString();
-				
-						}
-						break;
-					case 1:
-
-						if ((mk.UBatt() != -1)
-								&& VoicePrefs.isVoiceVoltsEnabled()) {
-							what2speak+=" Battery at " + mk.UBatt() / 10.0 /*
-																		 * +"."
-																		 * +
-																		 * mk.UBatt
-																		 * ()%10
-																		 */
-									+ " Volts.";
-				
-						}
-						break;
-
-					case 2:
-						if ((mk.getCurrent() != -1)
-								&& VoicePrefs.isVoiceCurrentEnabled()) {
-							what2speak+=" Consuming " + mk.getCurrent() / 10.0
-									+ " Ampere";
+						case 0:
+							if (mk.is_navi() && mk.hasNaviError()
+									&& VoicePrefs.isVoiceNaviErrorEnabled()) {
+								what2speak+=
+										" Navigation Control has the following Error "
+												+ mk.getNaviErrorString();
+					
+							}
+							break;
+						case 1:
+	
+							if ((VesselData.battery.getVoltage() != -1)
+									&& VoicePrefs.isVoiceVoltsEnabled()) {
+								what2speak+=" Battery at " + VesselData.battery.getVoltage() / 10.0 /*
+																			 * +"."
+																			 * +
+																			 * mk.UBatt
+																			 * ()%10
+																			 */
+										+ " Volts.";
+					
+							}
+							break;
+	
+						case 2:
+							if ((mk.getCurrent() != -1)
+									&& VoicePrefs.isVoiceCurrentEnabled()) {
+								what2speak+=" Consuming " + mk.getCurrent() / 10.0
+										+ " Ampere";
+								
+							}
+							break;
+	
+						case 3:
+							if ((mk.getCurrent() != -1)
+									&& VoicePrefs.isVoiceCurrentEnabled()) {
+								what2speak+=" thats "
+										+ (mk.getCurrent() * VesselData.battery.getVoltage()) / 100
+										+ " Wats";
+	
+							}
+	
+							break;
+	
+						case 4:
+	
+							if ((mk.getUsedCapacity() != -1)
+									&& VoicePrefs.isVoiceUsedCapacityEnabled()) {
+								what2speak+=" Consumed " + mk.getUsedCapacity()
+										+ " milliamperehours";
+	
+							}
+							break;
+	
+						case 5:
+	
+							if ((mk.getAlt() != -1)
+									&& (VoicePrefs.isVoiceAltEnabled())) {
+								what2speak+=" Current height is " + mk.getAlt() / 10
+										+ " meters.";
+	
+							}
 							
-						}
-						break;
-
-					case 3:
-						if ((mk.getCurrent() != -1)
-								&& VoicePrefs.isVoiceCurrentEnabled()) {
-							what2speak+=" thats "
-									+ (mk.getCurrent() * mk.UBatt()) / 100
-									+ " Wats";
-
-						}
-
-						break;
-
-					case 4:
-
-						if ((mk.getUsedCapacity() != -1)
-								&& VoicePrefs.isVoiceUsedCapacityEnabled()) {
-							what2speak+=" Consumed " + mk.getUsedCapacity()
-									+ " milliamperehours";
-
-						}
-						break;
-
-					case 5:
-
-						if ((mk.getAlt() != -1)
-								&& (VoicePrefs.isVoiceAltEnabled())) {
-							what2speak+=" Current height is " + mk.getAlt() / 10
-									+ " meters.";
-
-						}
-						
-						
-						break;
-						
-					case 6:	
-						if ((mk.gps_position.Distance2Home >0)
-								&& (VoicePrefs.isDistance2HomeEnabled())) {
-							what2speak+=" Distance to Home " + mk.gps_position.Distance2Home/10
-									+ " meters.";
-
-						}
-						break;
-
-					case 7:	
-						if ((mk.gps_position.Distance2Target >0)
-								&& (VoicePrefs.isDistance2TargetEnabled())) {
-							what2speak+=" Distance to Target " + mk.gps_position.Distance2Target/10
-									+ " meters.";
-
-						}
-						break;
-						
-					case 8:
-						if ((mk.stats.flying_time()>0)
-								&& (VoicePrefs.isFlightTimeEnabled())) {
-									what2speak+=" Flight time";
-									if ((mk.stats.flying_time()/60)!=0)
-										what2speak+=" " + mk.stats.flying_time()/60 + " minutes ";
-									
-									
-									if ((mk.stats.flying_time()%60)!=0)
-										what2speak+=" " + mk.stats.flying_time()%60 + " seconds. ";
-									
-									
-						}
-						break;
-				
-						
-					case 9:
-						if ((mk.is_navi() || mk.is_fake())
-								&& (VoicePrefs.isVoiceSatelitesEnabled())) {
-							what2speak+= " " + mk.SatsInUse()
-									+ " Satelites are used for GPS.";
-
-						}
-
-						break;
-
-					case 10:
-						if ((mk.is_navi() || mk.is_fake())
-								&& (VoicePrefs.isSpeedEnabled())) {
-							what2speak+= " Current speed " + formatSpeedValue(mk.gps_position.GroundSpeed)
-									+ " kilometer per hour.";
-
-						}
-
-						break;
-
-					case 11:
-						if ((mk.is_navi() || mk.is_fake())
-								&& (VoicePrefs.isMaxSpeedEnabled())) {
-							what2speak+= " Max speed " + formatSpeedValue(mk.stats.max_speed)
-									+ " kilometer per hour. ";
-
-						}
-						break;
-
-					case 12:
-
-						if ((mk.stats.max_alt != -1)
-								&& (VoicePrefs.isVoiceMaxAltEnabled())) {
-							what2speak+=" Max height was " + mk.stats.max_alt / 10
-									+ " meters.";
-
-						}
-						
-						
-						break;
-
-					case 13:
-						pause_timeout=VoicePrefs.getPauseTimeInMS()/sleep;
-						break;
+							
+							break;
+							
+						case 6:	
+							if ((mk.gps_position.Distance2Home >0)
+									&& (VoicePrefs.isDistance2HomeEnabled())) {
+								what2speak+=" Distance to Home " + mk.gps_position.Distance2Home/10
+										+ " meters.";
+	
+							}
+							break;
+	
+						case 7:	
+							if ((mk.gps_position.Distance2Target >0)
+									&& (VoicePrefs.isDistance2TargetEnabled())) {
+								what2speak+=" Distance to Target " + mk.gps_position.Distance2Target/10
+										+ " meters.";
+	
+							}
+							break;
+							
+						case 8:
+							if ((mk.stats.flying_time()>0)
+									&& (VoicePrefs.isFlightTimeEnabled())) {
+										what2speak+=" Flight time";
+										if ((mk.stats.flying_time()/60)!=0)
+											what2speak+=" " + mk.stats.flying_time()/60 + " minutes ";
+										
+										
+										if ((mk.stats.flying_time()%60)!=0)
+											what2speak+=" " + mk.stats.flying_time()%60 + " seconds. ";
+										
+										
+							}
+							break;
+					
+							
+						case 9:
+							if ((mk.is_navi() || mk.is_fake())
+									&& (VoicePrefs.isVoiceSatelitesEnabled())) {
+								what2speak+= " " + mk.SatsInUse()
+										+ " Satelites are used for GPS.";
+	
+							}
+	
+							break;
+	
+						case 10:
+							if ((mk.is_navi() || mk.is_fake())
+									&& (VoicePrefs.isSpeedEnabled())) {
+								what2speak+= " Current speed " + formatSpeedValue(mk.gps_position.GroundSpeed)
+										+ " kilometer per hour.";
+	
+							}
+	
+							break;
+	
+						case 11:
+							if ((mk.is_navi() || mk.is_fake())
+									&& (VoicePrefs.isMaxSpeedEnabled())) {
+								what2speak+= " Max speed " + formatSpeedValue(mk.stats.max_speed)
+										+ " kilometer per hour. ";
+	
+							}
+							break;
+	
+						case 12:
+	
+							if ((mk.stats.max_alt != -1)
+									&& (VoicePrefs.isVoiceMaxAltEnabled())) {
+								what2speak+=" Max height was " + mk.stats.max_alt / 10
+										+ " meters.";
+	
+							}
+							
+							
+							break;
+	
+						case 13:
+							pause_timeout=VoicePrefs.getPauseTimeInMS()/sleep;
+							break;
 					} // switch
 				}
 
@@ -437,34 +410,9 @@ public class StatusVoice implements OnInitListener, Runnable,
 		return "" + ((int)(speed*0.36)/10) + "." +((int)(speed*0.36)%10);
 	}
 	
-	
 	@Override
 	public void onUtteranceCompleted(String arg0) {
 		Log.i( "onuterancecomplete");
-		/*
-		voice_params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
-				"start uterance pp" + play_pos);
-		
-		
-		try {
-			Thread.sleep(50);
-		} catch (InterruptedException e) {
-		}
-
-		while (true) {
-			if (!mk.ready()) {
-				mTts.playSilence(100, TextToSpeech.QUEUE_ADD, voice_params);
-				return;
-			}
-
-		}
-*/
-		/*
-		 * 
-		 * 
-		 * 
-		 * mTts.playSilence(500, TextToSpeech.QUEUE_ADD, voice_params);
-		 */
 	}
 
 }
