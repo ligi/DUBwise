@@ -10,7 +10,7 @@ import javax.microedition.media.*;
 import javax.microedition.media.control.*;
 import java.util.*;
 import java.io.*;
-
+import org.ligi.ufo.VesselData;
 
 public class MKStatusVoice
     implements Runnable,PlayerListener
@@ -290,7 +290,7 @@ public class MKStatusVoice
 				if (voice_timeout>(canvas.settings.voice_delay*1000)/BASE_SLEEP)
 				    {
 					voice_timeout=0;
-					if ((canvas.mk.UBatt()!=-1)&&(canvas.settings.do_volts_voice))
+					if ((VesselData.battery.getVoltage()!=-1)&&(canvas.settings.do_volts_voice))
 					    {
 						if (!canvas.settings.minimal_voice) 
 						    {
@@ -299,7 +299,7 @@ public class MKStatusVoice
 						    }
 						volts_play_cnt++;
 						
-						int ubatt=canvas.mk.UBatt();
+						int ubatt=VesselData.battery.getVoltage();
 						info_from_debug_set=canvas.mk.stats.debug_data_count;
 						play((ubatt/10));
 						
