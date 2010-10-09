@@ -32,9 +32,11 @@ import org.ligi.ufo.DUBwiseLangDefs;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.MKFirmwareHelper;
 import org.ligi.ufo.MixerManager;
-import org.ligi.ufo.FakeCommunicationAdapter;
+import org.ligi.ufo.simulation.SimulatedMKCommunicationAdapter;
 import org.ligi.ufo.MKParamsParser;
 import org.ligi.ufo.DUBwiseNotificationListenerInterface;
+import org.ligi.ufo.VesselData;
+
 
 public class DUBwiseCanvas
     extends Canvas
@@ -1463,29 +1465,29 @@ lp= LocationProvider.getInstance(crit2);
 		return 4;
 
 	    case 6:
-		if ( mk.UBatt()==-1)
+		if ( VesselData.battery.getVoltage()==-1)
 		    return 29;
 		else
-		    return (byte)(mk.UBatt()/100+10);
+		    return (byte)(VesselData.battery.getVoltage ()/100+10);
 		
 
 	    case 7:
-		if ( mk.UBatt()==-1)
+		if ( VesselData.battery.getVoltage ()==-1)
 		    return 29;
 		else
-		    return (byte)((mk.UBatt()/10)%10+10); 
+		    return (byte)((VesselData.battery.getVoltage ()/10)%10+10); 
 		
 	    case 8:
-		if ( mk.UBatt()==-1)
+		if ( VesselData.battery.getVoltage ()==-1)
 		    return 29;
 		else
 		    return 9;
 
 	    case 9:
-		if ( mk.UBatt()==-1)
+		if ( VesselData.battery.getVoltage ()==-1)
 		    return 29;
 		else
-		    return (byte)((mk.UBatt())%10+10); 
+		    return (byte)((VesselData.battery.getVoltage ())%10+10); 
 		    
 
 	    case 10:
@@ -1650,27 +1652,27 @@ lp= LocationProvider.getInstance(crit2);
 		    symbol_left+=6*(symbols_img_tile_width)/4;
 		    
 		    
-		    if (mk.UBatt()!=-1)
+		    if (VesselData.battery.getVoltage ()!=-1)
 			{
 			    
 			    symbol_paint(g,symbol_left,4,0);
 			    symbol_left+=5 *(symbols_img_tile_width)/4;
 			    
-			    if ((mk.UBatt()/100)!=0)
+			    if ((VesselData.battery.getVoltage ()/100)!=0)
 				{
-				    symbol_paint(g,symbol_left,(mk.UBatt()/100),1);
+				    symbol_paint(g,symbol_left,(VesselData.battery.getVoltage ()/100),1);
 				    symbol_left+=(symbols_img_tile_width);
 				}
 			    
-			    symbol_paint(g,symbol_left,(mk.UBatt()/10)%10,1);
+			    symbol_paint(g,symbol_left,(VesselData.battery.getVoltage ()/10)%10,1);
 			    symbol_left+=(2*symbols_img_tile_width/3);
 			    symbol_paint(g,symbol_left,9,0);
 			    symbol_left+=(2*symbols_img_tile_width/3);
-			    symbol_paint(g,symbol_left,(mk.UBatt())%10,1);
+			    symbol_paint(g,symbol_left,(VesselData.battery.getVoltage ())%10,1);
 			    symbol_left+=6*(symbols_img_tile_width)/4;
 			    
 			    
-			    //		    g.drawString("" + (mk.UBatt()/10) + "," +(mk.UBatt()%10)+"V" , symbol_left,y_off,Graphics.TOP | Graphics.LEFT);
+			    //		    g.drawString("" + (VesselData.battery.getVoltage ()/10) + "," +(VesselData.battery.getVoltage ()%10)+"V" , symbol_left,y_off,Graphics.TOP | Graphics.LEFT);
 			    
 			    
 			    //symbol_left+= 	    g.getFont().stringWidth("88,8V");//;
@@ -3368,7 +3370,7 @@ lp= LocationProvider.getInstance(crit2);
 		break;
 
 	    case ACTIONID_CONNECT_FAKE:
-		mk.setCommunicationAdapter(new FakeCommunicationAdapter());
+		mk.setCommunicationAdapter(new SimulatedMKCommunicationAdapter());
 		mk.connect_to("fake","fake");
 
 		break;
