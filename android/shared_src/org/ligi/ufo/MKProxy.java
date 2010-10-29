@@ -101,36 +101,26 @@ public class MKProxy
 	    catch(Exception e) { connected=false; }
     }
     
-    public void sleep(int time)
-    {
-	try { Thread.sleep(time); }
-	catch (Exception e)  {   }
+    public void sleep(int time) {
+    	try { Thread.sleep(time); }
+    	catch (Exception e)  {   }
     }
 
-
-
-    public void run()
-    {
-
-	while(true)
-	    {
+    public void run() {
+    	while(true) {
 
 		try {
-		if (connected)
-		    {
-			byte[] data_in_buff=new byte[reader.available()];
-			int read_count =reader.read(data_in_buff,0,reader.available());
-			if (read_count>0) mk.write_raw(data_in_buff);
-			sleep(30);
-		    }
-		else
-		    sleep(300);
+			if (connected) {
+				byte[] data_in_buff=new byte[reader.available()];
+				int read_count =reader.read(data_in_buff,0,reader.available());
+				if (read_count>0) mk.write_raw(data_in_buff);
+				sleep(30);
+			    }
+			else
+				sleep(300);
 		}
 		catch ( Exception e){}
-	    }
+	    } // while
 
     }
-
-
-
 }
