@@ -56,7 +56,7 @@ public class DUBwisePrefs {
 	public final static int STARTCONNTYPE_NONE=0;
 	public final static int STARTCONNTYPE_BLUETOOTH=1;
 	public final static int STARTCONNTYPE_TCP=2;
-	public final static int STARTCONNTYPE_FAKE=3;
+	public final static int STARTCONNTYPE_SIMULATION=3;
 	
 	
 	public final static int KEEPLIGHT_NEVER=0;
@@ -66,6 +66,7 @@ public class DUBwisePrefs {
 	public final static String KEEPLIGHT_DEFAULT="never";
 	
 	public static void init(Context context) {
+		
 		shared_prefs=PreferenceManager.getDefaultSharedPreferences(context)	;
 		editor=shared_prefs.edit();
 	}
