@@ -47,8 +47,6 @@ public class MKGPSPosition
     public int[] LatWP;
     public String[] NameWP;
 
-    public int UBatt;
-
     public int last_wp=0;
 
     public int Longitude=123269000;
@@ -385,7 +383,7 @@ public class MKGPSPosition
     	Variometer=MKHelper.parse_arr_2(off+52,in_arr);; // climb(+) and sink(-) rate
     	FlyingTime=MKHelper.parse_arr_2(off+54,in_arr);;
 	
-    	UBatt= in_arr[off+56];
+    	VesselData.battery.setUBatt(in_arr[off+56]);
 
 		GroundSpeed= MKHelper.parse_arr_2(off+57,in_arr);
 		Heading= MKHelper.parse_arr_2(off+59,in_arr);

@@ -724,28 +724,6 @@ public class MKCommunicator
 		sending=false;
     }
 
-    /*
-    public int UBatt() {
-    	switch (slave_addr) {
-    		case FC_SLAVE_ADDR:
-    		case RIDDIM_SLAVE_ADDR:
-   				return debug_data.analog[9];
-
-    		case NAVI_SLAVE_ADDR:
-    			return gps_position.UBatt;
-
-    		case FOLLOWME_SLAVE_ADDR:
-    			return debug_data.analog[8];
-
-    		case FAKE_SLAVE_ADDR:
-    			return 127;
-
-			default:
-    			return -1; // No Info
-	    }
-    }
-
-     */
     public int SatsInUse() {
 
 		switch (slave_addr) {
