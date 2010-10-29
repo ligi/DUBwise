@@ -1,6 +1,5 @@
 /**************************************************************************
  *                                          
- * Class to initiate a connection on startup
  *                                          
  * Author:  Marcus -LiGi- Bueschleb   
  *
@@ -26,47 +25,63 @@ import it.gerdavax.easybluetooth.ReadyListener;
 import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.android.dubwise.conn.bluetooth.BluetoothCommunicationAdapter;
 import org.ligi.tracedroid.logging.Log;
+import org.ligi.ufo.simulation.SimulatedMKCommunicationAdapter;
 
 import android.content.Context;
 import android.widget.Toast;
 
+/**
+ * Class to initiate a connection on startup
+ *
+ * @author ligi
+ *
+ */
 public class StartupConnectionService {
 	
+	/**
+	 * toast for the user and log it
+	 * 
+	 * @param msg
+	 * @param ctx
+	 */
+	public static void tellNlog(String msg,Context ctx) {
+		Toast.makeText(ctx, msg, Toast.LENGTH_LONG).show();
+		Log.i(msg);
+	}
+
 	public static void start(Context context) {
-		//if (MKProvider.getMK().getCommunicationAdapter() ==null)
-		// stop if allready connected
+
+		// stop if already connected
 		if (MKProvider.getMK().isConnected())
 			return;
 		
-			switch(DUBwisePrefs.getStartConnType()) {
-				case DUBwisePrefs.STARTCONNTYPE_BLUETOOTH:
-					class myReadyListener extends ReadyListener {
+		switch(DUBwisePrefs.getStartConnType()) {
+			case DUBwisePrefs.STARTCONNTYPE_BLUETOOTH:
+				class myReadyListener extends ReadyListener {
 
-						Context context;
-						public myReadyListener(Context context) {
-							this.context=context;
-						}
-						@Override
-						public void ready() {
-							
-							Toast.makeText(context, "Conecting to " + DUBwisePrefs.getStartConnBluetootName() + " - " + DUBwisePrefs.getStartConnBluetootMAC(), Toast.LENGTH_LONG).show();
-
-							MKProvider.getMK().setCommunicationAdapter(new BluetoothCommunicationAdapter(DUBwisePrefs.getStartConnBluetootMAC()));
-							Log.i( "connecting");
-							MKProvider.getMK().connect_to("","");
-						
-						}
+					Context context;
+					public myReadyListener(Context context) {
+						this.context=context;
 					}
-					Toast.makeText(context, "Enabling Bluetooth", Toast.LENGTH_LONG).show();
-					LocalDevice.getInstance().init(context.getApplicationContext(), new myReadyListener(context));
+					@Override
+					public void ready() {
+						tellNlog("Conecting to " + DUBwisePrefs.getStartConnBluetootName() + " - " + DUBwisePrefs.getStartConnBluetootMAC() , context);
+						MKProvider.getMK().setCommunicationAdapter(new BluetoothCommunicationAdapter(DUBwisePrefs.getStartConnBluetootMAC()));
+						}
+				}
+					
+				tellNlog( "switching bluetooth ON", context);
+				LocalDevice.getInstance().init(context.getApplicationContext(), new myReadyListener(context));
 				break;
 				
+			case DUBwisePrefs.STARTCONNTYPE_SIMULATION:
+				tellNlog( "connecting to fake", context);
+				MKProvider.getMK().setCommunicationAdapter(new SimulatedMKCommunicationAdapter());
+				break;
+					
 			default:
-				Toast.makeText(context, "No default Connection", Toast.LENGTH_SHORT).show(); 
+				tellNlog("No default Connection in StartupConnectionService",context); 
 				break;
 			}
 	}
-	
-	
-	
 }
