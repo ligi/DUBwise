@@ -42,6 +42,8 @@ import org.ligi.tracedroid.logging.Log;
 import org.ligi.tracedroid.sending.TraceDroidEmailSender;
 import org.ligi.ufo.DUBwiseNotificationListenerInterface;
 import org.ligi.ufo.MKCommunicator;
+import org.ligi.ufo.logging.NotLogger;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -56,12 +58,10 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	
-		
 		Log.setTAG("DUBwise");
 		TraceDroid.init(this);
 		TraceDroidEmailSender.sendStackTraces("ligi@ligi.de", this);
 
-		
 		BluetoothMaster.init(this);
 		
 		VoicePrefs.init(this);
@@ -185,12 +185,24 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 	protected void onResume() {
 		super.onResume();
 		ActivityCalls.afterContent(this);
-		MKProvider.getMK().do_log=DUBwisePrefs.isVerboseLoggingEnabled();
-		Log.d("onResume DUBwise.java");
 		
+		updateMKLogging();
+		
+		Log.d("onResume DUBwise.java" + this);
+	
 		refresh_list();
 		
 		MKProvider.getMK().addNotificationListener(this);
+	}
+	
+	/**
+	 * enable/disable MK Protocol logging depending on user settings
+	 */
+	public void updateMKLogging() {
+		if (DUBwisePrefs.isVerboseLoggingEnabled())
+			MKProvider.getMK().setLoggingInterface(new AndroidLogger());
+		else
+			MKProvider.getMK().setLoggingInterface(new NotLogger());
 	}
 
 	@Override
