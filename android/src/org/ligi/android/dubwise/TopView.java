@@ -121,11 +121,11 @@ public class TopView extends View
 			// if (mk.UBatt()!=-1)
 			// mPaint.getFontMetrics().
 			
-			if (mk.UBatt() != -1) {
+			if (VesselData.battery.getVoltage() != -1) {
 				symbol_paint(canvas, batt_img);
-				canvas.drawText("" + mk.UBatt() / 10.0, act_symbol_pos, this
+				canvas.drawText("" + VesselData.battery.getVoltage() / 10.0, act_symbol_pos, this
 						.getHeight() - 5, mTextPaint);
-				act_symbol_pos += getTextWidth("" + mk.UBatt() / 10.0);
+				act_symbol_pos += getTextWidth("" + VesselData.battery.getVoltage() / 10.0);
 				act_symbol_pos += spacer_items;
 			}
 
