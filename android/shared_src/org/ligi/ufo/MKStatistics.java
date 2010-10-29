@@ -42,7 +42,6 @@ public class MKStatistics {
     public int stick_data_count=0;
     public int external_control_confirm_frame_count=0;
 
-
     public int debug_data_request_count=0;
     public int debug_name_request_count=0;
     public int version_data_request_count=0;
@@ -63,7 +62,6 @@ public class MKStatistics {
     public int speed_cnt=1;
 
     public int max_alt=-1;
-
 
     public MKStatistics() {
     	reset();
