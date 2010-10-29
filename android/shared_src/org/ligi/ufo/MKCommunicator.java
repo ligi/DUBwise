@@ -20,6 +20,10 @@ package org.ligi.ufo;
 
 import java.util.Vector;
 
+import org.ligi.ufo.simulation.SimulatedMKCommunicationAdapter;
+import org.ligi.ufo.logging.LoggingInterface;
+import org.ligi.ufo.logging.NotLogger;
+
 /**
  *                                          
  * Main Class to Communicate with MikroKopter Hardware
@@ -95,7 +99,6 @@ public class MKCommunicator
 		case FC_SLAVE_ADDR:
 			return angle_nick;
 
-		case FAKE_SLAVE_ADDR:
 		case NAVI_SLAVE_ADDR:
 			return debug_data.analog[1];
 
@@ -107,16 +110,14 @@ public class MKCommunicator
 
 	public int AngleRoll() {
 		switch (slave_addr) {
-
-		case FC_SLAVE_ADDR:
-			return angle_roll;
-
-		case FAKE_SLAVE_ADDR:
-		case NAVI_SLAVE_ADDR:
-			return debug_data.analog[1];
-
-		default:
-			return -1;
+			case FC_SLAVE_ADDR:
+				return angle_roll;
+	
+			case NAVI_SLAVE_ADDR:
+				return debug_data.analog[1];
+	
+			default:
+				return -1;
 		}
 	}
     
@@ -162,9 +163,6 @@ public class MKCommunicator
     	if (is_navi())
     		return gps_position.UsedCapacity;
     	
-    	if (is_fake())
-    		return 42;
-    	
     	return -1;
     }
 
@@ -205,9 +203,6 @@ public class MKCommunicator
     public final static int DATA_BUFF_LEN = 20; // in lines
 
     public String[] data_buff;
-
-    //    boolean do_log=false;
-    public boolean do_log=true;
 
     private int data_buff_pos=0;
 
@@ -252,7 +247,7 @@ public class MKCommunicator
     }
 
     public boolean is_fake()  {
-    	return (slave_addr==FAKE_SLAVE_ADDR);
+    	return comm_adapter instanceof SimulatedMKCommunicationAdapter;
     }
 
     public boolean is_mk() {
@@ -291,8 +286,7 @@ public class MKCommunicator
     }
 
     public String getExtendedConnectionName() {
-		switch (slave_addr)
-		    {
+		switch (slave_addr) {
 		    case -1:
 			return "No Device";
 	
@@ -309,27 +303,18 @@ public class MKCommunicator
 			return "FollowMe Connection";
 	
 		    case RE_SLAVE_ADDR:
-			return "RangeExtender Connection";
+		    	return "RangeExtender Connection";
 	
 		    case RIDDIM_SLAVE_ADDR:
-			return "Riddim Connection";
+		    	return "Riddim Connection";
 	
 		    case FAKE_SLAVE_ADDR:
-			return "Fake Connection";
+		    	return "Fake Connection";
 	
 		    default:
-			return "Incompatible Device";
+		    	return "Incompatible Device";
 		    }
     }
-
-    /****************** Section: private Attributes **********************************************/
-//#ifdef j2me
-//#    private javax.microedition.io.StreamConnection connection;
-//#endif
-
-
-    //private java.io.InputStream	reader;    
-    //private java.io.OutputStream writer;    
 
     public String name;
 
@@ -382,22 +367,6 @@ public class MKCommunicator
     //    int port;
 
     
-    //  URL string: "btspp://XXXXXXXXXXXX:1" - the X-Part is the MAC-Adress of the Bluetooth-Device connected to the Fligth-Control
-    public void connect_to(String _url,String _name) {
-    
-    	name=_name;
-		mk_url=_url; // remember URL for connecting / reconnecting later
-		force_disconnect=false;
-		connected=false;
-	
-		if ( _url=="fake" ) {
-			connection_start_time=System.currentTimeMillis();
-			gps_position.ErrorCode=1; // its an error that its a fake - just intent to show the symbol ;-)
-			slave_addr=FAKE_SLAVE_ADDR;
-			version.set_fake_data();
-			connected=true;
-		    }
-    }
     
     /**
      * returns if connected and got a version from the Device
@@ -444,41 +413,6 @@ public class MKCommunicator
     	}	
     }
     
-    private int[] Decode64(byte[] in_arr, int offset,int len) 
-    {
-	int ptrIn=offset;	
-	int a,b,c,d,x,y,z;
-	int ptr=0;
-	
-	int[] out_arr=new int[len];
-
-	while(len!=0)
-	    {
-		a=0;
-		b=0;
-		c=0;
-		d=0;
-		try {
-		a = in_arr[ptrIn++] - '=';
-		b = in_arr[ptrIn++] - '=';
-		c = in_arr[ptrIn++] - '=';
-		d = in_arr[ptrIn++] - '=';
-		}
-		catch (Exception e) {}
-		//if(ptrIn > max - 2) break;     // nicht mehr Daten verarbeiten, als empfangen wurden
-
-		x = (a << 2) | (b >> 4);
-		y = ((b & 0x0f) << 4) | (c >> 2);
-		z = ((c & 0x03) << 6) | d;
-
-		if((len--)!=0) out_arr[ptr++] = x; else break;
-		if((len--)!=0) out_arr[ptr++] = y; else break;
-		if((len--)!=0) out_arr[ptr++] = z; else break;
-	    }
-	
-	return out_arr;
-
-    }
 
     public void wait4send() {
 		while(sending) //||recieving)
@@ -493,10 +427,9 @@ public class MKCommunicator
     // FC - Function Mappers
 
     // send a version Request to the FC - the reply to this request will be processed in process_data when it arrives
-    public void get_version()
-    {
-	stats.version_data_request_count++;
-	send_command(0,'v');
+    public void get_version() {
+		stats.version_data_request_count++;
+		send_command(0,'v');
     }
 
     // TODO FIxme
@@ -708,7 +641,6 @@ public class MKCommunicator
     	send_command(FC_SLAVE_ADDR,'p');
     }
 
-
     public void trigger_mixer_read() {
     	send_command(FC_SLAVE_ADDR,'n');
     }
@@ -792,6 +724,7 @@ public class MKCommunicator
 		sending=false;
     }
 
+    /*
     public int UBatt() {
     	switch (slave_addr) {
     		case FC_SLAVE_ADDR:
@@ -807,12 +740,12 @@ public class MKCommunicator
     		case FAKE_SLAVE_ADDR:
     			return 127;
 
-		
-    		default:
+			default:
     			return -1; // No Info
 	    }
     }
 
+     */
     public int SatsInUse() {
 
 		switch (slave_addr) {
@@ -914,7 +847,7 @@ public class MKCommunicator
 	log("command " +(char)data[2]   + "len " + len);		
 
 
-	int[] decoded_data=Decode64(data,3,len-5);
+	int[] decoded_data=MKHelper.Decode64(data,3,len-5);
 	log("decoded");		
 	switch((char)data[2])
 	    {
@@ -954,7 +887,6 @@ public class MKCommunicator
 		
 	    case 'V': // Version Info
 	    	stats.version_data_count++;
-	    	
 
 	    	version.set_by_mk_data(decoded_data);
 	    	
@@ -1004,8 +936,7 @@ public class MKCommunicator
 	    case 'O': // OSD Values Str from Navi
 	    	stats.navi_data_count++;
 	    	log("got navi data(" + len +"):");
-		
-	    
+
 	    	gps_position.set_by_mk_data(decoded_data,version);
 
 	    	stats.process_mkflags(gps_position.FCFlags);
@@ -1043,8 +974,6 @@ public class MKCommunicator
     	
     	notifyAll(DUBwiseNotificationListenerInterface.NOTIFY_DISCONNECT);
     }
-
-
     
     // Thread to recieve data from Connection
     public void run() {
@@ -1069,13 +998,13 @@ public class MKCommunicator
 				if (!force_disconnect) connect();
 				log ("not connected - forced:" + force_disconnect);
 			    }
-			else  if (slave_addr==FAKE_SLAVE_ADDR)
+			/*else  if (slave_addr==FAKE_SLAVE_ADDR)
 			    {
 				debug_data.set_fake_data();
 				update_debug_buff();
 				stats.debug_data_count++;
 				sleep(50);
-			    }
+			    }*/
 		else
 				try{
 				
@@ -1095,22 +1024,17 @@ public class MKCommunicator
 		
 					//			int read_count =reader.read(data_in_buff,0,reader.available());
 					stats.bytes_in+=read_count;
-					if (read_count>0)
-					    {
+					if (read_count>0)  {
 						log("read" + read_count + " ds_pos" + data_set_pos);		
 					
-						for ( pos=0;pos<read_count;pos++)
-						    {
+						for ( pos=0;pos<read_count;pos++) {
 						    //data_in_buff[pos]+=127;
 						    log("" +data_in_buff[pos] + "->" + (char)data_in_buff[pos]);
-							if ((data_in_buff[pos]==13)||(data_in_buff[pos]==10))
-							    {
+							if ((data_in_buff[pos]==13)||(data_in_buff[pos]==10)) {
 								data_buff[data_buff_pos]=new String(data_set, 0, data_set_pos);
 								data_buff_pos++;
 								data_buff_pos%=DATA_BUFF_LEN;
 		
-		
-								
 								try{
 									if (data_set_pos>3) 
 										process_data(data_set,data_set_pos); 
@@ -1129,8 +1053,8 @@ public class MKCommunicator
 						    }
 					    }
 					else  {
-							recieving=false;
-							sleep(21); 
+						recieving=false;
+						sleep(21); 
 					 }
 			    }
 			    catch (Exception ex) {
@@ -1160,9 +1084,28 @@ public class MKCommunicator
      * 
      * @param _comm_adapter - the communication adapter to use
      */
-    public void setCommunicationAdapter(CommunicationAdapterInterface _comm_adapter) {
+   public void setCommunicationAdapter(CommunicationAdapterInterface _comm_adapter) {
 		comm_adapter=_comm_adapter;
-	}
+		force_disconnect=false;
+   }
+   
+// URL string: "btspp://XXXXXXXXXXXX:1" - the X-Part is the MAC-Adress of the Bluetooth-Device connected to the Fligth-Control
+   public void connect_to(String _url,String _name) {
+   
+   	name=_name;
+		mk_url=_url; // remember URL for connecting / reconnecting later
+		force_disconnect=false;
+		connected=false;
+	
+		if ( _url=="fake" ) {
+			connection_start_time=System.currentTimeMillis();
+			gps_position.ErrorCode=1; // its an error that its a fake - just intent to show the symbol ;-)
+			slave_addr=FAKE_SLAVE_ADDR;
+			version.set_fake_data();
+			connected=true;
+		    }
+   }
+   
     
     public CommunicationAdapterInterface getCommunicationAdapter() {
     	return comm_adapter;
@@ -1181,13 +1124,14 @@ public class MKCommunicator
     }
 
     public void log(String str) {
-//#ifdef android
-    	//if (do_log)	Log.d("MK-Comm",str);
-//#endif
-//	canvas.debug.log(str);
-	//	System.out.println(str);
+    	Log.i(""+str);
     }
-
+    
+    public void setLoggingInterface(LoggingInterface new_loger) {
+    	Log=new_loger;
+    }
+    private LoggingInterface Log=new NotLogger();
+    
     /**
      * @return the time in seconds we are connected 
      */
