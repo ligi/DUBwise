@@ -25,10 +25,6 @@ import java.io.*;
 import java.util.Random;
 
 
-//#ifdef j2me
-//# import javax.microedition.io.*;
-//#endif
-
 public class MKFirmwareFlasher
     implements Runnable
 {
@@ -43,27 +39,14 @@ public class MKFirmwareFlasher
     public int msg_pos=0;
     public int bootloader_init_attempt;
 
-/*
-    private InputStream	comm_adapter.getInputStream();    
-    private OutputStream comm_adapter.getOutputStream();    
-*/    
     public InputStream in;
-
-    
-//#ifdef j2me
-//#    private StreamConnection connection;
-//#endif
 
     private byte[] bl_magic={(byte)'M',(byte)'K',(byte)'B',(byte)'L'};
     private byte bl_magic_pos=0;
     private boolean got_bl_magic=false;
 
     private int attempt=0;
-
-
     byte intension=0;
-
-
     public boolean success=false;
     public boolean job_done=false;
     public boolean started=false;
