@@ -67,8 +67,13 @@ public class BluetoothMaster implements Runnable {
 			}
 		
 		 Log.i("BluetoothMaster initing BT");
-		 LocalDevice.getInstance().init(ctx, new myReadyListener(new Thread(this)));
-		
+		 
+		 try {
+			 LocalDevice.getInstance().init(ctx, new myReadyListener(new Thread(this)));
+		 }
+		 catch (Exception e) { 
+			 Log.w("Bluetooth init fail!");
+		 }
 	}
 
 	public static void restart() {
