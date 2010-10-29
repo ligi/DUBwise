@@ -23,6 +23,7 @@ package org.ligi.android.dubwise.conn;
 import org.ligi.android.dubwise.R;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.tracedroid.logging.Log;
+import org.ligi.ufo.logging.NotLogger;
 
 import android.os.Bundle;
 import android.text.InputType;
@@ -96,7 +97,8 @@ public class ConnectViaTCPActivity extends Activity implements OnClickListener, 
 		
 		boolean qmk=qmk_check.isChecked();
 		
-		MKProvider.getMK().do_log=false;
+		// disable logging - TODO check why we needed this
+		MKProvider.getMK().setLoggingInterface(new NotLogger());
         
         SharedPreferences settings = ActivityCalls.getSharedPreferences(this);
         
