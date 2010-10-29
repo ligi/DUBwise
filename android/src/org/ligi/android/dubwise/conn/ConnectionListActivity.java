@@ -23,7 +23,7 @@ package org.ligi.android.dubwise.conn;
 import org.ligi.android.dubwise.conn.bluetooth.BluetoothDeviceListActivity;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.android.dubwise.helper.DUBwiseBaseListActivity;
-import org.ligi.ufo.FakeCommunicationAdapter;
+import org.ligi.ufo.simulation.SimulatedMKCommunicationAdapter;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,11 +34,10 @@ import android.widget.ArrayAdapter;
 
 public class ConnectionListActivity extends DUBwiseBaseListActivity {
 
-	String[] menu_items = new String[] { "Fake Connection","Connect via Bluetooth","connect via TCP/IP" ,"disconnect","reconnect","Switch Device","Connection Details"};
-	int[] menu_actions = new int[] { ACTIONID_FAKE , ACTIONID_BT , ACTIONID_TCP , ACTIONID_DISCONN, ACTIONID_RECONNECT , ACTIONID_SWITCH, ACTIONID_CONDETAILS};
+	private String[] menu_items = new String[] { "Fake Connection","Connect via Bluetooth","connect via TCP/IP" ,"disconnect","reconnect","Switch Device","Connection Details"};
+	private int[] menu_actions = new int[] { ACTIONID_SIMULATED , ACTIONID_BT , ACTIONID_TCP , ACTIONID_DISCONN, ACTIONID_RECONNECT , ACTIONID_SWITCH, ACTIONID_CONDETAILS};
 	
-
-	public final static int ACTIONID_FAKE = 0;
+	public final static int ACTIONID_SIMULATED = 0;
 	public final static int ACTIONID_BT = 1;
 	public final static int ACTIONID_TCP = 2;
 	public final static int ACTIONID_DISCONN = 3;
@@ -46,20 +45,12 @@ public class ConnectionListActivity extends DUBwiseBaseListActivity {
 	public final static int ACTIONID_CONDETAILS=5;
 	public final static int ACTIONID_RECONNECT=6;
 	
-	// public MapView map;
-	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		ActivityCalls.beforeContent(this);
-		// menu_items[0]=settings.getString("conn_host","--");
-		
-	    this.setListAdapter(new ArrayAdapter<String>(this,
-	            android.R.layout.simple_list_item_1, menu_items));
-	       
+	    this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menu_items));
 	}
-
 	
 	@Override
 	protected void onResume() {
@@ -67,24 +58,15 @@ public class ConnectionListActivity extends DUBwiseBaseListActivity {
 		ActivityCalls.afterContent(this);
 	}
 
-	public void quit() {
-		this.setListAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, menu_items));
-		// setContentView(this);
-	}
-
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
 		try {
-
             switch (menu_actions[position]) {
-
-                case ACTIONID_FAKE:
-                	MKProvider.getMK().setCommunicationAdapter(new FakeCommunicationAdapter());
-                	MKProvider.getMK().connect_to( "fake", "fake" );
-                    finish();
+                case ACTIONID_SIMULATED:
+                	MKProvider.getMK().setCommunicationAdapter(new SimulatedMKCommunicationAdapter());
+                	finish();
                     break;
                 case ACTIONID_BT:
                     startActivity( new Intent( this, BluetoothDeviceListActivity.class ) );
@@ -106,16 +88,11 @@ public class ConnectionListActivity extends DUBwiseBaseListActivity {
                 	
                 case ACTIONID_RECONNECT:
                 	MKProvider.getMK().close_connections(false);
-                	
-                	
                 	break;
-               
             }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// Start the activity
-
 	}
 
 	@Override
