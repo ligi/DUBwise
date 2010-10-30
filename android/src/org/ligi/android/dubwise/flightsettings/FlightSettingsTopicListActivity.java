@@ -1,10 +1,8 @@
 /**************************************************************************
- *                                          
- * Activity to choose the topic which the user wants to 
- * edit from the FlightSettings 
- *                                          
+ *                                                                       
  * Author:  Marcus -LiGi- Bueschleb   
- *
+ *  http://ligi.de
+ *  
  * Project URL:
  *  http://mikrokopter.de/ucwiki/en/DUBwise
  * 
@@ -32,11 +30,17 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
 
+/**
+ * Activity to choose the topic which the user wants to 
+ * edit from the FlightSettings 
+ *  
+ * @author ligi
+ *
+ */
 public class FlightSettingsTopicListActivity extends ListActivity {
 
-	String[] menu_items;
+	private String[] menu_items;
 	
-	// public MapView map;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,29 +48,11 @@ public class FlightSettingsTopicListActivity extends ListActivity {
 
 		ActivityCalls.beforeContent(this);
 		
-		
-		  menu_items=new String[MKProvider.getMK().params.tab_stringids.length];
-	        for (int i=0;i<menu_items.length;i++)
-	        	menu_items[i]=getString(DUBwiseStringHelper.table[MKProvider.getMK().params.tab_stringids[i]]);
-	    
-	        /*
-		menu_items=new String[MKProvider.getMK().params.field_stringids[act_paramset][getIntent().getIntExtra("foo",0)]];
-		
-		
-		
-		for (int i=0;i<menu_items.length;i++)
-		menu_items[i]=getString(DUBwiseStringHelper.table[MKProvider.getMK().params.field_stringids[act_paramset][0]]);
-		*/      
-		this.setListAdapter(new ArrayAdapter<String>(this,
-		 android.R.layout.simple_list_item_1, menu_items));
+		menu_items=new String[MKProvider.getMK().params.tab_stringids.length];
+	    for (int i=0;i<menu_items.length;i++)
+	    	menu_items[i]=getString(DUBwiseStringHelper.table[MKProvider.getMK().params.tab_stringids[i]]);
+		this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menu_items));
 	}
-
-	public void quit() {
-		this.setListAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, menu_items));
-		// setContentView(this);
-	}
-
 
 	@Override 
 	public void onResume() {
