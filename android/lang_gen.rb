@@ -45,7 +45,7 @@ langs.each { |l|
   # initial content
   xmls[l] <  "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r<resources>\r"
 
-  xmls[l] << rio("res/lang_all").read
+  xmls[l] << rio("lang_all").read
 }
 
 
