@@ -10,14 +10,27 @@ require 'rio'
 require 'iconv'
 require 'fileutils'
 
+def escape(str2)
+  str=str2
+  str.gsub!(">","&gt;")
+  str.gsub!("<","&lt;")
+  str.gsub!("'","`")  # TODO FIXME - Dirty Hack - android R could not be build with a ' inside a str - broke fr lang ..
+  return str
+end
+
 last_i=0
 
 xmls={}
 langs=["en","de","fr"]
 
+#for each language
 langs.each { |l|
 
   act_path="res/values-"+l
+
+  #path sceme for default lang
+  act_path="res/values"  if l=="en"
+
   act_fname=act_path+"/strings.xml"
 
   # create the path if not exist
@@ -30,7 +43,9 @@ langs.each { |l|
   xmls[l]=rio(act_fname)
 
   # initial content
-  xmls[l] <  "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r<resources>"
+  xmls[l] <  "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r<resources>\r"
+
+  xmls[l] << rio("res/lang_all").read
 }
 
 
@@ -38,17 +53,11 @@ langdef=rio("shared_src/org/ligi/ufo/DUBwiseLangDefs.java")
 langdef < "package org.ligi.ufo;\npublic interface DUBwiseLangDefs \n { \n"
 
 
-def escape(str2)
-str=str2
-  str.gsub!(">","&gt;")
-  str.gsub!("<","&lt;")
-  str.gsub!("'","`")  # TODO FIXME - Dirty Hack - android R could not be build with a ' inside a str - broke fr lang ..
-  return str
-end
+
 
 to_rs=[]
 
- Iconv.iconv( "UTF-8","ISO8859-1", rio("../j2me/res/lang_base").read).join.split("\n").each_with_index { |l,i|
+Iconv.iconv( "UTF-8","ISO8859-1", rio("../j2me/res/lang_base").read).join.split("\n").each_with_index { |l,i|
   splitted=l.split(";")
   langdef <<  " public final static int STRINGID_" + splitted.first+"="+i.to_s+";\n"
 
@@ -84,3 +93,4 @@ langs.each { |l|
 
 langdef <<  " public final static int STRING_COUNT=" + (last_i+1).to_s+";"
 langdef << "\n}\n"
+

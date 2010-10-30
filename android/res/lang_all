@@ -1,0 +1,11 @@
+    <string name="app_name">DUBwise</string>
+    <string name="FullScreen">FullScreen</string>
+    <string name="Grid">Grid</string>
+    <string name="Interval">Interval</string>
+    <string name="Legend">Legend</string>
+    <string name="Port">Port</string>
+    <string name="Host">Host</string>
+    <string name="Connect">Connect</string>
+    <string name="LibVersion">LibVersion</string>
+    <string name="StatusBar">Status Bar</string>
+    <string name="Logging">Logging</string>

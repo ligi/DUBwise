@@ -1,6 +1,6 @@
 bin/
 
 res/values-de/strings.xml
-res/values-en/strings.xml
 res/values-fr/strings.xml
+res/values/strings.xml
 src/org/ligi/android/dubwise/helper/DUBwiseStringHelper.java
