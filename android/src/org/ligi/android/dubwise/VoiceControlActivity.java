@@ -25,6 +25,7 @@ import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.tracedroid.logging.Log;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -35,7 +36,6 @@ public class VoiceControlActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		
 		ActivityCalls.beforeContent(this);
 	/*
@@ -64,11 +64,13 @@ public class VoiceControlActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		ActivityCalls.afterContent(this);
-		Intent intent = new Intent("android.speech.RecognizerIntent.RECOGNIZE_SPEECH");  
-		startActivityForResult(intent, 0);
-		
-		
-	
+		try {
+			Intent intent = new Intent("android.speech.RecognizerIntent.RECOGNIZE_SPEECH");  
+			startActivityForResult(intent, 0);
+		}
+		catch (Exception e) {
+			new AlertDialog.Builder(this).setTitle("Problem").setMessage("cannot find RecognizerIntent on your Android Phone.").show(); 
+		}
 	}
 
 	@Override
@@ -81,11 +83,12 @@ public class VoiceControlActivity extends Activity {
 	@Override 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {  
 	     // (())  ...code for checking resultCode and data intent...  
-	    ArrayList<String> results = data.getExtras().getStringArrayList("results");  
+		if ((data==null)||(data.getExtras()==null))
+	    	return;
+		ArrayList<String> results = data.getExtras().getStringArrayList("results");  
 	  
 	    for (String result:results) {
 	    	Log.i("voice result " + result);
 	    }
 	    }  
-	
 }
