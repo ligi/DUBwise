@@ -20,7 +20,6 @@
 
 package org.ligi.ufo;
 
-
 public interface DUBwiseDefinitions
 {
 
@@ -33,7 +32,7 @@ public interface DUBwiseDefinitions
     public final static byte USER_INTENT_EXTERNAL_CONTROL =6;
     public final static byte USER_INTENT_GPSOSD           =7;
     public final static byte USER_INTENT_FOLLOWME         =8;
-
+    public final static byte USER_INTENT_3DDATA           =9;
 
     public final static byte GPS_FORMAT_DECIMAL           =0;
     public final static byte GPS_FORMAT_MINSEC            =1;
