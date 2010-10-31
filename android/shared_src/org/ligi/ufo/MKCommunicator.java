@@ -48,9 +48,6 @@ public class MKCommunicator
     public int secondary_abo=30;
     public int default_abo=1000;
 
-    public int angle_nick=-4242;
-    public int angle_roll=-4242;
-
     public boolean freeze_debug_buff=false;
 
     public boolean disconnect_notify=false;
@@ -76,7 +73,59 @@ public class MKCommunicator
 
     public    int[] debug_buff_targets=null;
 
+    private LoggingInterface Log=new NotLogger();
+
+    private boolean sending=false;
+    private boolean recieving=false;
+
+    /***************** Section: public Attributes **********************************************/
+    public boolean connected=false; // flag for the connection state
+
+    public String mk_url=""; // buffer the url which is given in the constuctor for reconnectin purposes
+
+    public final static int DATA_BUFF_LEN = 20; // in lines
+
+    public String[] data_buff;
+
+    private int data_buff_pos=0;
+
+    //    public final static int DATA_IN_BUFF_SIZE=512;
+    public final static int DATA_IN_BUFF_SIZE=2048;
+    //    public final static int DATA_IN_BUFF_SIZE=4096;
+
+    public byte user_intent=0;
     
+    public MKLCD LCD;
+    public MKVersion version;
+    public MKDebugData debug_data;
+
+    public int[] extern_control;
+
+    public MKGPSPosition gps_position;
+
+    public MixerManager mixer_manager;
+    public MKStickData stick_data;
+    public MKParamsParser params;
+    public MKWatchDog watchdog;
+    public MKProxy proxy=null;
+    public MKStatistics stats ;
+    //    public DUBwiseDebug debug;
+
+    public long connection_start_time=-1;
+    public String error_str = null;
+
+    public final static byte FC_SLAVE_ADDR              = 1;
+    public final static byte NAVI_SLAVE_ADDR            = 2;
+    public final static byte MK3MAG_SLAVE_ADDR          = 3;
+    public final static byte FOLLOWME_SLAVE_ADDR        = 10;
+
+    public final static byte RIDDIM_SLAVE_ADDR          = 12;
+    public final static byte RE_SLAVE_ADDR              = 23;
+
+    public final static byte FAKE_SLAVE_ADDR              = 42;
+
+    public String name;
+
     public void addNotificationListener(DUBwiseNotificationListenerInterface i) {
     	notify_listeners.addElement(i);
     }
@@ -92,34 +141,6 @@ public class MKCommunicator
     public final static String lib_version_str() {
     	return "V"+lib_version_major+"."+lib_version_minor;
     }
-    
-	public int AngleNick() {
-		switch (slave_addr) {
-
-		case FC_SLAVE_ADDR:
-			return angle_nick;
-
-		case NAVI_SLAVE_ADDR:
-			return debug_data.analog[1];
-
-		default:
-			return -1;
-		}
-
-	}
-
-	public int AngleRoll() {
-		switch (slave_addr) {
-			case FC_SLAVE_ADDR:
-				return angle_roll;
-	
-			case NAVI_SLAVE_ADDR:
-				return debug_data.analog[1];
-	
-			default:
-				return -1;
-		}
-	}
     
 	
 	/**
@@ -195,53 +216,6 @@ public class MKCommunicator
     	return "" + getAlt()/10 + "m";
     }
     
-    /***************** Section: public Attributes **********************************************/
-    public boolean connected=false; // flag for the connection state
-
-    public String mk_url=""; // buffer the url which is given in the constuctor for reconnectin purposes
-
-    public final static int DATA_BUFF_LEN = 20; // in lines
-
-    public String[] data_buff;
-
-    private int data_buff_pos=0;
-
-    //    public final static int DATA_IN_BUFF_SIZE=512;
-    public final static int DATA_IN_BUFF_SIZE=2048;
-    //    public final static int DATA_IN_BUFF_SIZE=4096;
-    public byte user_intent=0;
-    
-    //    byte bootloader_stage= BOOTLOADER_STAGE_NONE;
-
-    public MKLCD LCD;
-    public MKVersion version;
-    public MKDebugData debug_data;
-
-    public int[] extern_control;
-
-    public MKGPSPosition gps_position;
-
-    public MixerManager mixer_manager;
-    public MKStickData stick_data;
-    public MKParamsParser params;
-    public MKWatchDog watchdog;
-    public MKProxy proxy=null;
-    public MKStatistics stats ;
-    //    public DUBwiseDebug debug;
-
-    public long connection_start_time=-1;
-    public String error_str = null;
-
-    public final static byte FC_SLAVE_ADDR              = 1;
-    public final static byte NAVI_SLAVE_ADDR            = 2;
-    public final static byte MK3MAG_SLAVE_ADDR          = 3;
-    public final static byte FOLLOWME_SLAVE_ADDR        = 10;
-
-    public final static byte RIDDIM_SLAVE_ADDR          = 12;
-    public final static byte RE_SLAVE_ADDR              = 23;
-
-    public final static byte FAKE_SLAVE_ADDR              = 42;
-
     public boolean is_navi() {
     	return (slave_addr==NAVI_SLAVE_ADDR);
     }
@@ -316,11 +290,6 @@ public class MKCommunicator
 		    }
     }
 
-    public String name;
-
-    private boolean sending=false;
-    private boolean recieving=false;
-
     /******************  Section: public Methods ************************************************/
     public MKCommunicator() {
 	
@@ -364,10 +333,6 @@ public class MKCommunicator
     	proxy.connect(proxy_url);
     }
     
-    //    int port;
-
-    
-    
     /**
      * returns if connected and got a version from the Device
      * @return
@@ -383,7 +348,6 @@ public class MKCommunicator
 		    return ""+data_buff[data_buff_pos-age];
 		else
 		    return ""+data_buff[DATA_BUFF_LEN+data_buff_pos-age];
-
     }
 
     
@@ -425,7 +389,6 @@ public class MKCommunicator
     }
 
     // FC - Function Mappers
-
     // send a version Request to the FC - the reply to this request will be processed in process_data when it arrives
     public void get_version() {
 		stats.version_data_request_count++;
@@ -593,8 +556,7 @@ public class MKCommunicator
 		debug_data=new MKDebugData();
     }
 
-    public void switch_to_fc()
-    {
+    public void switch_to_fc() {
     	wait4send();
     	send_command(NAVI_SLAVE_ADDR,'u',0);
     	switch_todo();
@@ -602,15 +564,12 @@ public class MKCommunicator
 
     }
 
-    
-
     public void switch_to_mk3mag() {
     	wait4send();
     	send_command(NAVI_SLAVE_ADDR   ,'u',1);
     	switch_todo();
     }
 
-  
     public void switch_to_navi() {
 		wait4send();
 		sending=true;
@@ -625,14 +584,12 @@ public class MKCommunicator
 		switch_todo();
     }
 
-
     public void start_engines() {
 		int[] start_cmd = { 1,0,0,0,0 };
 		wait4send();
 		send_command(FC_SLAVE_ADDR,'e',start_cmd);
     }
     
-	
     public void get_error_str() {
     	send_command(NAVI_SLAVE_ADDR,'e');
     }
@@ -747,8 +704,7 @@ public class MKCommunicator
     }
 
     public int SenderOkay() {
-		switch (slave_addr)
-		    {
+		switch (slave_addr) {
 		    case FC_SLAVE_ADDR:
 			return debug_data.analog[10];
 	
@@ -778,171 +734,156 @@ public class MKCommunicator
 		debug_buff_lastset=0;
     }
 
-    public int chg_debug_max(int val)
-    {
-	if (val>debug_buff_max)
-	    debug_buff_max=val;
-	if (-val>debug_buff_max)
-	    debug_buff_max=-val;
-	return val;
+    public int chg_debug_max(int val) {
+		if (val>debug_buff_max)
+		    debug_buff_max=val;
+		if (-val>debug_buff_max)
+		    debug_buff_max=-val;
+		return val;
     }
 
-    public void destroy_debug_buff()
-    {
-	debug_buff_targets=null;
+    public void destroy_debug_buff() {
+    	debug_buff_targets=null;
     }
 
-    public void update_debug_buff()
-    {
-	if (freeze_debug_buff) return;
-	if (debug_buff_targets!=null)
-	    {
-		for (int sp=0;sp<debug_buff_targets.length;sp++)
-		    debug_buff[debug_buff_off][sp]=chg_debug_max(debug_data.analog[debug_buff_targets[sp]]);
-		if (debug_buff_off>debug_buff_lastset)
-		    debug_buff_lastset=debug_buff_off;
-		
-		debug_buff_off=(debug_buff_off+1)%debug_buff_len;
-	    }
+    public void update_debug_buff() {
+		if (freeze_debug_buff) return;
+		if (debug_buff_targets!=null) {
+			for (int sp=0;sp<debug_buff_targets.length;sp++)
+			    debug_buff[debug_buff_off][sp]=chg_debug_max(debug_data.analog[debug_buff_targets[sp]]);
+			if (debug_buff_off>debug_buff_lastset)
+			    debug_buff_lastset=debug_buff_off;
+			
+			debug_buff_off=(debug_buff_off+1)%debug_buff_len;
+		    }
     }
 
-    public void process_data(byte[] data,int len)
-    {
+    public void process_data(byte[] data,int len) {
 
-	// check crc
-	int tmp_crc=0;
-	for ( int i=0 ; i<len-2 ; i++)
-	    tmp_crc+=(int)data[i];
-
-	tmp_crc%=4096;
+		// check crc
+		int tmp_crc=0;
+		for ( int i=0 ; i<len-2 ; i++)
+		    tmp_crc+=(int)data[i];
 	
-	if (!((data[len-2]==(char)(tmp_crc/64 + '='))
-	    &&
-	      (data[len-1]==(char)(tmp_crc%64 + '='))))
-	    {
-		stats.crc_fail++;
-		return;
-	    }
-	// end of c
-
-	//	slave_addr=data[1];
-	log("command " +(char)data[2]   + "len " + len);		
-
-
-	int[] decoded_data=MKHelper.Decode64(data,3,len-5);
-	log("decoded");		
-	switch((char)data[2])
-	    {
-
-	    case 'A': // debug Data Names
-	    	stats.debug_names_count++;
-	    	// Log.i("got debug label" + decoded_data[0]);
-	    	debug_data.set_names_by_mk_data(decoded_data);
-	    	break;
-
-	    case 'B': // external_control confirm frames
-	    	stats.external_control_confirm_frame_count++;
-	    	break;
-
-	    case 'L': // LCD Data
-	    	stats.lcd_data_count++;
-	    	LCD.handle_lcd_data(decoded_data);
-	    	break;
-	    
-	    case 'N': // debug Data
-	    	mixer_manager.setByMKData(decoded_data);
-	    	break;
-	    	
-	    case 'D': // debug Data
-	    	log("got debug data");
-	    	stats.debug_data_count++;
-	    	debug_data.set_by_mk_data(decoded_data,version);
-
-	    	if (is_mk()) {
-	    		stats.process_mkflags(debug_data.motor_val(0)); // TODO remove dirty hack
-	    		stats.process_alt(getAlt());
-		    	}
-	    	update_debug_buff();
-	    	log("processed debug data");
-	    	
-	    	break;
+		tmp_crc%=4096;
 		
-	    case 'V': // Version Info
-	    	stats.version_data_count++;
-
-	    	version.set_by_mk_data(decoded_data);
-	    	
-	    	if (slave_addr!=data[1]-'a') { //new slave address
-	    		slave_addr=(byte)(data[1]-'a');
-	    		//change_notify=true;
-	    		notifyAll(DUBwiseNotificationListenerInterface.NOTIFY_CONNECTION_CHANGED);
+		if (!((data[len-2]==(char)(tmp_crc/64 + '='))
+		    &&
+		      (data[len-1]==(char)(tmp_crc%64 + '=')))) {
+			stats.crc_fail++;
+			return;
+		    }
+		// end of c
+	
+		//	slave_addr=data[1];
+		log("command " +(char)data[2]   + "len " + len);		
+	
+	
+		int[] decoded_data=MKHelper.Decode64(data,3,len-5);
+		log("decoded");		
+		switch((char)data[2])
+		    {
+	
+		    case 'A': // debug Data Names
+		    	stats.debug_names_count++;
+		    	// Log.i("got debug label" + decoded_data[0]);
+		    	debug_data.set_names_by_mk_data(decoded_data);
+		    	break;
+	
+		    case 'B': // external_control confirm frames
+		    	stats.external_control_confirm_frame_count++;
+		    	break;
+	
+		    case 'L': // LCD Data
+		    	stats.lcd_data_count++;
+		    	LCD.handle_lcd_data(decoded_data);
+		    	break;
+		    
+		    case 'N': // debug Data
+		    	mixer_manager.setByMKData(decoded_data);
+		    	break;
+		    	
+		    case 'D': // debug Data
+		    	log("got debug data");
+		    	stats.debug_data_count++;
+		    	debug_data.set_by_mk_data(decoded_data,version);
+	
+		    	if (is_mk()) {
+		    		stats.process_mkflags(debug_data.motor_val(0)); // TODO remove dirty hack
+		    		stats.process_alt(getAlt());
+			    	}
+		    	update_debug_buff();
+		    	log("processed debug data");
+		    	
+		    	break;
+			
+		    case 'V': // Version Info
+		    	stats.version_data_count++;
+	
+		    	version.set_by_mk_data(decoded_data);
+		    	
+		    	if (slave_addr!=data[1]-'a') { //new slave address
+		    		slave_addr=(byte)(data[1]-'a');
+		    		//change_notify=true;
+		    		notifyAll(DUBwiseNotificationListenerInterface.NOTIFY_CONNECTION_CHANGED);
+			    }
+		    	break;
+	
+		    case 'w':
+		    	log("processing angles");		
+		    	// don't process any more - data now from 3DData
+		    	stats.angle_data_count++;
+		        break;
+	
+		    case 'Q':
+		    	stats.params_data_count++;
+		    	params.set_by_mk_data(decoded_data);
+		    	break;
+	
+		    case 'M':
+		    	mixer_change_notify=true;
+		    	mixer_change_success=(decoded_data[0]==1);
+		    	break;
+	
+		    case 'C':
+		    	VesselData.attitude.setNick(MKHelper.parse_signed_int_2(decoded_data[0],decoded_data[1]));
+		    	VesselData.attitude.setRoll(MKHelper.parse_signed_int_2(decoded_data[2],decoded_data[3]));
+		    	VesselData.attitude.setYaw(MKHelper.parse_signed_int_2(decoded_data[4],decoded_data[5]));
+		    	break;
+		    	
+		    case 'P':
+		    	stats.stick_data_count++;
+		    	stick_data.set_by_mk_data(decoded_data);
+		    	break;
+	
+	        case 'E':  // Error Str from Navi
+	        	error_str="";
+	        	for(int foo=0;foo<20;foo++)
+	        		if (decoded_data[foo]!=0) 
+	        			error_str+=(char)decoded_data[foo];
+	        	break;
+	
+			
+		    case 'O': // OSD Values Str from Navi
+		    	stats.navi_data_count++;
+		    	log("got navi data(" + len +"):");
+	
+		    	gps_position.set_by_mk_data(decoded_data,version);
+	
+		    	stats.process_mkflags(gps_position.FCFlags);
+		    	stats.process_compas(gps_position.CompasHeading);
+		    	stats.process_speed(gps_position.GroundSpeed);
+		    	stats.process_alt(getAlt());
+		    	break;
+	
+		    default:
+		    	stats.other_data_count++;
+		    	break;
+	
 		    }
 	
-		break;
-
-	    case 'w':
-	    	log("processing angles");		
-	    	angle_nick=MKHelper.parse_signed_int_2(decoded_data[0],decoded_data[1]);
-	        angle_roll=MKHelper.parse_signed_int_2(decoded_data[2],decoded_data[3]);
-	        log("done processing angles");		
-	        stats.angle_data_count++;
-	        break;
-
-
-	    case 'Q':
-	    	stats.params_data_count++;
-	    	params.set_by_mk_data(decoded_data);
-	    	break;
-
-	    case 'M':
-	    	mixer_change_notify=true;
-	    	mixer_change_success=(decoded_data[0]==1);
-	    	break;
-	    	
-
-	    case 'C':
-	    	VesselData.attitude.setNick(MKHelper.parse_signed_int_2(decoded_data[0],decoded_data[1]));
-	    	VesselData.attitude.setRoll(MKHelper.parse_signed_int_2(decoded_data[2],decoded_data[3]));
-	    	VesselData.attitude.setYaw(MKHelper.parse_signed_int_2(decoded_data[4],decoded_data[5]));
-	    	break;
-	    	
-	    case 'P':
-	    	stats.stick_data_count++;
-	    	stick_data.set_by_mk_data(decoded_data);
-	    	break;
-
-
-        case 'E':  // Error Str from Navi
-        	error_str="";
-        	for(int foo=0;foo<20;foo++)
-        		if (decoded_data[foo]!=0) 
-        			error_str+=(char)decoded_data[foo];
-        	break;
-
-		
-	    case 'O': // OSD Values Str from Navi
-	    	stats.navi_data_count++;
-	    	log("got navi data(" + len +"):");
-
-	    	gps_position.set_by_mk_data(decoded_data,version);
-
-	    	stats.process_mkflags(gps_position.FCFlags);
-	    	stats.process_compas(gps_position.CompasHeading);
-	    	stats.process_speed(gps_position.GroundSpeed);
-	    	stats.process_alt(getAlt());
-
-	    	break;
-
-	    default:
-	    	stats.other_data_count++;
-	    	break;
-
-	    }
-	
-	log("command processing done");		
+		log("command processing done");		
     }
-
-    
 
     public void close_connections(boolean force)  {
 
@@ -964,7 +905,6 @@ public class MKCommunicator
     
     // Thread to recieve data from Connection
     public void run() {
-
 		byte[] data_set=new byte[1024];
 		int data_set_pos=0;
 	
@@ -974,17 +914,13 @@ public class MKCommunicator
 		int pos=0;
 	
 		log("Thread started");
-		while(thread_running)
-		    {
-	
-			
-			if (!connected) 
-			    {
+		while(thread_running) {
+			if (!connected) {
 				sleep(10);
 			
 				if (!force_disconnect) connect();
 				log ("not connected - forced:" + force_disconnect);
-			    }
+			}
 			/*else  if (slave_addr==FAKE_SLAVE_ADDR)
 			    {
 				debug_data.set_fake_data();
@@ -992,8 +928,7 @@ public class MKCommunicator
 				stats.debug_data_count++;
 				sleep(50);
 			    }*/
-		else
-				try{
+			else try{
 				
 					recieving=true;
 					int read_count ;
@@ -1076,24 +1011,27 @@ public class MKCommunicator
 		force_disconnect=false;
    }
    
-// URL string: "btspp://XXXXXXXXXXXX:1" - the X-Part is the MAC-Adress of the Bluetooth-Device connected to the Fligth-Control
+   /**
+    * URL string: "btspp://XXXXXXXXXXXX:1" - the X-Part is the MAC-Adress of the Bluetooth-Device connected to the Fligth-Control
+    * @param _url
+    * @param _name
+    **/
    public void connect_to(String _url,String _name) {
    
-   	name=_name;
-		mk_url=_url; // remember URL for connecting / reconnecting later
-		force_disconnect=false;
-		connected=false;
+	   name=_name;
+	   mk_url=_url; // remember URL for connecting / reconnecting later
+	   force_disconnect=false;
+	   connected=false;
 	
-		if ( _url=="fake" ) {
+	   if ( _url=="fake" ) {
 			connection_start_time=System.currentTimeMillis();
 			gps_position.ErrorCode=1; // its an error that its a fake - just intent to show the symbol ;-)
 			slave_addr=FAKE_SLAVE_ADDR;
 			version.set_fake_data();
 			connected=true;
-		    }
+	   }
    }
    
-    
     public CommunicationAdapterInterface getCommunicationAdapter() {
     	return comm_adapter;
     }
@@ -1117,8 +1055,7 @@ public class MKCommunicator
     public void setLoggingInterface(LoggingInterface new_loger) {
     	Log=new_loger;
     }
-    private LoggingInterface Log=new NotLogger();
-    
+
     /**
      * @return the time in seconds we are connected 
      */
