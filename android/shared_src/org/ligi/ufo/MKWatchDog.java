@@ -1,8 +1,7 @@
 /**************************************
- * 
- * WatchDog for MK-Connection
  *                      
  * Author:        Marcus -LiGi- Bueschleb
+ *  http://ligi.de
  * 
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
@@ -18,29 +17,31 @@
 
 package org.ligi.ufo;
 
+/**
+ * WatchDog/TrafficShaping for MK-Connection
+ * 
+ * @author ligi
+ */
 public class MKWatchDog
         implements Runnable, DUBwiseDefinitions {
 
-    MKCommunicator mk                  = null;
+    private MKCommunicator mk                  = null;
+    private int            bytes_in_count_buff = -123;
+    public  int            act_paramset        = 0;
+    private int            conn_check_timeout  = 0;
+    public  byte           resend_timeout      = 0;
+    private int            last_count          = 0;
+    private int            last_fm_send        = -1;
 
-    int            bytes_in_count_buff = -123;
-
+    // TODO make base sleep adjustable
+    public final static int BASE_SLEEP           = 50;
+    private int            intitial_paramset_try = 0;
+    private int            abo_timeout           =0;
 
     public MKWatchDog( MKCommunicator _mk ) {
         mk = _mk;
         new Thread( this ).start(); // fire up main Thread
     }
-
-    public int  act_paramset       = 0;
-
-    int         conn_check_timeout = 0;
-
-    public byte resend_timeout     = 0;
-
-    int         last_count         = 0;
-
-    int         last_fm_send       = -1;
-
 
     public boolean resend_check( int ref_count ) {
         if ((last_count != ref_count) || (resend_timeout < 0)) {
@@ -57,22 +58,16 @@ public class MKWatchDog
     }
 
     
-    // TODO make base sleep adjustable
-    public final static int BASE_SLEEP            = 50;
-
-    int intitial_paramset_try = 0;
-
-    int abo_timeout=0;
-
+    
     public void run() {
         mk.log( "starting Watchdog" );
         // get all params
         int act_debug_name = 0;
-        // int sleeper=BASE_SLEEP;
+
         while (true) {
             try {
                 Thread.sleep( BASE_SLEEP );
-                // sleeper=BASE_SLEEP;
+
                 if (mk.connected && (!mk.force_disconnect))// &&(mk.bootloader_stage==BOOTLOADER_STAGE_NONE))
                 {
                 	abo_timeout+=BASE_SLEEP;
@@ -100,7 +95,6 @@ public class MKWatchDog
                            resend_timeout = 50;
                        }
 
-                       // sleeper+=100;
                        if (mk.debug_data.got_name[act_debug_name]) {
                        	act_debug_name++;
                        	mk.requestDebugName(act_debug_name );
@@ -112,7 +106,6 @@ public class MKWatchDog
                    }
                    else if (!(mk.debug_data.got_name[0]))
                    		act_debug_name = 0;
-                   	
                     
                     else
                     	// set abos every 2 seconds
@@ -187,8 +180,7 @@ public class MKWatchDog
                                 break;
 
                             default:
-                                // mk.log("uncactched intent "
-                                // +mk.root.canvas.user_intent )
+                                mk.log("uncactched intent " +mk.user_intent );
                                 break;
                         }
 
@@ -200,14 +192,12 @@ public class MKWatchDog
                         else
                             conn_check_timeout = 0;
                     bytes_in_count_buff = mk.stats.debug_data_count;
-
                 }
 
             } // 3000
             catch (Exception e) {
                 mk.log( "err in watchdog:" );
                 mk.log( e.toString() );
-
             }
         }
 
