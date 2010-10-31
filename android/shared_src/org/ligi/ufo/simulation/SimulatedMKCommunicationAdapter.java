@@ -19,8 +19,11 @@
 package org.ligi.ufo.simulation;
 
 import java.util.Vector;
+
+import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.CommunicationAdapterInterface;
 import org.ligi.ufo.MKHelper;
+import org.ligi.ufo.MKParamsParser;
 import org.ligi.ufo.MKProtocolDefinitions;
 import org.ligi.ufo.MKStickData;
 
@@ -137,7 +140,6 @@ public class SimulatedMKCommunicationAdapter implements
 					str2arr((char)c+"Analog Fake "+c,analog_name_arr,0);
 					send_stack.addElement(MKHelper.encodeCommand(MKProtocolDefinitions.NAVI_SLAVE_ADDR, 'A', analog_name_arr));
 				}
-					
 				break;
 			case 'e':
 				int[] err_str=new int[20];
@@ -166,6 +168,10 @@ public class SimulatedMKCommunicationAdapter implements
 						send_stack.addElement(MKHelper.encodeCommand(MKProtocolDefinitions.NAVI_SLAVE_ADDR, 'L', lcd_lines));
 						break;
 				}
+				break;
+			case 'q':
+				Log.i("sending Q!!");
+				send_stack.addElement(MKHelper.encodeCommand(MKProtocolDefinitions.FC_SLAVE_ADDR, 'Q', MKParamsParser.default_params[params[0]-1]));
 				break;
 		}	
 	}
