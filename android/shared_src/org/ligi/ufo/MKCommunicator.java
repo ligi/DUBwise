@@ -890,10 +890,8 @@ public class MKCommunicator
 
 
 	    case 'Q':
-	    	if (is_mk()) {
-	    		stats.params_data_count++;
-				params.set_by_mk_data(decoded_data);
-		    	}
+	    	stats.params_data_count++;
+	    	params.set_by_mk_data(decoded_data);
 	    	break;
 
 	    case 'M':
