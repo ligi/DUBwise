@@ -20,7 +20,6 @@ package org.ligi.ufo.simulation;
 
 import java.util.Vector;
 
-import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.CommunicationAdapterInterface;
 import org.ligi.ufo.MKHelper;
 import org.ligi.ufo.MKParamsParser;
@@ -170,7 +169,6 @@ public class SimulatedMKCommunicationAdapter implements
 				}
 				break;
 			case 'q':
-				Log.i("sending Q!!");
 				send_stack.addElement(MKHelper.encodeCommand(MKProtocolDefinitions.FC_SLAVE_ADDR, 'Q', MKParamsParser.default_params[params[0]-1]));
 				break;
 		}	
