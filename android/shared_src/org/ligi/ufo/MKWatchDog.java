@@ -113,22 +113,26 @@ public class MKWatchDog
                     	{
                     		mk.log("regenerating abos");
                     		switch (mk.user_intent) {
-                    		case USER_INTENT_RAWDEBUG:
-                    		case USER_INTENT_GRAPH:
-                    			mk.set_debug_interval( mk.primary_abo );
-                    			mk.set_gpsosd_interval( mk.secondary_abo );
-                    			break;
+                    			case USER_INTENT_RAWDEBUG:
+                    			case USER_INTENT_GRAPH:
+	                    			mk.set_debug_interval( mk.primary_abo );
+	                    			mk.set_gpsosd_interval( mk.secondary_abo );
+	                    			break;
 
-                            case USER_INTENT_GPSOSD:
-                    			mk.set_gpsosd_interval( mk.primary_abo );
-                                mk.set_debug_interval( mk.secondary_abo );
-                                break;
-
-                            default:
-                            	mk.set_gpsosd_interval( mk.secondary_abo );
-                                mk.set_debug_interval( mk.secondary_abo );
-                            	break;
-                            	
+	                            case USER_INTENT_GPSOSD:
+	                    			mk.set_gpsosd_interval( mk.primary_abo );
+	                                mk.set_debug_interval( mk.secondary_abo );
+	                                break;
+	
+	                            case USER_INTENT_3DDATA:
+	                    			mk.set_3ddata_interval( mk.primary_abo );
+	                                mk.set_debug_interval( mk.secondary_abo );
+	                                break;
+	
+	                            default:
+	                            	mk.set_gpsosd_interval( mk.secondary_abo );
+	                                mk.set_debug_interval( mk.secondary_abo );
+	                            	break;
                     		}
                     		abo_timeout=0;
                     	}                   	

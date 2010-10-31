@@ -665,6 +665,10 @@ public class MKCommunicator
     	send_command(NAVI_SLAVE_ADDR,'o',interval);
     }
 
+    public void set_3ddata_interval(int interval) {
+    	send_command(slave_addr,'c',interval);
+    }
+
     public void send_command(int modul,char cmd) {
     	send_command(modul,cmd,new int[0]);
     }
@@ -895,6 +899,13 @@ public class MKCommunicator
 	    case 'M':
 	    	mixer_change_notify=true;
 	    	mixer_change_success=(decoded_data[0]==1);
+	    	break;
+	    	
+
+	    case 'C':
+	    	VesselData.attitude.setNick(MKHelper.parse_signed_int_2(decoded_data[0],decoded_data[1]));
+	    	VesselData.attitude.setRoll(MKHelper.parse_signed_int_2(decoded_data[2],decoded_data[3]));
+	    	VesselData.attitude.setYaw(MKHelper.parse_signed_int_2(decoded_data[4],decoded_data[5]));
 	    	break;
 	    	
 	    case 'P':

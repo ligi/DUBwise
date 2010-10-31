@@ -25,4 +25,36 @@ public class VesselData {
 			voltage=new_voltage;
 		}
 	}
+	
+	public static class attitude {
+		private static int nick;
+		private static int roll;
+		private static int yaw;
+		
+		
+		public static void setNick(int nick) {
+			attitude.nick = nick;
+		}
+
+		public static int getNick() {
+			return nick;
+		}
+		
+		public static void setRoll(int roll) {
+			attitude.roll = roll;
+		}
+		
+		public static int getRoll() {
+			return roll;
+		}
+		
+		public static void setYaw(int yaw) {
+			attitude.yaw = yaw;
+		}
+		
+		public static int getYaw() {
+			return yaw;
+		}
+		
+	}
 }
