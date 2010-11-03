@@ -1774,20 +1774,20 @@ lp= LocationProvider.getInstance(crit2);
 		    int horizon_middle=y_off+horizon_height;
 
 		    
-		    int horizon_roll_pixels= ((mk.AngleRoll()*horizon_height)/600) * (settings.horizon_invert_roll?-1:1);
+		    int horizon_roll_pixels= ((VesselData.attitude.getRoll()*horizon_height)/600) * (settings.horizon_invert_roll?-1:1);
 
 		    int nick_bar_width=canvas_width/4;
 		    int nick_bar_height= nick_bar_width/2;
 
 		    
 		    int nick_size=canvas_width/4;
-		    int nick_pixels_y=((mk.AngleNick()*horizon_height)/900) * (settings.horizon_invert_nick?-1:1);;
+		    int nick_pixels_y=((VesselData.attitude.getNick()*horizon_height)/900) * (settings.horizon_invert_nick?-1:1);;
 		
 		    int nick_pixels_x;
-		    if ((mk.AngleRoll()*mk.AngleNick())>1)
-			nick_pixels_x=-((int)Math.sqrt(mk.AngleRoll()*mk.AngleNick())*(canvas_width/2))/(900);
+		    if ((VesselData.attitude.getRoll()*VesselData.attitude.getNick())>1)
+			nick_pixels_x=-((int)Math.sqrt(VesselData.attitude.getRoll()*VesselData.attitude.getNick())*(canvas_width/2))/(900);
 		    else
-			nick_pixels_x=((int)Math.sqrt(-mk.AngleRoll()*mk.AngleNick())*(canvas_width/2))/(900);
+			nick_pixels_x=((int)Math.sqrt(-VesselData.attitude.getRoll()*VesselData.attitude.getNick())*(canvas_width/2))/(900);
 			
 
 		    if (horizon_roll_pixels>0)
@@ -1840,10 +1840,10 @@ lp= LocationProvider.getInstance(crit2);
 
 		    if (settings.expert_mode)
 			{
-			    g.drawString("nick => " + mk.AngleNick(),0,y_off,Graphics.TOP | Graphics.LEFT);
+			    g.drawString("nick => " + VesselData.attitude.getNick(),0,y_off,Graphics.TOP | Graphics.LEFT);
 			    y_off+=spacer_medium;
 
-			    g.drawString("roll => " + mk.AngleRoll(),0,y_off,Graphics.TOP | Graphics.LEFT);
+			    g.drawString("roll => " + VesselData.attitude.getRoll(),0,y_off,Graphics.TOP | Graphics.LEFT);
 			    y_off+=spacer_medium;
 			}
 
