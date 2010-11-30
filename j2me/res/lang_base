@@ -243,3 +243,6 @@ CURRENT;Current;Strom;Current;Stroom
 ORIENTATIONMODE;CareFree;CareFree;CareFree;CareFree
 ORIENTATIONANGLE;Orientation Angle;Orientierung Winkel;Orientation Angle;Orientation Angle
 GYROSTABILITY;Gyro Stability;Gyro Stability;Gyro Stability;Gyro Stability
+MOTORSAFETYSWITCH;Motor Safetyswitch
+CAMORIENTATION;Camera Orientation
+SERVOMANUALCONTROLSPEED;Manual Control Speed
