@@ -20,8 +20,6 @@
                                
 package org.ligi.ufo;
 
-import org.ligi.android.dubwise.conn.MKProvider;
-
 public class MKDebugData {
 	public final static int MAX_VALUES=32;
     public int[] analog;
@@ -55,11 +53,11 @@ public class MKDebugData {
     }
 
 
-    public void set_by_mk_data(int[] in_arr,MKVersion version)  {
+    public void set_by_mk_data(int[] in_arr,int slave_addr)  {
     	for (i=0;i<32;i++)
     		analog[i]=MKHelper.parse_signed_int_2( in_arr[2+i*2], in_arr[3+i*2] );
 
-    	switch(MKProvider.getMK().slave_addr) {
+    	switch(slave_addr) {
     		case MKCommunicator.FC_SLAVE_ADDR:
     		case MKCommunicator.RIDDIM_SLAVE_ADDR:
     			VesselData.battery.setUBatt(analog[9]);

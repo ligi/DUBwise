@@ -806,7 +806,7 @@ public class MKCommunicator
 		    case 'D': // debug Data
 		    	log("got debug data");
 		    	stats.debug_data_count++;
-		    	debug_data.set_by_mk_data(decoded_data,version);
+		    	debug_data.set_by_mk_data(decoded_data,slave_addr);
 	
 		    	if (is_mk()) {
 		    		stats.process_mkflags(debug_data.motor_val(0)); // TODO remove dirty hack
