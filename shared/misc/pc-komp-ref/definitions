@@ -389,6 +389,19 @@
  to_cat("CAMERA", [{ :pos=>act_pos , :function=>"SERVO5" , :typ=>"MKBYTE" }] ) 
  act_pos+=1
 
+--ServoManualControlSpeed
+ to_cat("CAMERA", [{ :pos=>act_pos , :function=>"SERVOMANUALCONTROLSPEED" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+
+--CamOrientation
+ to_cat("CAMERA", [{ :pos=>act_pos , :function=>"CAMORIENTATION" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+
+--MotorSafetySwitch
+ to_cat("OTHER", [{ :pos=>act_pos , :function=>"MOTORSAFETYSWITCH" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+
+
 --Hoehe_GPS_Z
  to_cat("ALTITUDE", [{ :pos=>act_pos , :function=>"GPSZ" , :typ=>"MKBYTE" }] ) 
  act_pos+=1
