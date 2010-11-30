@@ -90,8 +90,8 @@ public class CockpitPrefsActivity extends PreferenceActivity implements OnPrefer
 
         CheckBoxPreference drawCurrentCheckBoxPref = new CheckBoxPreference(this);
         drawCurrentCheckBoxPref.setKey(DUBwisePrefs.KEY_COCKPIT_SHOW_CURRENT);
-        drawCurrentCheckBoxPref.setTitle("Altitude");
-        drawCurrentCheckBoxPref.setSummary("Show Altitude in m");
+        drawCurrentCheckBoxPref.setTitle("Current");
+        drawCurrentCheckBoxPref.setSummary("Show Current in A");
         drawCurrentCheckBoxPref.setOnPreferenceChangeListener(this);
         drawCurrentCheckBoxPref.setDefaultValue(DUBwisePrefs.showCurrent());
        	valuesPrefCat.addPreference(drawCurrentCheckBoxPref);
@@ -99,8 +99,8 @@ public class CockpitPrefsActivity extends PreferenceActivity implements OnPrefer
 
         CheckBoxPreference drawUsedCapacityCheckBoxBoxPref = new CheckBoxPreference(this);
         drawUsedCapacityCheckBoxBoxPref.setKey(DUBwisePrefs.KEY_COCKPIT_SHOW_USEDCAPACITY);
-        drawUsedCapacityCheckBoxBoxPref.setTitle("Altitude");
-        drawUsedCapacityCheckBoxBoxPref.setSummary("Show Altitude in m");
+        drawUsedCapacityCheckBoxBoxPref.setTitle("Used Capacity");
+        drawUsedCapacityCheckBoxBoxPref.setSummary("Show Used Capacity in mAh");
         drawUsedCapacityCheckBoxBoxPref.setOnPreferenceChangeListener(this);
         drawUsedCapacityCheckBoxBoxPref.setDefaultValue(DUBwisePrefs.showUsedCapacity());
         valuesPrefCat.addPreference(drawUsedCapacityCheckBoxBoxPref);
