@@ -277,7 +277,7 @@ public class MKStatusVoice
 			    sender_warning_told=false;
 
 
-			if ((canvas.VesselData.attitude.getNick()>400)||(canvas.mk.AngleRoll()>400)||(canvas.VesselData.attitude.getNick()<-400)||(canvas.VesselData.attitude.getRoll()<-400))
+			if ((VesselData.attitude.getNick()>400)||(VesselData.attitude.getRoll()>400)||(VesselData.attitude.getNick()<-400)||(VesselData.attitude.getRoll()<-400))
 			    {
 				play("tilt");
 				play("warning");
