@@ -85,9 +85,7 @@ public class MKStatistics {
     public void process_mkflags(int flags) {
 		if (flags==0)
 		    flying_start=-1;
-		    
 		else
-		    
 		    if (flying_start==-1) {
 			    flying_start=System.currentTimeMillis();
 			    heading_start=last_heading;
