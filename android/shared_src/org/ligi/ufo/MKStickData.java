@@ -21,22 +21,28 @@ package org.ligi.ufo;
  */
 public class MKStickData {
 	
-	public final static int MAX_STICKS=12;
+    public final static int MAX_STICKS=12;
 
-	// holing stick data
-    public int[] stick;
-
-    // general counter
-    private int i;
-
-    public MKStickData() {
-    	stick=new int[MAX_STICKS];
-    	for (i=0;i<MAX_STICKS;i++)
-    		stick[i]=-1;
-    }
+    // holing stick data
+    private int[] stick_value=null;
 
     public void set_by_mk_data(int[] in_arr) {
-    	for (i=0;i<MAX_STICKS;i++) 
-    		stick[i]=MKHelper.parse_signed_int_2(in_arr[1+i*2], in_arr[1+i*2]);
+    	stick_value=new int[MAX_STICKS];
+    	for (int i=0;i<MAX_STICKS;i++) 
+    		stick_value[i]=MKHelper.parse_signed_int_2(in_arr[i*2], in_arr[1+i*2]);
+    }
+
+    /**
+     * return the value for a given stick
+     * or -1 for no data avialable
+     * 
+     * @param stick_id
+     * @return
+     */
+    public int getStickValue(byte stick_id) {
+    	if (stick_value==null)
+    		return -1;
+    	
+    	return stick_value[stick_id];
     }
 }
