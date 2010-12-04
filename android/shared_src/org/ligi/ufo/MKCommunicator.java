@@ -943,7 +943,7 @@ public class MKCommunicator
     } // run()
 
     public int getPotiValue(int poti_id) {
-    	int val=stick_data.stick[params.poti_pos[poti_id]]+127;
+    	int val=stick_data.getStickValue((byte)params.poti_pos[poti_id])+127;
     	
     	// clip the values
     	if (val<0)
