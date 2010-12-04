@@ -256,30 +256,29 @@ public class StatusVoice implements OnInitListener, Runnable,
 							break;
 	
 						case 2:
-							if ((mk.getCurrent() != -1)
+							if ((VesselData.battery.getCurrent() != -1)
 									&& VoicePrefs.isVoiceCurrentEnabled()) {
-								what2speak+=" Consuming " + mk.getCurrent() / 10.0
+								what2speak+=" Consuming " + VesselData.battery.getCurrent() / 10.0
 										+ " Ampere";
 								
 							}
 							break;
 	
 						case 3:
-							if ((mk.getCurrent() != -1)
+							if ((VesselData.battery.getCurrent() != -1)
 									&& VoicePrefs.isVoiceCurrentEnabled()) {
 								what2speak+=" thats "
-										+ (mk.getCurrent() * VesselData.battery.getVoltage()) / 100
+										+ (VesselData.battery.getCurrent() * VesselData.battery.getVoltage()) / 100
 										+ " Wats";
-	
 							}
 	
 							break;
 	
 						case 4:
 	
-							if ((mk.getUsedCapacity() != -1)
+							if ((VesselData.battery.getUsedCapacity() != -1)
 									&& VoicePrefs.isVoiceUsedCapacityEnabled()) {
-								what2speak+=" Consumed " + mk.getUsedCapacity()
+								what2speak+=" Consumed " + VesselData.battery.getUsedCapacity()
 										+ " milliamperehours";
 	
 							}
