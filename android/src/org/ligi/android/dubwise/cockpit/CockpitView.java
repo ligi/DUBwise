@@ -125,13 +125,13 @@ public class CockpitView extends View implements DUBwiseDefinitions, SensorListe
        	}
         
         if (DUBwisePrefs.showCurrent()) {
-        	canvas.drawText(MKProvider.getMK().getCurrent()/10.0+"A" , 7f,act_text_pos, altitudeTextPaint);	
+        	canvas.drawText(VesselData.battery.getCurrent()/10.0+"A" , 7f,act_text_pos, altitudeTextPaint);	
         	act_text_pos-=altitudeTextPaint.getTextSize();
        	}
         
         
         if (DUBwisePrefs.showUsedCapacity()) {
-        	canvas.drawText(MKProvider.getMK().getUsedCapacity() +"mAh" , 7f,act_text_pos, altitudeTextPaint);
+        	canvas.drawText(VesselData.battery.getUsedCapacity() +"mAh" , 7f,act_text_pos, altitudeTextPaint);
         	act_text_pos-=altitudeTextPaint.getTextSize();
        	}        
         
