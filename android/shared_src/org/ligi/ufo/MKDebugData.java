@@ -53,20 +53,26 @@ public class MKDebugData {
     }
 
 
-    public void set_by_mk_data(int[] in_arr,int slave_addr)  {
+    public void set_by_mk_data(int[] in_arr,MKVersion version)  {
     	for (i=0;i<32;i++)
     		analog[i]=MKHelper.parse_signed_int_2( in_arr[2+i*2], in_arr[3+i*2] );
 
-    	switch(slave_addr) {
+    	switch(version.getSlaveAddr()) {
     		case MKCommunicator.FC_SLAVE_ADDR:
+    	
+    			if (version.compare(0, 78)==MKVersion.VERSION_PREVIOUS) {
+    	    		VesselData.battery.setCurrent(analog[22]);
+    	    		VesselData.battery.setUsedCapacity(analog[23]);
+    			}
     		case MKCommunicator.RIDDIM_SLAVE_ADDR:
     			VesselData.battery.setUBatt(analog[9]);
     			break;
     		case MKCommunicator.FOLLOWME_SLAVE_ADDR:
     			VesselData.battery.setUBatt(analog[8]);
     			break;
-
     	}
+
+
     	
     }
 }
