@@ -26,7 +26,8 @@ public class MKVersion
     public int proto_major=-1;
     public int proto_minor=-1;
     public int patch=-1;
-
+    private int slave_addr;
+    
     public String version_str="";
     public String proto_str="";
 
@@ -48,13 +49,8 @@ public class MKVersion
 		proto_str="";
     }
     
-
-    public void set_fake_data() {
-		int[] fake_data={0,23,0,5,5};
-		set_by_mk_data(fake_data);
-    }
-
-    public void set_by_mk_data(int[] data) {
+    public void set_by_mk_data(int[] data,int slave_addr) {
+    	this.slave_addr=slave_addr;
     	major=data[0];
     	minor=data[1];
     	proto_major=data[2];
@@ -81,4 +77,9 @@ public class MKVersion
     public boolean isEqualOrNewerThan(int major_c,int minor_c) {
     	return compare(major_c,minor_c)!=VERSION_PREVIOUS;
     }
+
+
+	public int getSlaveAddr() {
+		return slave_addr;
+	}
 }
