@@ -145,7 +145,7 @@ public class MKCommunicator
 	
 	/**
 	 * @return -1 if value is not available otherwise the altitude in dm
-	 */
+	**/
     public int getAlt()   {
     	// 	calculation background thanks to gregor: http://forum.mikrokopter.de/topic-post112323.html#post112323
     	int alt=0;
@@ -164,54 +164,7 @@ public class MKCommunicator
     		return -1;
 		
     }
-    
-    /**
-     * @return -1 if the value is not avialable otherwise the charge in mAh
-     */
-    public int getUsedCapacity() {
-    	
-    	// had no info about that in FC version <0.78
-    	if (is_mk()&&(version.compare(0, 78)==MKVersion.VERSION_PREVIOUS))
-    		return -1;
-    	
-    	// had no info about that in NC version <0.18
-    	if (is_navi()&&(version.compare(0, 18)==MKVersion.VERSION_PREVIOUS))
-    		return -1;
-
-    	if (is_mk())
-    		return debug_data.analog[23];
-    	
-    	if (is_navi())
-    		return gps_position.UsedCapacity;
-    	
-    	return -1;
-    }
-
-    /**
-     * @return -1 if the value is not avialable otherwise the current in 0.1A
-     */
-    public int getCurrent() {
-    	
-    	// had no info about that in FC version <0.78
-    	if (is_mk()&&(version.compare(0, 78)==MKVersion.VERSION_PREVIOUS))
-    		return -1;
-    	
-    	// had no info about that in NC version <0.18
-    	if (is_navi()&&(version.compare(0, 18)==MKVersion.VERSION_PREVIOUS))
-    		return -1;
-
-    	if (is_mk())
-    		return debug_data.analog[22];
-    	
-    	if (is_navi())
-    		return gps_position.Current;
-    	
-    	if (is_fake())
-    		return 5;
-    	return -1;
-    }
-
-    
+  
     public String Alt_formated() 	{
     	return "" + getAlt()/10 + "m";
     }
@@ -806,7 +759,7 @@ public class MKCommunicator
 		    case 'D': // debug Data
 		    	log("got debug data");
 		    	stats.debug_data_count++;
-		    	debug_data.set_by_mk_data(decoded_data,slave_addr);
+		    	debug_data.set_by_mk_data(decoded_data,version);
 	
 		    	if (is_mk()) {
 		    		stats.process_mkflags(debug_data.motor_val(0)); // TODO remove dirty hack
@@ -820,7 +773,7 @@ public class MKCommunicator
 		    case 'V': // Version Info
 		    	stats.version_data_count++;
 	
-		    	version.set_by_mk_data(decoded_data);
+		    	version.set_by_mk_data(decoded_data,slave_addr);
 		    	
 		    	if (slave_addr!=data[1]-'a') { //new slave address
 		    		slave_addr=(byte)(data[1]-'a');
@@ -1027,7 +980,7 @@ public class MKCommunicator
 			connection_start_time=System.currentTimeMillis();
 			gps_position.ErrorCode=1; // its an error that its a fake - just intent to show the symbol ;-)
 			slave_addr=FAKE_SLAVE_ADDR;
-			version.set_fake_data();
+			
 			connected=true;
 	   }
    }
