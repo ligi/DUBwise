@@ -21,7 +21,6 @@ package org.ligi.android.dubwise;
 import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.android.dubwise.helper.DUBwiseStringHelper;
-import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.MKStickData;
 
@@ -60,8 +59,6 @@ public class RCDataActivity extends Activity implements Runnable
 		ActivityCalls.beforeContent(this);
 
 		ScrollView scroll=new ScrollView(this);
-		
-		
 		LinearLayout lin=new LinearLayout(this);
 		
 		lin.setOrientation(LinearLayout.VERTICAL);
@@ -112,12 +109,10 @@ public class RCDataActivity extends Activity implements Runnable
 	 	// Create runnable for posting
 	   final Runnable mUpdateResults = new Runnable() {
 	       public void run() {
-	    	   for (int i=0;i<channels;i++)
-				{
-					progress_bars[i].setProgress(MKProvider.getMK().stick_data.stick[i]+127);
-				
-					text_overlays[i].setText(text_overlays[i].getTag() + "(" +MKProvider.getMK().stick_data.stick[i]+")" );
-					Log.i("channel " + i + " " + MKProvider.getMK().stick_data.stick[i]);
+	    	   for (byte i=0;i<channels;i++){
+	    		   int stick_val=MKProvider.getMK().stick_data.getStickValue(i);
+					progress_bars[i].setProgress(stick_val+127);
+					text_overlays[i].setText(text_overlays[i].getTag() + "(" +stick_val+")" );
 				}	
 	       }
 	    };
