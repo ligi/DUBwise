@@ -1,4 +1,4 @@
-/***	*************************************************
+/****************************************************
  *                                            
  * class representing the MK Navi OSD Data Structure 
  *                                            
@@ -407,13 +407,16 @@ public class MKGPSPosition
 		// 76 gas
 		// 77/78 -current
 		// 79/80 - used capacity
+	
+		// had no info about Current/Capacity in NC version <0.18
+    		if (version.compare(0, 18)==MKVersion.VERSION_PREVIOUS) {
 		
-		if (in_arr.length>off+77)
-			Current = MKHelper.parse_arr_2(off+77,in_arr);
+    			if (in_arr.length>off+77)
+    				VesselData.battery.setCurrent(MKHelper.parse_arr_2(off+77,in_arr));
 		
-		if (in_arr.length>off+79)
-			UsedCapacity = MKHelper.parse_arr_2(off+79,in_arr);
-			
+    			if (in_arr.length>off+79)
+    				VesselData.battery.setUsedCapacity(MKHelper.parse_arr_2(off+79,in_arr));
+    		}
 			
     	} // end of set_by_mk_data
 }
