@@ -26,6 +26,10 @@ public class MKStickData {
     // holing stick data
     private int[] stick_value=null;
 
+    /**
+     * set data with decoded payload of MK Package 
+     * @param in_arr
+     */
     public void set_by_mk_data(int[] in_arr) {
     	stick_value=new int[MAX_STICKS];
     	for (int i=0;i<MAX_STICKS;i++) 
