@@ -22,12 +22,14 @@ package org.ligi.ufo;
 public class MKStickData {
 	
     public final static int MAX_STICKS=12;
+    public final static byte POTI_COUNT=8;
 
     // holing stick data
     private int[] stick_value=null;
 
     /**
-     * set data with decoded payload of MK Package 
+     * set data with decoded payload of MK Package
+     *  
      * @param in_arr
      */
     public void set_by_mk_data(int[] in_arr) {
