@@ -64,20 +64,19 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 	private static final int MENU_HELP = 1;
 	private static final int MENU_UNDO = 2;
 
-	String[] menu_items;
+	private String[] menu_items;
 	
 	// 	each is tagged with the id of the row
-	Spinner[] spinners;
-	EditText[] edit_texts;
-	CheckBox[] checkboxes;
-	int act_topic;
-	TableRow[] bitmask_row;
-	EditText[] bitmask_edittext;
-	CheckBox[][] bitmask_checkbox;
+	private Spinner[] spinners;
+	private EditText[] edit_texts;
+	private CheckBox[] checkboxes;
+	private int act_topic;
+	private TableRow[] bitmask_row;
+	private EditText[] bitmask_edittext;
+	private CheckBox[][] bitmask_checkbox;
 
-	ScrollView view;
+	private ScrollView view;
 
-	// public MapView map;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -236,8 +235,8 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
         	case MKParamsGeneratedDefinitions.PARAMTYPE_MKBYTE:
         		edit_texts[i]=new EditText(this);
         	//	edit_texts[i].setFocusableInTouchMode(false);
-        		
-        		edit_texts[i].setText("" +params.field[params.act_paramset][params.field_positions[act_topic][i]] );
+        		Integer act_byte_val=params.field[params.act_paramset][params.field_positions[act_topic][i]];
+        		edit_texts[i].setText(act_byte_val.toString());
         		
         		edit_texts[i].setTag(new Integer(i));
         		edit_texts[i].setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -277,9 +276,11 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
         		//edit_texts[i].set
         		
         		spinners[i]=new Spinner(this);
-        		String poti_strings[]=new String[6];
+        		
+        		String poti_strings[]=new String[MKStickData.POTI_COUNT+1/*no_poti+1*/];
+        		
         		poti_strings[0]="no Poti";
-        		for (int s=1;s<6;s++) 
+        		for (int s=1;s<=MKStickData.POTI_COUNT;s++) 
         			poti_strings[s]="Poti " + s;
         		
          		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -290,6 +291,11 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
         	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         	    
         	    spinners[i].setOnItemSelectedListener(this);
+        	    if (act_byte_val>(255-MKStickData.POTI_COUNT)) {
+        	    	edit_texts[i].setEnabled(false);
+        	    	
+        	    	spinners[i].setSelection(255-act_byte_val+1);
+        	    }
         	    
         		row.addView(edit_texts[i]);
         		row.addView(spinners[i]);
@@ -316,25 +322,21 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 		Log.d("on item sel ");
 		if (selected_view!=null) {
 		// view has a parent
-		if (selected_view.getParent()!=null)
-		{
-			Log.d("item with parent" + selected_view.getParent());
+		if (selected_view.getParent()!=null) {
 			if (selected_view.getParent() instanceof Spinner)  {
 				Spinner spin=(Spinner)selected_view.getParent();
+				int tag_id=(Integer)(spin.getTag());
 				
-				Log.d("Spinner tag" + spin.getTag());
-				
-				if (arg2==0)
-					edit_texts[(Integer)(spin.getTag())].setEnabled(true);
-				else
-				{
-					int tag_id=(Integer)(spin.getTag());
+				if (arg2==0) {
+					edit_texts[tag_id].setEnabled(true);
+					MKProvider.getMK().params.set_field_from_act(MKProvider.getMK().params.field_positions[act_topic][tag_id], 0);
+				}
+				else {
 					edit_texts[tag_id].setEnabled(false);
-					edit_texts[tag_id].setText("" + (250+arg2));
-					MKProvider.getMK().params.set_field_from_act(MKProvider.getMK().params.field_positions[act_topic][tag_id], 250+arg2);
+					edit_texts[tag_id].setText("" + ((255-arg2+1)));
+					MKProvider.getMK().params.set_field_from_act(MKProvider.getMK().params.field_positions[act_topic][tag_id], 255-arg2+1);
 				}
 			}
-				
 		}
 		}
 		}
@@ -346,7 +348,6 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
-		
 	}
 
 	@Override
@@ -373,15 +374,9 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 	/* Creates the menu items */
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    
-		MenuItem settings_menu=menu.add(0,MENU_SAVE,0,"Write");
-		settings_menu.setIcon(android.R.drawable.ic_menu_save);
-	    
-		MenuItem undo_menu=menu.add(0,MENU_UNDO,0,"Undo");
-		undo_menu.setIcon(android.R.drawable.ic_menu_revert);
-	    
-		MenuItem help_menu=menu.add(0,MENU_HELP,0,"Help");
-		help_menu.setIcon(android.R.drawable.ic_menu_help);
-
+		menu.add(0,MENU_SAVE,0,"Write").setIcon(android.R.drawable.ic_menu_save);
+		menu.add(0,MENU_UNDO,0,"Undo").setIcon(android.R.drawable.ic_menu_revert);
+		menu.add(0,MENU_HELP,0,"Help").setIcon(android.R.drawable.ic_menu_help);
 		return true;
 	}
 
@@ -421,7 +416,6 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 
 	@Override
 	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-		Log.d( "text cahnged2" + v.getText() );
 		return false;
 	}
 
@@ -455,7 +449,6 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 	public void onClick(View clicked_view) {
 		if (clicked_view instanceof ImageButton) {
 			int pos=(Integer)(clicked_view.getTag());
-			
 			bitmask_row[pos].setVisibility(View.VISIBLE);
 		}
 	}
