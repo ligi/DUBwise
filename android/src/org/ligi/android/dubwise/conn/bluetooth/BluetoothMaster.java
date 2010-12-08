@@ -33,7 +33,7 @@ import org.ligi.ufo.MKProtocolDefinitions;
 
 import android.content.Context;
 import android.os.Looper;
-
+import android.bluetooth.BluetoothAdapter;;
 /**
  * class to let DUBwise be a Bluetooth Master so that another phone 
  * can get UFO info too
@@ -66,6 +66,8 @@ public class BluetoothMaster implements Runnable {
 				}
 			}
 		
+		 
+		 
 		 Log.i("BluetoothMaster initing BT");
 		 
 		 try {
@@ -78,6 +80,10 @@ public class BluetoothMaster implements Runnable {
 
 	public static void restart() {
 		new Thread(singleton).start();
+	}
+	
+	public static void shutdownBluetooth() {
+		BluetoothAdapter.getDefaultAdapter().disable();
 	}
 
 	/**
