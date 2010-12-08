@@ -102,15 +102,15 @@ public class BluetoothCommunicationAdapter implements
 	public void disconnect() {
 		try {
 			getInputStream().close();
-	    } catch (IOException e) {	    }
+	    } catch (Exception e) {	    }
 	    
 	    try {
 	    	getOutputStream().close();
-	    } catch (IOException e) {	    }
+	    } catch (Exception e) {	    }
 	    
 	    try {
 	    	bt_connection.close();
-	    } catch (IOException e) {	    }
+	    } catch (Exception e) {	    }
 	}
 
 	public InputStream getInputStream() {
