@@ -72,6 +72,7 @@ public class StatusVoice implements OnInitListener, Runnable,
 
 	private String last_version_str = "";
 
+	private boolean running;
 	
 	public void init(Activity activity) {
 		if (isInitStarted()) // don't do it again
@@ -79,6 +80,7 @@ public class StatusVoice implements OnInitListener, Runnable,
 		init_started=true;
 		VoicePrefs.init(activity.getApplication());
 		mTts = new TextToSpeech(activity.getApplication(), this);
+		running=true;
 	}
 	
 	public boolean isInitStarted() {
@@ -107,10 +109,14 @@ public class StatusVoice implements OnInitListener, Runnable,
 			thisRef = new StatusVoice();
 		return thisRef;
 	}
+
+	public void stop() {
+		running=false;
+	}
 	
 	@Override
 	public void run() {
-		while (true) {
+		while (running) {
 
 			// Log.i("DUBwise","mk"+mk.ready() + "  init"+ init_done);
 			
@@ -219,7 +225,7 @@ public class StatusVoice implements OnInitListener, Runnable,
 				
 				}
 
-				if (what2speak.equals("")) {
+				if ((VoicePrefs.isVoiceRCLostEnabled())&&what2speak.equals("")) {
 					if (mk.SenderOkay()<190) {
 						what2speak+=" RC Signal lost";
 						told_rclost=true;
@@ -383,8 +389,6 @@ public class StatusVoice implements OnInitListener, Runnable,
 				 }
 				}
 			}
-
-			// for (int i=0;i<1000;i++)
 			try {
 				Thread.sleep(sleep);
 				// Log.i("DUBwise" ,""+ mTts.isSpeaking());
@@ -413,5 +417,4 @@ public class StatusVoice implements OnInitListener, Runnable,
 	public void onUtteranceCompleted(String arg0) {
 		Log.i( "onuterancecomplete");
 	}
-
 }
