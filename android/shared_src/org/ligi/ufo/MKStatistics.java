@@ -83,8 +83,9 @@ public class MKStatistics {
     }
     
     public void process_mkflags(int flags) {
-		if (flags==0)
-		    flying_start=-1;
+    	boolean flying=(flags!=0);
+		if (!flying)
+			flying_start=flying_start+flying_time();
 		else
 		    if (flying_start==-1) {
 			    flying_start=System.currentTimeMillis();
