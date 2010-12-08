@@ -120,21 +120,27 @@ public class VoicePrefsActivity extends PreferenceActivity implements OnPreferen
         CheckBoxPreference connectionInfoCheckBoxPref = new CheckBoxPreference(this);
         connectionInfoCheckBoxPref.setKey(VoicePrefs.KEY_DO_VOICE_CONNINFO);
         connectionInfoCheckBoxPref.setTitle("Connection Info");
-        connectionInfoCheckBoxPref.setSummary("Speak Connection info on start");
+        connectionInfoCheckBoxPref.setSummary("connection info on start");
         connectionInfoCheckBoxPref.setOnPreferenceChangeListener(this);
        	valuesToSpeakPrefCat.addPreference(connectionInfoCheckBoxPref);
 
+       	CheckBoxPreference rclostCheckBoxPref = new CheckBoxPreference(this);
+        rclostCheckBoxPref.setKey(VoicePrefs.KEY_DO_VOICE_RCLOST);
+        rclostCheckBoxPref.setTitle("RC Lost");
+        rclostCheckBoxPref.setSummary("when RC Signal lost");
+        rclostCheckBoxPref.setOnPreferenceChangeListener(this);
+       	valuesToSpeakPrefCat.addPreference(rclostCheckBoxPref);
 
         CheckBoxPreference doAltCheckBoxPref = new CheckBoxPreference(this);
         doAltCheckBoxPref.setKey(VoicePrefs.KEY_DO_VOICE_ALT);
         doAltCheckBoxPref.setTitle("Altitude");
-        doAltCheckBoxPref.setSummary("Speak Altitude in meters");
+        doAltCheckBoxPref.setSummary("altitude in meters");
         doAltCheckBoxPref.setOnPreferenceChangeListener(this);
        	valuesToSpeakPrefCat.addPreference(doAltCheckBoxPref);
 
         CheckBoxPreference doMaxAltCheckBoxPref = new CheckBoxPreference(this);
         doMaxAltCheckBoxPref.setKey(VoicePrefs.KEY_DO_VOICE_MAX_ALT);
-        doMaxAltCheckBoxPref.setTitle("Max Altitude");
+        doMaxAltCheckBoxPref.setTitle("max altitude");
         doMaxAltCheckBoxPref.setSummary("Speak max Altitude in meters");
         doMaxAltCheckBoxPref.setOnPreferenceChangeListener(this);
         

@@ -42,6 +42,7 @@ public class VoicePrefs {
 	public final static String KEY_DO_VOICE_NCERR="voice_ncerr";
 	public final static String KEY_DO_VOICE_CONNINFO="voice_conninfo";
 	public final static String KEY_DO_VOICE_FLIGHTTIME="voice_flighttime";
+	public final static String KEY_DO_VOICE_RCLOST="voice_rclost";
 	
 	public final static String KEY_DO_VOICE_DISTANCE2HOME="voice_distance2home";
 	public final static String KEY_DO_VOICE_DISTANCE2TARGET="voice_distance2target";
@@ -118,6 +119,10 @@ public class VoicePrefs {
 
 	public static boolean isVoiceCurrentEnabled() {
 		return shared_prefs.getBoolean(KEY_DO_VOICE_CURRENT, false);
+	}
+
+	public static boolean isVoiceRCLostEnabled() {
+		return shared_prefs.getBoolean(KEY_DO_VOICE_RCLOST, false);
 	}
 
 	public static boolean isConnectionInfoEnabled() {
