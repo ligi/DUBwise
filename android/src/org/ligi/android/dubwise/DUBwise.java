@@ -44,10 +44,13 @@ import org.ligi.ufo.DUBwiseNotificationListenerInterface;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.logging.NotLogger;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 public class DUBwise extends ListActivity implements DUBwiseNotificationListenerInterface , Runnable{
@@ -58,7 +61,7 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	
-		Log.setTAG("DUBwise");
+		Log.setTAG("DUBwise"); // It's all about DUBwise from here ;-)
 		TraceDroid.init(this);
 		TraceDroidEmailSender.sendStackTraces("ligi@ligi.de", this);
 
@@ -180,9 +183,75 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 				.toArray())));
 
 	}
+	@Override
+	public void onBackPressed() {
+		
+		LinearLayout lin=new LinearLayout(this);
+		lin.setOrientation(LinearLayout.VERTICAL);
+		
+		Button kidding_btn=new Button(this);
+		kidding_btn.setText("No - just kidding");
+		
+		kidding_btn.setOnClickListener( new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				((AlertDialog)view.getTag()).hide();
+			}
+		});
+		
+		lin.addView(kidding_btn);
+		
+		Button yes_btn=new Button(this);
+		yes_btn.setText("Yes");
+		lin.addView(yes_btn);
+		
+		yes_btn.setOnClickListener( new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				MKProvider.getMK().close_connections(true);
+				MKProvider.getMK().stop();
+				StatusVoice.getInstance().stop();
+				finish();
+			}
+		});
+		
+		
+		Button rmbt_btn=new Button(this);
+		rmbt_btn.setText("Yes and disable BT");
+		
+		rmbt_btn.setOnClickListener( new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				MKProvider.getMK().close_connections(true);
+				MKProvider.getMK().stop();
+				StatusVoice.getInstance().stop();
+				BluetoothMaster.shutdownBluetooth();
+				finish();
+			}
+		});
+		
+		lin.addView(rmbt_btn);
+				
+		Button stay_awake_btn=new Button(this);
+		stay_awake_btn.setText("Yes - but stay awake");
+		lin.addView(stay_awake_btn);
+		
+		stay_awake_btn.setOnClickListener( new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				finish();
+			}
+		});
+		
+		kidding_btn.setTag((new AlertDialog.Builder(this)).setView(lin).setTitle("Exit DUBwise?").show());
+		//(new AlertDialog.Builder(this)).setView(lin).setTitle("Exit DUBwise?").show();
+		
+	}
+
 
 	@Override
 	protected void onResume() {
+
 		super.onResume();
 		ActivityCalls.afterContent(this);
 		
