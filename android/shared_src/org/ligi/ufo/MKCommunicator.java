@@ -1026,4 +1026,8 @@ public class MKCommunicator
     	// TODO read from flags
     	return stats.flying_time()>0;
     }
+    
+    public void stop() {
+    	 thread_running=false;
+    }
 }
