@@ -21,13 +21,10 @@
 package org.ligi.android.dubwise.cockpit;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.graphics.*;
-import android.hardware.SensorListener;
-import android.hardware.SensorManager;
 
 import org.ligi.android.dubwise.DUBwisePrefs;
 import org.ligi.android.dubwise.conn.MKProvider;
@@ -36,17 +33,11 @@ import org.ligi.ufo.DUBwiseHelper;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.VesselData;
 
-public class CockpitView extends View implements DUBwiseDefinitions, SensorListener,OnTouchListener
+public class CockpitView extends View implements DUBwiseDefinitions,OnTouchListener
 {
 	private Paint mPaint = new Paint();
 	private Paint altitudeTextPaint = new Paint();
-	
-	private float pitch;
-	private float roll;
-
-	private SensorManager sensorManager;
-	private int sensor = SensorManager.SENSOR_ORIENTATION;
-	
+		
 	
 	public CockpitView(Activity context) {
 		super(context);
@@ -54,9 +45,6 @@ public class CockpitView extends View implements DUBwiseDefinitions, SensorListe
 		MKProvider.getMK().user_intent=MKCommunicator.USER_INTENT_3DDATA;
 		// needed to get Key Events
 		setFocusable(true);
-
-		sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-		sensorManager.registerListener(this, sensor,SensorManager.SENSOR_DELAY_FASTEST);
 
 		altitudeTextPaint.setColor(Color.WHITE);
 		altitudeTextPaint.setFakeBoldText(true);
@@ -76,11 +64,8 @@ public class CockpitView extends View implements DUBwiseDefinitions, SensorListe
 		paint.setARGB(255, 255, 0, 0);
 
 		float angle_roll=0;
-		
-		if (MKProvider.getMK().is_fake() )
-			angle_roll=roll*(-1);
-		else
-			angle_roll=VesselData.attitude.getRoll()/10; // 0.1Deg int to float
+	
+		angle_roll=VesselData.attitude.getRoll()/10; // 0.1Deg int to float
 		
 		if (DUBwisePrefs.isArtificialHorizonInverted())
 			angle_roll*=-1;
@@ -97,10 +82,8 @@ public class CockpitView extends View implements DUBwiseDefinitions, SensorListe
         paint.setARGB(200,0,200,0);
 
         int nick_bar_move=VesselData.attitude.getNick()*getHeight()/(9*this.getHeight());
-        if (MKProvider.getMK().is_fake() )
-        	;//        	canvas.drawRoundRect(new RectF(getWidth()/3,getHeight()/2 -bar_height/2 + pitch*getHeight()/130.0 ,2*getWidth()/3, getHeight()/2+ pitch*getHeight()/130.0+bar_height),5,5,paint);
-		else
-			canvas.drawRoundRect(new RectF(getWidth()/3,getHeight()/2 -bar_height/2 + nick_bar_move ,2*getWidth()/3, getHeight()/2+ nick_bar_move+bar_height),5,5,paint);
+        
+        canvas.drawRoundRect(new RectF(getWidth()/3,getHeight()/2 -bar_height/2 + nick_bar_move ,2*getWidth()/3, getHeight()/2+ nick_bar_move+bar_height),5,5,paint);
 
         canvas.restore();
 
@@ -111,9 +94,10 @@ public class CockpitView extends View implements DUBwiseDefinitions, SensorListe
         //canvas.drawRoundRect(new RectF(flight_x,flight_y,flight_x+getWidth()/8,flight_y+getWidth()/8),5,5,paint);
         //paint.setARGB(255,0,0,0);
 
-        canvas.restore();
+        // canvas.restore();
 
         float act_text_pos=this.getHeight();
+        
         if (DUBwisePrefs.showAlt()) {
         	canvas.drawText(MKProvider.getMK().getAlt()/10.0 + "m", 7f,act_text_pos, altitudeTextPaint);
         	act_text_pos-=altitudeTextPaint.getTextSize();
@@ -139,17 +123,6 @@ public class CockpitView extends View implements DUBwiseDefinitions, SensorListe
 	}
 
 	@Override
-	public void onAccuracyChanged(int arg0, int arg1) {
-		// TODO Auto-generated method stub
-	}
-	
-	@Override
-	public void onSensorChanged(int sensor, float[] values) {
-		pitch = values[1];
-        roll =-1*values[2];
-	}
-
-	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		
 		/*	if(event.getHistorySize()>0) 
@@ -160,6 +133,4 @@ public class CockpitView extends View implements DUBwiseDefinitions, SensorListe
 		*/
 		return false;
 	}
-
-
 }
