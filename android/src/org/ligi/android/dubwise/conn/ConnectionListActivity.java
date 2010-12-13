@@ -23,6 +23,7 @@ package org.ligi.android.dubwise.conn;
 import org.ligi.android.dubwise.conn.bluetooth.BluetoothDeviceListActivity;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.android.dubwise.helper.DUBwiseBaseListActivity;
+import org.ligi.android.dubwise.simulation.AndroidAttitudeProvider;
 import org.ligi.ufo.simulation.SimulatedMKCommunicationAdapter;
 
 import android.content.Intent;
@@ -65,7 +66,9 @@ public class ConnectionListActivity extends DUBwiseBaseListActivity {
 		try {
             switch (menu_actions[position]) {
                 case ACTIONID_SIMULATED:
-                	MKProvider.getMK().setCommunicationAdapter(new SimulatedMKCommunicationAdapter());
+                	SimulatedMKCommunicationAdapter sim=new SimulatedMKCommunicationAdapter();
+                	sim.setAttitudeProvider(new AndroidAttitudeProvider(this));
+                	MKProvider.getMK().setCommunicationAdapter(sim);
                 	finish();
                     break;
                 case ACTIONID_BT:
