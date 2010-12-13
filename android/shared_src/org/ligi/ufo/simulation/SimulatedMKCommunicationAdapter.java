@@ -36,15 +36,19 @@ public class SimulatedMKCommunicationAdapter implements
 	private int[] debug_data;
 	private int[] navi_osd_data;
 	private int[] stick_data;
+	private int[] attitude_data;
 	
 	private int[] lcd_lines;
 	private int lcd_pagecount=1;
+	private AttitudeProvider myAttitudeProvider;
 	
 	public void string2lcdlines(String str,int line) {
 		str2arr(str,lcd_lines,line*20+2);
 	}
 	
+	
 	public SimulatedMKCommunicationAdapter()   {
+		myAttitudeProvider=new SimpleAttitudeProvider();
 		
 		lcd_lines=new int[2+4*20];
 		
@@ -63,6 +67,7 @@ public class SimulatedMKCommunicationAdapter implements
 		navi_osd_data[50]=9; // SatsInUse
 			
 		stick_data=new int[MKStickData.MAX_STICKS];
+		attitude_data=new int[2*2*3];
 		
 		new Thread(this).start();
 	}
@@ -191,9 +196,24 @@ public class SimulatedMKCommunicationAdapter implements
 			try {
 				send_stack.addElement(MKHelper.encodeCommand(MKProtocolDefinitions.NAVI_SLAVE_ADDR, 'D', debug_data));
 				send_stack.addElement(MKHelper.encodeCommand(MKProtocolDefinitions.NAVI_SLAVE_ADDR, 'O', navi_osd_data));
+				
+				attitude_data[0]=myAttitudeProvider.getNick()&0xFF;
+				attitude_data[1]=(myAttitudeProvider.getNick()>>8)&0xFF;
+				
+				attitude_data[2]=myAttitudeProvider.getRoll()&0xFF;
+				attitude_data[3]=(myAttitudeProvider.getRoll()>>8)&0xFF;
+				
+				attitude_data[4]=myAttitudeProvider.getYaw()&0xFF;
+				attitude_data[5]=(myAttitudeProvider.getYaw()>>8)&0xFF;
+				
+				send_stack.addElement(MKHelper.encodeCommand(MKProtocolDefinitions.NAVI_SLAVE_ADDR, 'C', attitude_data));
 				send_stack.addElement(MKHelper.encodeCommand(MKProtocolDefinitions.NAVI_SLAVE_ADDR, 'P', stick_data));
 				Thread.sleep(300);
 			} catch (InterruptedException e) {	}
 		}
+	}
+	
+	public void setAttitudeProvider(AttitudeProvider new_att_provider) {
+		myAttitudeProvider=new_att_provider;
 	}
 }
