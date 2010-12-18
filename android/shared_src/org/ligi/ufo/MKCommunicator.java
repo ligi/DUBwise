@@ -41,8 +41,6 @@ public class MKCommunicator
     private CommunicationAdapterInterface comm_adapter;
 
 	public byte slave_addr=-1;
-
-	//int last_avr_sig=-1;
 	
     public int primary_abo=10;
     public int secondary_abo=30;
