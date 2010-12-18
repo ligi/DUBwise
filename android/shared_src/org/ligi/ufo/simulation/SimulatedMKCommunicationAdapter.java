@@ -26,8 +26,14 @@ import org.ligi.ufo.MKParamsParser;
 import org.ligi.ufo.MKProtocolDefinitions;
 import org.ligi.ufo.MKStickData;
 
-/**                                          
-* CommunicationAdapter for a fake connection - can be used as a test too
+/**
+ * @author ligi ( aka: Marcus Bueschleb | mail: ligi at ligi dot de )
+ *                                           
+ * CommunicationAdapter for a simulated connection
+ * mainly 3 reasons for that:
+ *  - show interface without hardware
+ *  - helps coding 
+ *  - testing
 **/
 public class SimulatedMKCommunicationAdapter implements
 		CommunicationAdapterInterface,Runnable {
@@ -41,11 +47,8 @@ public class SimulatedMKCommunicationAdapter implements
 	private int[] lcd_lines;
 	private int lcd_pagecount=1;
 	private AttitudeProvider myAttitudeProvider;
-	
-	public void string2lcdlines(String str,int line) {
-		str2arr(str,lcd_lines,line*20+2);
-	}
-	
+
+	private long start_time;
 	
 	public SimulatedMKCommunicationAdapter()   {
 		myAttitudeProvider=new SimpleAttitudeProvider();
@@ -62,22 +65,34 @@ public class SimulatedMKCommunicationAdapter implements
 			debug_data[i*2+1]=0;
 			}
 
-		navi_osd_data=new int[81];
+		navi_osd_data=new int[82];
 		navi_osd_data[57]=162; // UBatt
 		navi_osd_data[50]=9; // SatsInUse
 			
+		navi_osd_data[76]=0;
+		navi_osd_data[77]=0;
+		navi_osd_data[78]=0;
+		navi_osd_data[79]=0;
+		navi_osd_data[80]=0;
+		navi_osd_data[81]=0;
+		
 		stick_data=new int[MKStickData.MAX_STICKS];
 		attitude_data=new int[2*2*3];
 		
+		start_time=System.currentTimeMillis();
+		
 		new Thread(this).start();
 	}
-	
+
+	public void string2lcdlines(String str,int line) {
+		str2arr(str,lcd_lines,line*20+2);
+	}
 	public void connect() {
-		// nothing to do here in the fake adapter
+		// nothing to do here in simulation
 	}
 
 	public void disconnect() {
-		// nothing to do here in the fake adapter
+		// nothing to do here in simulation
 	}
 
 	public int available() {
