@@ -35,7 +35,7 @@ import android.widget.ArrayAdapter;
 
 public class ConnectionListActivity extends DUBwiseBaseListActivity {
 
-	private String[] menu_items = new String[] { "Fake Connection","Connect via Bluetooth","connect via TCP/IP" ,"disconnect","reconnect","Switch Device","Connection Details"};
+	private String[] menu_items = new String[] { "Simulate a connection","Connect via bluetooth","Connect via TCP/IP" ,"Disconnect","Reconnect","Switch device","Connection details"};
 	private int[] menu_actions = new int[] { ACTIONID_SIMULATED , ACTIONID_BT , ACTIONID_TCP , ACTIONID_DISCONN, ACTIONID_RECONNECT , ACTIONID_SWITCH, ACTIONID_CONDETAILS};
 	
 	public final static int ACTIONID_SIMULATED = 0;
