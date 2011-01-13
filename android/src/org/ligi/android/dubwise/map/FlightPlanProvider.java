@@ -68,7 +68,7 @@ public class FlightPlanProvider {
 		if (latlon<0) {
 			prefix="-";
 			latlon*=-1;
-			}
+		}
 		
 		return prefix+latlon/1000000 +"." + latlon%1000000;
 	}
@@ -107,8 +107,8 @@ public class FlightPlanProvider {
 		            for (int i=0;i<items.getLength();i++){
 		                
 		                Node item = items.item(i);
-		                String lat_str=item.getAttributes().getNamedItem("lat").getNodeValue().substring(1);
-		                String lon_str=item.getAttributes().getNamedItem("lon").getNodeValue().substring(1);
+		                String lat_str=item.getAttributes().getNamedItem("lat").getNodeValue();
+		                String lon_str=item.getAttributes().getNamedItem("lon").getNodeValue();
 		                Log.i("lat: " + lat_str);
 		                Log.i("lon: " + lon_str);
 		                // TODO better find hold time
