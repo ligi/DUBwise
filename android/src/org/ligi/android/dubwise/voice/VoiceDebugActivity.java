@@ -20,74 +20,24 @@
 
 package org.ligi.android.dubwise.voice;
 
-import org.ligi.android.dubwise.helper.ActivityCalls;
-import org.ligi.android.dubwise.helper.DUBwiseBaseListActivity;
-import android.os.Bundle;
-import android.os.Handler;
-import android.widget.ArrayAdapter;
+import org.ligi.android.dubwise.helper.RefreshingStringListActivity;
 
-public class VoiceDebugActivity extends DUBwiseBaseListActivity implements Runnable{
+public class VoiceDebugActivity extends RefreshingStringListActivity {
 
-	private String[] menu_items;
-	private ArrayAdapter<String> adapter;
-	private boolean running=true;
-	
-	/** Called when the activity is first created. */
+
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-	
-		menu_items=new String[2];
-		refresh_values();
-		
-		ActivityCalls.beforeContent(this);
-		adapter=new ArrayAdapter<String>(this,
-	            android.R.layout.simple_list_item_1, menu_items);
-		
-	    this.setListAdapter(adapter);
-	       new Thread(this).start();
-	}
-
-	
-	private void refresh_values() {
-		menu_items[0]="next Block: " + StatusVoice.getInstance().getPauseTimeout() ;
-		menu_items[1]="last: " + StatusVoice.getInstance().getLastSpoken();
-	}
-		
-	@Override
-	protected void onResume() {
-		super.onResume();
-		ActivityCalls.afterContent(this);
+	public int getRefreshSleep() {
+		return 100;
 	}
 
 	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		running=false;
-		ActivityCalls.onDestroy(this);
-		
-		
-	}
-	 final Handler mHandler = new Handler();
-	    
-	 	// Create runnable for posting
-	   final Runnable mUpdateResults = new Runnable() {
-	       public void run() {
-	    	   adapter.notifyDataSetChanged();
-	       }
-	    };
-	@Override
-	public void run() {
-		while (running) {
-			refresh_values();
-		mHandler.post(mUpdateResults);
-			try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+	public String getStringByPosition(int pos) {
+		switch (pos) {
+			case 0: return "next Block: " + StatusVoice.getInstance().getPauseTimeout() ;
+			case 1: return "last: " + StatusVoice.getInstance().getLastSpoken();
 		}
-		}
+		
+		return null;
 	}
 
 }
