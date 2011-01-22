@@ -1,6 +1,6 @@
 /**************************************************************************
  *                                          
- * Activity to show a Changing Strings in a list
+ * Activity to show a changing strings in a list
  *                                          
  * Author:  Marcus -LiGi- Bueschleb   
  *
