@@ -98,7 +98,9 @@ public abstract class RefreshingStringListActivity extends DUBwiseBaseListActivi
 		}
 	};
 
-	public abstract int getRefreshSleep();
+	public int getRefreshSleep() {
+		return 100;
+	}
 	
 	@Override
 	public void run() {
