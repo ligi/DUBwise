@@ -223,7 +223,7 @@ public class SimulatedMKCommunicationAdapter implements
 				
 				send_stack.addElement(MKHelper.encodeCommand(MKProtocolDefinitions.NAVI_SLAVE_ADDR, 'C', attitude_data));
 				send_stack.addElement(MKHelper.encodeCommand(MKProtocolDefinitions.NAVI_SLAVE_ADDR, 'P', stick_data));
-				Thread.sleep(300);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {	}
 		}
 	}
