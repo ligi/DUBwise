@@ -22,6 +22,15 @@ package org.ligi.android.dubwise.helper;
 
 import org.ligi.android.dubwise.DUBwisePrefs;
 import org.ligi.android.dubwise.R;
+import org.ligi.android.dubwise.StartupConnectionService;
+import org.ligi.android.dubwise.blackbox.BlackBox;
+import org.ligi.android.dubwise.blackbox.BlackBoxPrefs;
+import org.ligi.android.dubwise.conn.bluetooth.BluetoothMaster;
+import org.ligi.android.dubwise.uavtalk.DUBwiseFlightTelemetry;
+import org.ligi.android.dubwise.uavtalk.MKCommunicator2UAVTalk;
+import org.ligi.android.dubwise.uavtalk.UAVTalkPrefs;
+import org.ligi.android.dubwise.voice.StatusVoice;
+import org.ligi.android.dubwise.voice.VoicePrefs;
 import org.ligi.tracedroid.logging.Log;
 
 import android.os.PowerManager;
@@ -38,6 +47,7 @@ import android.content.SharedPreferences;
 public class ActivityCalls {
 
 	private static WakeLock mWakeLock;
+	public static boolean did_init=false;
 	
 	public static void beforeContent(Activity activity) {
 		DUBwisePrefs.init(activity);
@@ -50,7 +60,31 @@ public class ActivityCalls {
 			} 
 			mWakeLock.acquire();
 		}
-		// pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag").acquire(); 
+		// pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag").acquire();
+		
+		// do only once
+		if (!did_init){
+			BluetoothMaster.init(activity);
+			VoicePrefs.init(activity);
+			UAVTalkPrefs.init(activity);
+			StatusVoice.getInstance().init(activity);
+			BlackBoxPrefs.init(activity);
+			MKCommunicator2UAVTalk.init();
+
+			if (VoicePrefs.isVoiceEnabled())
+				DUBwiseBackgroundHandler.getInstance().addAndStartTask(StatusVoice.getInstance());
+
+			if (UAVTalkPrefs.isFlightTelemetryEnabled())
+				DUBwiseBackgroundHandler.getInstance().addAndStartTask(DUBwiseFlightTelemetry.getTaskInstance());
+
+			// start the default connection
+			StartupConnectionService.start(activity);
+			
+			if (BlackBoxPrefs.isBlackBoxEnabled())
+					DUBwiseBackgroundHandler.getInstance().addAndStartTask(BlackBox.getInstance());		
+			
+			did_init=true;
+		}
 	}
 	
 	public static void onDestroy(Activity activity) {
