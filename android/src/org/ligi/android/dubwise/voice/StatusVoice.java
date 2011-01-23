@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import org.ligi.android.dubwise.conn.MKProvider;
+import org.ligi.android.dubwise.helper.DUBwiseBackgroundTask;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.VesselData;
@@ -38,7 +39,7 @@ import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
  * @author ligi
  *
  */
-public class StatusVoice implements OnInitListener, Runnable,
+public class StatusVoice implements OnInitListener, DUBwiseBackgroundTask,
 		OnUtteranceCompletedListener {
 
 	private static StatusVoice thisRef;
@@ -62,7 +63,7 @@ public class StatusVoice implements OnInitListener, Runnable,
 	private boolean told_free_mode=false;
 	private boolean told_ph_mode=false;
 	
-	private boolean told_rclost=false;
+	//private boolean told_rclost=false;
 	
 	private final static int sleep = 10;
 	private int pause_timeout=0;
@@ -73,14 +74,10 @@ public class StatusVoice implements OnInitListener, Runnable,
 	private String last_version_str = "";
 
 	private boolean running;
+	private Activity activity;
 	
 	public void init(Activity activity) {
-		if (isInitStarted()) // don't do it again
-			return;
-		init_started=true;
-		VoicePrefs.init(activity.getApplication());
-		mTts = new TextToSpeech(activity.getApplication(), this);
-		running=true;
+		this.activity=activity;
 	}
 	
 	public boolean isInitStarted() {
@@ -228,10 +225,11 @@ public class StatusVoice implements OnInitListener, Runnable,
 				if ((VoicePrefs.isVoiceRCLostEnabled())&&what2speak.equals("")) {
 					if (mk.SenderOkay()<190) {
 						what2speak+=" RC Signal lost";
-						told_rclost=true;
+						//told_rclost=true;
 						}
-					else
+/*					else
 						told_rclost=false;
+*/
 					}
 				
 				if (((pause_timeout--)<0)&&what2speak.equals("")) {
@@ -416,5 +414,26 @@ public class StatusVoice implements OnInitListener, Runnable,
 	@Override
 	public void onUtteranceCompleted(String arg0) {
 		Log.i( "onuterancecomplete");
+	}
+
+	@Override
+	public String getDescription() {
+		return "Speaking values of UAV";
+	}
+
+	@Override
+	public String getName() {
+		return "StatusVoice";
+	}
+
+	@Override
+	public void start() {
+
+		if (isInitStarted()) // don't do it again
+			return;
+		init_started=true;
+		VoicePrefs.init(activity.getApplication());
+		mTts = new TextToSpeech(activity.getApplication(), this);
+		running=true;	
 	}
 }
