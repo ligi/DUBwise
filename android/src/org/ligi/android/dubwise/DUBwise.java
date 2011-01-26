@@ -111,14 +111,18 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 				android.R.drawable.ic_menu_view, new Intent(this,
 						VoiceControlActivity.class)));
 		}
-		
+
+		menu_items_vector.add(new IconicMenuItem("Map",
+				android.R.drawable.ic_menu_mapmode, new Intent(this,
+						DUBwiseMap.class)));
+
 		if (mk.connected) {
 			
 				menu_items_vector.add(new IconicMenuItem("Device Details",
 						android.R.drawable.ic_menu_view, new Intent(this,
 								DeviceDetails.class)));
 
-				
+			
 				menu_items_vector.add(new IconicMenuItem("LCD",
 						android.R.drawable.ic_menu_view, new Intent(this,
 								LCDActivity.class)));
@@ -148,10 +152,6 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 						android.R.drawable.ic_menu_view, new Intent(this,
 								AnalogValuesActivity.class)));
 
-			if (mk.is_navi() || mk.is_fake())
-				menu_items_vector.add(new IconicMenuItem("View on Map",
-						android.R.drawable.ic_menu_mapmode, new Intent(this,
-								DUBwiseMap.class)));
 
 			if (mk.is_mk() || mk.is_fake())
 				menu_items_vector.add(new IconicMenuItem("Flight Settings",
