@@ -27,7 +27,7 @@ import org.ligi.android.dubwise.graph.GraphSettingsActivity;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.android.dubwise.helper.IconicAdapter;
 import org.ligi.android.dubwise.helper.IconicMenuItem;
-import org.ligi.android.dubwise.map.MapSettingsActivity;
+import org.ligi.android.dubwise.map.MapPrefsActivity;
 import org.ligi.android.dubwise.piloting.PilotingPrefsActivity;
 import org.ligi.android.dubwise.uavtalk.UAVTalkPrefsActivity;
 import org.ligi.android.dubwise.voice.VoicePrefsActivity;
@@ -74,7 +74,7 @@ public class SettingsListActivity extends ListActivity {
 
 		menu_items_vector.add(new IconicMenuItem("Map",
 				android.R.drawable.ic_menu_mapmode	, new Intent(this,
-						MapSettingsActivity.class)));
+						 MapPrefsActivity.class)));
 
 		menu_items_vector.add(new IconicMenuItem("BlackBox",
 				android.R.drawable.ic_menu_save	, new Intent(this,

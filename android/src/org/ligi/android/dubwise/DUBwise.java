@@ -71,12 +71,7 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 
 		ActivityCalls.beforeContent(this);
 
-		
-			
-		
 		refresh_list();
-
-
 		Log.d("created DUBwise class");
 	}
 
@@ -168,7 +163,6 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 						android.R.drawable.ic_menu_edit, new Intent(this,
 								MixerEditActivity.class)));
 
-			
 			if (mk.is_mk() || mk.is_fake())
 				menu_items_vector.add(new IconicMenuItem("Graph",
 						android.R.drawable.ic_menu_view, new Intent(this,
