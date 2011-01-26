@@ -23,6 +23,7 @@ package org.ligi.android.dubwise;
 import java.util.Vector;
 
 import org.ligi.android.dubwise.blackbox.BlackBox;
+import org.ligi.android.dubwise.blackbox.BlackBoxPrefs;
 import org.ligi.android.dubwise.cockpit.CockpitActivity;
 import org.ligi.android.dubwise.conn.ConnectionListActivity;
 import org.ligi.android.dubwise.conn.MKProvider;
@@ -30,11 +31,16 @@ import org.ligi.android.dubwise.conn.bluetooth.BluetoothMaster;
 import org.ligi.android.dubwise.flightsettings.FlightSettingsActivity;
 import org.ligi.android.dubwise.graph.GraphActivity;
 import org.ligi.android.dubwise.helper.ActivityCalls;
+import org.ligi.android.dubwise.helper.DUBwiseBackgroundHandler;
 import org.ligi.android.dubwise.helper.IconicAdapter;
 import org.ligi.android.dubwise.helper.IconicMenuItem;
 import org.ligi.android.dubwise.lcd.LCDActivity;
 import org.ligi.android.dubwise.map.DUBwiseMap;
 import org.ligi.android.dubwise.piloting.PilotingListActivity;
+import org.ligi.android.dubwise.uavtalk.DUBwiseFlightTelemetry;
+import org.ligi.android.dubwise.uavtalk.MKCommunicator2UAVTalk;
+import org.ligi.android.dubwise.uavtalk.UAVObjectsListActivity;
+import org.ligi.android.dubwise.uavtalk.UAVTalkPrefs;
 import org.ligi.android.dubwise.voice.StatusVoice;
 import org.ligi.android.dubwise.voice.VoicePrefs;
 import org.ligi.tracedroid.TraceDroid;
@@ -55,8 +61,6 @@ import android.widget.ListView;
 
 public class DUBwise extends ListActivity implements DUBwiseNotificationListenerInterface , Runnable{
 
-	public final static int ACTIONID_QUIT = 1;
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -65,21 +69,15 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 		TraceDroid.init(this);
 		TraceDroidEmailSender.sendStackTraces("ligi@ligi.de", this);
 
-		BluetoothMaster.init(this);
-		
-		VoicePrefs.init(this);
-		
-		if (VoicePrefs.isVoiceEnabled())
-			StatusVoice.getInstance().init(this);
-		
 		ActivityCalls.beforeContent(this);
+
+		
+			
+		
 		refresh_list();
 
-		// start the default connection
-		StartupConnectionService.start(this);
-		BlackBox.init();
-		Log.d("create");
 
+		Log.d("created DUBwise class");
 	}
 
 	public void refresh_list() {
@@ -89,6 +87,11 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 		menu_items_vector.add(new IconicMenuItem("Connection",
 				android.R.drawable.ic_menu_share, new Intent(this,
 						ConnectionListActivity.class)));
+		
+		if (UAVTalkPrefs.isUAVObjectsMainMenuEnabled())
+			menu_items_vector.add(new IconicMenuItem("UAVObjects",
+					android.R.drawable.ic_menu_share, new Intent(this,
+							UAVObjectsListActivity.class)));
 	
 		menu_items_vector.add(new IconicMenuItem("Settings",
 				android.R.drawable.ic_menu_preferences, new Intent(this,
@@ -176,9 +179,6 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 				android.R.drawable.ic_menu_info_details, new Intent(this,
 						InformationDeskActivity.class)));
 
-		// menu_items_vector.add(new IconicMenuItem("Quit" ,
-		// android.R.drawable.ic_menu_close_clear_cancel,ACTIONID_QUIT));
-
 		this.setListAdapter(new IconicAdapter(this, (menu_items_vector
 				.toArray())));
 
@@ -210,7 +210,7 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 			public void onClick(View view) {
 				MKProvider.getMK().close_connections(true);
 				MKProvider.getMK().stop();
-				StatusVoice.getInstance().stop();
+				DUBwiseBackgroundHandler.getInstance().stopAll();
 				finish();
 			}
 		});
@@ -224,7 +224,7 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 			public void onClick(View view) {
 				MKProvider.getMK().close_connections(true);
 				MKProvider.getMK().stop();
-				StatusVoice.getInstance().stop();
+				DUBwiseBackgroundHandler.getInstance().stopAll();
 				BluetoothMaster.shutdownBluetooth();
 				finish();
 			}
@@ -244,10 +244,8 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 		});
 		
 		kidding_btn.setTag((new AlertDialog.Builder(this)).setView(lin).setTitle("Exit DUBwise?").show());
-		//(new AlertDialog.Builder(this)).setView(lin).setTitle("Exit DUBwise?").show();
 		
 	}
-
 
 	@Override
 	protected void onResume() {

@@ -19,6 +19,8 @@
 
 package org.ligi.android.dubwise.map;
 
+import org.ligi.ufo.WayPoint;
+
 import com.google.android.maps.GeoPoint;
 
 /**
@@ -28,30 +30,17 @@ import com.google.android.maps.GeoPoint;
  *
  */
 
-public class WayPoint {
+public class AndroidWayPoint extends WayPoint {
 
-		
-		private int hold_time; // in s
 		private GeoPoint point;
 		
-		public WayPoint(GeoPoint p,int t) {
+		public AndroidWayPoint(GeoPoint p) {
+			super(p.getLatitudeE6()*10, p.getLongitudeE6()*10);
 			point=p;	
-			hold_time=t;
 		}
 		
 		public GeoPoint getGeoPoint() {
 			return point;
 		}
-		
-		public void setGeoPoint(GeoPoint p) {
-			point=p;
-		}
-		
-		public int getHoldTime() {
-			return hold_time;
-		}
-		
-		public void setHoldTime(int t) {
-			hold_time=t;
-		}
+	
 }

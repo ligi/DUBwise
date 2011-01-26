@@ -22,6 +22,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import org.ligi.android.dubwise.helper.RefreshingStringListActivity;
 import org.ligi.tracedroid.logging.Log;
 
 import android.app.Activity;
@@ -48,10 +50,11 @@ import android.widget.TextView;
  * @author Marcus -LiGi- Bueschleb   
  *
  */
-public class ShowFlightPlanActivity extends Activity implements OnClickListener {
+public class ShowFlightPlanActivity extends RefreshingStringListActivity {
 	private static final int MENU_SAVE = 0;
 	private static final int MENU_LOAD = 1;
 
+	/*
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -70,7 +73,7 @@ public class ShowFlightPlanActivity extends Activity implements OnClickListener 
 		{
 			wp_id++;
 			TextView tv=new TextView(this);
-			tv.setText("wp: " + wp_id +  "lat: " + p.getGeoPoint().getLatitudeE6()/1000000.0 + " lon: " + p.getGeoPoint().getLongitudeE6()/1000000.0);
+			tv.setText("#" + wp_id +  " lat: " + p.getGeoPoint().getLatitudeE6()/1000000.0 + " lon: " + p.getGeoPoint().getLongitudeE6()/1000000.0 );
 			
 			ImageButton del_btn=new ImageButton(this);
 			
@@ -136,6 +139,8 @@ public class ShowFlightPlanActivity extends Activity implements OnClickListener 
 		}
 	}
 	
+	*/
+	
 	/* Creates the menu items */
 	public boolean onPrepareOptionsMenu(Menu menu) {
 
@@ -148,51 +153,60 @@ public class ShowFlightPlanActivity extends Activity implements OnClickListener 
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item) {
-
-		
 	    switch (item.getItemId()) {
 	    	case MENU_LOAD:
 	    		this.startActivity(new Intent(this,GPXListActivity.class));
 	    		finish();
 	    		break;
-	    case MENU_SAVE:
-	    	final EditText input = new EditText(this);   
-			input.setText("default");
-
-			new AlertDialog.Builder(this).setTitle("Save GPX").setMessage("How should the file I will write to " +MapPrefs.getGPXPath() + " be named?").setView(input)
-			.setPositiveButton("OK" , new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				String value = input.getText().toString(); 
-					
-				File f = new File(MapPrefs.getGPXPath());
-				
-				if (!f.isDirectory())
-					f.mkdirs();
-				
-				try {
-					f=new File(MapPrefs.getGPXPath() + "/"+value+".gpx");
-					f.createNewFile();
-					
-					FileWriter sgf_writer = new FileWriter(f);
-					
-					BufferedWriter out = new BufferedWriter(sgf_writer);
-					
-					out.write(FlightPlanProvider.toGPX());
-					out.close();
-					sgf_writer.close();
-				} catch (IOException e) {
-					Log.i(""+e);
-				}
+		    case MENU_SAVE:
+		    	final EditText input = new EditText(this);   
+				input.setText("default");
 	
-			}
-			}).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-			// Do nothing.
-			}
-			}).show();
-	    	return true;
+				new AlertDialog.Builder(this).setTitle("Save GPX").setMessage("How should the file I will write to " +MapPrefs.getGPXPath() + " be named?").setView(input)
+				.setPositiveButton("OK" , new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					String value = input.getText().toString(); 
+						
+					File f = new File(MapPrefs.getGPXPath());
+					
+					if (!f.isDirectory())
+						f.mkdirs();
+					
+					try {
+						f=new File(MapPrefs.getGPXPath() + "/"+value+".gpx");
+						f.createNewFile();
+						
+						FileWriter sgf_writer = new FileWriter(f);
+						
+						BufferedWriter out = new BufferedWriter(sgf_writer);
+						
+						out.write(FlightPlanProvider.toGPX());
+						out.close();
+						sgf_writer.close();
+					} catch (IOException e) {
+						Log.i(""+e);
+					}
+		
+				}
+				}).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+				// Do nothing.
+				}
+				}).show();
+		    	return true;
 	    }
 	    return true;
+	}
+
+	@Override
+	public String getStringByPosition(int pos) {
+		if (pos>=FlightPlanProvider.getWPList().size())	
+			return null;
+		AndroidWayPoint wp =FlightPlanProvider.getWPList().get(pos);
+		
+		return "#" +pos + " lat: " + wp.getGeoPoint().getLatitudeE6()/1000000.0 + " lon: " + wp.getGeoPoint().getLongitudeE6()/1000000.0 + " ht:" + wp.getHoldTime()
+		+ " ev:" + wp.getChannelEvent() + " radius:" + wp.getToleranceRadius();
+		
 	}
 
 

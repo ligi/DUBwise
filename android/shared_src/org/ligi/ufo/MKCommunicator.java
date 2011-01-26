@@ -346,53 +346,57 @@ public class MKCommunicator
 		send_command(0,'v');
     }
 
-    // TODO FIxme
+    
+    /**
+     * set a gps target
+     * DO NOT USE this function yet!
+     * 
+     * @param longitude
+     * @param latitude
+     */
     public void set_gps_target(int longitude,int latitude)    {
-		int[] target=new int[8];
-		target[0]= (0xFF)&(longitude<<24);
-		target[1]= (0xFF)&(longitude<<16);
-		target[2]= (0xFF)&(longitude<<8);
-		target[3]= (0xFF)&(longitude);
+    	// TODO FIxme
+    	int[] target=new int[8];
+		target[3]= (0xFF)&(longitude<<24);
+		target[2]= (0xFF)&(longitude<<16);
+		target[1]= (0xFF)&(longitude<<8);
+		target[0]= (0xFF)&(longitude);
 		//	send_command(0,'s',target);
 	}
 
-    public void add_gps_wp(int status,int index,int longitude,int latitude,int hold_time) {
-		int[] waypoint_struct=new int[30];
-		waypoint_struct[0]= (0xFF)&(longitude<<24);
-		waypoint_struct[1]= (0xFF)&(longitude<<16);
-		waypoint_struct[2]= (0xFF)&(longitude<<8);
-		waypoint_struct[3]= (0xFF)&(longitude);
+    public void add_gps_wp(int status,int index,WayPoint wp) {
+		byte[] waypoint_struct=new byte[30];
 		
-		waypoint_struct[4]= (0xFF)&(latitude<<24);
-		waypoint_struct[5]= (0xFF)&(latitude<<16);
-		waypoint_struct[6]= (0xFF)&(latitude<<8);
-		waypoint_struct[7]= (0xFF)&(latitude);
+		MKHelper.int32ToByteArr(wp.getLon() , waypoint_struct, 0);
+		MKHelper.int32ToByteArr(wp.getLat() , waypoint_struct, 4);
 		
 		// alt
-		waypoint_struct[8]= (0xFF)&(0);
-		waypoint_struct[9]= (0xFF)&(0);
-		waypoint_struct[10]= (0xFF)&(0);
-		waypoint_struct[11]= (0xFF)&(0);
+		MKHelper.int32ToByteArr(0, waypoint_struct, 8);
 		
 		// status
-		waypoint_struct[12]= (0xFF)&(status);
+		waypoint_struct[12]= (byte)((0xFF)&(status));
 		
 		// heading
 		waypoint_struct[13]= (0xFF)&(0);
 		waypoint_struct[14]= (0xFF)&(0);
 		
 		// tolerance
-		waypoint_struct[15]= (0xFF)&(0);
+		waypoint_struct[15]= (byte)((0xFF)&(wp.getToleranceRadius()));
 		
 		// holdtime
-		waypoint_struct[16]= (0xFF)&(hold_time);
+		waypoint_struct[16]= (byte)((0xFF)&(wp.getHoldTime()));
 		
 		// event flag
-		waypoint_struct[17]= (0xFF)&(0);
+		waypoint_struct[17]= (byte)((0xFF)&(0));
 		
 		//index
-		waypoint_struct[18]= (0xFF)&(index);
+		waypoint_struct[18]= (byte)((0xFF)&(index));
 		
+		//type 19
+		
+		// channel event
+		waypoint_struct[20]= (byte)((0xFF)&(wp.getChannelEvent()));
+	
 		// 11 reserved
 		send_command(NAVI_SLAVE_ADDR,'w',waypoint_struct);
     }
@@ -416,25 +420,14 @@ public class MKCommunicator
     }
 
 
-    public void send_follow_me(int time,long lon,long lat) 	{
+    public void send_follow_me(byte time,int  lon,int lat) 	{
     	long alt=0;
 
-    	int[] params=new int[29];
+    	byte[] params=new byte[29];
 
-    	params[0]=(int)((lon)&0xFF) ;
-    	params[1]=(int)((lon>>8)&0xFF) ;
-    	params[2]=(int)((lon>>16)&0xFF) ;
-    	params[3]=(int)((lon>>24)&0xFF) 	;
-
-    	params[4]=(int)((lat)&0xFF) ;
-    	params[5]=(int)((lat>>8)&0xFF) ;
-    	params[6]=(int)((lat>>16)&0xFF) ;
-    	params[7]=(int)((lat>>24)&0xFF) ;
-
-    	params[8]=(int)((alt)&0xFF );
-    	params[9]=(int)((alt>>8)&0xFF );
-    	params[10]=(int)((alt>>16)&0xFF); 
-    	params[11]=(int)((alt>>24)&0xFF );
+		MKHelper.int32ToByteArr(lat, params, 0);
+		MKHelper.int32ToByteArr(lon, params, 4);
+		MKHelper.int32ToByteArr(0, params, 8); // alt
 
     	params[12]=2;  // newdata
 
@@ -594,34 +587,46 @@ public class MKCommunicator
     	send_command(modul,cmd,params);
     }
 
-    
+    /**
+     * @deprecated - please use the byte version
+     * 
+     * @param modul
+     * @param cmd
+     * @param params
+     */
     public void send_command_nocheck(byte modul,char cmd,int[] params) {
 
 		byte[] send_buff=MKHelper.encodeCommand(modul, cmd, params);
 		
-		try 
-		    {
-			/*int tmp_crc=0;
-			for ( int tmp_i=0; tmp_i<send_buff.length;tmp_i++)
-			    tmp_crc+=(int)send_buff[tmp_i];
-		*/		
+		try {
 			comm_adapter.write(send_buff,0,send_buff.length);
-	/*		tmp_crc%=4096;
-	
-			comm_adapter.write( (char)(tmp_crc/64 + '='));
-			comm_adapter.write( (char)(tmp_crc%64 + '='));
-			
-			comm_adapter.write('\r');*/
 			stats.bytes_out+=send_buff.length; //+3;
 			comm_adapter.flush();
-		    }
-		catch (Exception e)
-		    { // problem sending data to FC
-		    }
-
+		} catch (Exception e) { 
+			// problem sending data to FC
+		}
     }
 
     /**
+     * @param modul
+     * @param cmd
+     * @param params
+     */
+    public void send_command_nocheck(byte modul,char cmd,byte[] params) {
+
+		byte[] send_buff=MKHelper.encodeCommand(modul, cmd, params);
+		
+		try {
+			comm_adapter.write(send_buff,0,send_buff.length);
+			stats.bytes_out+=send_buff.length; //+3;
+			comm_adapter.flush();
+		} catch (Exception e) { 
+			// problem sending data to FC
+		}
+    }
+    
+    /**
+	 * @deprecated - use send_command(int modul,char cmd,byte[] params)  instead
      *  send command to FC 
      *  add crc and pack into pseudo Base64
      * 
@@ -636,6 +641,21 @@ public class MKCommunicator
 		sending=false;
     }
 
+
+    /**
+     *  send command to FC 
+     *  add crc and pack into pseudo Base64
+     * 
+     * @param modul
+     * @param cmd
+     * @param params
+     */
+    public void send_command(int modul,char cmd,byte[] params) {
+
+		sending=true;
+		send_command_nocheck((byte)modul,cmd,params);
+		sending=false;
+    }
     public int SatsInUse() {
 
 		switch (slave_addr) {

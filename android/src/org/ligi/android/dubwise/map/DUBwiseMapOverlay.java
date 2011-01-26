@@ -83,16 +83,17 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 	public GeoPoint getHomePos() {
 		return homePoint;
 	}
+	
 	public void phonepos2wp() {
-		FlightPlanProvider.addWP(phonePoint,5);
+		FlightPlanProvider.addWP(phonePoint);
 	}
 	
 	public void homepos2wp() {
-		FlightPlanProvider.addWP(homePoint,5);
+		FlightPlanProvider.addWP(homePoint);
 	}
 	
 	public void ufopos2wp() {
-		FlightPlanProvider.addWP(kopterPoint,5);
+		FlightPlanProvider.addWP(kopterPoint);
 	}
 	
 	public boolean hasPhonePos() {
@@ -127,9 +128,8 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 
 	public boolean onTouchEvent(MotionEvent e,MapView mapView) {
 		
-		if 	(flightplan_mode&&(e.getAction()!=MotionEvent.ACTION_UP))
-		{
-			FlightPlanProvider.addWP(mapView.getProjection().fromPixels  ((int)e.getX(), (int)e.getY()) ,5 );
+		if 	(flightplan_mode&&(e.getAction()!=MotionEvent.ACTION_UP)) {
+			FlightPlanProvider.addWP(mapView.getProjection().fromPixels  ((int)e.getX(), (int)e.getY())  );
 			return true;
 		}
 			
@@ -165,7 +165,7 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 			
 			int wp_id=0;
 			FontMetrics fm=wp_text_paint.getFontMetrics();
-			for (WayPoint pnt:FlightPlanProvider.getWPList()) 
+			for (AndroidWayPoint pnt:FlightPlanProvider.getWPList()) 
 			{
 				
 				mapView.getProjection().toPixels(pnt.getGeoPoint(), act_pnt);
@@ -185,21 +185,15 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 			canvas.drawCircle(last_pnt.x, last_pnt.y, 10, wp_circle_paint);
 			canvas.drawText(""+wp_id,last_pnt.x, last_pnt.y-5-(fm.top+fm.bottom), wp_text_paint);
 	
-			if (act_wp<FlightPlanProvider.getWPList().size())
-			{
+			if (act_wp<FlightPlanProvider.getWPList().size()) {
 				paint.setAlpha(130);
-				
 				mapView.getProjection().toPixels(FlightPlanProvider.getWPList().get(act_wp).getGeoPoint(), act_pnt);
-				
 				canvas.drawBitmap(kopter_icon, act_pnt.x-kopter_icon.getWidth()/2, act_pnt.y-kopter_icon.getHeight()/2, paint);			
 			}
-			
 		}
-		
 		
 		// Converts lat/lng-Point to OUR coordinates on the screen.
 		float gps_radius_in_pixels=mapView.getProjection().metersToEquatorPixels(500.0f);
-		
 		
 		if ((phonePoint!=null)&&MapPrefs.showPhone()) {
 			Point myScreenCoords = new Point();

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest package="org.ligi.android.dubwise"
-      xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="0.88" android:versionCode="22">
+      xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="0.89" android:versionCode="23">
 
 	<uses-sdk android:targetSdkVersion="3" android:minSdkVersion="4"></uses-sdk>
 	
@@ -70,6 +70,18 @@
 	<activity android:name="org.ligi.android.dubwise.voice.VoicePrefsActivity"></activity>
 	<activity android:name="org.ligi.android.dubwise.voice.VoiceDebugActivity"></activity>
 	<activity android:name="org.ligi.android.dubwise.map.ShowFlightPlanActivity"></activity>
+	
+	<activity android:name="org.ligi.android.dubwise.uavtalk.UAVObjectsListActivity"></activity>
+	<activity android:name="org.ligi.android.dubwise.uavtalk.UAVObjectFieldListActivity"></activity>
+	<activity android:name="org.ligi.android.dubwise.uavtalk.UAVObjectFieldArrayListActivity"></activity>
+	<activity android:name="org.ligi.android.dubwise.uavtalk.UAVObjectFieldEditActivity"></activity>
+	<activity android:name="org.ligi.android.dubwise.uavtalk.UAVTalkPrefsActivity"></activity>
+	<activity android:name="org.ligi.android.dubwise.uavtalk.DUBwiseFlightTelemetryStatusActivity"></activity>
+	<activity android:name="org.ligi.android.dubwise.uavtalk.DUBwiseFlightTelemetryStatusActivity"></activity>
+	
+	<activity android:name="org.ligi.android.dubwise.blackbox.BlackBoxPrefsActivity"></activity>
+	<activity android:name="org.ligi.android.dubwise.blackbox.BlackBoxWatchActivity"></activity>
+	<activity android:name="org.ligi.android.dubwise.BackgroundTaskListActivity"></activity>
 	
 	<activity android:name=".conn.SwitchDeviceListActivity"></activity>
 	<activity android:name="DeviceDetails"></activity>

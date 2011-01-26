@@ -6,5 +6,7 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="lib" path="lib/android_bluetooth2.0.jar"/>
 	<classpathentry kind="lib" path="lib/tracedroid.jar"/>
+	<classpathentry kind="lib" path="/home/ligi/workspace_e4_26c3/OpenPilot/build/juavobjects/juavobjects.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/UAVTalk"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

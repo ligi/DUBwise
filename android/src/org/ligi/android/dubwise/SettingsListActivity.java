@@ -22,12 +22,14 @@ package org.ligi.android.dubwise;
 
 import java.util.Vector;
 
+import org.ligi.android.dubwise.blackbox.BlackBoxPrefsActivity;
 import org.ligi.android.dubwise.graph.GraphSettingsActivity;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.android.dubwise.helper.IconicAdapter;
 import org.ligi.android.dubwise.helper.IconicMenuItem;
 import org.ligi.android.dubwise.map.MapSettingsActivity;
 import org.ligi.android.dubwise.piloting.PilotingPrefsActivity;
+import org.ligi.android.dubwise.uavtalk.UAVTalkPrefsActivity;
 import org.ligi.android.dubwise.voice.VoicePrefsActivity;
 import org.ligi.tracedroid.logging.Log;
 
@@ -57,6 +59,7 @@ public class SettingsListActivity extends ListActivity {
 		menu_items_vector.add(new IconicMenuItem("General",
 				android.R.drawable.ic_menu_agenda, new Intent(this,
 						DUBwisePrefsActivity.class)));
+		
 		menu_items_vector.add(new IconicMenuItem("Voice",
 				android.R.drawable.ic_lock_silent_mode_off	, new Intent(this,
 						VoicePrefsActivity.class)));
@@ -72,6 +75,18 @@ public class SettingsListActivity extends ListActivity {
 		menu_items_vector.add(new IconicMenuItem("Map",
 				android.R.drawable.ic_menu_mapmode	, new Intent(this,
 						MapSettingsActivity.class)));
+
+		menu_items_vector.add(new IconicMenuItem("BlackBox",
+				android.R.drawable.ic_menu_save	, new Intent(this,
+						BlackBoxPrefsActivity.class)));
+
+		menu_items_vector.add(new IconicMenuItem("UAVTalk",
+				android.R.drawable.ic_menu_agenda	, new Intent(this,
+						UAVTalkPrefsActivity.class)));
+
+		menu_items_vector.add(new IconicMenuItem("Background Tasks",
+				android.R.drawable.ic_menu_agenda	, new Intent(this,
+						BackgroundTaskListActivity.class)));
 
 		
 		this.setListAdapter(new IconicAdapter(this, (menu_items_vector

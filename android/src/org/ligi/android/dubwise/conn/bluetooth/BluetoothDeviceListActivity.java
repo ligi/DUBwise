@@ -259,8 +259,11 @@ public class BluetoothDeviceListActivity extends ListActivity implements Runnabl
 				mHandler.post(mUpdateProgressText);
 				String btDeviceInfo = connect_to;
 				
+				/** let UAVTalk look for a second if it can make sense of the Data **/ 
+				BluetoothCommunicationAdapter bt_com=new BluetoothCommunicationAdapter(bt_macs.get(connect_to_id));
+				MKProvider.getMK().setCommunicationAdapter(bt_com);
 				
-				MKProvider.getMK().setCommunicationAdapter(new BluetoothCommunicationAdapter(bt_macs.get(connect_to_id)));
+				
 				Log.i( "connecting");
 				MKProvider.getMK().connect_to("","" );
 				Log.i( "finishing BluetoothDeviceListActivity");

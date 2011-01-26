@@ -47,6 +47,7 @@ public abstract class RefreshingStringListActivity extends DUBwiseBaseListActivi
 		ActivityCalls.beforeContent(this);
 		adapter=new myArrayAdapter(this);
 	    this.setListAdapter(adapter);
+	
 	    new Thread(this).start();
 	}
 

@@ -28,6 +28,7 @@ import org.ligi.android.dubwise.map.dialogs.ZoomToDialog;
 import org.ligi.tracedroid.Log;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.MKGPSPosition;
+import org.ligi.ufo.WayPoint;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -101,13 +102,11 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 		 
 		GeoPoint kopterPoint=new GeoPoint(MKProvider.getMK().gps_position.Latitude/10,MKProvider.getMK().gps_position.Longitude/10);
 		mapView.getController().setCenter(kopterPoint);
-	    	
 		 
 		//mapView.getZoomButtonsController().setVisible(true);
 		 
 		//LinearLayout lin=new LinearLayout(this);
 		//lin.addView(mapView);
-		
 		 
 		//.setVisible(true);
 		//lin.addView(mZoom);
@@ -118,7 +117,6 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 		 
 		LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 5.0f, this);
-		 
 	}
 
 	@Override
@@ -140,7 +138,7 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 			GeoPoint p = new GeoPoint((int) (lat * 1000000), (int)( lng * 1000000));
 			overlay.phonePoint=p;
 			mapView.getController().animateTo(p);
-			}
+		}
 	}
 
 	@Override
@@ -160,7 +158,8 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 		menu.add(0,MENU_FLIGHTPLAN,0,"Draw Flight Plan" + (overlay.flightplan_mode?" off":" on")).setIcon(android.R.drawable.ic_menu_edit);
 		
 		if (overlay.flightplan_mode) {
-			menu.add(0,MENU_FP_SHOW,0,"Show FlightPlan").setIcon(android.R.drawable.ic_menu_view);
+			if (!FlightPlanProvider.getWPList().isEmpty())
+				menu.add(0,MENU_FP_SHOW,0,"Show FlightPlan").setIcon(android.R.drawable.ic_menu_view);
 
 			menu.add(0,MENU_FP_ADD_WP,0,"Add WP").setIcon(android.R.drawable.ic_menu_add);
 			
@@ -242,23 +241,21 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 					
 					// clear the list
 					while(mk.gps_position.WayPointNumber!=0) {
-						mk.add_gps_wp(MKGPSPosition.STATUS_INVALID, 0,0, 0, 0);
+						mk.add_gps_wp(MKGPSPosition.STATUS_INVALID,0, new WayPoint(0,0));
 						try {
 							Thread.sleep(100);
 						} catch (InterruptedException e) {	}
-					
 					}
 					
 					// upload wp's
-					for (WayPoint wp:FlightPlanProvider.getWPList()) {
+					for (AndroidWayPoint wp:FlightPlanProvider.getWPList()) {
 						Log.i("uploading WayPoint " + (i+1));
 						handler.post(new ProgressUpdater(i));
 						while(mk.gps_position.WayPointNumber!=(i+1)) {
-							mk.add_gps_wp(MKGPSPosition.STATUS_NEWDATA, i+1,wp.getGeoPoint().getLongitudeE6(), wp.getGeoPoint().getLatitudeE6(), wp.getHoldTime());
+							mk.add_gps_wp(MKGPSPosition.STATUS_NEWDATA, i+1,wp);
 							try {
 								Thread.sleep(300);
 							} catch (InterruptedException e) {	}
-						
 						}
 						i++;
 					} // for all WayPoints
@@ -274,9 +271,7 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	    	}
 	    	
 	    	new Thread(new FPUploader()).start();
-
 	    	return true;
-	
 	    }
 	    return false;
 	}

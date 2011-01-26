@@ -38,7 +38,7 @@ import android.preference.Preference.OnPreferenceChangeListener;
  *                                            
  * Activity to edit the DUBwise Preferences
  *                                          
- * @author   Marcus -LiGi- Bueschleb   
+ * @author ligi ( aka: Marcus Bueschleb | mail: ligi at ligi dot de )
  *
  */
 public class DUBwisePrefsActivity extends PreferenceActivity implements
@@ -75,7 +75,7 @@ public class DUBwisePrefsActivity extends PreferenceActivity implements
 		CheckBoxPreference fullscreenCheckBoxPref = new CheckBoxPreference(this);
 		fullscreenCheckBoxPref.setKey(DUBwisePrefs.KEY_FULLSCREEN);
 		fullscreenCheckBoxPref.setTitle("Fullscreen");
-		fullscreenCheckBoxPref.setSummary("see more DUBwise");
+		fullscreenCheckBoxPref.setSummary("see more DUBwise & less Device");
 		fullscreenCheckBoxPref.setOnPreferenceChangeListener(this);
 		uiPrefCat.addPreference(fullscreenCheckBoxPref);
 
@@ -107,7 +107,7 @@ public class DUBwisePrefsActivity extends PreferenceActivity implements
 		expertModeCheckBoxPref.setKey(DUBwisePrefs.KEY_EXPERTMODE);
 		expertModeCheckBoxPref.setTitle("Expert Mode");
 		expertModeCheckBoxPref
-				.setSummary("experimental functions - might crash");
+				.setSummary("experimental functions - might crash more often");
 		miscPrefCat.addPreference(expertModeCheckBoxPref);
 
 		CheckBoxPreference keepScreenAwakeCheckBoxPref = new CheckBoxPreference(

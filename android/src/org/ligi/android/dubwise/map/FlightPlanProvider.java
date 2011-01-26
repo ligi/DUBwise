@@ -18,7 +18,12 @@
 
 package org.ligi.android.dubwise.map;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -40,16 +45,15 @@ import com.google.android.maps.GeoPoint;
  */
 public class FlightPlanProvider {
 	
-	private static Vector <WayPoint> pnt_fp_vector=null;
+	private static Vector <AndroidWayPoint> pnt_fp_vector=null;
 	
-	public static Vector<WayPoint> getWPList() {
+	public static Vector<AndroidWayPoint> getWPList() {
 		if (pnt_fp_vector==null)
-			pnt_fp_vector=new Vector<WayPoint>();	
+			pnt_fp_vector=new Vector<AndroidWayPoint>();	
 		return pnt_fp_vector;
 	}
-	
 
-	public static void addWP(WayPoint point) {
+	public static void addWP(AndroidWayPoint point) {
 		
 		if (point==null)
 			return;
@@ -58,9 +62,9 @@ public class FlightPlanProvider {
 		
 		getWPList().add(point);	
 	}
-
-	public static void addWP(GeoPoint point,int hold_time) {
-		addWP(new WayPoint(point,hold_time));	
+	
+	public static void addWP(GeoPoint point) {
+		addWP(new AndroidWayPoint(point));	
 	}
 	
 	private static String formatGPXLatLon(int latlon) {
@@ -84,10 +88,12 @@ public class FlightPlanProvider {
 
 		res+="<trk>\n\t<name>FlightPlan</name>\n\t<trkseg>\n";
 		
-		for (WayPoint wp:getWPList())
+		for (AndroidWayPoint wp:getWPList())
 		{
 			res+="\t\t<trkpt lat=\"" +formatGPXLatLon( wp.getGeoPoint().getLatitudeE6())+"\" lon=\"" + formatGPXLatLon(wp.getGeoPoint().getLongitudeE6())+"\">\n";
 			res+="\t\t\t<HoldTime>" + wp.getHoldTime() + "</HoldTime>\n";
+			res+="\t\t\t<ToleranceRadius>" + wp.getToleranceRadius() + "</ToleranceRadius>\n";
+			res+="\t\t\t<ChannelEvent>" + wp.getChannelEvent() + "</ChannelEvent>\n";
 			res+="\t\t</trkpt>\n";
 		}
 		res+="\t</trkseg>\n</trk>\n</gpx>";
@@ -97,41 +103,60 @@ public class FlightPlanProvider {
 
 	public static void fromGPX(File gpx) {
 		 pnt_fp_vector=null;
-		        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		        
-		        try {
-		            DocumentBuilder builder = factory.newDocumentBuilder();
-		            Document dom = builder.parse(gpx);
-		            Element root = dom.getDocumentElement();
-		            NodeList items = root.getElementsByTagName("trkpt");
-		            for (int i=0;i<items.getLength();i++){
-		                
-		                Node item = items.item(i);
-		                String lat_str=item.getAttributes().getNamedItem("lat").getNodeValue();
-		                String lon_str=item.getAttributes().getNamedItem("lon").getNodeValue();
-		                Log.i("lat: " + lat_str);
-		                Log.i("lon: " + lon_str);
-		                // TODO better find hold time
-		                int hold_time=5;
-		                NodeList properties = item.getChildNodes();
-		                for (int j=0;j<properties.getLength();j++){
-		                    Node property = properties.item(j);
-		                    String name = property.getNodeName();
-		                    if (name.equalsIgnoreCase("holdtime")){
-		                    	 hold_time=Integer.parseInt (property.getFirstChild().getNodeValue());
-		                    } 
-		                }
-		                    
-		                
-		                int lat = (int)(1000000*Double.parseDouble(lat_str));
-		                int lon = (int)(1000000*Double.parseDouble(lon_str));
-		                addWP(new WayPoint(new GeoPoint(lat,lon),hold_time));
-		               }
-		        } catch (Exception e) {
-		            throw new RuntimeException(e);
-		        } 
-		        
-		    
+		 try {
+			 DocumentBuilder builder = factory.newDocumentBuilder();
+			 Document dom = builder.parse(gpx);
+			 Element root = dom.getDocumentElement();
+			 NodeList items = root.getElementsByTagName("trkpt");
+			 for (int i=0;i<items.getLength();i++){
+				 
+				 Node item = items.item(i);
+				 String lat_str=item.getAttributes().getNamedItem("lat").getNodeValue();
+				 String lon_str=item.getAttributes().getNamedItem("lon").getNodeValue();
+				 Log.i("lat: " + lat_str);
+				 Log.i("lon: " + lon_str);
+				 // TODO better find hold time
+
+				 NodeList properties = item.getChildNodes();
+				 int lat = (int)(1000000*Double.parseDouble(lat_str));
+				 int lon = (int)(1000000*Double.parseDouble(lon_str));
+				
+				 AndroidWayPoint wp=new AndroidWayPoint(new GeoPoint(lat,lon)); 
+				 
+				 for (int j=0;j<properties.getLength();j++){
+					 Node property = properties.item(j);
+					 String name = property.getNodeName();
+					 if (name.equalsIgnoreCase("holdtime"))
+						 wp.setHoldTime(Integer.parseInt (property.getFirstChild().getNodeValue()));
+					 if (name.equalsIgnoreCase("toleranceradius"))
+						 wp.setToleranceRadius(Integer.parseInt (property.getFirstChild().getNodeValue()));
+					 if (name.equalsIgnoreCase("channelevent"))
+						 wp.setChannelEvent(Integer.parseInt (property.getFirstChild().getNodeValue()));
+					 
+				 }
+				 
+				 addWP(wp);
+			 }
+		 } catch (Exception e) {
+			 Log.e("Problem loading gpx " + gpx.toString() );
+			 try {
+				FileInputStream bin=new FileInputStream(gpx);
+			    StringBuffer out = new StringBuffer();
+			    byte[] b = new byte[4096];
+			    for (int n; (n = bin.read(b)) != -1;) 
+			        out.append(new String(b, 0, n));
+				 Log.e("gpx content: " + out.toString() );
+
+			 } catch (FileNotFoundException e1) {
+				 Log.e("File not found");
+			 } catch (IOException ioe) {
+				 Log.e("I/O Error");
+			}
+	
+			 throw new RuntimeException(e);
+		 } 
 
 	}
 }

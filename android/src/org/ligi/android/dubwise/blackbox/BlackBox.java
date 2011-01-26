@@ -26,31 +26,27 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.ligi.android.dubwise.conn.MKProvider;
+import org.ligi.android.dubwise.helper.DUBwiseBackgroundTask;
 import org.ligi.tracedroid.collecting.TraceDroidMetaInfo;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKCommunicator;
 
 /**
- * class to persist telemetry Data
+ * class to persist telemetry Data for later analysis
  * 
- * @author ligi
+ * @author ligi ( aka: Marcus Bueschleb | mail: ligi at ligi dot de )
  *
  */
-public class BlackBox implements Runnable {
+public class BlackBox implements DUBwiseBackgroundTask {
 
 	private static BlackBox singleton=null;
-	private String act_fname="none";
-	private int act_records=0;
-	public static void init() {
-		if (singleton==null)
-		{
-			singleton=new BlackBox();
-			new Thread(singleton).start();
-		}
-	}
+	public String act_fname="none";
+	public int act_records=0;
+	private boolean running=false;
 	
 	public static BlackBox getInstance() {
-		init();
+		if (singleton==null) 
+			singleton=new BlackBox();
 		return singleton;
 	}
 	
@@ -60,11 +56,11 @@ public class BlackBox implements Runnable {
 
 	@Override
 	public void run() {
-		while (true)
-		{
-			MKCommunicator mk=MKProvider.getMK();
-			if (BlackBoxPrefs.isBlackBoxEnabled()&&mk.isConnected()&&mk.isFlying())
-			{
+		MKCommunicator mk=MKProvider.getMK();
+		
+		while (running) {
+		
+			if (BlackBoxPrefs.isBlackBoxEnabled()&&mk.isConnected()&&mk.isFlying())	{
 				
 				 DateFormat path_dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 				 DateFormat fname_dateFormat = new SimpleDateFormat("HH_mm_ss");
@@ -103,7 +99,6 @@ public class BlackBox implements Runnable {
 						
 					}
 					
-					
 					writer.close();
 					
 					FileWriter meta_writer=new FileWriter(new File(act_fname+".metadata"));
@@ -117,14 +112,32 @@ public class BlackBox implements Runnable {
 					Log.w("problem writing the BlackBox File" + e);
 				}
 			}
-			
+		
 			try {
 				// wait a long time when blackbox iss disabled - a short time when enabled
-				Thread.sleep(BlackBoxPrefs.isBlackBoxEnabled()?100:7000);
+				Thread.sleep(BlackBoxPrefs.isBlackBoxEnabled()?100:1000);
 			} catch (InterruptedException e) {}
 		}
+	}
+
+	@Override
+	public String getDescription() {
+		return "persist telemetry data";
+	}
+
+	@Override
+	public String getName() {
+		return "BlackBox";
+	}
 	
-		
-			
+	@Override
+	public void start() {
+		running=true;
+		new Thread(singleton).start();		
+	}
+
+	@Override
+	public void stop() {
+		running=false;
 	}
 }

@@ -117,8 +117,7 @@ public class DUBwisePrefs {
 	}
 
 	public static void setStartConnType(int type) {
-		editor.putInt(KEY_STARTCONNTYPE, type);
-		editor.commit();
+		editor.putInt(KEY_STARTCONNTYPE, type).commit();
 	}
 
 	public static String getStartConnBluetootMAC() {
@@ -136,15 +135,12 @@ public class DUBwisePrefs {
 		editor.commit();
 	}
 
-
 	public static  void setStartConnBluetootName(String name) {
 		editor.putString(KEY_STARTCONNBLUETOOTHNAME, name);
 		editor.commit();
 	}
 
-
 	// cockipt seciton
-	
 	public static boolean showFlightTime() {
 		return shared_prefs.getBoolean(KEY_COCKPIT_SHOW_FLIGHTTIME, true);
 	}
