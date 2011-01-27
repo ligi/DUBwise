@@ -145,29 +145,29 @@ public class MKGPSPosition
 		// X<0
 		else if (X < 0.0) {
 		    if (Y >= 0.0) 
-			return (PI - _ATAN(Y / -X)); // Y>=0,X<0 |Y/X|
+		    	return (PI - _ATAN(Y / -X)); // Y>=0,X<0 |Y/X|
 		    else 
-			return -(PI - _ATAN(Y / X)); // Y<0,X<0 |Y/X|
+		    	return -(PI - _ATAN(Y / X)); // Y<0,X<0 |Y/X|
 		
 		}
 	
 		// X>0
 		else if (X > 0.0) {
 		    if (Y > 0.0) 
-			return _ATAN(Y / X);
+		    	return _ATAN(Y / X);
 		    else 
-			return -_ATAN(-Y / X);
+		    	return -_ATAN(-Y / X);
 		    }
 
     return 0.0;
   }
 
-    public int distance2wp(int id) {
-		double lat1=(Latitude/10000000.0)*RADIANS;
-		double long1=(Longitude/10000000.0)*RADIANS;
+    public int distance(int _lat1,int _lon1,int _lat2,int _lon2) {
+		double lat1=(_lat1/10000000.0)*RADIANS;
+		double long1=(_lon1/10000000.0)*RADIANS;
 	
-		double lat2=(LatWP[id]/10000000.0)*RADIANS;
-		double long2=(LongWP[id]/10000000.0)*RADIANS;
+		double lat2=(_lat2/10000000.0)*RADIANS;
+		double long2=(_lon2/10000000.0)*RADIANS;
 	
 		double dLat= (lat2-lat1);
 		double dLon= (long2-long1);
@@ -177,6 +177,10 @@ public class MKGPSPosition
 	        Math.sin(dLon/2.0) * Math.sin(dLon/2.0); 
 	
 		return (int)(( 2.0 * aTan2(Math.sqrt(a), Math.sqrt(1.0-a)) )*6371008.8);
+    }
+
+    public int distance2wp(int id) {
+    	return distance(Latitude,Longitude,LatWP[id],LongWP[id]);
     }
 
     public int angle2wp(int id) {

@@ -213,19 +213,19 @@ public class MKCommunicator
     public String getExtendedConnectionName() {
 		switch (slave_addr) {
 		    case -1:
-			return "No Device";
+		    	return "No Device";
 	
 		    case FC_SLAVE_ADDR:
-			return "MK-Connection";
+		    	return "MK-Connection";
 	
 		    case NAVI_SLAVE_ADDR:
-			return "Navi-Connection";
+		    	return "Navi-Connection";
 	
 		    case MK3MAG_SLAVE_ADDR:
-			return "MK3MAG-Connection";
+		    	return "MK3MAG-Connection";
 	
 		    case FOLLOWME_SLAVE_ADDR:
-			return "FollowMe Connection";
+		    	return "FollowMe Connection";
 	
 		    case RE_SLAVE_ADDR:
 		    	return "RangeExtender Connection";
@@ -419,6 +419,8 @@ public class MKCommunicator
     	send_command(FC_SLAVE_ADDR,'m',params);
     }
 
+    public int follow_me_lat=0;
+    public int follow_me_lon=0;
 
     public void send_follow_me(byte time,int  lon,int lat) 	{
     	long alt=0;

@@ -51,7 +51,8 @@ public class MKStatistics {
     public int stick_data_request_count=0;
     public int motortest_request_count=0;
     public int external_control_request_count=0;
-
+    public int follow_me_request_count=0;
+    
     public long flying_start=-1;
     
     public int heading_start=0;
@@ -133,6 +134,7 @@ public class MKStatistics {
 		params_data_request_count=0; //
 		stick_data_request_count=0;
 		motortest_request_count=0; //
+		follow_me_request_count=0;
     }
     
 }

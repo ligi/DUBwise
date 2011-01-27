@@ -22,8 +22,6 @@ package org.ligi.android.dubwise;
 
 import java.util.Vector;
 
-import org.ligi.android.dubwise.blackbox.BlackBox;
-import org.ligi.android.dubwise.blackbox.BlackBoxPrefs;
 import org.ligi.android.dubwise.cockpit.CockpitActivity;
 import org.ligi.android.dubwise.conn.ConnectionListActivity;
 import org.ligi.android.dubwise.conn.MKProvider;
@@ -37,12 +35,8 @@ import org.ligi.android.dubwise.helper.IconicMenuItem;
 import org.ligi.android.dubwise.lcd.LCDActivity;
 import org.ligi.android.dubwise.map.DUBwiseMap;
 import org.ligi.android.dubwise.piloting.PilotingListActivity;
-import org.ligi.android.dubwise.uavtalk.DUBwiseFlightTelemetry;
-import org.ligi.android.dubwise.uavtalk.MKCommunicator2UAVTalk;
 import org.ligi.android.dubwise.uavtalk.UAVObjectsListActivity;
 import org.ligi.android.dubwise.uavtalk.UAVTalkPrefs;
-import org.ligi.android.dubwise.voice.StatusVoice;
-import org.ligi.android.dubwise.voice.VoicePrefs;
 import org.ligi.tracedroid.TraceDroid;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.tracedroid.sending.TraceDroidEmailSender;
@@ -131,6 +125,11 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 				menu_items_vector.add(new IconicMenuItem("Pilot",
 						android.R.drawable.ic_menu_preferences, new Intent(
 								this, PilotingListActivity.class)));
+
+			if ( mk.is_navi() || mk.is_fake())
+				menu_items_vector.add(new IconicMenuItem("Follow me",
+						android.R.drawable.ic_menu_crop, new Intent(
+								this, FollowMeActivity.class)));
 
 			if (mk.is_mk() || mk.is_fake())
 				menu_items_vector.add(new IconicMenuItem("Motor Test",
@@ -243,16 +242,11 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 
 	@Override
 	protected void onResume() {
-
 		super.onResume();
 		ActivityCalls.afterContent(this);
-		
 		updateMKLogging();
-		
 		Log.d("onResume DUBwise.java" + this);
-	
 		refresh_list();
-		
 		MKProvider.getMK().addNotificationListener(this);
 	}
 	

@@ -83,6 +83,8 @@
 	<activity android:name="org.ligi.android.dubwise.blackbox.BlackBoxWatchActivity"></activity>
 	<activity android:name="org.ligi.android.dubwise.BackgroundTaskListActivity"></activity>
 	
+	<activity android:name="org.ligi.android.dubwise.FollowMeActivity"></activity>
+	
 	<activity android:name=".conn.SwitchDeviceListActivity"></activity>
 	<activity android:name="DeviceDetails"></activity>
 	<activity android:name=".conn.ConnectionDetails"></activity>

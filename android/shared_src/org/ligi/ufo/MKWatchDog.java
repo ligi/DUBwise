@@ -178,9 +178,9 @@ public class MKWatchDog
                                 // once a second
                                 if (last_fm_send != (System.currentTimeMillis() / 1000)) {
                                     last_fm_send = (int)(System.currentTimeMillis() / 1000);
-                                    mk.send_follow_me( (byte)60,0,0 );
+                                    mk.send_follow_me( (byte)60,mk.follow_me_lat,mk.follow_me_lon );
+                                    mk.stats.follow_me_request_count++;
                                 }
-
                                 break;
 
                             default:
