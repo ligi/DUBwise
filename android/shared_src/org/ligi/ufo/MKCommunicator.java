@@ -677,17 +677,17 @@ public class MKCommunicator
     public int SenderOkay() {
 		switch (slave_addr) {
 		    case FC_SLAVE_ADDR:
-			return debug_data.analog[10];
+		    	return debug_data.analog[10];
 	
 		    case NAVI_SLAVE_ADDR:
-			return gps_position.SenderOkay;
+		    	return gps_position.SenderOkay;
 	
 		    case FAKE_SLAVE_ADDR:
-			return 200;
+		    	return 200;
 	
 		    default:
-			return -1; // No Info
-		    }
+		    	return -1; // No Info
+		}
     }
 
 
@@ -700,6 +700,7 @@ public class MKCommunicator
 		debug_buff_interval=interval;
 		if (debug_buff_interval<2)
 			debug_buff_interval=2;
+		
 		debug_buff_targets=targets;
 		debug_buff_max=1;
 		debug_buff_lastset=0;
