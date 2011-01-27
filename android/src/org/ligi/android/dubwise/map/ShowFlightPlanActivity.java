@@ -159,40 +159,7 @@ public class ShowFlightPlanActivity extends RefreshingStringListActivity {
 	    		finish();
 	    		break;
 		    case MENU_SAVE:
-		    	final EditText input = new EditText(this);   
-				input.setText("default");
-	
-				new AlertDialog.Builder(this).setTitle("Save GPX").setMessage("How should the file I will write to " +MapPrefs.getGPXPath() + " be named?").setView(input)
-				.setPositiveButton("OK" , new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					String value = input.getText().toString(); 
-						
-					File f = new File(MapPrefs.getGPXPath());
-					
-					if (!f.isDirectory())
-						f.mkdirs();
-					
-					try {
-						f=new File(MapPrefs.getGPXPath() + "/"+value+".gpx");
-						f.createNewFile();
-						
-						FileWriter sgf_writer = new FileWriter(f);
-						
-						BufferedWriter out = new BufferedWriter(sgf_writer);
-						
-						out.write(FlightPlanProvider.toGPX());
-						out.close();
-						sgf_writer.close();
-					} catch (IOException e) {
-						Log.i(""+e);
-					}
-		
-				}
-				}).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-				// Do nothing.
-				}
-				}).show();
+		    	GPXHelper.show_save_dlg(this);
 		    	return true;
 	    }
 	    return true;

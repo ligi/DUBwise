@@ -65,6 +65,8 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	private static final int MENU_FP_SHOW = 8;
 	
 	private static final int MENU_FP_UPLOAD = 9; 
+	private static final int MENU_SAVE = 10; 
+	private static final int MENU_LOAD = 11;
 	
 	private MapView mapView;
 	private DUBwiseMapOverlay overlay;
@@ -173,6 +175,10 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 			menu.add(0,MENU_FP_UPLOAD,0,"FlightPlan2UFO").setIcon(android.R.drawable.ic_menu_share);
 		}
 		else {
+
+			menu.add(0,MENU_SAVE,0,"Save FP").setIcon(android.R.drawable.ic_menu_save);
+			menu.add(0,MENU_LOAD,0,"Load FP").setIcon(android.R.drawable.ic_menu_more);
+			
 			menu.add(0,MENU_ZOOM,0,"Zoom to").setIcon(android.R.drawable.ic_menu_zoom);
 			menu.add(0,MENU_SETTINGS,0,"Settings").setIcon(android.R.drawable.ic_menu_preferences);
 		}
@@ -183,95 +189,103 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 	    switch (item.getItemId()) {
-	    case MENU_START_FP:
-	    case MENU_STOP_FP:
-	    	overlay.fp_running=!overlay.fp_running;
-	    	break;
-	    	
-	    case MENU_CLEAR_FP:
-	    	FlightPlanProvider.getWPList().clear();
-	    	break;
-	    	
-	    case MENU_FLIGHTPLAN:
-	    	overlay.flightplan_mode=!overlay.flightplan_mode;
-	    	break;
-	    	
-	    case MENU_ZOOM:
-	    	ZoomToDialog.show(this);
-	    	return true;
-	
-	    case MENU_SETTINGS:
-	    	startActivity(new Intent(this, MapPrefsActivity.class));
-	        return true;
+	    	case MENU_LOAD:
+	    		this.startActivity(new Intent(this,GPXListActivity.class));
+	    		break;
 
-	    case MENU_FP_SHOW:
-	    	startActivity(new Intent(this, ShowFlightPlanActivity.class));
-	        return true;
-	        
-	    case MENU_FP_ADD_WP:
-	    	AddWPDialog.show(this);
-	    	return true;
-	    	
-	    case MENU_FP_UPLOAD:
-	    	if (FlightPlanProvider.getWPList().size()>20) {
-	    		new AlertDialog.Builder(this).setTitle("Error").setMessage("too much waypoints for NC - reduce the number of WP's so that it is not over 20!").show();
-	    		return true;
-	    	}
-	    	upload_progress=new ProgressBar(this,null, android.R.attr.progressBarStyleHorizontal);
-	    	upload_progress.setMax(FlightPlanProvider.getWPList().size());
-	    	upload_alert=new AlertDialog.Builder(this).setTitle("Uploading").setMessage("Uploading Waypoints to UFO")
-	    	.setView(upload_progress).show();
-	    
-	    	class FPUploader implements Runnable {
-	    		class ProgressUpdater implements Runnable {
-	    			int progress=0;
-	    			public ProgressUpdater(int progress) {
-	    				this.progress=progress;
-	    			}
-	    			
-					@Override
-					public void run() {
-						upload_progress.setProgress(progress);
-					}
-	    		}
-				@Override
-				public void run() {
-					int i=0;
-					MKCommunicator mk=MKProvider.getMK();
-					
-					// clear the list
-					while(mk.gps_position.WayPointNumber!=0) {
-						mk.add_gps_wp(MKGPSPosition.STATUS_INVALID,0, new WayPoint(0,0));
-						try {
-							Thread.sleep(100);
-						} catch (InterruptedException e) {	}
-					}
-					
-					// upload wp's
-					for (AndroidWayPoint wp:FlightPlanProvider.getWPList()) {
-						Log.i("uploading WayPoint " + (i+1));
-						handler.post(new ProgressUpdater(i));
-						while(mk.gps_position.WayPointNumber!=(i+1)) {
-							mk.add_gps_wp(MKGPSPosition.STATUS_NEWDATA, i+1,wp);
-							try {
-								Thread.sleep(300);
-							} catch (InterruptedException e) {	}
-						}
-						i++;
-					} // for all WayPoints
-					
-					// when finished hide the progress dialog
-			    	handler.post(new Runnable() {
+	    	case MENU_SAVE:
+		    	GPXHelper.show_save_dlg(this);
+		    	return true;
+		    	
+		    case MENU_START_FP:
+		    case MENU_STOP_FP:
+		    	overlay.fp_running=!overlay.fp_running;
+		    	break;
+		    	
+		    case MENU_CLEAR_FP:
+		    	FlightPlanProvider.getWPList().clear();
+		    	break;
+		    	
+		    case MENU_FLIGHTPLAN:
+		    	overlay.flightplan_mode=!overlay.flightplan_mode;
+		    	break;
+		    	
+		    case MENU_ZOOM:
+		    	ZoomToDialog.show(this);
+		    	return true;
+		
+		    case MENU_SETTINGS:
+		    	startActivity(new Intent(this, MapPrefsActivity.class));
+		        return true;
+	
+		    case MENU_FP_SHOW:
+		    	startActivity(new Intent(this, ShowFlightPlanActivity.class));
+		        return true;
+		        
+		    case MENU_FP_ADD_WP:
+		    	AddWPDialog.show(this);
+		    	return true;
+		    	
+		    case MENU_FP_UPLOAD:
+		    	if (FlightPlanProvider.getWPList().size()>20) {
+		    		new AlertDialog.Builder(this).setTitle("Error").setMessage("too much waypoints for NC - reduce the number of WP's so that it is not over 20!").show();
+		    		return true;
+		    	}
+		    	upload_progress=new ProgressBar(this,null, android.R.attr.progressBarStyleHorizontal);
+		    	upload_progress.setMax(FlightPlanProvider.getWPList().size());
+		    	upload_alert=new AlertDialog.Builder(this).setTitle("Uploading").setMessage("Uploading Waypoints to UFO")
+		    	.setView(upload_progress).show();
+		    
+		    	class FPUploader implements Runnable {
+		    		class ProgressUpdater implements Runnable {
+		    			int progress=0;
+		    			public ProgressUpdater(int progress) {
+		    				this.progress=progress;
+		    			}
+		    			
 						@Override
 						public void run() {
-							upload_alert.hide();
+							upload_progress.setProgress(progress);
 						}
-			    	});
-				}
-	    	}
-	    	
-	    	new Thread(new FPUploader()).start();
-	    	return true;
+		    		}
+					@Override
+					public void run() {
+						int i=0;
+						MKCommunicator mk=MKProvider.getMK();
+						
+						// clear the list
+						while(mk.gps_position.WayPointNumber!=0) {
+							mk.add_gps_wp(MKGPSPosition.STATUS_INVALID,0, new WayPoint(0,0));
+							try {
+								Thread.sleep(100);
+							} catch (InterruptedException e) {	}
+						}
+						
+						// upload wp's
+						for (AndroidWayPoint wp:FlightPlanProvider.getWPList()) {
+							Log.i("uploading WayPoint " + (i+1));
+							handler.post(new ProgressUpdater(i));
+							while(mk.gps_position.WayPointNumber!=(i+1)) {
+								mk.add_gps_wp(MKGPSPosition.STATUS_NEWDATA, i+1,wp);
+								try {
+									Thread.sleep(300);
+								} catch (InterruptedException e) {	}
+							}
+							i++;
+						} // for all WayPoints
+						
+						// when finished hide the progress dialog
+				    	handler.post(new Runnable() {
+							@Override
+							public void run() {
+								upload_alert.hide();
+							}
+				    	});
+					}
+		    	}
+		    	
+		    	new Thread(new FPUploader()).start();
+		    	return true;
 	    }
 	    return false;
 	}
