@@ -165,17 +165,15 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 			
 			int wp_id=0;
 			FontMetrics fm=wp_text_paint.getFontMetrics();
-			for (AndroidWayPoint pnt:FlightPlanProvider.getWPList()) 
-			{
+			for (AndroidWayPoint pnt:FlightPlanProvider.getWPList()) {
 				
 				mapView.getProjection().toPixels(pnt.getGeoPoint(), act_pnt);
 						
-				if (!first)
-					{
+				if (!first) {
 					canvas.drawLine(act_pnt.x, act_pnt.y, last_pnt.x , last_pnt.y, paint);
 					canvas.drawCircle(last_pnt.x, last_pnt.y, 10, wp_circle_paint);
 					canvas.drawText(""+wp_id,last_pnt.x, last_pnt.y-5-(fm.top+fm.bottom), wp_text_paint);
-					}
+				}
 				
 				wp_id++;
 				first=false;
@@ -198,9 +196,9 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 		if ((phonePoint!=null)&&MapPrefs.showPhone()) {
 			Point myScreenCoords = new Point();
 			mapView.getProjection().toPixels(phonePoint, myScreenCoords);
-			canvas.drawCircle(myScreenCoords.x, myScreenCoords.y, gps_radius_in_pixels, compas_heading_paint);
+			//canvas.drawCircle(myScreenCoords.x, myScreenCoords.y, gps_radius_in_pixels, compas_heading_paint);
 			canvas.drawBitmap(phone_icon, myScreenCoords.x-phone_icon.getWidth()/2, myScreenCoords.y-phone_icon.getHeight()/2, paint);
-			canvas.drawText("lat" + phonePoint.getLatitudeE6() + " lon" + phonePoint.getLongitudeE6() , (float)myScreenCoords.x,(float)myScreenCoords.y,paint);
+			//canvas.drawText("lat" + phonePoint.getLatitudeE6() + " lon" + phonePoint.getLongitudeE6() , (float)myScreenCoords.x,(float)myScreenCoords.y,paint);
 		}
 		
 		
