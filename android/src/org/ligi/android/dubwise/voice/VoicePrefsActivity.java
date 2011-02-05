@@ -30,6 +30,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
@@ -94,8 +95,17 @@ public class VoicePrefsActivity extends PreferenceActivity implements OnPreferen
        	pause_pref.setSummary(formatedPause());
        	pause_pref.setOnPreferenceChangeListener(this);
        	voceGeneralPrefCat.addPreference(pause_pref);
-       	
-       	
+
+        ListPreference streamPref = new ListPreference(this);
+        streamPref.setEntries(VoicePrefs.getAllStreamNames());
+        streamPref.setEntryValues(VoicePrefs.getAllStreamNames());
+        streamPref.setDialogTitle("Audio Stream");
+        streamPref.setKey(VoicePrefs.KEY_VOICE_STREAM);
+        
+        streamPref.setSummary("where to play the voice");
+        streamPref.setOnPreferenceChangeListener(this);
+        streamPref.setDefaultValue(VoicePrefs.getStreamName());
+        voceGeneralPrefCat.addPreference(streamPref);
         
         PreferenceScreen intentPref = getPreferenceManager().createPreferenceScreen(this);
         intentPref.setIntent(new Intent(this,VoiceDebugActivity.class));

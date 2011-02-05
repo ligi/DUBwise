@@ -92,9 +92,7 @@ public class StatusVoice implements OnInitListener, DUBwiseBackgroundTask,
 		voice_params = new HashMap<String, String>();
 		voice_params.put("VOICE", "MALE");
 
-		voice_params.put(TextToSpeech.Engine.KEY_PARAM_STREAM,
-		// String.valueOf(AudioManager.STREAM_ALARM));
-				String.valueOf(AudioManager.STREAM_NOTIFICATION));
+		voice_params.put(TextToSpeech.Engine.KEY_PARAM_STREAM,	String.valueOf(VoicePrefs.getStreamEnum()));
 		mTts.setOnUtteranceCompletedListener(this);
 		init_done = true;
 		new Thread(this).start();

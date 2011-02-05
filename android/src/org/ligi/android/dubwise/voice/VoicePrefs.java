@@ -23,6 +23,7 @@ package org.ligi.android.dubwise.voice;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.preference.PreferenceManager;
 
 public class VoicePrefs {
@@ -53,6 +54,8 @@ public class VoicePrefs {
 	
 	public final static String KEY_VOICE_PAUSE = "voice_pause3";
 
+	public final static String KEY_VOICE_STREAM = "voice_stream";
+	
 	private static final int DEFAULT_PAUSE = 5000;	
 	
 	
@@ -145,5 +148,27 @@ public class VoicePrefs {
 	public static boolean isMaxSpeedEnabled() {
 		return shared_prefs.getBoolean(KEY_DO_VOICE_MAX_SPEED, false);
 	}
+	
+	
+	public static int getStreamId() {
+		return shared_prefs.getInt(KEY_VOICE_STREAM,0);
+	}
+	
+	public static String getStreamName() {
+		return getAllStreamNames()[ getStreamId()];
+	}
+	
+	public static String[] getAllStreamNames() {
+		return new String[] { "Alarm","Notification","Music","System","Voice Call" };
+	}
+
+	public static int[] getAllStreamEnums() {
+		return new int[] { AudioManager.STREAM_ALARM,AudioManager.STREAM_NOTIFICATION,AudioManager.STREAM_MUSIC,AudioManager.STREAM_SYSTEM,AudioManager.STREAM_VOICE_CALL };
+	}
+
+	public static int getStreamEnum() {
+		return getAllStreamEnums()[ getStreamId()];
+	}
+
 }
 
