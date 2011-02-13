@@ -46,6 +46,7 @@ import com.google.android.maps.GeoPoint;
 public class FlightPlanProvider {
 	
 	private static Vector <AndroidWayPoint> pnt_fp_vector=null;
+	private float length;
 	
 	public static Vector<AndroidWayPoint> getWPList() {
 		if (pnt_fp_vector==null)
@@ -53,6 +54,11 @@ public class FlightPlanProvider {
 		return pnt_fp_vector;
 	}
 
+	public static void removeLast() {
+		if (getWPList().size()>0)
+			getWPList().remove(getWPList().size()-1);
+	}
+	
 	public static void addWP(AndroidWayPoint point) {
 		
 		if (point==null)

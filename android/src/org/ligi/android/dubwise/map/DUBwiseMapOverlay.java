@@ -18,12 +18,21 @@
 
 package org.ligi.android.dubwise.map;
 
+import java.util.Vector;
+
 import org.ligi.android.dubwise.R;
 import org.ligi.android.dubwise.conn.MKProvider;
+import org.ligi.android.dubwise.helper.canvas.CanvasButton;
+import org.ligi.android.dubwise.helper.canvas.CanvasButtonAction;
+import org.ligi.android.dubwise.helper.canvas.TogglingCanvasButton;
+import org.ligi.android.dubwise.map.dialogs.AddWPDialog;
+import org.ligi.android.dubwise.map.dialogs.LoadSaveDialog;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
@@ -53,12 +62,31 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 	
 	private Paint compas_heading_paint;
 	private Paint radius_paint;
+	private Paint button_bg_paint;
+	private Paint image_paint;
 	
 	private Bitmap home_icon;
 	private Bitmap kopter_icon;
 	private Bitmap phone_icon;
 	
+	private boolean show_fp_menu=true;
+	private boolean draw_flightplan_via_touch=true;
+	
+	private float width=0.0f;
+	private float height=0.0f;
+	
+	
 	private int act_wp=0;
+	
+	private TogglingCanvasButton edit_button;
+	private CanvasButton undo_button;
+	private CanvasButton clear_button;
+	private CanvasButton addwp_button;
+	private CanvasButton loadsave_button;
+	private CanvasButton view_button;
+	private CanvasButton upload_button;
+	
+	private Vector<CanvasButton> fp_edit_buttons;
 	
 	public Bitmap getKopterIcon() {
 		return kopter_icon;
@@ -99,7 +127,16 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 	public boolean hasPhonePos() {
 		return (phonePoint!=null);
 	}
+	
+	private RectF edit_icon_rect;;
+	
 	public DUBwiseMapOverlay(DUBwiseMap context) {
+		
+		button_bg_paint=new Paint();
+		image_paint=new Paint();
+		
+		button_bg_paint.setColor(0x23000000);
+		
 		compas_heading_paint=new Paint();
 		
 		compas_heading_paint.setColor(0x23FF0000);
@@ -120,19 +157,164 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 		
 		phone_icon = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(),
 				android.R.drawable.ic_menu_call),42,42,true);
+	
+		
+		fp_edit_buttons=new Vector<CanvasButton>();
+		
+		fp_edit_buttons.add(edit_button=new TogglingCanvasButton(context,android.R.drawable.ic_menu_edit,"toggle edit"));
+		
+		
+		fp_edit_buttons.add(undo_button=new CanvasButton(context,android.R.drawable.ic_menu_revert,"delete last"));
+		
+		class UndoAction implements CanvasButtonAction {
+
+			@Override
+			public void action() {
+				FlightPlanProvider.removeLast();
+			}
+			
+		}
+		
+		undo_button.setAction(new UndoAction());
+		
+		fp_edit_buttons.add(clear_button=new CanvasButton(context,android.R.drawable.ic_menu_close_clear_cancel,"clear"));
+		
+		class ClearAction implements CanvasButtonAction {
+
+			@Override
+			public void action() {
+				FlightPlanProvider.getWPList().clear();
+			}
+			
+		}
+		
+		clear_button.setAction(new ClearAction());
+
+		fp_edit_buttons.add(upload_button=new CanvasButton(context,android.R.drawable.ic_menu_share,"upload"));
+		
+		class UploadAction implements CanvasButtonAction {
+
+			private DUBwiseMap map;
+			public UploadAction(DUBwiseMap map) {
+				this.map=map;
+			}
+			@Override
+			public void action() {
+				map.upload();
+			}
+			
+		}
+		
+		upload_button.setAction(new UploadAction(context));
+
+		
+		fp_edit_buttons.add(loadsave_button=new CanvasButton(context,android.R.drawable.ic_menu_save,"load/save"));
+
+		class LoadSaveAction implements CanvasButtonAction {
+
+
+			private DUBwiseMap map;
+			public LoadSaveAction(DUBwiseMap map) {
+				this.map=map;
+			}
+
+			@Override
+			public void action() {
+				LoadSaveDialog.show(map);
+			}
+			
+		}
+		
+		loadsave_button.setAction(new LoadSaveAction(context));
+
+		fp_edit_buttons.add(view_button=new CanvasButton(context,android.R.drawable.ic_menu_view,"view"));
+
+		class ViewAction implements CanvasButtonAction {
+
+
+			private DUBwiseMap map;
+			
+			public ViewAction(DUBwiseMap map) {
+				this.map=map;
+			}
+
+			@Override
+			public void action() {
+				map.startActivity(new Intent(map, ShowFlightPlanActivity.class));
+			}
+			
+		}
+		
+		view_button.setAction(new ViewAction(context));
+
+		
+		fp_edit_buttons.add(addwp_button=new CanvasButton(context,android.R.drawable.ic_menu_add,"Add"));
+		
+		class AddWPAction implements CanvasButtonAction {
+
+			private DUBwiseMap map;
+			public AddWPAction(DUBwiseMap map) {
+				this.map=map;
+			}
+			@Override
+			public void action() {
+				AddWPDialog.show(map);
+			}
+			
+		}
+		
+		addwp_button.setAction(new AddWPAction(context));
+
+
+		
+		
+		positionIconRects();
 		
 		new Thread(this).start();
+	
+	}
+	RectF allButtons=new RectF();
+	/**
+	 * depends on width and height of canvas and icons
+	 */
+	public void positionIconRects() {
+		edit_button.layout(width-edit_button.getIconSize(), 0);
+		undo_button.layout(width-undo_button.getIconSize(), undo_button.getIconSize());
+		clear_button.layout(width-undo_button.getIconSize(), 2*undo_button.getIconSize());
+		addwp_button.layout(width-undo_button.getIconSize(), 3*undo_button.getIconSize());
+		loadsave_button.layout(width-undo_button.getIconSize(), 4*undo_button.getIconSize());
+		view_button.layout(width-undo_button.getIconSize(), 5*undo_button.getIconSize());
+		upload_button.layout(width-undo_button.getIconSize(), 6*undo_button.getIconSize());
+		
+		allButtons.set(loadsave_button.getRect());
+		
+		for (CanvasButton btn : fp_edit_buttons)
+			allButtons.union(btn.getRect());
 	}
 	
-	
-
 	public boolean onTouchEvent(MotionEvent e,MapView mapView) {
 		
-		if 	(flightplan_mode&&(e.getAction()!=MotionEvent.ACTION_UP)) {
+		boolean done=false;
+		for (CanvasButton btn : fp_edit_buttons) 
+			done|= (btn.isTouched(e));
+				
+		if (done) 
+			return true;
+			
+		/*
+		if (flightplan_mode&&(edit_icon_rect.contains(e.getX(),e.getY()))) {
+			if (e.getAction()==MotionEvent.ACTION_UP)  
+				draw_flightplan_via_touch=!draw_flightplan_via_touch;
+			return true;
+		}
+			*/
+		
+		if 	(edit_button.toggled&&flightplan_mode&&(e.getAction()!=MotionEvent.ACTION_UP)) {
 			FlightPlanProvider.addWP(mapView.getProjection().fromPixels  ((int)e.getX(), (int)e.getY())  );
 			return true;
 		}
-			
+		
+		
 		return false;
 	}
 	
@@ -142,6 +324,12 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 			long when) {
 
 		super.draw(canvas, mapView, shadow);
+		
+		width=canvas.getWidth();
+		height=canvas.getHeight();
+
+		positionIconRects();
+				
 		Paint paint = new Paint();
 		Paint wp_circle_paint = new Paint();
 		wp_circle_paint.setColor(0xFFFFFFFF);
@@ -186,7 +374,7 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 			if (act_wp<FlightPlanProvider.getWPList().size()) {
 				paint.setAlpha(130);
 				mapView.getProjection().toPixels(FlightPlanProvider.getWPList().get(act_wp).getGeoPoint(), act_pnt);
-				canvas.drawBitmap(kopter_icon, act_pnt.x-kopter_icon.getWidth()/2, act_pnt.y-kopter_icon.getHeight()/2, paint);			
+				canvas.drawBitmap(kopter_icon, act_pnt.x-kopter_icon.getWidth()/2, act_pnt.y-kopter_icon.getHeight()/2, image_paint);			
 			}
 		}
 		
@@ -197,7 +385,7 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 			Point myScreenCoords = new Point();
 			mapView.getProjection().toPixels(phonePoint, myScreenCoords);
 			//canvas.drawCircle(myScreenCoords.x, myScreenCoords.y, gps_radius_in_pixels, compas_heading_paint);
-			canvas.drawBitmap(phone_icon, myScreenCoords.x-phone_icon.getWidth()/2, myScreenCoords.y-phone_icon.getHeight()/2, paint);
+			canvas.drawBitmap(phone_icon, myScreenCoords.x-phone_icon.getWidth()/2, myScreenCoords.y-phone_icon.getHeight()/2, image_paint);
 			//canvas.drawText("lat" + phonePoint.getLatitudeE6() + " lon" + phonePoint.getLongitudeE6() , (float)myScreenCoords.x,(float)myScreenCoords.y,paint);
 		}
 		
@@ -207,7 +395,7 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 		mapView.getProjection().toPixels(kopterPoint, kopterScreenCoords);
 		
 		if (MapPrefs.showUFO())
-			canvas.drawBitmap(kopter_icon, kopterScreenCoords.x-kopter_icon.getWidth()/2, kopterScreenCoords.y-kopter_icon.getHeight()/2, paint);
+			canvas.drawBitmap(kopter_icon, kopterScreenCoords.x-kopter_icon.getWidth()/2, kopterScreenCoords.y-kopter_icon.getHeight()/2, image_paint);
 		
 		
 		homePoint=new GeoPoint(MKProvider.getMK().gps_position.HomeLatitude /10,MKProvider.getMK().gps_position.HomeLongitude/10);
@@ -215,7 +403,7 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 		mapView.getProjection().toPixels(homePoint, homeScreenCoords);
 		
 		if (MapPrefs.showHome())
-			canvas.drawBitmap(home_icon, homeScreenCoords.x-home_icon.getWidth()/2, homeScreenCoords.y-home_icon.getHeight()/2, paint);
+			canvas.drawBitmap(home_icon, homeScreenCoords.x-home_icon.getWidth()/2, homeScreenCoords.y-home_icon.getHeight()/2, image_paint);
 		
 		
 		if (MapPrefs.showUFORadius())		
@@ -229,6 +417,19 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 		canvas.drawArc(act_rectf,MKProvider.getMK().gps_position.CompasHeading-20 -90 , 40, true, compas_heading_paint);
 		
 		
+		if (flightplan_mode) {
+			canvas.drawRoundRect(allButtons, 7.0f, 7.0f, button_bg_paint);
+			for (CanvasButton btn : fp_edit_buttons)
+				btn.draw(canvas);
+
+/*			if (draw_flightplan_via_touch) {
+				canvas.drawCircle(canvas.getWidth()-edit_icon.getWidth()/2.0f,edit_icon.getHeight()/2.0f,edit_icon.getHeight()/2.0f , highlight_paint);
+			}
+		
+			canvas.drawBitmap(edit_icon, edit_icon_rect.left, edit_icon_rect.top, wp_text_paint);
+			canvas.drawBitmap(undo_icon, undo_icon, edit_icon.getHeight(), wp_text_paint);
+	*/
+		}
 		
 		return true;
 	}

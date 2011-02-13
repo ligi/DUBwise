@@ -15,30 +15,12 @@
  *
  *****************************************************/
 
-package org.ligi.android.dubwise.map;
-
-import org.ligi.ufo.WayPoint;
-
-import com.google.android.maps.GeoPoint;
+package org.ligi.android.dubwise.helper.canvas;
 
 /**
- * class representing a WayPoint with Android Specials  
- * 
- * @author Marcus -ligi- Bueschleb
+ * @author ligi ( aka: Marcus Bueschleb | mail: ligi at ligi dot de )
  *
  */
-
-public class AndroidWayPoint extends WayPoint {
-
-		private GeoPoint point;
-		
-		public AndroidWayPoint(GeoPoint p) {
-			super(p.getLatitudeE6()*10, p.getLongitudeE6()*10);
-			point=p;	
-		}
-		
-		public GeoPoint getGeoPoint() {
-			return point;
-		}
-	
+public interface CanvasButtonAction {
+	public void action();
 }
