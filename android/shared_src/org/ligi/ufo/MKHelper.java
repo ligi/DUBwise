@@ -115,9 +115,9 @@ public final class MKHelper
 		res[2]=(byte)cmd;
 		
 		for(int param_pos=0;param_pos<(params.length/3 + (params.length%3==0?0:1)) ;param_pos++) {
-			int a = (param_pos*3<params.length)?params[param_pos*3]:0;
-			int b = ((param_pos*3+1)<params.length)?params[param_pos*3+1]:0;
-			int c = ((param_pos*3+2)<params.length)?params[param_pos*3+2]:0;
+			byte a = (param_pos*3<params.length)?params[param_pos*3]:0;
+			byte b = ((param_pos*3+1)<params.length)?params[param_pos*3+1]:0;
+			byte c = ((param_pos*3+2)<params.length)?params[param_pos*3+2]:0;
 
 			res[3+param_pos*4] =  (byte)((a >> 2)+'=' );
 			res[3+param_pos*4+1] = (byte)('=' + (((a & 0x03) << 4) | ((b & 0xf0) >> 4)));
@@ -172,7 +172,7 @@ public final class MKHelper
 			}
 			catch (Exception e) { }
 
-			x = (a << 2) | (b >> 4);
+			x = ((a << 2) | (b >> 4))&0xFF;
 			y = ((b & 0x0f) << 4) | (c >> 2);
 			z = ((c & 0x03) << 6) | d;
 	
