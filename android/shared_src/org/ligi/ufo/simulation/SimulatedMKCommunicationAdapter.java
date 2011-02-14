@@ -40,7 +40,7 @@ public class SimulatedMKCommunicationAdapter implements
 	
 	private Vector send_stack;
 	private int[] debug_data;
-	private int[] navi_osd_data;
+	private byte[] navi_osd_data;
 	private int[] stick_data;
 	private int[] attitude_data;
 	
@@ -63,10 +63,15 @@ public class SimulatedMKCommunicationAdapter implements
 		for ( int i = 0 ; i < 32 ; i++ ) {
 			debug_data[i*2]=23;
 			debug_data[i*2+1]=0;
-			}
+		}	
 
-		navi_osd_data=new int[82];
-		navi_osd_data[57]=162; // UBatt
+		navi_osd_data=new byte[82];
+		
+		// Position
+		MKHelper.int32ToByteArr(123268230, navi_osd_data, 1);
+		MKHelper.int32ToByteArr(513661730, navi_osd_data, 5);
+		
+		navi_osd_data[57]=(byte)(162); // UBatt
 		navi_osd_data[50]=9; // SatsInUse
 			
 		navi_osd_data[76]=0;
