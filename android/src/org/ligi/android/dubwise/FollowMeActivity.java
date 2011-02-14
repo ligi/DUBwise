@@ -36,11 +36,15 @@ public class FollowMeActivity extends RefreshingStringListActivity  implements L
 				else
 					return "No GPS Data yet";
 			case 1:
-				return "UFO lat:" + mk.gps_position.Latitude_str() + " lon:" +mk.gps_position.Longitude_str();   
+				//return "UFO lat:" + mk.gps_position.Latitude_str() + " lon:" +mk.gps_position.Longitude_str();   
+				return "UFO lat:" + mk.gps_position.Latitude + " lon:" +mk.gps_position.Longitude;
 			case 2:
-				return "updates:" + mk.stats.follow_me_request_count;
+				return "Target lat" + mk.gps_position.TargetLatitude + " lon" + mk.gps_position.TargetLongitude ;
 			case 3:
-				return "dist: " + mk.gps_position.distance(mk.gps_position.Latitude, mk.gps_position.Longitude, (int)(phone_lat*10000000), (int)(phone_lng*10000000));
+				return "updates:" + mk.stats.follow_me_request_count;
+			case 4:
+				//return "dist: " + mk.gps_position.distance(mk.gps_position.Latitude, mk.gps_position.Longitude, (int)(phone_lat*10000000), (int)(phone_lng*10000000));
+				return "dist: " + mk.gps_position.Distance2Target;
 		}
 		return null;
 	}	
