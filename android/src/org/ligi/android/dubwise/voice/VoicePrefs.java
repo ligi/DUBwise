@@ -1,12 +1,7 @@
 /**************************************************************************
- *                                          
- * Class to handle DUBwise Preferences
- *                                          
+ *                                                                                     
  * Author:  Marcus -LiGi- Bueschleb   
  *
- * Project URL:
- *  http://mikrokopter.de/ucwiki/en/DUBwise
- * 
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
  *  (Creative Commons / Non Commercial / Share Alike)
@@ -18,7 +13,6 @@
  *
  **************************************************************************/
 
-
 package org.ligi.android.dubwise.voice;
 
 import java.util.Vector;
@@ -27,10 +21,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.preference.PreferenceManager;
-
+/**
+ * Class to handle Preferences for the VoiceOutput
+ *
+ * @author ligi ( aka: Marcus Bueschleb | mail: ligi at ligi dot de )
+ *
+ */
 public class VoicePrefs {
-
-	
 
 	private static SharedPreferences shared_prefs;
 	
@@ -60,7 +57,6 @@ public class VoicePrefs {
 	
 	private static final int DEFAULT_PAUSE = 5000;	
 	
-	
 	public static void init(Context context) {
 		shared_prefs=PreferenceManager.getDefaultSharedPreferences(context)	;
 	}
@@ -83,7 +79,6 @@ public class VoicePrefs {
 				}
 	}
 	
-	
 	public static String getPauseTimeAsString() {
 		return shared_prefs.getString(KEY_VOICE_PAUSE,"00:05");
 	}
@@ -92,11 +87,9 @@ public class VoicePrefs {
 		return shared_prefs.getBoolean(KEY_DO_VOICE_FLIGHTTIME, false);
 	}
 
-
 	public static boolean isVoiceEnabled() {
 		return shared_prefs.getBoolean(KEY_VOICE_ENABLED, false);
 	}
-	
 	
 	public static boolean isVoiceAltEnabled() {
 		return shared_prefs.getBoolean(KEY_DO_VOICE_ALT, false);
@@ -137,7 +130,6 @@ public class VoicePrefs {
 	public static boolean isDistance2TargetEnabled() {
 		return shared_prefs.getBoolean(KEY_DO_VOICE_DISTANCE2TARGET, false);
 	}
-
 	
 	public static boolean isDistance2HomeEnabled() {
 		return shared_prefs.getBoolean(KEY_DO_VOICE_DISTANCE2HOME, false);
@@ -182,6 +174,4 @@ public class VoicePrefs {
 	public static int getStreamEnum() {
 		return getAllStreamEnums()[ getStreamId()];
 	}
-
 }
-
