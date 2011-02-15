@@ -21,6 +21,8 @@
 
 package org.ligi.android.dubwise.voice;
 
+import java.util.Vector;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
@@ -149,9 +151,13 @@ public class VoicePrefs {
 		return shared_prefs.getBoolean(KEY_DO_VOICE_MAX_SPEED, false);
 	}
 	
-	
 	public static int getStreamId() {
-		return shared_prefs.getInt(KEY_VOICE_STREAM,0);
+		int res=getAllStreamNamesAsVector().indexOf(shared_prefs.getString(KEY_VOICE_STREAM,""));
+		
+		if (res==-1)
+			return 0; // default if not found 
+		
+		return res;
 	}
 	
 	public static String getStreamName() {
@@ -162,6 +168,13 @@ public class VoicePrefs {
 		return new String[] { "Alarm","Notification","Music","System","Voice Call" };
 	}
 
+	public static Vector<String> getAllStreamNamesAsVector() {
+		Vector<String> res=new Vector<String>();
+		for (String s:getAllStreamNames())
+			res.add(s);
+		return new Vector<String>();
+	}
+	
 	public static int[] getAllStreamEnums() {
 		return new int[] { AudioManager.STREAM_ALARM,AudioManager.STREAM_NOTIFICATION,AudioManager.STREAM_MUSIC,AudioManager.STREAM_SYSTEM,AudioManager.STREAM_VOICE_CALL };
 	}
