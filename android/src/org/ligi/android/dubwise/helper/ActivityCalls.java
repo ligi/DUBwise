@@ -56,11 +56,10 @@ public class ActivityCalls {
 		if (DUBwisePrefs.keepLightNow()) {
 			if (mWakeLock==null) {
 				final PowerManager pm = (PowerManager) (activity.getSystemService(Context.POWER_SERVICE)); 
-				mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag"); 
+				mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "DUBwise"); 
 			} 
 			mWakeLock.acquire();
 		}
-		// pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag").acquire();
 		
 		// do only once
 		if (!did_init){
