@@ -86,11 +86,10 @@ public class DUBwisePrefs {
 			return false;
 		
 		if (getKeepLightString().equals("always"))
-			return false;
+			return true;
 		
-		else
-			return MKProvider.getMK().isConnected();
-		
+		// when connected
+		return MKProvider.getMK().isConnected();
 	}
 	
 	public static boolean isFullscreenEnabled() {
