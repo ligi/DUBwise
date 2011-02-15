@@ -29,14 +29,11 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 public class DUBwiseBaseListActivity extends ListActivity implements OnSharedPreferenceChangeListener {
 
 	public SharedPreferences shared_prefs;
-
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		shared_prefs = getSharedPreferences("DUBwise", 0);
-
 		update_ui_preferences();
 		
 		
@@ -63,4 +60,11 @@ public class DUBwiseBaseListActivity extends ListActivity implements OnSharedPre
 	public void onSharedPreferenceChanged(SharedPreferences arg0, String arg1) {
 		update_ui_preferences();
 	}
+	
+	@Override
+	protected void onDestroy() {
+		ActivityCalls.onDestroy(this);
+		super.onDestroy();
+	}
+	
 }

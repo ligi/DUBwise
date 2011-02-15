@@ -20,7 +20,6 @@
 package org.ligi.android.dubwise.blackbox;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceActivity;
@@ -47,7 +46,6 @@ public class BlackBoxPrefsActivity extends PreferenceActivity  {
         nextScreenCheckBoxPref.setTitle("enabled");
         nextScreenCheckBoxPref.setSummary("is BlackBox enabled?");
         root.addPreference(nextScreenCheckBoxPref);
-
         
         EditTextPreference sgf_fname_pref = new EditTextPreference(this);
         sgf_fname_pref.setTitle("Path");

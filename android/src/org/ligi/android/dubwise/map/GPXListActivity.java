@@ -23,6 +23,8 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.Vector;
 
+import org.ligi.android.dubwise.helper.ActivityCalls;
+
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
@@ -46,8 +48,7 @@ public class GPXListActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        MapPrefs.init(this);
+        ActivityCalls.beforeContent(this);
         
         String gpx_path=MapPrefs.getGPXPath();
         
@@ -98,6 +99,7 @@ public class GPXListActivity extends ListActivity {
                 android.R.layout.simple_list_item_1, menu_items));
     }
     
+
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
@@ -105,4 +107,15 @@ public class GPXListActivity extends ListActivity {
         finish();
     }
     
+    @Override
+	protected void onDestroy() {
+		ActivityCalls.onDestroy(this);
+		super.onDestroy();
+	}
+    
+    @Override
+	protected void onResume() {
+		ActivityCalls.afterContent(this);
+		super.onResume();
+	}
 }

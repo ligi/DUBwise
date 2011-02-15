@@ -131,9 +131,9 @@ public class RCDataActivity extends Activity implements Runnable
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		ActivityCalls.onDestroy(this);
 		dead=true;
+		super.onDestroy();
 	}
 
 

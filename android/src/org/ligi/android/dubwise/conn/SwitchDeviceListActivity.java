@@ -31,8 +31,8 @@ import android.widget.ArrayAdapter;
 
 public class SwitchDeviceListActivity extends DUBwiseBaseListActivity {
 
-	String[] menu_items = new String[] { "to Navi" , "to FC" , "to MK3MAG"};
-	int[] menu_actions = new int[] { ACTIONID_SWITCH_NAVI , ACTIONID_SWITCH_FC , ACTIONID_SWITCH_MK3MAG};
+	private String[] menu_items = new String[] { "to Navi" , "to FC" , "to MK3MAG"};
+	private int[] menu_actions = new int[] { ACTIONID_SWITCH_NAVI , ACTIONID_SWITCH_FC , ACTIONID_SWITCH_MK3MAG};
 
 	public final static int ACTIONID_SWITCH_NAVI = 0;
 	public final static int ACTIONID_SWITCH_FC = 1;
@@ -90,7 +90,7 @@ public class SwitchDeviceListActivity extends DUBwiseBaseListActivity {
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		ActivityCalls.onDestroy(this);
+		super.onDestroy();
 	}
 }

@@ -75,9 +75,8 @@ public class VoiceControlActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		ActivityCalls.onDestroy(this);
-		
+		super.onDestroy();
 	}
 	
 	@Override 

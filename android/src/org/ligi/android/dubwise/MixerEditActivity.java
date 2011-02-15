@@ -276,8 +276,8 @@ public class MixerEditActivity extends Activity implements OnItemSelectedListene
 
 	@Override 
 	public void onResume() {
-		super.onResume();
 		ActivityCalls.afterContent(this);
+		super.onResume();
 	}
 
 	/**

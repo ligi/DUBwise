@@ -56,10 +56,16 @@ public class FlightSettingsTopicListActivity extends ListActivity {
 
 	@Override 
 	public void onResume() {
-		super.onResume();
 		ActivityCalls.afterContent(this);
+		super.onResume();
 	}
 
+	@Override
+	protected void onDestroy() {
+		ActivityCalls.onDestroy(this);
+		super.onDestroy();
+	}
+	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);

@@ -26,6 +26,7 @@ import org.ligi.android.dubwise.StartupConnectionService;
 import org.ligi.android.dubwise.blackbox.BlackBox;
 import org.ligi.android.dubwise.blackbox.BlackBoxPrefs;
 import org.ligi.android.dubwise.conn.bluetooth.BluetoothMaster;
+import org.ligi.android.dubwise.map.MapPrefs;
 import org.ligi.android.dubwise.uavtalk.DUBwiseFlightTelemetry;
 import org.ligi.android.dubwise.uavtalk.MKCommunicator2UAVTalk;
 import org.ligi.android.dubwise.uavtalk.UAVTalkPrefs;
@@ -65,6 +66,7 @@ public class ActivityCalls {
 		if (!did_init){
 			BluetoothMaster.init(activity);
 			VoicePrefs.init(activity);
+			MapPrefs.init(activity);
 			UAVTalkPrefs.init(activity);
 			StatusVoice.getInstance().init(activity);
 			BlackBoxPrefs.init(activity);

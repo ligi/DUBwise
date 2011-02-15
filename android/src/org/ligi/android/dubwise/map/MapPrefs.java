@@ -27,7 +27,6 @@ import android.preference.PreferenceManager;
 
 public class MapPrefs {
 
-	
 	private static SharedPreferences shared_prefs;
 	
 	public final static String KEY_ZOOM2LEVEL="map_zoom2level";

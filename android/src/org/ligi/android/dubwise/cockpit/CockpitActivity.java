@@ -56,11 +56,11 @@ public class CockpitActivity extends Activity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-
 	}
 
 	@Override
 	protected void onDestroy() {
+		ActivityCalls.onDestroy(this);
 		super.onDestroy();
 	}
 	
@@ -83,7 +83,4 @@ public class CockpitActivity extends Activity {
 	    }
 	    return false;
 	}
-
-
-
 }

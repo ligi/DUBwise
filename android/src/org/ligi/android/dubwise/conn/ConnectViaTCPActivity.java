@@ -128,8 +128,8 @@ public class ConnectViaTCPActivity extends Activity implements OnClickListener, 
 	
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		ActivityCalls.onDestroy(this);
+		super.onDestroy();
 	}
 
 	public void updateQMKVisibility(boolean visible)

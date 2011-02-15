@@ -23,8 +23,6 @@ package org.ligi.android.dubwise.piloting;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.android.dubwise.helper.preferences.SetPreferenceEnabledByCheckBoxPreferenceState;
 
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
@@ -36,7 +34,6 @@ import android.preference.Preference.OnPreferenceChangeListener;
 
 public class PilotingPrefsActivity extends PreferenceActivity {
 
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		PilotingPrefs.init(this);
@@ -47,8 +44,8 @@ public class PilotingPrefsActivity extends PreferenceActivity {
 
 	@Override
 	public void onResume() {
-		super.onResume();
 		ActivityCalls.afterContent(this);
+		super.onResume();
 	}
 
 	private PreferenceScreen createPreferenceHierarchy() {

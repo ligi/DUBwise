@@ -81,14 +81,15 @@ public abstract class RefreshingStringListActivity extends DUBwiseBaseListActivi
 
 	@Override
 	protected void onResume() {
-		super.onResume();
 		ActivityCalls.afterContent(this);
+		super.onResume();
 	}
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		running=false;
+		ActivityCalls.onDestroy(this);
+		super.onDestroy();
 	}
 	 
 	final Handler mHandler = new Handler();

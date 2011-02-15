@@ -24,10 +24,7 @@ package org.ligi.android.dubwise.voice;
 import org.ligi.android.dubwise.TimePreference;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.tracedroid.logging.Log;
-
-
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
@@ -52,11 +49,10 @@ public class VoicePrefsActivity extends PreferenceActivity implements OnPreferen
 		
     }
 	
-	
 	@Override 
 	public void onResume() {
-		super.onResume();
 		ActivityCalls.afterContent(this);		
+		super.onResume();
 	}
 	
 	public String formatedPause() {
@@ -68,13 +64,11 @@ public class VoicePrefsActivity extends PreferenceActivity implements OnPreferen
         
         root.setPersistent(true);
 
-        
         // general settings
 
         PreferenceCategory voceGeneralPrefCat = new PreferenceCategory(this);
         voceGeneralPrefCat.setTitle("general voice settings");
         root.addPreference( voceGeneralPrefCat);
-
         
         voiceEnabledCheckBoxPref = new CheckBoxPreference(this);
         voiceEnabledCheckBoxPref.setKey(VoicePrefs.KEY_VOICE_ENABLED);
@@ -251,5 +245,11 @@ public class VoicePrefsActivity extends PreferenceActivity implements OnPreferen
     	return true; // return that we are OK with preferences
 	}
 
-
+    @Override
+	protected void onDestroy() {
+		ActivityCalls.onDestroy(this);
+		super.onDestroy();
+	}
+    
 }
+

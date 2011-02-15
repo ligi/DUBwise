@@ -18,31 +18,12 @@
 
 package org.ligi.android.dubwise.map;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 import org.ligi.android.dubwise.helper.RefreshingStringListActivity;
-import org.ligi.tracedroid.logging.Log;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 /**
  * Activity to show the FlightPlan set HoldTimes and delete WayPoints

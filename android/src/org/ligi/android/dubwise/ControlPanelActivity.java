@@ -94,8 +94,8 @@ public class ControlPanelActivity extends Activity implements OnCheckedChangeLis
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		ActivityCalls.onDestroy(this);
+		super.onDestroy();
 	}
 
 }

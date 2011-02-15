@@ -103,9 +103,10 @@ public class InformationDeskActivity
             startActivity(item.intent);
         
     }
-	@Override
+	
+    @Override
 	protected void onDestroy() {
-		super.onDestroy();
 		ActivityCalls.onDestroy(this);
+		super.onDestroy();
 	}
 }

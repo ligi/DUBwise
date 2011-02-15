@@ -96,10 +96,9 @@ public class SettingsListActivity extends ListActivity {
 
 	@Override
 	protected void onResume() {
-		super.onResume();
 		ActivityCalls.afterContent(this);
-		
 		refresh_list();
+		super.onResume();
 	}
 
 	@Override
@@ -109,8 +108,8 @@ public class SettingsListActivity extends ListActivity {
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		ActivityCalls.onDestroy(this);
+		super.onDestroy();
 	}
 
 	@Override

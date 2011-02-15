@@ -21,7 +21,6 @@ package org.ligi.android.dubwise.uavtalk;
 
 import org.ligi.android.dubwise.R;
 import org.ligi.android.dubwise.helper.ActivityCalls;
-import org.ligi.tracedroid.logging.Log;
 import org.openpilot.uavtalk.UAVObjectFieldDescription;
 import org.openpilot.uavtalk.UAVObjects;
 
@@ -65,8 +64,10 @@ public class UAVObjectFieldListActivity extends ListActivity implements Runnable
 	
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
+		ActivityCalls.onDestroy(this);
 		thread_running=false;
+		super.onDestroy();
+
 	}
 
 	@Override 

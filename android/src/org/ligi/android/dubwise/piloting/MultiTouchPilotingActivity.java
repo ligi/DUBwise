@@ -21,22 +21,17 @@
 
 package org.ligi.android.dubwise.piloting;
 
-import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
-import org.ligi.tracedroid.logging.Log;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 
 public class MultiTouchPilotingActivity extends Activity {
 	
 	private static final int MENU_SETTINGS = 0;
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +45,8 @@ public class MultiTouchPilotingActivity extends Activity {
 	
 	@Override
 	protected void onResume() {
-		super.onResume();
 		ActivityCalls.afterContent(this);	
+		super.onResume();
 	}
 
 	@Override
@@ -65,41 +60,19 @@ public class MultiTouchPilotingActivity extends Activity {
 		super.onDestroy();
 	}
 
-
 	/* Creates the menu items */
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    
-		MenuItem settings_menu=menu.add(0,MENU_SETTINGS,0,"Settings");
-		settings_menu.setIcon(android.R.drawable.ic_menu_preferences);
-
+		menu.add(0,MENU_SETTINGS,0,"Settings").setIcon(android.R.drawable.ic_menu_preferences);
 		return true;
 	}
 
 	/* Handles item selections */
 	public boolean onOptionsItemSelected(MenuItem item) {
-		
 	    switch (item.getItemId()) {
 	    	case MENU_SETTINGS:
-	    		
 	    		startActivity(new Intent(this, PilotingPrefsActivity.class));
 	    		return true;
 	    }
 	    return false;
 	}
-
-	
-	public boolean onTouch(View v, MotionEvent event) {
-		Log.i("touch graph"+event.getAction() + " " + MotionEvent.ACTION_UP);
-		if (event.getAction()==MotionEvent.ACTION_UP)
-		{
-			Log.i("touch graph up !!");
-		
-			MKProvider.getMK().freeze_debug_buff=!MKProvider.getMK().freeze_debug_buff;
-		
-		}
-		return true;
-//		return false;
-	}
-
-	
 }

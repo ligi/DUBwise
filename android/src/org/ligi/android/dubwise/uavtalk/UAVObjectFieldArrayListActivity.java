@@ -60,8 +60,14 @@ public class UAVObjectFieldArrayListActivity extends ListActivity {
 
 	@Override 
 	public void onResume() {
-		super.onResume();
 		ActivityCalls.afterContent(this);
+		super.onResume();
+	}
+	
+    @Override
+	protected void onDestroy() {
+		ActivityCalls.onDestroy(this);
+		super.onDestroy();
 	}
 
 	@Override

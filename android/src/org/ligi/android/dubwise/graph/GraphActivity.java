@@ -35,7 +35,12 @@ import android.view.View.OnTouchListener;
 
 public class GraphActivity extends Activity implements OnTouchListener {
 
-	GraphView graph_view;
+	public final static int MENU_GRID=0;
+	public final static int MENU_FREEZE=1;
+	public final static int MENU_SETTINGS=2;
+
+	private GraphView graph_view;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,43 +68,26 @@ public class GraphActivity extends Activity implements OnTouchListener {
 
 	@Override
 	protected void onDestroy() {
+		ActivityCalls.onDestroy(this);
 		super.onDestroy();
 	}
 
-	public final static int MENU_GRID=0;
-	public final static int MENU_FREEZE=1;
-	public final static int MENU_SETTINGS=2;
 	
 	/* Creates the menu items */
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    
-		MenuItem settings_menu=menu.add(0,MENU_SETTINGS,0,"Settings");
-		settings_menu.setIcon(android.R.drawable.ic_menu_preferences);
+		menu.add(0,MENU_SETTINGS,0,"Settings").setIcon(android.R.drawable.ic_menu_preferences);
 		
-		
-		MenuItem freeze_menu=menu.add(0,MENU_FREEZE,0,(MKProvider.getMK().freeze_debug_buff?"unfreeze":"freeze"));
-		freeze_menu.setIcon(android.R.drawable.ic_media_pause);
-		/*
-	    Menu features_menu=menu.addSubMenu("Features");
-	    features_menu.add(0, MENU_LEGEND, 0, "New Game").setCheckable(true);
-	    features_menu.add(0, MENU_GRID, 0, "Quit").setCheckable(true);
-	    */
-	    return true;
+		menu.add(0,MENU_FREEZE,0,(MKProvider.getMK().freeze_debug_buff?"unfreeze":"freeze"))
+		.setIcon(android.R.drawable.ic_media_pause);
+
+		return true;
 	}
 
 	/* Handles item selections */
 	public boolean onOptionsItemSelected(MenuItem item) {
 		
 	    switch (item.getItemId()) {
-/*	    case MENU_LEGEND:
-	    	item.setChecked(!item.isChecked());
-	       // newGame();
-	        return true;
-	    case MENU_GRID:
-	    	item.setChecked(!item.isChecked());
-	        //quit();
-	        return true;
-	*/        
 	    case MENU_FREEZE:
 	    	MKProvider.getMK().freeze_debug_buff=!MKProvider.getMK().freeze_debug_buff;
 	    	break;
@@ -112,18 +100,11 @@ public class GraphActivity extends Activity implements OnTouchListener {
 	    return false;
 	}
 
-	
 	public boolean onTouch(View v, MotionEvent event) {
 		Log.i("touch graph"+event.getAction() + " " + MotionEvent.ACTION_UP);
-		if (event.getAction()==MotionEvent.ACTION_UP)
-		{
-			Log.i("touch graph up !!");
-		
+		if (event.getAction()==MotionEvent.ACTION_UP) 
 			MKProvider.getMK().freeze_debug_buff=!MKProvider.getMK().freeze_debug_buff;
-		
-		}
 		return true;
-//		return false;
 	}
 
 }

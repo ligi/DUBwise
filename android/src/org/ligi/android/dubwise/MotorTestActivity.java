@@ -37,16 +37,15 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 public class MotorTestActivity extends Activity implements OnSeekBarChangeListener,Runnable {
     
 	public final static int ENGINE_WARNING_THRESHOLD = 23;
-	SeekBar[] seek_bars;
-	SeekBar seek_all;
+	private SeekBar[] seek_bars;
+	private SeekBar seek_all;
 
-	Toast toast;
-	CheckBox allow_full_speed;
+	private Toast toast;
+	private CheckBox allow_full_speed;
 
-	int engines = 4;
-	boolean stopped=false;
+	private int engines = 4;
+	private boolean stopped=false;
 	
-	// public MapView map;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,11 +62,10 @@ public class MotorTestActivity extends Activity implements OnSeekBarChangeListen
 		
 		linear.setOrientation(LinearLayout.VERTICAL);
 
-		toast = Toast
-				.makeText(
-						this,
-						"Value too Dangerous - Clipping! Activate 'Allow Full Speed' to Override",
-						Toast.LENGTH_LONG);
+		toast = Toast.makeText(
+				this,
+				"Value too Dangerous - Clipping! Activate 'Allow Full Speed' to Override",
+				Toast.LENGTH_LONG);
 
 		seek_bars = new SeekBar[engines];
 		
@@ -99,8 +97,6 @@ public class MotorTestActivity extends Activity implements OnSeekBarChangeListen
 		setContentView(scroll);
 
 	}
-
-
 
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
@@ -172,5 +168,10 @@ public class MotorTestActivity extends Activity implements OnSeekBarChangeListen
 		}
 	}
 
-	
+
+	@Override
+	protected void onDestroy() {
+		ActivityCalls.onDestroy(this);
+		super.onDestroy();
+	}
 }

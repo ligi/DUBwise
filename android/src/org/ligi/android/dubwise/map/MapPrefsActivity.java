@@ -25,15 +25,12 @@ import org.ligi.android.dubwise.helper.ActivityCalls;
 
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
-import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
-import android.preference.Preference.OnPreferenceChangeListener;
 
 
-public class MapPrefsActivity extends PreferenceActivity implements OnPreferenceChangeListener {
-
+public class MapPrefsActivity extends PreferenceActivity {
 
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +43,8 @@ public class MapPrefsActivity extends PreferenceActivity implements OnPreference
 	
 	@Override 
 	public void onResume() {
-		super.onResume();
 		ActivityCalls.afterContent(this);		
+		super.onResume();
 	}
 
     private PreferenceScreen createPreferenceHierarchy() {
@@ -55,7 +52,6 @@ public class MapPrefsActivity extends PreferenceActivity implements OnPreference
         PreferenceScreen root = getPreferenceManager().createPreferenceScreen(this);
         
         root.setPersistent(true);
-
         
         // general settings
 
@@ -82,7 +78,6 @@ public class MapPrefsActivity extends PreferenceActivity implements OnPreference
         showUFOCheckBoxPref.setKey(MapPrefs.KEY_SHOW_UFO);
         showUFOCheckBoxPref.setTitle("Show UFO");
         showUFOCheckBoxPref.setSummary("show icon for UFO?");
-        showUFOCheckBoxPref.setOnPreferenceChangeListener(this);
         showUFOCheckBoxPref.setDefaultValue(MapPrefs.showUFO());
        	ufoPrefCat.addPreference(showUFOCheckBoxPref);
 
@@ -91,7 +86,6 @@ public class MapPrefsActivity extends PreferenceActivity implements OnPreference
         showUFOHeadingCheckBoxPref.setKey(MapPrefs.KEY_SHOW_UFO_HEADING);
         showUFOHeadingCheckBoxPref.setTitle("Show UFO Heading");
         showUFOHeadingCheckBoxPref.setSummary("show heading of UFO?");
-        showUFOHeadingCheckBoxPref.setOnPreferenceChangeListener(this);
         showUFOHeadingCheckBoxPref.setDefaultValue(MapPrefs.showUFOHeading());
        	ufoPrefCat.addPreference(showUFOHeadingCheckBoxPref);
        	
@@ -100,7 +94,6 @@ public class MapPrefsActivity extends PreferenceActivity implements OnPreference
         showUFORadiusCheckBoxPref.setKey(MapPrefs.KEY_SHOW_UFO_RADIUS);
         showUFORadiusCheckBoxPref.setTitle("Show UFO Radius");
         showUFORadiusCheckBoxPref.setSummary("show Radius around UFO?");
-        showUFORadiusCheckBoxPref.setOnPreferenceChangeListener(this);
         showUFORadiusCheckBoxPref.setDefaultValue(MapPrefs.showUFORadius());
        	ufoPrefCat.addPreference(showUFORadiusCheckBoxPref);
 
@@ -113,7 +106,6 @@ public class MapPrefsActivity extends PreferenceActivity implements OnPreference
         showHomeCheckBoxPref.setKey(MapPrefs.KEY_SHOW_HOME);
         showHomeCheckBoxPref.setTitle("Show Home");
         showHomeCheckBoxPref.setSummary("show icon for Home?");
-        showHomeCheckBoxPref.setOnPreferenceChangeListener(this);
         showHomeCheckBoxPref.setDefaultValue(MapPrefs.showHome());
        	homePrefCat.addPreference(showHomeCheckBoxPref);
        	 
@@ -121,7 +113,6 @@ public class MapPrefsActivity extends PreferenceActivity implements OnPreference
         showHomeRadiusCheckBoxPref.setKey(MapPrefs.KEY_SHOW_HOME_RADIUS);
         showHomeRadiusCheckBoxPref.setTitle("Show Home Radius");
         showHomeRadiusCheckBoxPref.setSummary("show radius for Home?");
-        showHomeRadiusCheckBoxPref.setOnPreferenceChangeListener(this);
         showHomeRadiusCheckBoxPref.setDefaultValue(MapPrefs.showHomeRadius());
        	homePrefCat.addPreference(showHomeRadiusCheckBoxPref);
        	
@@ -133,7 +124,6 @@ public class MapPrefsActivity extends PreferenceActivity implements OnPreference
         showPhoneCheckBoxPref.setKey(MapPrefs.KEY_SHOW_PHONE);
         showPhoneCheckBoxPref.setTitle("Show Phone");
         showPhoneCheckBoxPref.setSummary("show icon for Phone?");
-        showPhoneCheckBoxPref.setOnPreferenceChangeListener(this);
         showPhoneCheckBoxPref.setDefaultValue(MapPrefs.showPhone());
        	phonePrefCat.addPreference(showPhoneCheckBoxPref);
        	
@@ -141,11 +131,8 @@ public class MapPrefsActivity extends PreferenceActivity implements OnPreference
     }
     
     @Override
- 	public boolean onPreferenceChange(Preference preference, Object newValue) {
-
- 
-    	return true; // return that we are OK with preferences
+	protected void onDestroy() {
+		ActivityCalls.onDestroy(this);
+		super.onDestroy();
 	}
-
-
 }

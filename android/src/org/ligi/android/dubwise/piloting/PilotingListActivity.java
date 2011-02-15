@@ -31,8 +31,8 @@ import android.widget.ArrayAdapter;
 
 public class PilotingListActivity extends DUBwiseBaseListActivity {
 
-	String[] menu_items = new String[] { "via ACC","Via Multitouch"};
-	int[] menu_actions = new int[] { ACTIONID_ACC , ACTIONID_MT };
+	private String[] menu_items = new String[] { "via ACC","Via Multitouch"};
+	private int[] menu_actions = new int[] { ACTIONID_ACC , ACTIONID_MT };
 
 	public final static int ACTIONID_ACC = 0;
 	public final static int ACTIONID_MT = 1;
@@ -67,9 +67,7 @@ public class PilotingListActivity extends DUBwiseBaseListActivity {
 		super.onListItemClick(l, v, position, id);
 
 		try {
-
             switch (menu_actions[position]) {
-
                 case ACTIONID_ACC:
                 	startActivity( new Intent( this, OrientationPilotingActivity.class ) );
                 	break;
@@ -81,7 +79,6 @@ public class PilotingListActivity extends DUBwiseBaseListActivity {
 			e.printStackTrace();
 		}
 		// Start the activity
-
 	}
 
 }

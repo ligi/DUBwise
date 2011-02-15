@@ -311,8 +311,8 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 
 	@Override 
 	public void onResume() {
-		super.onResume();
 		ActivityCalls.afterContent(this);
+		super.onResume();
 	}
 
 	@Override
@@ -369,7 +369,6 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 		Log.d(""+checkbox.getTag());
 		
 	}
-	
 
 	/* Creates the menu items */
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -379,7 +378,6 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 		menu.add(0,MENU_HELP,0,"Help").setIcon(android.R.drawable.ic_menu_help);
 		return true;
 	}
-
 
 	/* Handles item selections */
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -439,7 +437,6 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 		return false;
 	}
 
-
 	@Override
 	public boolean onKeyUp(View view, Editable text, int keyCode, KeyEvent event) {
 		return false;
@@ -452,6 +449,5 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 			bitmask_row[pos].setVisibility(View.VISIBLE);
 		}
 	}
-
 
 }

@@ -22,18 +22,13 @@ package org.ligi.android.dubwise.graph;
 
 import org.ligi.android.dubwise.R;
 import org.ligi.android.dubwise.helper.ActivityCalls;
-
 import android.os.Bundle;
 import android.widget.CheckBox;
-
-
 import android.app.Activity;
-
 import android.content.SharedPreferences;
 
 public class GraphSettingsActivity extends Activity {
 
-	// public MapView map;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,9 +47,8 @@ public class GraphSettingsActivity extends Activity {
 
 	@Override
 	protected void onResume() {
-	
-		super.onResume();
 		ActivityCalls.afterContent(this);
+		super.onResume();
 	}
 	
 	@Override
@@ -69,7 +63,6 @@ public class GraphSettingsActivity extends Activity {
 		editor.putBoolean("do_legend",
 				(((CheckBox) findViewById(R.id.LegendCheckBox)).isChecked()));
 
-		System.out.println("saving !!! " + (((CheckBox) findViewById(R.id.LegendCheckBox)).isChecked()));
 		editor.commit();
 	}
 

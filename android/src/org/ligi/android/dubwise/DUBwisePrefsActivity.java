@@ -140,4 +140,10 @@ public class DUBwisePrefsActivity extends PreferenceActivity implements
 		ActivityCalls.afterContent(this);
 	}
 
+	@Override
+	protected void onDestroy() {
+		ActivityCalls.onDestroy(this);
+		super.onDestroy();
+	}
+
 }

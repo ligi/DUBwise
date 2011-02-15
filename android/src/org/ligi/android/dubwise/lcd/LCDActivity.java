@@ -45,7 +45,8 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class LCDActivity extends Activity implements OnTouchListener {
 	
-	LCDView lcd_view;
+	private LCDView lcd_view;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,24 +56,22 @@ public class LCDActivity extends Activity implements OnTouchListener {
 		lcd_view=new LCDView(this);
 		lcd_view.setOnTouchListener(this);
 		setContentView(lcd_view);
-		 // getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, new GraphView(this));
-		
 	}
 	
 	@Override
 	protected void onResume() {
-		super.onResume();
 		ActivityCalls.afterContent(this);	
+		super.onResume();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-
 	}
 
 	@Override
 	protected void onDestroy() {
+		ActivityCalls.onDestroy(this);
 		super.onDestroy();
 	}
 
@@ -171,13 +170,11 @@ public class LCDActivity extends Activity implements OnTouchListener {
 	//@Override
 	public boolean onTouch( View v, MotionEvent event ) {
 		Log.i("LCD Touch");
-		if (event.getAction()==MotionEvent.ACTION_UP)
-		{
-		if (event.getX()>lcd_view.getWidth()/2) {
-			
-			Log.i("LCD Nextpage");
-			MKProvider.getMK().LCD.LCD_NEXTPAGE();
-		}
+		if (event.getAction()==MotionEvent.ACTION_UP) {
+			if (event.getX()>lcd_view.getWidth()/2) {
+				Log.i("LCD Nextpage");
+				MKProvider.getMK().LCD.LCD_NEXTPAGE();
+			}
 		else
 			MKProvider.getMK().LCD.LCD_PREVPAGE();
 		lcd_view.invalidate();

@@ -41,7 +41,6 @@ public class CockpitPrefsActivity extends PreferenceActivity implements OnPrefer
 		
     }
 	
-	
 	@Override 
 	public void onResume() {
 		super.onResume();
@@ -109,13 +108,8 @@ public class CockpitPrefsActivity extends PreferenceActivity implements OnPrefer
  
     }
     
-    {
-       	
-    }
     @Override
  	public boolean onPreferenceChange(Preference preference, Object newValue) {
- 		  	
-    	
 	  	return true; // return that we are OK with preferences
 	}
 

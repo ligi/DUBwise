@@ -267,8 +267,8 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		ActivityCalls.onDestroy(this);
+		super.onDestroy();
 	}
 
 	@Override

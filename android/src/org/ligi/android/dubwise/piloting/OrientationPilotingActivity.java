@@ -38,20 +38,18 @@ public class OrientationPilotingActivity extends Activity {
 	
 	@Override
 	protected void onResume() {
-		super.onResume();
 		ActivityCalls.afterContent(this);	
+		super.onResume();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-
 	}
 
-	@Override
+    @Override
 	protected void onDestroy() {
+		ActivityCalls.onDestroy(this);
 		super.onDestroy();
 	}
-
-	
 }

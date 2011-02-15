@@ -66,8 +66,7 @@ public class DeviceDetails extends DUBwiseBaseListActivity {
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		ActivityCalls.onDestroy(this);
-		
+		super.onDestroy();
 	}
 }

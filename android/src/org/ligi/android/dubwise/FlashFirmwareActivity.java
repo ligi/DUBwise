@@ -71,9 +71,8 @@ public class FlashFirmwareActivity extends Activity implements Runnable, OnCance
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		ActivityCalls.onDestroy(this);
-		
+		super.onDestroy();
 	}
 	
 	@Override

@@ -39,16 +39,15 @@ import org.ligi.ufo.MKParamsParser;
 
 public class FlightSettingsActivity extends ListActivity implements Runnable {
 
-	String[] menu_items;
-	
 	private final static int DIALOG_PROGRESS=1;
-	ListActivity this_ref;
-	ProgressDialog progressDialog;
-	MKCommunicator mk; 
+	private ListActivity this_ref;
+	private ProgressDialog progressDialog;
+	private MKCommunicator mk; 
 	
-	String[] name_strings=new String[MKParamsParser.MAX_PARAMSETS];
-	ArrayAdapter<String> adapter;
-	AlertDialog alert;
+	private String[] name_strings=new String[MKParamsParser.MAX_PARAMSETS];
+	private ArrayAdapter<String> adapter;
+	private AlertDialog alert;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,9 +62,6 @@ public class FlightSettingsActivity extends ListActivity implements Runnable {
 		        
 
 		alert=new AlertDialog.Builder(this).create();
-		
-		
-		
 		alert.setIcon(android.R.drawable.ic_dialog_alert);
 		alert.setTitle("Error");
 		
@@ -75,10 +71,7 @@ public class FlightSettingsActivity extends ListActivity implements Runnable {
 		        return;
 		      } }); 
 		
-		
-		
-		if (mk.params.last_parsed_paramset!=MKParamsParser.MAX_PARAMSETS)
-		{
+		if (mk.params.last_parsed_paramset!=MKParamsParser.MAX_PARAMSETS) {
 		    showDialog(DIALOG_PROGRESS);
 //		    this.runOnUiThread(this );
                   new Thread(this).start();
@@ -86,7 +79,6 @@ public class FlightSettingsActivity extends ListActivity implements Runnable {
 
 	        // this.setContentView(R.layout.general_settings);
 	        // progressDialog.show();
-		
 	}
 	
 	@Override
@@ -95,24 +87,19 @@ public class FlightSettingsActivity extends ListActivity implements Runnable {
 		ActivityCalls.afterContent(this);
 	}
 	
-	  @Override
-	    protected Dialog onCreateDialog(int id) {
-	        switch (id) {
-	        case DIALOG_PROGRESS:
-	    		
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		switch (id) {
+			case DIALOG_PROGRESS:
 	    		progressDialog = new ProgressDialog(FlightSettingsActivity.this);
-	    		
 	    		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 	    		progressDialog.setMessage("Loading Flight Settings ...");
 	    		progressDialog.setCancelable(true);
 	    		progressDialog.setMax(MKParamsParser.MAX_PARAMSETS);
-	
 	    		return progressDialog;
-
-
-	        }
-	        return null;
-	  }
+		}
+		return null;
+	}
 
 	public void run() {
 		 Looper.prepare();
@@ -176,8 +163,6 @@ public class FlightSettingsActivity extends ListActivity implements Runnable {
 				}
 				System.out.println(" setting last:" +mk.params.last_parsed_paramset );
 				System.out.println(" settings act:" +mk.params.act_paramset);
-								
-									
 			}
 		}
 		
@@ -202,5 +187,10 @@ public class FlightSettingsActivity extends ListActivity implements Runnable {
         */
     }
 
-
+    @Override
+	protected void onDestroy() {
+		ActivityCalls.onDestroy(this);
+		super.onDestroy();
+	}
+	
 }

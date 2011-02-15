@@ -75,17 +75,13 @@ public class CanvasButton {
 		if (highlight) { 
 			//canvas.drawCircle(rect.left+icon_size/2, rect.top+icon_size/2, icon_size, highlightPaint);
 		
-			
-			
 			Rect _txt_bounds=new Rect();
 			normalPaint.getTextBounds(label,0,label.length(),_txt_bounds);
 			RectF txt_bounds=new RectF(_txt_bounds);
 			
 			txt_bounds.offsetTo(rect.left-icon_size/2 - txt_bounds.width() -icon_size,rect.top+normalPaint.getTextSize());
 			
-			
 			txt_bounds.union(rect);
-			
 			
 			//canvas.drawCircle(rect.left+icon_size/2, rect.top+icon_size/2, icon_size, highlightPaint);
 			canvas.drawRoundRect(new RectF(txt_bounds), 7.0f, 7.0f, highlightPaint);

@@ -72,22 +72,19 @@ public class BluetoothDeviceListActivity extends ListActivity implements Runnabl
 	private ProgressDialog progress_dialog;
 
 	private boolean scanning=false;
-	
+
+	private Thread connection_thread=new Thread(this);
+	private int connect_to_id=-1;
+
 	public void log(String msg) {
 	    Log.i( msg);
 	}
-
-	Thread connection_thread=new Thread(this);
-	
-	int connect_to_id=-1;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    Log.i("starting scan activity");
 
-	    
-	    
 	    ActivityCalls.beforeContent(this);
 
 		progress_dialog=new ProgressDialog(this);
@@ -136,10 +133,8 @@ public class BluetoothDeviceListActivity extends ListActivity implements Runnabl
 
 	@Override
 	protected void onResume() {
-		super.onResume();
-	
 		ActivityCalls.afterContent(this);
-		
+		super.onResume();
 	}
 
 	@Override
@@ -149,9 +144,9 @@ public class BluetoothDeviceListActivity extends ListActivity implements Runnabl
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		LocalDevice.getInstance().stopScan();
 		ActivityCalls.onDestroy(this);
+		super.onDestroy();
 	}
 		
 	class myReadyListener extends ReadyListener {
@@ -180,7 +175,6 @@ public class BluetoothDeviceListActivity extends ListActivity implements Runnabl
 		
 	    return true;
 	}
-
 
 	/* Handles item selections */
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -257,12 +251,11 @@ public class BluetoothDeviceListActivity extends ListActivity implements Runnabl
 			case CONNECTION_STATE_BUILD_COMM:
 				act_dialog_str="Building communication adapter";
 				mHandler.post(mUpdateProgressText);
-				String btDeviceInfo = connect_to;
+				//String btDeviceInfo = connect_to;
 				
 				/** let UAVTalk look for a second if it can make sense of the Data **/ 
 				BluetoothCommunicationAdapter bt_com=new BluetoothCommunicationAdapter(bt_macs.get(connect_to_id));
 				MKProvider.getMK().setCommunicationAdapter(bt_com);
-				
 				
 				Log.i( "connecting");
 				MKProvider.getMK().connect_to("","" );
@@ -394,5 +387,4 @@ public class BluetoothDeviceListActivity extends ListActivity implements Runnabl
 	public void onClick(DialogInterface dialog, int which) {
 		finish();
 	}
-
 }

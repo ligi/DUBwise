@@ -20,7 +20,6 @@ package org.ligi.android.dubwise.uavtalk;
 
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.android.dubwise.helper.preferences.SetPreferenceEnabledByCheckBoxPreferenceState;
-import org.ligi.android.dubwise.voice.VoiceDebugActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -125,5 +124,10 @@ public class UAVTalkPrefsActivity extends PreferenceActivity {
 		return root;
 	}
 
+	@Override
+	protected void onDestroy() {
+		ActivityCalls.onDestroy(this);
+		super.onDestroy();
+	}
 
 }

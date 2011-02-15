@@ -20,7 +20,6 @@
 
 package org.ligi.android.dubwise;
 
-
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;

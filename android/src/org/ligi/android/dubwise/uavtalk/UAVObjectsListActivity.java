@@ -58,8 +58,8 @@ public class UAVObjectsListActivity extends ListActivity {
 
 	@Override 
 	public void onResume() {
-		super.onResume();
 		ActivityCalls.afterContent(this);
+		super.onResume();
 	}
 
 	@Override
@@ -102,5 +102,11 @@ public class UAVObjectsListActivity extends ListActivity {
 			}      
             return row;
 		}		
+	}
+	
+	@Override
+	protected void onDestroy() {
+		ActivityCalls.onDestroy(this);
+		super.onDestroy();
 	}
 }

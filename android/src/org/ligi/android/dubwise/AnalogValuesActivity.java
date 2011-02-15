@@ -67,9 +67,9 @@ public class AnalogValuesActivity extends DUBwiseBaseListActivity implements Run
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		running=false;
 		ActivityCalls.onDestroy(this);
+		super.onDestroy();
 	}
 	
 	 final Handler mHandler = new Handler();
