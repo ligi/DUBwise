@@ -381,13 +381,13 @@ public class MKStatusVoice
 						}
 					
 
-					if(canvas.settings.do_current_voice&&(canvas.mk.getCurrent()!=-1))	
+					if(canvas.settings.do_current_voice&&(VesselData.battery.getCurrent()!=-1))	
 	
 
 						{
-						    play(canvas.mk.getCurrent()/10);
+						    play(VesselData.battery.getCurrent()/10);
 						    play("point");
-						    play(canvas.mk.getCurrent()%10);
+						    play(VesselData.battery.getCurrent()%10);
 						    play("ampere");
 						    
 						}

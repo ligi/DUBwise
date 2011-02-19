@@ -680,7 +680,7 @@ public class DUBwiseCanvas
     public boolean cam_condition()
     {
 	return true;
-	//	return (mk.stick_data.stick[settings.remote_cam_stick]>100);
+	//	return (mk.stick_data.getStickValue(settings.remote_cam_stick)>100);
     }
 
     //    int lcd_top=25;
@@ -2092,7 +2092,7 @@ lp= LocationProvider.getInstance(crit2);
 
 		    if (cam_img!=null)
 			g.drawImage(cam_img,0,0,g.TOP | g.LEFT);
-		    g.drawString("condition: stick" +settings.remote_cam_stick + " (act:" +mk.stick_data.stick[settings.remote_cam_stick] +",thres:100) =>" + cam_condition() ,0,y_off,Graphics.TOP | Graphics.LEFT);
+		    g.drawString("condition: stick" +settings.remote_cam_stick + " (act:" +mk.stick_data.getStickValue((byte)settings.remote_cam_stick) +",thres:100) =>" + cam_condition() ,0,y_off,Graphics.TOP | Graphics.LEFT);
 		    y_off+=spacer_medium;
 
 
@@ -2108,7 +2108,7 @@ lp= LocationProvider.getInstance(crit2);
 
 		    for(int tmp_y=0;tmp_y<10;tmp_y++)
 			{
-			    g.drawString(""+tmp_y+"(" + l(mk.params.stick_stringids[tmp_y]) + ")=>"+mk.stick_data.stick[tmp_y],0,y_off,Graphics.TOP | Graphics.LEFT);
+			    g.drawString(""+tmp_y+"(" + l(mk.params.stick_stringids[tmp_y]) + ")=>"+mk.stick_data.getStickValue((byte)tmp_y),0,y_off,Graphics.TOP | Graphics.LEFT);
 			    y_off+=spacer_medium;
 			}
 		    break;
