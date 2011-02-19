@@ -28,14 +28,14 @@ public class ConnectionDetails extends RefreshingStringListActivity {
 
 	public String getStringByPosition(int pos) {
     	MKCommunicator mk=MKProvider.getMK();
-    	
+
 		switch(pos) {
 			case 0: 
 				return "Time: " + mk.getConnectionTime() + " s";
 			case 1:
 				return "Bytes in:" + mk.stats.bytes_in;
 			case 2:
-				return "Bytes in:" + mk.stats.bytes_out;
+				return "Bytes out:" + mk.stats.bytes_out;
 			case 3:
         		return "Debug Data: " + mk.stats.debug_data_count + "/" + mk.stats.debug_data_request_count;            			
         	case 4:
