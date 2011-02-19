@@ -22,7 +22,7 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.preference.PreferenceManager;
 /**
- * Class to handle Preferences for the VoiceOutput
+ * Class to provide/store Preferences for the VoiceOutput
  *
  * @author ligi ( aka: Marcus Bueschleb | mail: ligi at ligi dot de )
  *
