@@ -89,7 +89,7 @@ public class ActivityCalls {
 	}
 	
 	public static void onDestroy(Activity activity) {
-		if(mWakeLock!=null)
+		if ((mWakeLock!=null)&&(mWakeLock.isHeld()))
 			mWakeLock.release();
 	}
 	
