@@ -29,7 +29,7 @@ public class ConnectionDetails extends RefreshingStringListActivity {
 	public String getStringByPosition(int pos) {
     	MKCommunicator mk=MKProvider.getMK();
 
-		switch(pos) {
+		try { switch(pos) {
 			case 0: 
 				return "Time: " + mk.getConnectionTime() + " s";
 			case 1:
@@ -63,8 +63,7 @@ public class ConnectionDetails extends RefreshingStringListActivity {
         			return "BTRssi" + ((BluetoothCommunicationAdapter)(mk.getCommunicationAdapter())).getRSSI();
         		else
         			return "NO BT RSSI" ;
-    		
-        }
+		} } /*switch*/ catch (Exception e) { };
 		return null;
 	}
 
