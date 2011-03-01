@@ -89,8 +89,7 @@ public class DUBwiseFlightTelemetry implements DUBwiseBackgroundTask{
 					if (System.currentTimeMillis()>(time+1000))	{ 
 							rcv_datagram_socket.send(dp4);
 							time=System.currentTimeMillis();			
-						}
-					
+					}
 					
 					UAVObjects.getFlightTelemetryStats().setStatus(UAVObjects.getFlightTelemetryStats().STATUS_HANDSHAKEACK);
 					
