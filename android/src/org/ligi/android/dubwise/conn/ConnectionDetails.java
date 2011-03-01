@@ -27,7 +27,7 @@ import org.ligi.ufo.MKCommunicator;
 public class ConnectionDetails extends RefreshingStringListActivity {
 
 	public String getStringByPosition(int pos) {
-    	MKCommunicator mk=MKProvider.getMK();
+    	MKCommunicator mk=MKProvider.getMK(); // often used here
 
 		try { switch(pos) {
 			case 0: 
@@ -63,7 +63,9 @@ public class ConnectionDetails extends RefreshingStringListActivity {
         			return "BTRssi" + ((BluetoothCommunicationAdapter)(mk.getCommunicationAdapter())).getRSSI();
         		else
         			return "NO BT RSSI" ;
-		} } /*switch*/ catch (Exception e) { };
+		} } /*switch*/ catch (Exception e) { 
+			return "NA"; // ignore the failed one
+		};
 		return null;
 	}
 
