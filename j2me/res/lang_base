@@ -143,7 +143,7 @@ TURNOVERROLL;TurnOver Roll;TurnOver Roll;Rafraich. Roulis;Roll TurnOver
 UP;Up;Hoch;Haut;Boven
 DOWN;Down;Runter;Bas;Onder
 LEFT;Left;Links;Gauche;Links
-RIGHT;Rechts;Rechts;Droite;Rechts
+RIGHT;Right;Rechts;Droite;Rechts
 MODECONTROL;Mode Control;Modus Kontrolle;Controle Mode;Contr. werkingsmodus
 GPSGAIN;GPS-Gain;GPS-Verstrkung;Gain GPS;GPS sterkte
 GPSP;GPS-P
