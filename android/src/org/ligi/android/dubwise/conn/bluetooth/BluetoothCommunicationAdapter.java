@@ -142,18 +142,17 @@ public class BluetoothCommunicationAdapter implements
 
 	@Override
 	public void flush() throws IOException {
-			getOutputStream().flush();
+		getOutputStream().flush();
 	}
 
 	@Override
 	public int read(byte[] b, int offset, int length) throws IOException {
-			return getInputStream().read(b,offset,length);
+		return getInputStream().read(b,offset,length);
 	}
 
 	@Override
 	public void write(byte[] buffer, int offset, int count) throws IOException {
 		getOutputStream().write(buffer, offset, count);
-		
 	}
 
 	@Override
