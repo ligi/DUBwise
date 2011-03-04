@@ -135,7 +135,7 @@ public class BluetoothCommunicationAdapter implements
 	public int available() {
 		try {
 			return getInputStream().available();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			return 0;
 		}
 	}
