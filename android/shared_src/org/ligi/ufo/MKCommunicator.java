@@ -440,6 +440,7 @@ public class MKCommunicator
 
     	params[16]=time;  // time
     	params[17]=0;  // event
+    	params[18]=1;  // index
 
     	send_command(NAVI_SLAVE_ADDR,'s',params);
     }
