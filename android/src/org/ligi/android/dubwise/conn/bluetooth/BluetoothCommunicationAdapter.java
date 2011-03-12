@@ -1,11 +1,6 @@
 /**************************************************************************
  *                                          
- * Connection Adapter for Bluetooth Connections
- *                                          
  * Author:  Marcus -LiGi- Bueschleb   
- *
- * Project URL:
- *  http://mikrokopter.de/ucwiki/en/DUBwise
  * 
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
@@ -31,9 +26,18 @@ import java.io.OutputStream;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.CommunicationAdapterInterface;
 
+/**
+ * Connection Adapter for Android Bluetooth Connections
+ * uses lib http://android-bluetooth.googlecode.com to work with 
+ * Android <2.0 and have the openSocket method without the need for SDP 
+ * But that uses non standard calls - so might not work everywhere ..                                    
+ *             
+ * 
+ * @author ligi ( aka: Marcus Bueschleb | mail: ligi at ligi dot de )
+ *
+ */
 public class BluetoothCommunicationAdapter implements
 		CommunicationAdapterInterface {
-	
 	
 	private BtSocket bt_connection;
 	private RemoteDevice remote_device;
@@ -51,49 +55,12 @@ public class BluetoothCommunicationAdapter implements
 	public void connect() {
 		
 		try {
-			//LocalDevice bta = BluetoothAdapter.getDefaultAdapter();
-			// LocalBluetoothDevice.initLocalDevice(context);
-			
-			Log.i("getting device" + mac);
+			Log.i("getting device: " + mac);
 			remote_device = LocalDevice.getInstance().getRemoteForAddr(mac);
-			//BluetoothDevice bd = bta.getRemoteDevice(mac);
-					
+			Log.i("ensure Paired");
 			remote_device.ensurePaired();
-			
-			// Thread.sleep(5000 );
-			/*
-			 * while (bd.getBondState()!=bd.BOND_BONDED) { log("waiting for bond");
-			 * Thread.sleep(200 ); }
-			 */
-			Log.i("create method");
-			Log.i("waiting for bond");
-			
-			/*Method m = bd.getClass().getMethod("createRfcommSocket",
-					new Class[] { int.class });
-			 */
-			Log.i("create connection");
-			//bt_connection = (BluetoothSocket) m.invoke(bd, 1);
-			// bt_connection.getRemoteDevice().
-			// localBluetoothDevice.initLocalDevice(context );
-	
-			// localBluetoothDevice.
-	
-			// BluetoothDevice bt =
-			// bta.getRemoteDevice(mk_url.replaceAll("btspp://","" ));
-	
-			// connection = (new BluetoothSocket(mk_url.replaceAll("btssp://",""
-			// ).split(":")[0])));
-			// bt_connection=LocalBluetoothDevice.getLocalDevice().getRemoteBluetoothDevice(mk_url.replaceAll("btspp://",""
-			// )).openSocket(1 );
-			// bt.createRfcommSocketToServiceRecord((UUID.fromString("a60f35f0-b93a-11de-8a39-08002009c666")));
-			
-			Log.i("connect ");
-			
+			Log.i("open Socket");
 			bt_connection=remote_device.openSocket(1);
-			
-			Log.i("getting streams");
-			
-			
 		}
 		catch(Exception e) { Log.w(""+e); }
 	}
