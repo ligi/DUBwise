@@ -1,7 +1,5 @@
 package org.ligi.android.dubwise.conn;
 
-import java.io.IOException;
-
 import org.ligi.java.io.CommunicationAdapterInterface;
 
 /**
@@ -53,27 +51,11 @@ public class ConnectionHandler {
 
 		class ConnTypeChecker implements Runnable{
 		
-			CommunicationAdapterInterface my_ca;
 			public ConnTypeChecker(CommunicationAdapterInterface ca) {
-				my_ca=ca;
 			}
 			
 			public void run() {
-				long s_time= System.currentTimeMillis();
-				while(s_time+10000>System.currentTimeMillis()) {
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				try {
-					if (my_ca.available()==0)
-						ConnectionHandler.setConnectionType((byte)CONNTYPE_NONE);
-					else
-						ConnectionHandler.setConnectionType((byte)CONNTYPE_MK);
-				} catch (IOException e) {}
+				ConnectionHandler.setConnectionType((byte)CONNTYPE_MK);
 			}
 		}
 
