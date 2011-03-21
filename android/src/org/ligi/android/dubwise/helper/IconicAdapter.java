@@ -37,7 +37,6 @@ public class IconicAdapter extends ArrayAdapter<Object> {
         public IconicAdapter(Activity context,Object[] items) {
         	super(context, R.layout.icon_and_text, items);
         	this.items=items;
-        	
             this.context=context; 
         } 
  
@@ -50,7 +49,6 @@ public class IconicAdapter extends ArrayAdapter<Object> {
  
             label.setText(((IconicMenuItem)items[position]).label); 
 
-            
             if ((items.length>position)&&(((IconicMenuItem)items[position]).drawable!=-1)) { 
                 ImageView icon=(ImageView)row.findViewById(R.id.ImageView01); 
                 icon.setImageResource(((IconicMenuItem)items[position]).drawable ); 

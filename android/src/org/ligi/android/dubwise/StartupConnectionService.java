@@ -22,8 +22,9 @@ package org.ligi.android.dubwise;
 import it.gerdavax.easybluetooth.LocalDevice;
 import it.gerdavax.easybluetooth.ReadyListener;
 
+import org.ligi.android.dubwise.conn.ConnectionHandler;
 import org.ligi.android.dubwise.conn.MKProvider;
-import org.ligi.android.dubwise.conn.bluetooth.BluetoothCommunicationAdapter;
+import org.ligi.android.io.bluetooth.BluetoothCommunicationAdapter;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.simulation.SimulatedMKCommunicationAdapter;
 
@@ -66,8 +67,9 @@ public class StartupConnectionService {
 					@Override
 					public void ready() {
 						tellNlog("Conecting to " + DUBwisePrefs.getStartConnBluetootName() + " - " + DUBwisePrefs.getStartConnBluetootMAC() , context);
-						MKProvider.getMK().setCommunicationAdapter(new BluetoothCommunicationAdapter(DUBwisePrefs.getStartConnBluetootMAC()));
-						}
+						//MKProvider.getMK().setCommunicationAdapter(new BluetoothCommunicationAdapter(DUBwisePrefs.getStartConnBluetootMAC()));
+						ConnectionHandler.setCommunicationAdapter(new BluetoothCommunicationAdapter(DUBwisePrefs.getStartConnBluetootMAC()));
+					}
 				}
 					
 				tellNlog( "switching bluetooth ON", context);
@@ -75,8 +77,9 @@ public class StartupConnectionService {
 				break;
 				
 			case DUBwisePrefs.STARTCONNTYPE_SIMULATION:
-				tellNlog( "connecting to fake", context);
-				MKProvider.getMK().setCommunicationAdapter(new SimulatedMKCommunicationAdapter());
+				tellNlog( "connecting to simulation", context);
+				//MKProvider.getMK().setCommunicationAdapter(new SimulatedMKCommunicationAdapter());
+				ConnectionHandler.setCommunicationAdapter(new SimulatedMKCommunicationAdapter());
 				break;
 					
 			default:

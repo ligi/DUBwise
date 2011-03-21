@@ -20,8 +20,8 @@
 
 package org.ligi.android.dubwise.conn;
 
-import org.ligi.android.dubwise.conn.bluetooth.BluetoothCommunicationAdapter;
-import org.ligi.android.dubwise.helper.RefreshingStringListActivity;
+import org.ligi.android.common.activitys.RefreshingStringListActivity;
+import org.ligi.android.io.bluetooth.BluetoothCommunicationAdapter;
 import org.ligi.ufo.MKCommunicator;
 
 public class ConnectionDetails extends RefreshingStringListActivity {

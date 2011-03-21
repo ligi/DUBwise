@@ -20,8 +20,8 @@ package org.ligi.android.dubwise.piloting;
  *
  **************************************************************************/
 
+import org.ligi.android.common.preferences.SetPreferenceEnabledByCheckBoxPreferenceState;
 import org.ligi.android.dubwise.helper.ActivityCalls;
-import org.ligi.android.dubwise.helper.preferences.SetPreferenceEnabledByCheckBoxPreferenceState;
 
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;

@@ -102,10 +102,11 @@ public class UAVObjectFieldListActivity extends ListActivity implements Runnable
 			//this.notifyDataSetChanged()
 		}
 		
+		@Override
 		public View getView(int position, View convertView, ViewGroup parent) { 
 			LayoutInflater vi = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row=vi.inflate(R.layout.listitem_w_text, null); 
-            TextView label=(TextView)row.findViewById(R.id.Label); 
+            TextView label=(TextView)row.findViewById(R.id.); 
             UAVObjectFieldDescription act_obj=((UAVObjectFieldDescription)(objects[position]));
             String txt=act_obj.getName() + ": ";  
             

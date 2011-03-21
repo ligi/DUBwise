@@ -50,7 +50,7 @@
 	
 	<activity android:name="org.ligi.android.dubwise.conn.ConnectionListActivity"></activity>
 	<activity android:name="org.ligi.android.dubwise.conn.ConnectViaTCPActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.conn.bluetooth.BluetoothDeviceListActivity"></activity>
+	<activity android:name="conn.bluetooth.BluetoothDeviceListActivity"></activity>
 	
 	<activity android:name="org.ligi.android.dubwise.piloting.MultiTouchPilotingActivity"  android:screenOrientation="landscape"></activity>
 	<activity android:name="org.ligi.android.dubwise.piloting.OrientationPilotingActivity"  android:screenOrientation="landscape"></activity>
@@ -72,7 +72,7 @@
 	<activity android:name="org.ligi.android.dubwise.voice.VoiceDebugActivity"></activity>
 	<activity android:name="org.ligi.android.dubwise.map.ShowFlightPlanActivity"></activity>
 	
-	<activity android:name="org.ligi.android.dubwise.uavtalk.UAVObjectsListActivity"></activity>
+	<activity android:name="uavtalk.UAVObjectsListActivity"></activity>
 	<activity android:name="org.ligi.android.dubwise.uavtalk.UAVObjectFieldListActivity"></activity>
 	<activity android:name="org.ligi.android.dubwise.uavtalk.UAVObjectFieldArrayListActivity"></activity>
 	<activity android:name="org.ligi.android.dubwise.uavtalk.UAVObjectFieldEditActivity"></activity>

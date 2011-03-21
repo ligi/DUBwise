@@ -1,7 +1,7 @@
 package org.ligi.android.dubwise;
 
+import org.ligi.android.common.activitys.RefreshingStringListActivity;
 import org.ligi.android.dubwise.conn.MKProvider;
-import org.ligi.android.dubwise.helper.RefreshingStringListActivity;
 import org.ligi.ufo.MKCommunicator;
 
 import com.google.android.maps.GeoPoint;

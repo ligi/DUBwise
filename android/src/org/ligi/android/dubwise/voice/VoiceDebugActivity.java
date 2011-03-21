@@ -20,7 +20,7 @@
 
 package org.ligi.android.dubwise.voice;
 
-import org.ligi.android.dubwise.helper.RefreshingStringListActivity;
+import org.ligi.android.common.activitys.RefreshingStringListActivity;
 
 public class VoiceDebugActivity extends RefreshingStringListActivity {
 

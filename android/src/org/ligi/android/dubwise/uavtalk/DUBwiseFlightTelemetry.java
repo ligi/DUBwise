@@ -140,6 +140,4 @@ public class DUBwiseFlightTelemetry implements DUBwiseBackgroundTask{
 	public static DUBwiseBackgroundTask getTaskInstance() {
 		return getInstance();
 	}
-	
-
 }
