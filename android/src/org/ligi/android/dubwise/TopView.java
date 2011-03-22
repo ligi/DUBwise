@@ -26,9 +26,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.graphics.*;
 
-// not working atm - import org.bluez.*;
 import org.ligi.android.common.bitmap.BitmapScaler;
-import org.ligi.android.dubwise.conn.ConnectionHandler;
 import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.ufo.*;
 
@@ -148,6 +146,7 @@ public class TopView extends View {
 		else
 			symbol_paint(canvas, bt_off_img);
 
+		/*
 		String conn_type="?";
 		
 		switch (ConnectionHandler.getConnectionType()) {
@@ -160,6 +159,7 @@ public class TopView extends View {
 		}
 		textPaint(canvas,conn_type);
 		act_symbol_pos += spacer_items;
+		*/
 
 		// spend some cpu time ( Top doesnt need to be updated that often )
 		//TODO make timing editable
