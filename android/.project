@@ -38,9 +38,14 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>ligi_android_commons</name>
+			<name>LigiAndroidCommons_src</name>
 			<type>2</type>
-			<location>/home/ligi/wks/LigiAndroidCommons/src</location>
+			<locationURI>_android_LigiAndroidCommons_1e40ff98/src</locationURI>
+		</link>
+		<link>
+			<name>ligi_commons_java</name>
+			<type>2</type>
+			<location>/home/ligi/wks/LigiJavaCommons/src</location>
 		</link>
 	</linkedResources>
 </projectDescription>
