@@ -9,6 +9,13 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+/**
+ * Activity to send Phone GPS Coordinates to the UFO so that it follows the Phone
+ * Displays the status of this action as a List of relative values
+ * 
+ * @author ligi ( aka: Marcus Bueschleb | mail: ligi at ligi dot de )
+ *
+ */
 public class FollowMeActivity extends RefreshingStringListActivity  implements LocationListener {
 
 	private LocationManager lm=null;
@@ -42,18 +49,17 @@ public class FollowMeActivity extends RefreshingStringListActivity  implements L
 		}
 		return null;
 	}	
-		
+
+	
 	@Override
 	public void onLocationChanged(Location location) {
-		MKCommunicator mk = MKProvider.getMK();
-
 		if (location != null) {
 			phone_lat = location.getLatitude();
 			phone_lng = location.getLongitude();
 
-			mk.follow_me_lat=(int)(phone_lat*10000000);
-			mk.follow_me_lon=(int)(phone_lng*10000000);
-			mk.user_intent=MKCommunicator.USER_INTENT_FOLLOWME;
+			MKProvider.getMK().follow_me_lat=(int)(phone_lat*10000000);
+			MKProvider.getMK().follow_me_lon=(int)(phone_lng*10000000);
+			MKProvider.getMK().user_intent=MKCommunicator.USER_INTENT_FOLLOWME;
 		}
 	}
 
