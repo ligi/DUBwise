@@ -21,13 +21,10 @@ public class FollowMeActivity extends RefreshingStringListActivity  implements L
 		if (lm==null) {
 			lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 			lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 5.0f, this);
-			mk.user_intent=MKCommunicator.USER_INTENT_FOLLOWME;
 		}
 		
 		switch (pos) {
 			case 0:
-				mk.follow_me_lat=(int)(phone_lat*10000000);
-				mk.follow_me_lon=(int)(phone_lng*10000000);
 				if (phone_lat!=0.0)
 					return "Mobile: lat:" + phone_lat + " lon:" + phone_lng;
 				else
@@ -48,9 +45,15 @@ public class FollowMeActivity extends RefreshingStringListActivity  implements L
 		
 	@Override
 	public void onLocationChanged(Location location) {
+		MKCommunicator mk = MKProvider.getMK();
+
 		if (location != null) {
 			phone_lat = location.getLatitude();
 			phone_lng = location.getLongitude();
+
+			mk.follow_me_lat=(int)(phone_lat*10000000);
+			mk.follow_me_lon=(int)(phone_lng*10000000);
+			mk.user_intent=MKCommunicator.USER_INTENT_FOLLOWME;
 		}
 	}
 
