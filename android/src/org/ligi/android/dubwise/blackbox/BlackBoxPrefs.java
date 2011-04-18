@@ -31,14 +31,12 @@ import android.preference.PreferenceManager;
 public class BlackBoxPrefs {
 
 	private static SharedPreferences shared_prefs;
-	private static SharedPreferences.Editor editor;
 	
 	public static String KEY_PATH="blackbox_path";
 	public static String KEY_ENABLED="blackbox_enabled";
 	
 	public static void init(Context context) {
 		shared_prefs=PreferenceManager.getDefaultSharedPreferences(context)	;
-		editor=shared_prefs.edit();
 	}
 
 	public static String getPath() {
