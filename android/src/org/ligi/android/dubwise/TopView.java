@@ -46,29 +46,22 @@ public class TopView extends View {
 		super(context);
 	}
 
+	private Bitmap loadIcon(int resId) {
+		Bitmap bmp=BitmapFactory.decodeResource(getResources(),resId);
+		return BitmapScaler.relative2View(this,bmp,0.0f,1f);
+	}
+	
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		
 		// load and scale the images
-		bt_off_img = BitmapScaler.relative2View(this,BitmapFactory.decodeResource(
-				getResources(), R.drawable.bluetooth_off), 0.0f, 1f);
-
-		bt_on_img = BitmapScaler.relative2View(this,BitmapFactory.decodeResource(
-				getResources(), R.drawable.bluetooth_on), 0.0f, 1f);
-		
-		bt_on_highlight_img =BitmapScaler.relative2View(this,BitmapFactory.decodeResource(
-				getResources(), R.drawable.bluetooth_on_highlight), 0.0f, 1f);
-
-		batt_img = BitmapScaler.relative2View(this,BitmapFactory.decodeResource(
-				getResources(), R.drawable.batt), 0.0f, 1f);
-
-		sats_img = BitmapScaler.relative2View(this,BitmapFactory.decodeResource(
-				getResources(), R.drawable.sats), 0.0f, 1f);
-
-		rc_img = BitmapScaler.relative2View(this,BitmapFactory.decodeResource(getResources(),
-				R.drawable.rc), 0.0f, 1f);
-		alert_img = BitmapScaler.relative2View(this,BitmapFactory.decodeResource(getResources(),
-				R.drawable.alert), 0.0f, 1f);
+		bt_off_img = loadIcon(R.drawable.bluetooth_off);
+		bt_on_img = loadIcon( R.drawable.bluetooth_on);
+		bt_on_highlight_img =loadIcon(R.drawable.bluetooth_on_highlight);
+		batt_img = loadIcon(R.drawable.batt);
+		sats_img = loadIcon(R.drawable.sats);
+		rc_img = loadIcon(R.drawable.rc);
+		alert_img = loadIcon(R.drawable.alert);
 
 		// set up the Paint's
 		mTextPaint.setColor(Color.BLUE);
@@ -77,7 +70,6 @@ public class TopView extends View {
 		mTextPaint.setShadowLayer(2, 2, 2, Color.BLACK);
 
 		mTextPaint.setTextSize(this.getHeight());
-
 	}
 
 	public void symbol_paint(Canvas c, Bitmap img) {
