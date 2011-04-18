@@ -146,21 +146,6 @@ public class TopView extends View {
 		else
 			symbol_paint(canvas, bt_off_img);
 
-		/*
-		String conn_type="?";
-		
-		switch (ConnectionHandler.getConnectionType()) {
-			case ConnectionHandler.CONNTYPE_UAVTALK:
-				conn_type="OP";
-				break;
-			case ConnectionHandler.CONNTYPE_MK:
-				conn_type="MK";
-				break;
-		}
-		textPaint(canvas,conn_type);
-		act_symbol_pos += spacer_items;
-		*/
-
 		// spend some cpu time ( Top doesnt need to be updated that often )
 		//TODO make timing editable
 		try {
