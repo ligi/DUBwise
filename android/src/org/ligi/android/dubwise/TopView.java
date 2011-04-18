@@ -46,6 +46,12 @@ public class TopView extends View {
 		super(context);
 	}
 
+	/**
+	 * load an icon and scale to the height of this View
+	 * 
+	 * @param resId - ResId of the Bitmap to load
+	 * @return
+	 */
 	private Bitmap loadIcon(int resId) {
 		Bitmap bmp=BitmapFactory.decodeResource(getResources(),resId);
 		return BitmapScaler.relative2View(this,bmp,0.0f,1f);
