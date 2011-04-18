@@ -3,9 +3,6 @@ package org.ligi.android.dubwise;
 import org.ligi.android.common.activitys.RefreshingStringListActivity;
 import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.ufo.MKCommunicator;
-
-import com.google.android.maps.GeoPoint;
-
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
@@ -54,27 +51,19 @@ public class FollowMeActivity extends RefreshingStringListActivity  implements L
 		if (location != null) {
 			phone_lat = location.getLatitude();
 			phone_lng = location.getLongitude();
-			GeoPoint p = new GeoPoint((int) (phone_lat * 1000000), (int)( phone_lng * 1000000));
 		}
-		
 	}
 
 	@Override
-	public void onProviderDisabled(String arg0) {
-		// TODO Auto-generated method stub
-		
+	public void onProviderDisabled(String provider) {
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
