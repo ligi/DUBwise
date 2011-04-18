@@ -22,7 +22,6 @@ package org.ligi.android.dubwise;
 import it.gerdavax.easybluetooth.LocalDevice;
 import it.gerdavax.easybluetooth.ReadyListener;
 
-import org.ligi.android.dubwise.conn.ConnectionHandler;
 import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.android.io.bluetooth.BluetoothCommunicationAdapter;
 import org.ligi.tracedroid.logging.Log;
@@ -67,8 +66,7 @@ public class StartupConnectionService {
 					@Override
 					public void ready() {
 						tellNlog("Conecting to " + DUBwisePrefs.getStartConnBluetootName() + " - " + DUBwisePrefs.getStartConnBluetootMAC() , context);
-						//MKProvider.getMK().setCommunicationAdapter(new BluetoothCommunicationAdapter(DUBwisePrefs.getStartConnBluetootMAC()));
-						ConnectionHandler.setCommunicationAdapter(new BluetoothCommunicationAdapter(DUBwisePrefs.getStartConnBluetootMAC()));
+						MKProvider.getMK().setCommunicationAdapter(new BluetoothCommunicationAdapter(DUBwisePrefs.getStartConnBluetootMAC()));
 					}
 				}
 					
@@ -78,8 +76,8 @@ public class StartupConnectionService {
 				
 			case DUBwisePrefs.STARTCONNTYPE_SIMULATION:
 				tellNlog( "connecting to simulation", context);
-				//MKProvider.getMK().setCommunicationAdapter(new SimulatedMKCommunicationAdapter());
-				ConnectionHandler.setCommunicationAdapter(new SimulatedMKCommunicationAdapter());
+				MKProvider.getMK().setCommunicationAdapter(new SimulatedMKCommunicationAdapter());
+				//ConnectionHandler.setCommunicationAdapter(new SimulatedMKCommunicationAdapter());
 				break;
 					
 			default:

@@ -69,8 +69,7 @@ public class ConnectionListActivity extends DUBwiseBaseListActivity {
                 case ACTIONID_SIMULATED:
                 	SimulatedMKCommunicationAdapter sim=new SimulatedMKCommunicationAdapter();
                 	sim.setAttitudeProvider(new AndroidAttitudeProvider(this));
-                	ConnectionHandler.setCommunicationAdapter(sim);
-                	// MKProvider.getMK().setCommunicationAdapter(sim);
+                	MKProvider.getMK().setCommunicationAdapter(sim);
                 	finish();
                     break;
                 case ACTIONID_BT:
