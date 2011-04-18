@@ -77,18 +77,14 @@ public class MultiTouchPilotingView extends View implements OnTouchListener
 	}
 
 	public void uptate2mk() {
-		int foo=1;
 		MKProvider.getMK().extern_control[MKCommunicator.EXTERN_CONTROL_NICK]=(int)act_nick*-1;
 	    MKProvider.getMK().extern_control[MKCommunicator.EXTERN_CONTROL_ROLL]=(int)act_roll*-1;
 	    MKProvider.getMK().extern_control[MKCommunicator.EXTERN_CONTROL_GAS]=act_gas+127;
 	    MKProvider.getMK().extern_control[MKCommunicator.EXTERN_CONTROL_GIER]=(int)act_gier;
-	    
 	}
 	
 	@Override
 	protected void onDraw(Canvas canvas) {
-	    
-	    
 
 		mPaint.setColor(0xCCCCCCCC);
 	    
