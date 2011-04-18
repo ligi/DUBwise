@@ -27,6 +27,7 @@ import android.view.View;
 import android.graphics.*;
 
 import org.ligi.android.common.bitmap.BitmapScaler;
+import org.ligi.android.common.text.TextHelper;
 import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.ufo.*;
 
@@ -74,7 +75,7 @@ public class TopView extends View {
 	 */
 	private void paintText(Canvas c, String text) {
 		c.drawText(text, act_symbol_pos,this.getHeight() - 5, mTextPaint);
-		act_symbol_pos += getTextWidth(text);
+		act_symbol_pos += TextHelper.getTextWidth(text,mTextPaint);
 	}
 
 	@Override
@@ -99,14 +100,6 @@ public class TopView extends View {
 	}
 
 
-	private float getTextWidth(String text) {
-		float[] widths = new float[text.length()];
-		mTextPaint.getTextWidths(text, widths);
-		float res = 0;
-		for (int i = 0; i < widths.length; i++)
-			res += widths[i];
-		return res;
-	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
