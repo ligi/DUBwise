@@ -32,8 +32,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.ligi.java.io.CommunicationAdapterInterface;
 import org.ligi.tracedroid.logging.Log;
-import org.ligi.ufo.CommunicationAdapterInterface;
 
 /**
  * Connection Adapter for Android Bluetooth Connections
@@ -145,4 +145,16 @@ public class BluetoothCommunicationAdapter implements
 	public int read() throws IOException {
 		return getInputStream().read();
 	}
+
+    @Override
+    public String getName() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getURL() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

@@ -20,7 +20,7 @@ package org.ligi.ufo.simulation;
 
 import java.util.Vector;
 
-import org.ligi.ufo.CommunicationAdapterInterface;
+import org.ligi.java.io.CommunicationAdapterInterface;
 import org.ligi.ufo.MKHelper;
 import org.ligi.ufo.MKParamsParser;
 import org.ligi.ufo.MKProtocolDefinitions;
@@ -236,4 +236,14 @@ public class SimulatedMKCommunicationAdapter implements
 	public void setAttitudeProvider(AttitudeProvider new_att_provider) {
 		myAttitudeProvider=new_att_provider;
 	}
+
+    @Override
+    public String getName() {
+        return "MK Simulation";
+    }
+
+    @Override
+    public String getURL() {
+        return "simulate://this.now";
+    }
 }

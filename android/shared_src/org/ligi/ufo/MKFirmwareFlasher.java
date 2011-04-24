@@ -22,6 +22,8 @@ package org.ligi.ufo;
 import java.io.*;
 import java.util.Random;
 
+import org.ligi.java.io.CommunicationAdapterInterface;
+
 
 
 public class MKFirmwareFlasher
