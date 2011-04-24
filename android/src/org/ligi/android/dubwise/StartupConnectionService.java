@@ -23,7 +23,7 @@ import it.gerdavax.easybluetooth.LocalDevice;
 import it.gerdavax.easybluetooth.ReadyListener;
 
 import org.ligi.android.dubwise.conn.MKProvider;
-import org.ligi.android.io.bluetooth.BluetoothCommunicationAdapter;
+import org.ligi.android.dubwise.conn.bluetooth.BluetoothCommunicationAdapter;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.simulation.SimulatedMKCommunicationAdapter;
 

@@ -20,7 +20,6 @@ package org.ligi.ufo;
 
 import java.util.Vector;
 
-import org.ligi.java.io.CommunicationAdapterInterface;
 import org.ligi.ufo.simulation.SimulatedMKCommunicationAdapter;
 import org.ligi.ufo.logging.LoggingInterface;
 import org.ligi.ufo.logging.NotLogger;

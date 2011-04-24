@@ -21,8 +21,8 @@ package org.ligi.android.dubwise;
 
 import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
-import org.ligi.java.io.CommunicationAdapterInterface;
 import org.ligi.tracedroid.logging.Log;
+import org.ligi.ufo.CommunicationAdapterInterface;
 import org.ligi.ufo.MKFirmwareFlasher;
 import org.ligi.ufo.MKFirmwareHelper;
 import org.ligi.ufo.MKParamsParser;

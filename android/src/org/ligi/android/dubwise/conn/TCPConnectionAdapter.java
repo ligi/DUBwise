@@ -28,7 +28,8 @@ import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.ligi.java.io.CommunicationAdapterInterface;
+import org.ligi.ufo.CommunicationAdapterInterface;
+
 
 public class TCPConnectionAdapter implements CommunicationAdapterInterface {
 

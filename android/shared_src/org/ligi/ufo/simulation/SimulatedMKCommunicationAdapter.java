@@ -20,7 +20,7 @@ package org.ligi.ufo.simulation;
 
 import java.util.Vector;
 
-import org.ligi.java.io.CommunicationAdapterInterface;
+import org.ligi.ufo.CommunicationAdapterInterface;
 import org.ligi.ufo.MKHelper;
 import org.ligi.ufo.MKParamsParser;
 import org.ligi.ufo.MKProtocolDefinitions;

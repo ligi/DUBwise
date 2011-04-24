@@ -26,7 +26,6 @@ import java.util.Vector;
 import org.ligi.android.dubwise.DUBwisePrefs;
 import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
-import org.ligi.android.io.bluetooth.BluetoothCommunicationAdapter;
 import org.ligi.tracedroid.logging.Log;
 
 import android.app.ListActivity;
