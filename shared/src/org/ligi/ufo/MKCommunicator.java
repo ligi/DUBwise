@@ -546,7 +546,7 @@ public class MKCommunicator
 	params[10]=(int)((alt>>16)&0xFF); 
 	params[11]=(int)((alt>>24)&0xFF );
 
-	params[12]=2;  // newdata
+	params[12]=1;  // newdata
 
 	params[13]=0;  // heading
 	params[14]=0;  // heading
