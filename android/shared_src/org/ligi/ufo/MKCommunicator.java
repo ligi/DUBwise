@@ -432,7 +432,7 @@ public class MKCommunicator
 		MKHelper.int32ToByteArr(lon, params, 4);
 		MKHelper.int32ToByteArr(0, params, 8); // alt
 
-    	params[12]=2;  // newdata
+    	params[12]=1;  // newdata
 
     	params[13]=0;  // heading
     	params[14]=0;  // heading
