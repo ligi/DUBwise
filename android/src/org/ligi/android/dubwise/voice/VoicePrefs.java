@@ -22,7 +22,7 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.preference.PreferenceManager;
 /**
- * Class to handle Preferences for the VoiceOutput
+ * Class to provide/store Preferences for the VoiceOutput
  *
  * @author ligi ( aka: Marcus Bueschleb | mail: ligi at ligi dot de )
  *
@@ -144,7 +144,7 @@ public class VoicePrefs {
 	}
 	
 	public static int getStreamId() {
-		int res=getAllStreamNamesAsVector().indexOf(shared_prefs.getString(KEY_VOICE_STREAM,""));
+		int res=getAllStreamNamesAsVector().indexOf(getStreamName());
 		
 		if (res==-1)
 			return 0; // default if not found 
@@ -153,7 +153,7 @@ public class VoicePrefs {
 	}
 	
 	public static String getStreamName() {
-		return getAllStreamNames()[ getStreamId()];
+		return shared_prefs.getString(KEY_VOICE_STREAM,"no_name");
 	}
 	
 	public static String[] getAllStreamNames() {
@@ -164,7 +164,7 @@ public class VoicePrefs {
 		Vector<String> res=new Vector<String>();
 		for (String s:getAllStreamNames())
 			res.add(s);
-		return new Vector<String>();
+		return res;
 	}
 	
 	public static int[] getAllStreamEnums() {

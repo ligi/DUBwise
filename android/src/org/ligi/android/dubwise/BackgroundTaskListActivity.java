@@ -20,19 +20,13 @@
 
 package org.ligi.android.dubwise;
 
+import org.ligi.android.common.activitys.RefreshingStringListActivity;
 import org.ligi.android.dubwise.helper.DUBwiseBackgroundHandler;
 import org.ligi.android.dubwise.helper.DUBwiseBackgroundTask;
-import org.ligi.android.dubwise.helper.RefreshingStringListActivity;
 
 
 public class BackgroundTaskListActivity extends RefreshingStringListActivity {
 
-	@Override
-	public int getRefreshSleep() {
-		return 100;
-	}
-
-	@Override
 	public String getStringByPosition(int pos) {
 		int i=0;
 		for (DUBwiseBackgroundTask tsk : DUBwiseBackgroundHandler.getInstance().getBackgroundTasks()) {

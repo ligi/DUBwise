@@ -35,8 +35,6 @@ import org.ligi.android.dubwise.helper.IconicMenuItem;
 import org.ligi.android.dubwise.lcd.LCDActivity;
 import org.ligi.android.dubwise.map.DUBwiseMap;
 import org.ligi.android.dubwise.piloting.PilotingListActivity;
-import org.ligi.android.dubwise.uavtalk.UAVObjectsListActivity;
-import org.ligi.android.dubwise.uavtalk.UAVTalkPrefs;
 import org.ligi.tracedroid.TraceDroid;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.tracedroid.sending.TraceDroidEmailSender;
@@ -77,11 +75,6 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 				android.R.drawable.ic_menu_share, new Intent(this,
 						ConnectionListActivity.class)));
 		
-		if (UAVTalkPrefs.isUAVObjectsMainMenuEnabled())
-			menu_items_vector.add(new IconicMenuItem("UAVObjects",
-					android.R.drawable.ic_menu_share, new Intent(this,
-							UAVObjectsListActivity.class)));
-	
 		menu_items_vector.add(new IconicMenuItem("Settings",
 				android.R.drawable.ic_menu_preferences, new Intent(this,
 						SettingsListActivity.class)));
@@ -176,6 +169,7 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 				.toArray())));
 
 	}
+	
 	@Override
 	public void onBackPressed() {
 		

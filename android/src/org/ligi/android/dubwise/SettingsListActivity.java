@@ -29,7 +29,6 @@ import org.ligi.android.dubwise.helper.IconicAdapter;
 import org.ligi.android.dubwise.helper.IconicMenuItem;
 import org.ligi.android.dubwise.map.MapPrefsActivity;
 import org.ligi.android.dubwise.piloting.PilotingPrefsActivity;
-import org.ligi.android.dubwise.uavtalk.UAVTalkPrefsActivity;
 import org.ligi.android.dubwise.voice.VoicePrefsActivity;
 import org.ligi.tracedroid.logging.Log;
 
@@ -79,10 +78,6 @@ public class SettingsListActivity extends ListActivity {
 		menu_items_vector.add(new IconicMenuItem("BlackBox",
 				android.R.drawable.ic_menu_save	, new Intent(this,
 						BlackBoxPrefsActivity.class)));
-
-		menu_items_vector.add(new IconicMenuItem("UAVTalk",
-				android.R.drawable.ic_menu_agenda	, new Intent(this,
-						UAVTalkPrefsActivity.class)));
 
 		menu_items_vector.add(new IconicMenuItem("Background Tasks",
 				android.R.drawable.ic_menu_agenda	, new Intent(this,

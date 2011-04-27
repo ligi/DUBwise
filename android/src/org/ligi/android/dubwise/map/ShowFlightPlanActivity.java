@@ -18,8 +18,7 @@
 
 package org.ligi.android.dubwise.map;
 
-
-import org.ligi.android.dubwise.helper.RefreshingStringListActivity;
+import org.ligi.android.common.activitys.RefreshingStringListActivity;
 
 import android.content.Intent;
 import android.view.Menu;

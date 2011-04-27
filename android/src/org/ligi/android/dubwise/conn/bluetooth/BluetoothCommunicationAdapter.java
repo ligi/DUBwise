@@ -1,20 +1,24 @@
 /**************************************************************************
- *                                          
- * Connection Adapter for Bluetooth Connections
- *                                          
- * Author:  Marcus -LiGi- Bueschleb   
  *
- * Project URL:
- *  http://mikrokopter.de/ucwiki/en/DUBwise
- * 
  * License:
+ *
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
  *  (Creative Commons / Non Commercial / Share Alike)
  *  Additionally to the Creative Commons terms it is not allowed
- *  to use this project in _any_ violent manner! 
- *  This explicitly includes that lethal Weapon owning "People" and 
+ *  to use this project in _any_ violent context! 
+ *  This explicitly includes that lethal weapon owning "People" and 
  *  Organisations (e.g. Army & Police) 
  *  are not allowed to use this Project!
+ *  
+ *  The program is provided AS IS with NO WARRANTY OF ANY KIND, 
+ *  INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS 
+ *  FOR A PARTICULAR PURPOSE.
+ *
+ *  If you have questions please write the author marcus bueschleb 
+ *  a mail to ligi at ligi dot de
+ *  
+ *  enjoy life!
+ *  ligi
  *
  **************************************************************************/
 
@@ -28,12 +32,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.ligi.java.io.CommunicationAdapterInterface;
 import org.ligi.tracedroid.logging.Log;
-import org.ligi.ufo.CommunicationAdapterInterface;
 
+/**
+ * Connection Adapter for Android Bluetooth Connections
+ * uses lib http://android-bluetooth.googlecode.com to work with 
+ * Android <2.0 and have the openSocket method without the need for SDP 
+ * But that uses non standard calls - so might not work everywhere ..                                    
+ *             
+ * 
+ * @author ligi ( aka: Marcus Bueschleb | mail: ligi at ligi dot de )
+ *
+ */
 public class BluetoothCommunicationAdapter implements
 		CommunicationAdapterInterface {
-	
 	
 	private BtSocket bt_connection;
 	private RemoteDevice remote_device;
@@ -51,49 +64,12 @@ public class BluetoothCommunicationAdapter implements
 	public void connect() {
 		
 		try {
-			//LocalDevice bta = BluetoothAdapter.getDefaultAdapter();
-			// LocalBluetoothDevice.initLocalDevice(context);
-			
-			Log.i("getting device" + mac);
+			Log.i("getting device: " + mac);
 			remote_device = LocalDevice.getInstance().getRemoteForAddr(mac);
-			//BluetoothDevice bd = bta.getRemoteDevice(mac);
-					
+			Log.i("ensure Paired");
 			remote_device.ensurePaired();
-			
-			// Thread.sleep(5000 );
-			/*
-			 * while (bd.getBondState()!=bd.BOND_BONDED) { log("waiting for bond");
-			 * Thread.sleep(200 ); }
-			 */
-			Log.i("create method");
-			Log.i("waiting for bond");
-			
-			/*Method m = bd.getClass().getMethod("createRfcommSocket",
-					new Class[] { int.class });
-			 */
-			Log.i("create connection");
-			//bt_connection = (BluetoothSocket) m.invoke(bd, 1);
-			// bt_connection.getRemoteDevice().
-			// localBluetoothDevice.initLocalDevice(context );
-	
-			// localBluetoothDevice.
-	
-			// BluetoothDevice bt =
-			// bta.getRemoteDevice(mk_url.replaceAll("btspp://","" ));
-	
-			// connection = (new BluetoothSocket(mk_url.replaceAll("btssp://",""
-			// ).split(":")[0])));
-			// bt_connection=LocalBluetoothDevice.getLocalDevice().getRemoteBluetoothDevice(mk_url.replaceAll("btspp://",""
-			// )).openSocket(1 );
-			// bt.createRfcommSocketToServiceRecord((UUID.fromString("a60f35f0-b93a-11de-8a39-08002009c666")));
-			
-			Log.i("connect ");
-			
+			Log.i("open Socket");
 			bt_connection=remote_device.openSocket(1);
-			
-			Log.i("getting streams");
-			
-			
 		}
 		catch(Exception e) { Log.w(""+e); }
 	}
@@ -135,25 +111,24 @@ public class BluetoothCommunicationAdapter implements
 	public int available() {
 		try {
 			return getInputStream().available();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			return 0;
 		}
 	}
 
 	@Override
 	public void flush() throws IOException {
-			getOutputStream().flush();
+		getOutputStream().flush();
 	}
 
 	@Override
 	public int read(byte[] b, int offset, int length) throws IOException {
-			return getInputStream().read(b,offset,length);
+		return getInputStream().read(b,offset,length);
 	}
 
 	@Override
 	public void write(byte[] buffer, int offset, int count) throws IOException {
 		getOutputStream().write(buffer, offset, count);
-		
 	}
 
 	@Override
@@ -170,4 +145,16 @@ public class BluetoothCommunicationAdapter implements
 	public int read() throws IOException {
 		return getInputStream().read();
 	}
+
+    @Override
+    public String getName() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getURL() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

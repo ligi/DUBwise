@@ -30,19 +30,16 @@ import org.ligi.android.dubwise.DUBwisePrefs;
 import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.ufo.DUBwiseDefinitions;
 import org.ligi.ufo.DUBwiseHelper;
-import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.VesselData;
 
 public class CockpitView extends View implements DUBwiseDefinitions,OnTouchListener
 {
 	private Paint mPaint = new Paint();
 	private Paint altitudeTextPaint = new Paint();
-		
 	
 	public CockpitView(Activity context) {
 		super(context);
 
-		MKProvider.getMK().user_intent=MKCommunicator.USER_INTENT_3DDATA;
 		// needed to get Key Events
 		setFocusable(true);
 

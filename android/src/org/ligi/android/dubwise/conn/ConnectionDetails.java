@@ -20,22 +20,22 @@
 
 package org.ligi.android.dubwise.conn;
 
+import org.ligi.android.common.activitys.RefreshingStringListActivity;
 import org.ligi.android.dubwise.conn.bluetooth.BluetoothCommunicationAdapter;
-import org.ligi.android.dubwise.helper.RefreshingStringListActivity;
 import org.ligi.ufo.MKCommunicator;
 
 public class ConnectionDetails extends RefreshingStringListActivity {
 
 	public String getStringByPosition(int pos) {
-    	MKCommunicator mk=MKProvider.getMK();
-    	
-		switch(pos) {
+    	MKCommunicator mk=MKProvider.getMK(); // often used here
+
+		try { switch(pos) {
 			case 0: 
 				return "Time: " + mk.getConnectionTime() + " s";
 			case 1:
 				return "Bytes in:" + mk.stats.bytes_in;
 			case 2:
-				return "Bytes in:" + mk.stats.bytes_out;
+				return "Bytes out:" + mk.stats.bytes_out;
 			case 3:
         		return "Debug Data: " + mk.stats.debug_data_count + "/" + mk.stats.debug_data_request_count;            			
         	case 4:
@@ -63,8 +63,9 @@ public class ConnectionDetails extends RefreshingStringListActivity {
         			return "BTRssi" + ((BluetoothCommunicationAdapter)(mk.getCommunicationAdapter())).getRSSI();
         		else
         			return "NO BT RSSI" ;
-    		
-        }
+		} } /*switch*/ catch (Exception e) { 
+			return "NA"; // ignore the failed one
+		};
 		return null;
 	}
 

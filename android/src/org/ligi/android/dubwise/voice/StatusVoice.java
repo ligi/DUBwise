@@ -28,7 +28,6 @@ import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.VesselData;
 
 import android.app.Activity;
-import android.media.AudioManager;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;

@@ -26,15 +26,18 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.graphics.*;
 
-// not working atm - import org.bluez.*;
+import org.ligi.android.common.bitmap.BitmapScaler;
+import org.ligi.android.common.text.TextHelper;
 import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.ufo.*;
 
-public class TopView extends View
-
-{
+public class TopView extends View {
+	
 	private Paint mPaint = new Paint();
 	private Paint mTextPaint = new Paint();
+	private Bitmap bt_off_img, bt_on_img, batt_img, rc_img, sats_img , alert_img, bt_on_highlight_img;
+	private int act_symbol_pos = 0;
+	private int spacer_items = 5;
 
 	public TopView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -44,31 +47,48 @@ public class TopView extends View
 		super(context);
 	}
 
-	Bitmap bt_off_img, bt_on_img, batt_img, rc_img, sats_img , alert_img, bt_on_highlight_img;
+	/**
+	 * load an icon and scale to the height of this View
+	 * 
+	 * @param resId - ResId of the Bitmap to load
+	 * @return
+	 */
+	private Bitmap loadSymbol(int resId) {
+		Bitmap bmp=BitmapFactory.decodeResource(getResources(),resId);
+		return BitmapScaler.relative2View(this,bmp,0.0f,1f);
+	}
+
+	/**
+	 * paint a symbol and move the act_symbol_pos
+	 * @param c
+	 * @param img
+	 */
+	private void paintSymbol(Canvas c, Bitmap img) {
+		c.drawBitmap(img, act_symbol_pos, 0, mPaint);
+		act_symbol_pos += img.getWidth();
+	}
+
+	/**
+	 * paint a text and move the act_symbol_pos
+	 * @param c
+	 * @param text
+	 */
+	private void paintText(Canvas c, String text) {
+		c.drawText(text, act_symbol_pos,this.getHeight() - 5, mTextPaint);
+		act_symbol_pos += TextHelper.getTextWidth(text,mTextPaint);
+	}
 
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		
 		// load and scale the images
-		bt_off_img = resize_to_screen(BitmapFactory.decodeResource(
-				getResources(), R.drawable.bluetooth_off), 0.0f, 1f);
-
-		bt_on_img = resize_to_screen(BitmapFactory.decodeResource(
-				getResources(), R.drawable.bluetooth_on), 0.0f, 1f);
-		
-		bt_on_highlight_img =resize_to_screen(BitmapFactory.decodeResource(
-				getResources(), R.drawable.bluetooth_on_highlight), 0.0f, 1f);
-
-		batt_img = resize_to_screen(BitmapFactory.decodeResource(
-				getResources(), R.drawable.batt), 0.0f, 1f);
-
-		sats_img = resize_to_screen(BitmapFactory.decodeResource(
-				getResources(), R.drawable.sats), 0.0f, 1f);
-
-		rc_img = resize_to_screen(BitmapFactory.decodeResource(getResources(),
-				R.drawable.rc), 0.0f, 1f);
-		alert_img = resize_to_screen(BitmapFactory.decodeResource(getResources(),
-				R.drawable.alert), 0.0f, 1f);
+		bt_off_img = loadSymbol(R.drawable.bluetooth_off);
+		bt_on_img = loadSymbol( R.drawable.bluetooth_on);
+		bt_on_highlight_img =loadSymbol(R.drawable.bluetooth_on_highlight);
+		batt_img = loadSymbol(R.drawable.batt);
+		sats_img = loadSymbol(R.drawable.sats);
+		rc_img = loadSymbol(R.drawable.rc);
+		alert_img = loadSymbol(R.drawable.alert);
 
 		// set up the Paint's
 		mTextPaint.setColor(Color.BLUE);
@@ -77,30 +97,9 @@ public class TopView extends View
 		mTextPaint.setShadowLayer(2, 2, 2, Color.BLACK);
 
 		mTextPaint.setTextSize(this.getHeight());
-
 	}
 
-	public void symbol_paint(Canvas c, Bitmap img) {
 
-		c.drawBitmap(img, act_symbol_pos, 0, mPaint);
-
-		act_symbol_pos += img.getWidth();
-
-	}
-
-	int act_symbol_pos = 0;
-
-	private float getTextWidth(String text) {
-
-		float[] widths = new float[text.length()];
-		mTextPaint.getTextWidths(text, widths);
-		float res = 0;
-		for (int i = 0; i < widths.length; i++)
-			res += widths[i];
-		return res;
-	}
-
-	int spacer_items = 5;
 
 	@Override
 	protected void onDraw(Canvas canvas) {
@@ -112,9 +111,9 @@ public class TopView extends View
 
 		if (mk.connected){
 			if (((mk.stats.bytes_in>>4)&1)==1)
-				symbol_paint(canvas, bt_on_img);
+				paintSymbol(canvas, bt_on_img);
 			else
-				symbol_paint(canvas, bt_on_highlight_img);
+				paintSymbol(canvas, bt_on_highlight_img);
 
 			act_symbol_pos += spacer_items;
 
@@ -122,37 +121,32 @@ public class TopView extends View
 			// mPaint.getFontMetrics().
 			
 			if (VesselData.battery.getVoltage() != -1) {
-				symbol_paint(canvas, batt_img);
-				canvas.drawText("" + VesselData.battery.getVoltage() / 10.0, act_symbol_pos, this
-						.getHeight() - 5, mTextPaint);
-				act_symbol_pos += getTextWidth("" + VesselData.battery.getVoltage() / 10.0);
+				paintSymbol(canvas, batt_img);
+				paintText(canvas,""+ VesselData.battery.getVoltage() / 10.0);
 				act_symbol_pos += spacer_items;
 			}
 
 			if (mk.SenderOkay() >190) {
-				symbol_paint(canvas, rc_img);
+				paintSymbol(canvas, rc_img);
 				act_symbol_pos += spacer_items;
 			}
 
 			if (mk.is_navi() || mk.is_fake()) {
 				if (mk.SatsInUse() != -1) {
-					symbol_paint(canvas, sats_img);
-					canvas.drawText("" + mk.SatsInUse(), act_symbol_pos, this
-							.getHeight() - 5, mTextPaint);
-					act_symbol_pos += getTextWidth("" + mk.SatsInUse());
+					paintSymbol(canvas, sats_img);
+					paintText( canvas, ""+ mk.SatsInUse());
 					act_symbol_pos += spacer_items;
 				}
 				if (mk.hasNaviError()) {
-					symbol_paint(canvas, alert_img);
+					paintSymbol(canvas, alert_img);
 					act_symbol_pos += spacer_items;
 				}
 			}
 
 		}
 		else
-			symbol_paint(canvas, bt_off_img);
+			paintSymbol(canvas, bt_off_img);
 
-		
 		// spend some cpu time ( Top doesnt need to be updated that often )
 		//TODO make timing editable
 		try {
@@ -162,27 +156,6 @@ public class TopView extends View
 		}
 		
 		invalidate();
-	}
-
-	public Bitmap resize_to_screen(Bitmap orig, float x_scale_, float y_scale_) {
-		// createa matrix for the manipulation
-		Matrix matrix = new Matrix();
-		float x_scale, y_scale;
-		if (y_scale_ != 0f)
-			y_scale = (getHeight() * y_scale_) / orig.getHeight();
-		else
-			// take x_scale
-			y_scale = (getWidth() * x_scale_) / orig.getWidth();
-
-		if (x_scale_ != 0f)
-			x_scale = (getWidth() * x_scale_) / orig.getWidth();
-		else
-			x_scale = (getHeight() * y_scale_) / orig.getHeight();
-
-		matrix.postScale(x_scale, y_scale);
-		return Bitmap.createBitmap(orig, 0, 0, (int) (orig.getWidth()),
-				(int) (orig.getHeight()), matrix, true);// BitmapContfig.ARGB_8888
-		// );
 	}
 
 }

@@ -20,6 +20,7 @@ package org.ligi.ufo;
 
 import java.util.Vector;
 
+import org.ligi.java.io.CommunicationAdapterInterface;
 import org.ligi.ufo.simulation.SimulatedMKCommunicationAdapter;
 import org.ligi.ufo.logging.LoggingInterface;
 import org.ligi.ufo.logging.NotLogger;
@@ -431,7 +432,7 @@ public class MKCommunicator
 		MKHelper.int32ToByteArr(lon, params, 4);
 		MKHelper.int32ToByteArr(0, params, 8); // alt
 
-    	params[12]=2;  // newdata
+    	params[12]=1;  // newdata
 
     	params[13]=0;  // heading
     	params[14]=0;  // heading
@@ -440,6 +441,7 @@ public class MKCommunicator
 
     	params[16]=time;  // time
     	params[17]=0;  // event
+    	params[18]=1;  // index
 
     	send_command(NAVI_SLAVE_ADDR,'s',params);
     }

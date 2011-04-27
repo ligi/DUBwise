@@ -1,17 +1,21 @@
 package org.ligi.android.dubwise;
 
+import org.ligi.android.common.activitys.RefreshingStringListActivity;
 import org.ligi.android.dubwise.conn.MKProvider;
-import org.ligi.android.dubwise.helper.RefreshingStringListActivity;
 import org.ligi.ufo.MKCommunicator;
-
-import com.google.android.maps.GeoPoint;
-
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+/**
+ * Activity to send Phone GPS Coordinates to the UFO so that it follows the Phone
+ * Displays the status of this action as a List of relative values
+ * 
+ * @author ligi ( aka: Marcus Bueschleb | mail: ligi at ligi dot de )
+ *
+ */
 public class FollowMeActivity extends RefreshingStringListActivity  implements LocationListener {
 
 	private LocationManager lm=null;
@@ -24,13 +28,10 @@ public class FollowMeActivity extends RefreshingStringListActivity  implements L
 		if (lm==null) {
 			lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 			lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 5.0f, this);
-			mk.user_intent=MKCommunicator.USER_INTENT_FOLLOWME;
 		}
 		
 		switch (pos) {
 			case 0:
-				mk.follow_me_lat=(int)(phone_lat*10000000);
-				mk.follow_me_lon=(int)(phone_lng*10000000);
 				if (phone_lat!=0.0)
 					return "Mobile: lat:" + phone_lat + " lon:" + phone_lng;
 				else
@@ -48,33 +49,30 @@ public class FollowMeActivity extends RefreshingStringListActivity  implements L
 		}
 		return null;
 	}	
-		
+
+	
 	@Override
 	public void onLocationChanged(Location location) {
 		if (location != null) {
 			phone_lat = location.getLatitude();
 			phone_lng = location.getLongitude();
-			GeoPoint p = new GeoPoint((int) (phone_lat * 1000000), (int)( phone_lng * 1000000));
+
+			MKProvider.getMK().follow_me_lat=(int)(phone_lat*10000000);
+			MKProvider.getMK().follow_me_lon=(int)(phone_lng*10000000);
+			MKProvider.getMK().user_intent=MKCommunicator.USER_INTENT_FOLLOWME;
 		}
-		
 	}
 
 	@Override
-	public void onProviderDisabled(String arg0) {
-		// TODO Auto-generated method stub
-		
+	public void onProviderDisabled(String provider) {
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

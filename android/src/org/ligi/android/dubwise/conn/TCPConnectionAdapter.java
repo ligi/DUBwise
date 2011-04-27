@@ -28,7 +28,7 @@ import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.ligi.ufo.CommunicationAdapterInterface;
+import org.ligi.java.io.CommunicationAdapterInterface;
 
 public class TCPConnectionAdapter implements CommunicationAdapterInterface {
 
@@ -165,4 +165,14 @@ public class TCPConnectionAdapter implements CommunicationAdapterInterface {
 	public int read() throws IOException {
 		return getInputStream().read();
 	}
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public String getURL() {
+        return null;
+    }
 }

@@ -67,7 +67,7 @@ public class StartupConnectionService {
 					public void ready() {
 						tellNlog("Conecting to " + DUBwisePrefs.getStartConnBluetootName() + " - " + DUBwisePrefs.getStartConnBluetootMAC() , context);
 						MKProvider.getMK().setCommunicationAdapter(new BluetoothCommunicationAdapter(DUBwisePrefs.getStartConnBluetootMAC()));
-						}
+					}
 				}
 					
 				tellNlog( "switching bluetooth ON", context);
@@ -75,8 +75,9 @@ public class StartupConnectionService {
 				break;
 				
 			case DUBwisePrefs.STARTCONNTYPE_SIMULATION:
-				tellNlog( "connecting to fake", context);
+				tellNlog( "connecting to simulation", context);
 				MKProvider.getMK().setCommunicationAdapter(new SimulatedMKCommunicationAdapter());
+				//ConnectionHandler.setCommunicationAdapter(new SimulatedMKCommunicationAdapter());
 				break;
 					
 			default:

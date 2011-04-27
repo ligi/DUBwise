@@ -38,8 +38,11 @@ public class CockpitActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		MKProvider.getMK().user_intent=MKCommunicator.USER_INTENT_RAWDEBUG;	
-		
+		if (MKProvider.getMK().is_navi())
+		    MKProvider.getMK().user_intent=MKCommunicator.USER_INTENT_3DDATA;
+		else
+		    MKProvider.getMK().user_intent=MKCommunicator.USER_INTENT_RAWDEBUG;
+
 		ActivityCalls.beforeContent(this);
 		
 		setContentView(new CockpitView(this));

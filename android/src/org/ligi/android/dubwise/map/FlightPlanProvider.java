@@ -18,12 +18,10 @@
 
 package org.ligi.android.dubwise.map;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -46,7 +44,7 @@ import com.google.android.maps.GeoPoint;
 public class FlightPlanProvider {
 	
 	private static Vector <AndroidWayPoint> pnt_fp_vector=null;
-	private float length;
+	
 	
 	public static Vector<AndroidWayPoint> getWPList() {
 		if (pnt_fp_vector==null)
@@ -114,6 +112,7 @@ public class FlightPlanProvider {
 		 try {
 			 DocumentBuilder builder = factory.newDocumentBuilder();
 			 Document dom = builder.parse(gpx);
+			 
 			 Element root = dom.getDocumentElement();
 			 NodeList items = root.getElementsByTagName("trkpt");
 			 for (int i=0;i<items.getLength();i++){

@@ -29,17 +29,14 @@ package org.ligi.ufo.simulation;
  */
 public class SimpleAttitudeProvider implements AttitudeProvider {
 
-	@Override
 	public int getNick() {
 		return 0;
 	}
 
-	@Override
 	public int getRoll() {
 		return 0;
 	}
 
-	@Override
 	public int getYaw() {
 		return 0;
 	}

@@ -21,6 +21,7 @@
 package org.ligi.android.dubwise.conn;
 
 import org.ligi.android.dubwise.conn.bluetooth.BluetoothDeviceListActivity;
+
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.android.dubwise.helper.DUBwiseBaseListActivity;
 import org.ligi.android.dubwise.simulation.AndroidAttitudeProvider;

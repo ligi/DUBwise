@@ -105,7 +105,6 @@ public class CanvasButton {
 				highlight=false;				
 			}
 				
-			
 			return true;
 		}
 		highlight=false;

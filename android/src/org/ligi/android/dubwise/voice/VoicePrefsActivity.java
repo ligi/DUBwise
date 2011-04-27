@@ -21,7 +21,7 @@
 package org.ligi.android.dubwise.voice;
 
 
-import org.ligi.android.dubwise.TimePreference;
+import org.ligi.android.common.preferences.TimePreference;
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.tracedroid.logging.Log;
 import android.content.Intent;
@@ -46,7 +46,6 @@ public class VoicePrefsActivity extends PreferenceActivity implements OnPreferen
 		ActivityCalls.beforeContent(this);		
 		super.onCreate(savedInstanceState);
         setPreferenceScreen(createPreferenceHierarchy());
-		
     }
 	
 	@Override 
@@ -61,7 +60,6 @@ public class VoicePrefsActivity extends PreferenceActivity implements OnPreferen
     private PreferenceScreen createPreferenceHierarchy() {
         // Root
         PreferenceScreen root = getPreferenceManager().createPreferenceScreen(this);
-        
         root.setPersistent(true);
 
         // general settings
@@ -76,7 +74,6 @@ public class VoicePrefsActivity extends PreferenceActivity implements OnPreferen
         voiceEnabledCheckBoxPref.setSummary("DUBwise should speak at all?");
         voiceEnabledCheckBoxPref.setOnPreferenceChangeListener(this);
        	voceGeneralPrefCat.addPreference(voiceEnabledCheckBoxPref);
-
        	
        	
        	pause_pref=new TimePreference(this,null);
@@ -119,7 +116,6 @@ public class VoicePrefsActivity extends PreferenceActivity implements OnPreferen
         valuesToSpeakPrefCat.setTitle("values to speak out");
         root.addPreference( valuesToSpeakPrefCat);
 
-        
         //valuesToSpeakPrefCat.addPreference(this.addPreferencesFromResource(R.xml.map_ufo_radius));
         CheckBoxPreference connectionInfoCheckBoxPref = new CheckBoxPreference(this);
         connectionInfoCheckBoxPref.setKey(VoicePrefs.KEY_DO_VOICE_CONNINFO);

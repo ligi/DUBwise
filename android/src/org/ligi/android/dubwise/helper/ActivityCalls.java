@@ -27,9 +27,6 @@ import org.ligi.android.dubwise.blackbox.BlackBox;
 import org.ligi.android.dubwise.blackbox.BlackBoxPrefs;
 import org.ligi.android.dubwise.conn.bluetooth.BluetoothMaster;
 import org.ligi.android.dubwise.map.MapPrefs;
-import org.ligi.android.dubwise.uavtalk.DUBwiseFlightTelemetry;
-import org.ligi.android.dubwise.uavtalk.MKCommunicator2UAVTalk;
-import org.ligi.android.dubwise.uavtalk.UAVTalkPrefs;
 import org.ligi.android.dubwise.voice.StatusVoice;
 import org.ligi.android.dubwise.voice.VoicePrefs;
 import org.ligi.tracedroid.logging.Log;
@@ -67,16 +64,11 @@ public class ActivityCalls {
 			BluetoothMaster.init(activity);
 			VoicePrefs.init(activity);
 			MapPrefs.init(activity);
-			UAVTalkPrefs.init(activity);
 			StatusVoice.getInstance().init(activity);
 			BlackBoxPrefs.init(activity);
-			MKCommunicator2UAVTalk.init();
 
 			if (VoicePrefs.isVoiceEnabled())
 				DUBwiseBackgroundHandler.getInstance().addAndStartTask(StatusVoice.getInstance());
-
-			if (UAVTalkPrefs.isFlightTelemetryEnabled())
-				DUBwiseBackgroundHandler.getInstance().addAndStartTask(DUBwiseFlightTelemetry.getTaskInstance());
 
 			// start the default connection
 			StartupConnectionService.start(activity);
@@ -89,7 +81,7 @@ public class ActivityCalls {
 	}
 	
 	public static void onDestroy(Activity activity) {
-		if(mWakeLock!=null)
+		if ((mWakeLock!=null)&&(mWakeLock.isHeld()))
 			mWakeLock.release();
 	}
 	
