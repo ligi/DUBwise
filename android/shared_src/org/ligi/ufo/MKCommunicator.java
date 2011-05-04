@@ -309,7 +309,7 @@ public class MKCommunicator
     	if(comm_adapter==null)  {
     		log("trying to connect without communication adapter");
     		return; // makes no sense without a communication adapter
-    		}
+    	}
     	
     	comm_adapter.connect();
     	log("trying to connect to" + mk_url);
