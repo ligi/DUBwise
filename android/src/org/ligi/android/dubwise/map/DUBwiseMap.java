@@ -23,7 +23,6 @@ package org.ligi.android.dubwise.map;
 import org.ligi.android.dubwise.R;
 import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.android.dubwise.helper.ActivityCalls;
-import org.ligi.android.dubwise.map.dialogs.AddWPDialog;
 import org.ligi.android.dubwise.map.dialogs.ZoomToDialog;
 import org.ligi.tracedroid.Log;
 import org.ligi.ufo.MKCommunicator;
