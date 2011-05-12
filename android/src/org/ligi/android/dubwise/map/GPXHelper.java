@@ -32,13 +32,13 @@ public class GPXHelper {
 				f=new File(MapPrefs.getGPXPath() + "/"+value+".gpx");
 				f.createNewFile();
 				
-				FileWriter sgf_writer = new FileWriter(f);
+				FileWriter gpx_writer = new FileWriter(f);
 				
-				BufferedWriter out = new BufferedWriter(sgf_writer);
+				BufferedWriter out = new BufferedWriter(gpx_writer);
 				
 				out.write(FlightPlanProvider.toGPX());
 				out.close();
-				sgf_writer.close();
+				gpx_writer.close();
 			} catch (IOException e) {
 				Log.i(""+e);
 			}
