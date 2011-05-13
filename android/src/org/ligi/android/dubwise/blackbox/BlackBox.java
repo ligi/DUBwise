@@ -50,6 +50,9 @@ public class BlackBox implements DUBwiseBackgroundTask {
 		return singleton;
 	}
 	
+	/**
+	 * @return the filename where the recent flight is recorded
+	 */
 	public String getActFileName() {
 		return act_fname;
 	}
