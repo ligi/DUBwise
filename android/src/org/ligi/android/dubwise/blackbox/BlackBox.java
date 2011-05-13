@@ -40,8 +40,8 @@ import org.ligi.ufo.MKCommunicator;
 public class BlackBox implements DUBwiseBackgroundTask {
 
 	private static BlackBox singleton=null;
-	public String act_fname="none";
-	public int act_records=0;
+	private String act_fname="none";
+	private int act_records=0;
 	private boolean running=false;
 	
 	public static BlackBox getInstance() {
@@ -55,6 +55,13 @@ public class BlackBox implements DUBwiseBackgroundTask {
 	 */
 	public String getActFileName() {
 		return act_fname;
+	}
+	
+	/**
+	 * @return how many records are recorded from the recent flight
+	 */
+	public int getActRecords() {
+		return act_records;
 	}
 
 	@Override

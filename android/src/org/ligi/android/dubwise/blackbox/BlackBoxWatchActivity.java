@@ -17,9 +17,9 @@ public class BlackBoxWatchActivity extends RefreshingStringListActivity {
 					return "not flying";
 				return "recording";
 			case 1:
-				return "fname:" + BlackBox.getInstance().act_fname;
+				return "fname:" + BlackBox.getInstance().getActFileName();
 			case 2:
-				return "record:" + BlackBox.getInstance().act_records;
+				return "record:" + BlackBox.getInstance().getActRecords();
 		}
 		return null;
 	}
