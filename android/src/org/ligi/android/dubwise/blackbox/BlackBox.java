@@ -114,7 +114,7 @@ public class BlackBox implements DUBwiseBackgroundTask {
 			}
 		
 			try {
-				// wait a long time when blackbox iss disabled - a short time when enabled
+				// wait a long time when BlackBox is disabled - a short time when enabled
 				Thread.sleep(BlackBoxPrefs.isBlackBoxEnabled()?100:1000);
 			} catch (InterruptedException e) {}
 		}
