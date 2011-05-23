@@ -23,7 +23,7 @@ import it.gerdavax.easybluetooth.LocalDevice;
 import it.gerdavax.easybluetooth.ReadyListener;
 
 import org.ligi.android.dubwise.conn.MKProvider;
-import org.ligi.android.dubwise.conn.bluetooth.BluetoothCommunicationAdapter;
+import org.ligi.android.io.BluetoothCommunicationAdapter;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.simulation.SimulatedMKCommunicationAdapter;
 
@@ -31,9 +31,9 @@ import android.content.Context;
 import android.widget.Toast;
 
 /**
- * Class to initiate a connection on startup
- *
- * @author ligi
+ * Class to fire up a connection on startup
+ * 
+ * @author ligi ( aka: Marcus Bueschleb | mail: ligi at ligi dot de )
  *
  */
 public class StartupConnectionService {
