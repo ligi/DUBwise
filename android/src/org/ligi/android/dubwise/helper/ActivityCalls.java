@@ -61,7 +61,7 @@ public class ActivityCalls {
 		
 		// do only once
 		if (!did_init){
-			BluetoothMaster.init(activity);
+			//BluetoothMaster.init(activity);
 			VoicePrefs.init(activity);
 			MapPrefs.init(activity);
 			StatusVoice.getInstance().init(activity);
