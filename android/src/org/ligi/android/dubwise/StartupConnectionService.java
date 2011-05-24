@@ -27,11 +27,15 @@ import org.ligi.android.io.BluetoothCommunicationAdapter;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.simulation.SimulatedMKCommunicationAdapter;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.Toast;
 
 /**
  * Class to fire up a connection on startup
+ * 
+ * TODO Rename to AutoConnectionActivity
  * 
  * @author ligi ( aka: Marcus Bueschleb | mail: ligi at ligi dot de )
  *
@@ -47,6 +51,7 @@ public class StartupConnectionService {
 	public static void tellNlog(String msg,Context ctx) {
 		Toast.makeText(ctx, msg, Toast.LENGTH_LONG).show();
 		Log.i(msg);
+		
 	}
 
 	public static void start(Context context) {
@@ -57,8 +62,21 @@ public class StartupConnectionService {
 		
 		switch(DUBwisePrefs.getStartConnType()) {
 			case DUBwisePrefs.STARTCONNTYPE_BLUETOOTH:
+				/*BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+				if (mBluetoothAdapter == null) {
+					tellNlog("#Fail: Bluetooth is not supported by device" , context);
+				    return;
+				}
+				mBluetoothAdapter.enable()
+				if (!mBluetoothAdapter.isEnabled()) {
+				    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+				    startActivityForResult(enableBtIntent, 1);
+				    context.startActivityForResult();
+				}
+				*/
+				
 				class myReadyListener extends ReadyListener {
-
+					
 					Context context;
 					public myReadyListener(Context context) {
 						this.context=context;
