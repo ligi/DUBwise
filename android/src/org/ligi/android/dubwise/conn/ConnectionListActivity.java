@@ -20,6 +20,8 @@
 
 package org.ligi.android.dubwise.conn;
 
+import org.ligi.android.common.dialogs.DialogDiscarder;
+import org.ligi.android.common.intents.IntentHelper;
 import org.ligi.android.dubwise.conn.bluetooth.BluetoothDeviceListActivity;
 
 import org.ligi.android.dubwise.helper.ActivityCalls;
@@ -27,6 +29,8 @@ import org.ligi.android.dubwise.helper.DUBwiseBaseListActivity;
 import org.ligi.android.dubwise.simulation.AndroidAttitudeProvider;
 import org.ligi.ufo.simulation.SimulatedMKCommunicationAdapter;
 
+import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -46,6 +50,7 @@ public class ConnectionListActivity extends DUBwiseBaseListActivity {
 	public final static int ACTIONID_SWITCH = 4;
 	public final static int ACTIONID_CONDETAILS=5;
 	public final static int ACTIONID_RECONNECT=6;
+	private static final int INTENT_REQUEST_CODE_BT_CONN = 0;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -73,7 +78,15 @@ public class ConnectionListActivity extends DUBwiseBaseListActivity {
                 	finish();
                     break;
                 case ACTIONID_BT:
-                    startActivity( new Intent( this, BluetoothDeviceListActivity.class ) );
+                	if (BluetoothAdapter.getDefaultAdapter()==null)
+                		new AlertDialog.Builder(this)
+                		.setMessage("Bluetooth is not available on this Device!")
+                		.setIcon(android.R.drawable.ic_dialog_alert)
+                		.setPositiveButton("OK", new DialogDiscarder())
+                		.setTitle("BT Error")
+                		.show();
+                	else
+                		IntentHelper.action4result(this,"PICK_BLUETOOTH_DEVICE",INTENT_REQUEST_CODE_BT_CONN);
                     break;
                 case ACTIONID_TCP:
                     startActivity( new Intent( this, ConnectViaTCPActivity.class ) );
