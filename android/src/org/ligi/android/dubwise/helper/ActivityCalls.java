@@ -25,7 +25,6 @@ import org.ligi.android.dubwise.R;
 import org.ligi.android.dubwise.StartupConnectionService;
 import org.ligi.android.dubwise.blackbox.BlackBox;
 import org.ligi.android.dubwise.blackbox.BlackBoxPrefs;
-import org.ligi.android.dubwise.conn.bluetooth.BluetoothMaster;
 import org.ligi.android.dubwise.map.MapPrefs;
 import org.ligi.android.dubwise.voice.StatusVoice;
 import org.ligi.android.dubwise.voice.VoicePrefs;

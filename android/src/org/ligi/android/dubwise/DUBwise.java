@@ -25,7 +25,6 @@ import java.util.Vector;
 import org.ligi.android.dubwise.cockpit.CockpitActivity;
 import org.ligi.android.dubwise.conn.ConnectionListActivity;
 import org.ligi.android.dubwise.conn.MKProvider;
-import org.ligi.android.dubwise.conn.bluetooth.BluetoothMaster;
 import org.ligi.android.dubwise.flightsettings.FlightSettingsActivity;
 import org.ligi.android.dubwise.graph.GraphActivity;
 import org.ligi.android.dubwise.helper.ActivityCalls;
@@ -212,7 +211,7 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 				MKProvider.getMK().close_connections(true);
 				MKProvider.getMK().stop();
 				DUBwiseBackgroundHandler.getInstance().stopAll();
-				BluetoothMaster.shutdownBluetooth();
+				//BluetoothMaster.shutdownBluetooth();
 				finish();
 			}
 		});

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest package="org.ligi.android.dubwise"
 
-      xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="0.90h" android:versionCode="31">
+      xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="0.90i" android:versionCode="32">
 
 	<uses-sdk android:targetSdkVersion="3" android:minSdkVersion="4"></uses-sdk>
 	

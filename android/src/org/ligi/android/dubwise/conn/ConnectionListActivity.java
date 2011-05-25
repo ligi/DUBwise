@@ -22,13 +22,15 @@ package org.ligi.android.dubwise.conn;
 
 import org.ligi.android.common.dialogs.DialogDiscarder;
 import org.ligi.android.common.intents.IntentHelper;
-import org.ligi.android.dubwise.conn.bluetooth.BluetoothDeviceListActivity;
 
 import org.ligi.android.dubwise.helper.ActivityCalls;
 import org.ligi.android.dubwise.helper.DUBwiseBaseListActivity;
 import org.ligi.android.dubwise.simulation.AndroidAttitudeProvider;
+import org.ligi.android.io.BluetoothCommunicationAdapter;
+import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.simulation.SimulatedMKCommunicationAdapter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
@@ -117,4 +119,34 @@ public class ConnectionListActivity extends DUBwiseBaseListActivity {
 		ActivityCalls.onDestroy(this);
 		super.onDestroy();
 	}
+	
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+        case INTENT_REQUEST_CODE_BT_CONN:
+            if (resultCode==Activity.RESULT_OK) {
+                String addr=data.getStringExtra("ADDR");
+                String friendly_name=data.getStringExtra("FRIENDLYNAME");
+                Log.i("connecting to bt addr:" + addr);
+                
+                
+                BluetoothCommunicationAdapter bt_com=new BluetoothCommunicationAdapter(addr);
+				MKProvider.getMK().setCommunicationAdapter(bt_com);
+				
+				Log.i( "connecting to " + friendly_name + "("+addr+")" );
+				MKProvider.getMK().connect_to("btspp://"+addr,friendly_name);
+				Log.i( "finishing BluetoothDeviceListActivity");
+				
+				
+				ConnectionStatusAlertDialog.show(this);             }
+            break;
+
+        default:	
+            Log.w("unknown code in onActivityResult code="+requestCode);
+        }
+
+    }
+
+
 }
