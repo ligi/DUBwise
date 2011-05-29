@@ -28,7 +28,6 @@ import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.android.dubwise.flightsettings.FlightSettingsActivity;
 import org.ligi.android.dubwise.graph.GraphActivity;
 import org.ligi.android.dubwise.helper.ActivityCalls;
-import org.ligi.android.dubwise.helper.DUBwiseBackgroundHandler;
 import org.ligi.android.dubwise.helper.IconicAdapter;
 import org.ligi.android.dubwise.helper.IconicMenuItem;
 import org.ligi.android.dubwise.lcd.LCDActivity;
