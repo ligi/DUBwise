@@ -195,9 +195,7 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 		yes_btn.setOnClickListener( new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				MKProvider.getMK().close_connections(true);
-				MKProvider.getMK().stop();
-				DUBwiseBackgroundHandler.getInstance().stopAll();
+				ActivityCalls.shutdownDUBwise();
 				finish();
 			}
 		});
@@ -209,9 +207,7 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 		rmbt_btn.setOnClickListener( new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				MKProvider.getMK().close_connections(true);
-				MKProvider.getMK().stop();
-				DUBwiseBackgroundHandler.getInstance().stopAll();
+				ActivityCalls.shutdownDUBwise();
 				BluetoothAdapter.getDefaultAdapter().disable();
 				finish();
 			}

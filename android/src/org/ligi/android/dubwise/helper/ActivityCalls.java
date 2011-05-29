@@ -25,6 +25,7 @@ import org.ligi.android.dubwise.R;
 import org.ligi.android.dubwise.StartupConnectionService;
 import org.ligi.android.dubwise.blackbox.BlackBox;
 import org.ligi.android.dubwise.blackbox.BlackBoxPrefs;
+import org.ligi.android.dubwise.conn.MKProvider;
 import org.ligi.android.dubwise.map.MapPrefs;
 import org.ligi.android.dubwise.voice.StatusVoice;
 import org.ligi.android.dubwise.voice.VoicePrefs;
@@ -42,7 +43,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class ActivityCalls {
-
+	
 	private static WakeLock mWakeLock;
 	public static boolean did_init=false;
 	
@@ -140,5 +141,12 @@ public class ActivityCalls {
 
 	public static SharedPreferences getSharedPreferences(Activity activity) {
 		return activity.getSharedPreferences("DUBwise", 0);
+	}
+	
+	public static void shutdownDUBwise() {
+		MKProvider.getMK().close_connections(true);
+		MKProvider.getMK().stop();
+		DUBwiseBackgroundHandler.getInstance().stopAll();
+		did_init=false;
 	}
 }
