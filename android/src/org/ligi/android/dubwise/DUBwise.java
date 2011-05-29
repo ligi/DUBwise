@@ -43,6 +43,7 @@ import org.ligi.ufo.logging.NotLogger;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -211,7 +212,7 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 				MKProvider.getMK().close_connections(true);
 				MKProvider.getMK().stop();
 				DUBwiseBackgroundHandler.getInstance().stopAll();
-				//BluetoothMaster.shutdownBluetooth();
+				BluetoothAdapter.getDefaultAdapter().disable();
 				finish();
 			}
 		});
