@@ -25,16 +25,23 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.graphics.*;
+import android.graphics.drawable.Drawable;
 
 import org.ligi.android.dubwise.DUBwisePrefs;
 import org.ligi.android.dubwise.conn.MKProvider;
+import org.ligi.dubwise.R;
+
 import org.ligi.ufo.DUBwiseDefinitions;
 import org.ligi.ufo.DUBwiseHelper;
 import org.ligi.ufo.VesselData;
 
 public class CockpitView extends View implements DUBwiseDefinitions,OnTouchListener
 {
-	private Paint mPaint = new Paint();
+	
+	private Drawable ground_drawable;
+    private Drawable sky_drawable;
+    private Drawable nose_drawable;
+    
 	private Paint altitudeTextPaint = new Paint();
 	
 	public CockpitView(Activity context) {
@@ -42,6 +49,10 @@ public class CockpitView extends View implements DUBwiseDefinitions,OnTouchListe
 
 		// needed to get Key Events
 		setFocusable(true);
+
+        ground_drawable=getResources().getDrawable(R.drawable.horizon_earth);
+        sky_drawable=getResources().getDrawable(R.drawable.horizon_sky);
+        nose_drawable=getResources().getDrawable(R.drawable.horizon_nose);
 
 		altitudeTextPaint.setColor(Color.WHITE);
 		altitudeTextPaint.setFakeBoldText(true);
@@ -55,43 +66,29 @@ public class CockpitView extends View implements DUBwiseDefinitions,OnTouchListe
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		Paint paint = mPaint;
-		paint.setAntiAlias(true);
-
-		paint.setARGB(255, 255, 0, 0);
-
-		float angle_roll=0;
-	
-		angle_roll=VesselData.attitude.getRoll()/10; // 0.1Deg int to float
+		
+		float angle_roll=VesselData.attitude.getRoll()/10; // 0.1Deg int to float
 		
 		if (DUBwisePrefs.isArtificialHorizonInverted())
 			angle_roll*=-1;
 		
 		canvas.rotate(angle_roll,getWidth()/2,getHeight()/2);
         
-        paint.setARGB(255,177,129,0);
-        // roll rect                                                                                                                       
-        //canvas.drawRect(-getWidth(),getHeight()/2,2*getWidth(),3*getHeight()/2,paint);
-        canvas.drawRect(-getWidth(),getHeight()/2,2*getWidth(),getHeight()*2,paint);
+        // roll rect       
+        sky_drawable.setBounds(-getWidth(),-getHeight()*2,2*getWidth(),getHeight()/2);
+        sky_drawable.draw(canvas);
+    
+        ground_drawable.setBounds(-getWidth(),getHeight()/2,2*getWidth(),(int)(getHeight()*1.3));
+        ground_drawable.draw(canvas);
 
-        int bar_height=20;
-        // nick rect                                                                                                                       
-        paint.setARGB(200,0,200,0);
-
-        int nick_bar_move=VesselData.attitude.getNick()*getHeight()/(9*this.getHeight());
         
-        canvas.drawRoundRect(new RectF(getWidth()/3,getHeight()/2 -bar_height/2 + nick_bar_move ,2*getWidth()/3, getHeight()/2+ nick_bar_move+bar_height),5,5,paint);
-
+        // pitch rect                                                                                                                       
+        int bar_height=20;
+        int nick_bar_move=VesselData.attitude.getNick()*getHeight()/(9*this.getHeight());
+        nose_drawable.setBounds(getWidth()/3,getHeight()/2 -bar_height/2 + nick_bar_move ,2*getWidth()/3, getHeight()/2+ nick_bar_move+bar_height);
+        nose_drawable.draw(canvas);
+    
         canvas.restore();
-
-        //  paint.setARGB(state_intro_frame,0,0,255);
-        //  canvas.drawRoundRect(new RectF(getWidth()/2-getWidth()/8,getHeight()/2-getWidth()/8,getWidth()/2+getWidth()/8,getH\
-        //	eight()/2+getWidth()/8),5,5,paint);                                                                                                                
-
-        //canvas.drawRoundRect(new RectF(flight_x,flight_y,flight_x+getWidth()/8,flight_y+getWidth()/8),5,5,paint);
-        //paint.setARGB(255,0,0,0);
-
-        // canvas.restore();
 
         float act_text_pos=this.getHeight();
         
@@ -121,13 +118,6 @@ public class CockpitView extends View implements DUBwiseDefinitions,OnTouchListe
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		
-		/*	if(event.getHistorySize()>0) 
-		{
-			alt_rect.left+=event.getHistoricalX(event.getHistorySize()-1)-event.getX();
-			alt_rect.top+=event.getHistoricalY(event.getHistorySize()-1)-event.getY();
-		}
-		*/
 		return false;
 	}
 }
