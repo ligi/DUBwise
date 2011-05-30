@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest package="org.ligi.android.dubwise"
 
-      xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="0.90i" android:versionCode="32">
+      xmlns:android="http://schemas.android.com/apk/res/android" 
+      android:versionName="0.90k" android:versionCode="33">
 
 	<uses-sdk android:targetSdkVersion="3" android:minSdkVersion="4"></uses-sdk>
 	
@@ -94,9 +95,6 @@
 	<activity android:name="ControlPanelActivity"></activity>
 	<activity android:name="VoiceControlActivity"></activity>
 	<activity android:name="FlashFirmwareActivity"></activity>
-	
-	
-	
 </application>
 
 </manifest> 
