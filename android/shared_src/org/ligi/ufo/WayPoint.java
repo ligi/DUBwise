@@ -21,11 +21,20 @@ package org.ligi.ufo;
  */
 public class WayPoint {
 
-	private int hold_time=23;        // in s
-	private int tolerance_radius=5;  // in m
-	private int channel_event=200;   // 
-	private int lat;                 // in deg*10^-7
-	private int lon;                 // in deg*10^-7
+	/** time the MK should hold the position in seconds **/
+	private int hold_time=23;        
+	
+	/** the radius around the waypoint in meters in which the point is seen as reached **/
+	private int tolerance_radius=5;  
+	
+	/** TODO make some doc for this value **/
+	private int channel_event=200;    
+	
+	/** the latitude in deg*10^-7 **/
+	private int lat;                 
+	
+	/** the longitude in deg*10^-7 **/
+	private int lon; 
 	
 	public WayPoint(int lat,int lon) {
 		this.setLat(lat);

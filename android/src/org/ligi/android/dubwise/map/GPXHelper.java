@@ -4,9 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import org.ligi.tracedroid.logging.Log;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,7 +17,7 @@ public class GPXHelper {
 		input.setText("default");
 
 		new AlertDialog.Builder(ctx).setTitle("Save GPX").setMessage("How should the file I will write to " +MapPrefs.getGPXPath() + " be named?").setView(input)
-		.setPositiveButton("OK" , new DialogInterface.OnClickListener() {
+		.setPositiveButton(android.R.string.ok , new DialogInterface.OnClickListener() {
 		public void onClick(DialogInterface dialog, int whichButton) {
 			String value = input.getText().toString(); 
 				
@@ -32,19 +30,19 @@ public class GPXHelper {
 				f=new File(MapPrefs.getGPXPath() + "/"+value+".gpx");
 				f.createNewFile();
 				
-				FileWriter sgf_writer = new FileWriter(f);
+				FileWriter gpx_writer = new FileWriter(f);
 				
-				BufferedWriter out = new BufferedWriter(sgf_writer);
+				BufferedWriter out = new BufferedWriter(gpx_writer);
 				
 				out.write(FlightPlanProvider.toGPX());
 				out.close();
-				sgf_writer.close();
+				gpx_writer.close();
 			} catch (IOException e) {
 				Log.i(""+e);
 			}
 
 		}
-		}).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+		}).setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
 		public void onClick(DialogInterface dialog, int whichButton) {
 		// Do nothing.
 		}

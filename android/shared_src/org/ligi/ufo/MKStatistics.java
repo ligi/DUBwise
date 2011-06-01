@@ -40,6 +40,7 @@ public class MKStatistics {
     public int params_data_count=0;
     public int navi_data_count=0;
     public int stick_data_count=0;
+    public int threeD_data_count=0;
     public int external_control_confirm_frame_count=0;
 
     public int debug_data_request_count=0;
@@ -135,6 +136,7 @@ public class MKStatistics {
 		stick_data_request_count=0;
 		motortest_request_count=0; //
 		follow_me_request_count=0;
+		threeD_data_count=0;
     }
     
 }

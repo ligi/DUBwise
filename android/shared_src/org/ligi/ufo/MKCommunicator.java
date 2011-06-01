@@ -825,6 +825,7 @@ public class MKCommunicator
 		    	VesselData.attitude.setNick(MKHelper.parse_signed_int_2(decoded_data[0],decoded_data[1]));
 		    	VesselData.attitude.setRoll(MKHelper.parse_signed_int_2(decoded_data[2],decoded_data[3]));
 		    	VesselData.attitude.setYaw(MKHelper.parse_signed_int_2(decoded_data[4],decoded_data[5]));
+		    	stats.threeD_data_count++;
 		    	break;
 		    	
 		    case 'P':

@@ -4,7 +4,6 @@
 	<classpathentry kind="src" path="shared_src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="lib" path="lib/android_bluetooth2.0.jar"/>
 	<classpathentry kind="lib" path="lib/tracedroid.jar"/>
 	<classpathentry kind="lib" path="lib/ligi_java_commons.jar"/>
 	<classpathentry kind="src" path="LigiAndroidCommons_src"/>

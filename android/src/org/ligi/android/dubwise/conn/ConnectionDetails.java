@@ -57,8 +57,10 @@ public class ConnectionDetails extends RefreshingStringListActivity {
         	case 12:            		
         		return "Params: " + mk.stats.params_data_count +"/" + mk.stats.params_data_request_count;
         	case 13:
-        		return "Other: " + mk.stats.other_data_count;
+        		return "3D Data: " + mk.stats.threeD_data_count;
         	case 14:
+        		return "Other: " + mk.stats.other_data_count;
+        	case 15:
         		if (mk.getCommunicationAdapter() instanceof BluetoothCommunicationAdapter)
         			return "BTRssi" + ((BluetoothCommunicationAdapter)(mk.getCommunicationAdapter())).getRSSI();
         		else

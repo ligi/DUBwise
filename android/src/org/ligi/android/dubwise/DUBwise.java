@@ -25,11 +25,9 @@ import java.util.Vector;
 import org.ligi.android.dubwise.cockpit.CockpitActivity;
 import org.ligi.android.dubwise.conn.ConnectionListActivity;
 import org.ligi.android.dubwise.conn.MKProvider;
-import org.ligi.android.dubwise.conn.bluetooth.BluetoothMaster;
 import org.ligi.android.dubwise.flightsettings.FlightSettingsActivity;
 import org.ligi.android.dubwise.graph.GraphActivity;
 import org.ligi.android.dubwise.helper.ActivityCalls;
-import org.ligi.android.dubwise.helper.DUBwiseBackgroundHandler;
 import org.ligi.android.dubwise.helper.IconicAdapter;
 import org.ligi.android.dubwise.helper.IconicMenuItem;
 import org.ligi.android.dubwise.lcd.LCDActivity;
@@ -44,6 +42,7 @@ import org.ligi.ufo.logging.NotLogger;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -195,9 +194,7 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 		yes_btn.setOnClickListener( new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				MKProvider.getMK().close_connections(true);
-				MKProvider.getMK().stop();
-				DUBwiseBackgroundHandler.getInstance().stopAll();
+				ActivityCalls.shutdownDUBwise();
 				finish();
 			}
 		});
@@ -209,10 +206,8 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 		rmbt_btn.setOnClickListener( new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				MKProvider.getMK().close_connections(true);
-				MKProvider.getMK().stop();
-				DUBwiseBackgroundHandler.getInstance().stopAll();
-				BluetoothMaster.shutdownBluetooth();
+				ActivityCalls.shutdownDUBwise();
+				BluetoothAdapter.getDefaultAdapter().disable();
 				finish();
 			}
 		});
