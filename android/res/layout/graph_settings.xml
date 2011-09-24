@@ -18,9 +18,10 @@
  *  are not allowed to use this Project!
  *
 ********************************************************************/
--->
 
-<ScrollView android:id="@+id/ScrollView01" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"><LinearLayout android:id="@+id/LinearLayout01" android:layout_height="fill_parent" android:orientation="vertical" android:layout_width="fill_parent"><CheckBox android:id="@+id/GridCheckBox" android:layout_height="wrap_content" android:text="@string/Grid" android:layout_width="fill_parent" android:editable="false"></CheckBox>
+-->
+<LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:layout_width="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+<ScrollView android:id="@+id/ScrollView01" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"><LinearLayout android:id="@+id/LinearLayout01" android:layout_height="fill_parent" android:orientation="vertical" android:layout_width="fill_parent"><CheckBox android:id="@+id/GridCheckBox" android:layout_height="wrap_content" android:text="grid" android:layout_width="fill_parent" android:editable="false"></CheckBox>
 <CheckBox android:id="@+id/LegendCheckBox" android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="@string/Legend"></CheckBox><LinearLayout android:id="@+id/LinearLayout03" android:layout_height="wrap_content" android:layout_width="fill_parent"><TextView android:id="@+id/TextView02" android:layout_width="wrap_content" android:text="@string/Interval" android:layout_height="fill_parent"></TextView><SeekBar android:id="@+id/SeekBar01" android:layout_height="wrap_content" android:max="100" android:layout_width="fill_parent"></SeekBar>
 </LinearLayout>
 
@@ -28,3 +29,5 @@
 
 
 </ScrollView>
+
+</LinearLayout>

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="org.ligi.android.dubwise"
-
-      xmlns:android="http://schemas.android.com/apk/res/android" 
-      android:versionName="0.90k" android:versionCode="33">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" 
+      android:versionName="0.90k" android:versionCode="33" package="org.ligi.android.dubwise_mk">
 
 	<uses-sdk android:targetSdkVersion="3" android:minSdkVersion="4"></uses-sdk>
 	
@@ -43,43 +41,35 @@
 	<activity android:name="AnalogValuesActivity"></activity>
 	<activity android:name="SettingsListActivity"></activity>
 	
-	<activity android:name="org.ligi.android.dubwise.cockpit.CockpitActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.cockpit.CockpitPrefsActivity"></activity>
+	<activity android:name=".cockpit.CockpitActivity"></activity>
+	<activity android:name=".cockpit.CockpitPrefsActivity"></activity>
 
-	<activity android:name="org.ligi.android.dubwise.graph.GraphSettingsActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.graph.GraphActivity"></activity>
+	<activity android:name=".graph.GraphSettingsActivity"></activity>
+	<activity android:name=".graph.GraphActivity"></activity>
 	
-	<activity android:name="org.ligi.android.dubwise.conn.ConnectionListActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.conn.ConnectViaTCPActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.conn.bluetooth.BluetoothDeviceListActivity"></activity>
+	<activity android:name=".conn.ConnectionListActivity"></activity>
+	<activity android:name=".conn.ConnectViaTCPActivity"></activity>
+	<activity android:name=".conn.bluetooth.BluetoothDeviceListActivity"></activity>
 	
-	<activity android:name="org.ligi.android.dubwise.piloting.MultiTouchPilotingActivity"  android:screenOrientation="landscape"></activity>
-	<activity android:name="org.ligi.android.dubwise.piloting.OrientationPilotingActivity"  android:screenOrientation="landscape"></activity>
-	<activity android:name="org.ligi.android.dubwise.piloting.PilotingListActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.piloting.PilotingPrefsActivity"></activity>
+	<activity android:name=".piloting.MultiTouchPilotingActivity"  android:screenOrientation="landscape"></activity>
+	<activity android:name=".piloting.OrientationPilotingActivity"  android:screenOrientation="landscape"></activity>
+	<activity android:name=".piloting.PilotingListActivity"></activity>
+	<activity android:name=".piloting.PilotingPrefsActivity"></activity>
 	
 	
-	<activity android:name="org.ligi.android.dubwise.flightsettings.FlightSettingsTopicListActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.flightsettings.FlightSettingsTopicEditActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.flightsettings.FlightSettingsActivity"></activity>
+	<activity android:name=".flightsettings.FlightSettingsTopicListActivity"></activity>
+	<activity android:name=".flightsettings.FlightSettingsTopicEditActivity"></activity>
+	<activity android:name=".flightsettings.FlightSettingsActivity"></activity>
 	
-	<activity android:name="org.ligi.android.dubwise.lcd.LCDActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.map.DUBwiseMap"></activity>
-	<activity android:name="org.ligi.android.dubwise.map.MapSettingsActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.map.MapPrefsActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.map.GPXListActivity"></activity>
+	<activity android:name=".lcd.LCDActivity"></activity>
+	<activity android:name=".dubwise.map.DUBwiseMap"></activity>
+	<activity android:name=".dubwise.map.MapSettingsActivity"></activity>
+	<activity android:name=".dubwise.map.MapPrefsActivity"></activity>
+	<activity android:name=".dubwise.map.GPXListActivity"></activity>
 	
-	<activity android:name="org.ligi.android.dubwise.voice.VoicePrefsActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.voice.VoiceDebugActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.map.ShowFlightPlanActivity"></activity>
-	
-	<activity android:name="uavtalk.UAVObjectsListActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.uavtalk.UAVObjectFieldListActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.uavtalk.UAVObjectFieldArrayListActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.uavtalk.UAVObjectFieldEditActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.uavtalk.UAVTalkPrefsActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.uavtalk.DUBwiseFlightTelemetryStatusActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.uavtalk.DUBwiseFlightTelemetryStatusActivity"></activity>
+	<activity android:name=".dubwise.voice.VoicePrefsActivity"></activity>
+	<activity android:name=".dubwise.voice.VoiceDebugActivity"></activity>
+	<activity android:name=".dubwise.map.ShowFlightPlanActivity"></activity>
 	
 	<activity android:name="org.ligi.android.dubwise.blackbox.BlackBoxPrefsActivity"></activity>
 	<activity android:name="org.ligi.android.dubwise.blackbox.BlackBoxWatchActivity"></activity>
@@ -94,7 +84,7 @@
 	<activity android:name="OpenGLActivity"></activity>
 	<activity android:name="ControlPanelActivity"></activity>
 	<activity android:name="VoiceControlActivity"></activity>
-	<activity android:name="FlashFirmwareActivity"></activity>
+	<activity android:name="org.ligi.android.dubwise_mk_mk.FlashFirmwareActivity"></activity>
 </application>
 
 </manifest> 
