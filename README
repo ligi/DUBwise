@@ -1,0 +1,9 @@
+development getting-started instructions android:
+ - install eclipse with android SDK ; ruby with rubygems and rio
+ - cd android
+ - execute "ruby lang_gen.rb" ( generates strings.xml files )
+ - cd ../shared/misc/pc-komp-ref/
+ - execute "ruby generate.rb" ( generates code for MK-Parameters from FlightControl Firmware C files )
+ - import into eclipse
+
+you can also find some info on my website http://ligi.de
