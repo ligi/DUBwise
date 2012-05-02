@@ -36,16 +36,4 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.rubypeople.rdt.core.rubynature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>DUBwiseCommons_src</name>
-			<type>2</type>
-			<locationURI>_android_DUBwiseCommons_c7191433/src</locationURI>
-		</link>
-		<link>
-			<name>LigiAndroidCommons_src</name>
-			<type>2</type>
-			<locationURI>_android_LigiAndroidCommons_1e40ff98/src</locationURI>
-		</link>
-	</linkedResources>
 </projectDescription>
