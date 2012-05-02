@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" 
-      android:versionName="0.91" android:versionCode="34" package="org.ligi.android.dubwise_mk">
+      android:versionName="0.92" android:versionCode="37" package="org.ligi.android.dubwise_mk">
 
-	<uses-sdk android:targetSdkVersion="3" android:minSdkVersion="4"></uses-sdk>
+	<uses-sdk android:targetSdkVersion="10" android:minSdkVersion="4"></uses-sdk>
 	
 	
      <supports-screens android:largeScreens="true"
@@ -62,20 +62,20 @@
 	<activity android:name=".flightsettings.FlightSettingsActivity"></activity>
 	
 	<activity android:name=".lcd.LCDActivity"></activity>
-	<activity android:name=".dubwise.map.DUBwiseMap"></activity>
-	<activity android:name=".dubwise.map.MapSettingsActivity"></activity>
-	<activity android:name=".dubwise.map.MapPrefsActivity"></activity>
-	<activity android:name=".dubwise.map.GPXListActivity"></activity>
+	<activity android:name=".map.DUBwiseMap"></activity>
+	<activity android:name=".map.MapSettingsActivity"></activity>
+	<activity android:name=".map.MapPrefsActivity"></activity>
+	<activity android:name=".map.GPXListActivity"></activity>
 	
-	<activity android:name=".dubwise.voice.VoicePrefsActivity"></activity>
-	<activity android:name=".dubwise.voice.VoiceDebugActivity"></activity>
-	<activity android:name=".dubwise.map.ShowFlightPlanActivity"></activity>
+	<activity android:name=".voice.VoicePrefsActivity"></activity>
+	<activity android:name=".voice.VoiceDebugActivity"></activity>
+	<activity android:name=".map.ShowFlightPlanActivity"></activity>
 	
-	<activity android:name="org.ligi.android.dubwise.blackbox.BlackBoxPrefsActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.blackbox.BlackBoxWatchActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise.BackgroundTaskListActivity"></activity>
+	<activity android:name=".blackbox.BlackBoxPrefsActivity"></activity>
+	<activity android:name=".blackbox.BlackBoxWatchActivity"></activity>
+	<activity android:name=".BackgroundTaskListActivity"></activity>
 	
-	<activity android:name="org.ligi.android.dubwise.FollowMeActivity"></activity>
+	<activity android:name="FollowMeActivity"></activity>
 	
 	<activity android:name=".conn.SwitchDeviceListActivity"></activity>
 	<activity android:name="DeviceDetails"></activity>
@@ -84,7 +84,7 @@
 	<activity android:name="OpenGLActivity"></activity>
 	<activity android:name="ControlPanelActivity"></activity>
 	<activity android:name="VoiceControlActivity"></activity>
-	<activity android:name="org.ligi.android.dubwise_mk_mk.FlashFirmwareActivity"></activity>
+	<activity android:name=".FlashFirmwareActivity"></activity>
 </application>
 
 </manifest> 
