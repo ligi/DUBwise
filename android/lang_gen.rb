@@ -53,11 +53,10 @@ langdef=rio("shared_src/org/ligi/ufo/DUBwiseLangDefs.java")
 langdef < "package org.ligi.ufo;\npublic interface DUBwiseLangDefs \n { \n"
 
 
-
-
 to_rs=[]
 
 Iconv.iconv( "UTF-8","ISO8859-1", rio("../j2me/res/lang_base").read).join.split("\n").each_with_index { |l,i|
+ p "processing line:" + l
   splitted=l.split(";")
   langdef <<  " public final static int STRINGID_" + splitted.first+"="+i.to_s+";\n"
 
@@ -81,8 +80,8 @@ Iconv.iconv( "UTF-8","ISO8859-1", rio("../j2me/res/lang_base").read).join.split(
   last_i=i                                                                                                                                                   
 }                                                                                                                                                            
 
-stringhelper=rio("src/org/ligi/android/dubwise/helper/DUBwiseStringHelper.java")
-stringhelper < ("package org.ligi.android.dubwise.helper;\n import org.ligi.android.dubwise.R;\npublic class DUBwiseStringHelper {\n  public final static int[] table= {" + to_rs.join(",") + "};}" )
+stringhelper=rio("src/org/ligi/android/dubwise_mk/helper/DUBwiseStringHelper.java")
+stringhelper < ("package org.ligi.android.dubwise_mk.helper;\n import org.ligi.android.dubwise_mk.R;\npublic class DUBwiseStringHelper {\n  public final static int[] table= {" + to_rs.join(",") + "};}" )
 
 
 langs.each { |l|

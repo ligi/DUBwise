@@ -246,3 +246,13 @@ GYROSTABILITY;Gyro Stability;Gyro Stability;Gyro Stability;Gyro Stability
 MOTORSAFETYSWITCH;Motor Safetyswitch
 CAMORIENTATION;Camera Orientation
 SERVOMANUALCONTROLSPEED;Manual Control Speed
+MAXALT;max alt
+NAVIACCCOMPENSATION;max coompensation
+FAILSAVECHAN;failsave chan
+CAREFREEMODECTRL;carefree modecontrol
+FAILSAVETIME;Failsave Time
+MOTORSMOOTH;Motor Smooth
+SERVOFILTERROLL;Servofilter roll
+GIERP2;GierP new
+SERVOFILTERNICK;Servofilter nick
+COMINGHOMEALT;Coming home halt

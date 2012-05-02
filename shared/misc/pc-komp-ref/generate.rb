@@ -105,15 +105,8 @@ all_types << ["{"+ @categorys.map { |c|
 all_namestarts << name_pos
 all_lengths << end_pos
 #rio(e+".new") <new 
-
-
-
-
-
  
 } 
-
-
 
 interface_name="MKParamsGeneratedDefinitions"
 interface_path="../../../android/shared_src/org/ligi/ufo/"

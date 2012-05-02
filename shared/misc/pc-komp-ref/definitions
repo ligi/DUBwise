@@ -107,6 +107,10 @@
 --Gier_P;
   to_cat("STICK", [{ :pos=>act_pos , :function=>"GIERP" , :typ=>"MKBYTE" }] ) 
  act_pos+=1
+--StickGier_P;
+  to_cat("STICK", [{ :pos=>act_pos , :function=>"GIERP2" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+
 --Gas_Min;
   to_cat("OTHER", [{ :pos=>act_pos , :function=>"MINGAS" , :typ=>"MKBYTE" }] ) 
  act_pos+=1
@@ -118,7 +122,10 @@
  act_pos+=1
 --OrientationModeControl;
   to_cat("OTHER", [{ :pos=>act_pos , :function=>"ORIENTATIONMODE" , :typ=>"MKBYTE" }] ) 
- act_pos+=1
+  act_pos+=1
+--MotorSmooth;
+  to_cat("OTHER", [{ :pos=>act_pos , :function=>"MOTORSMOOTH" , :typ=>"MKBYTE" }] ) 
+  act_pos+=1
 --GyroAccFaktor;
   to_cat("GYRO", [{ :pos=>act_pos , :function=>"ACCGYROFACTOR" , :typ=>"MKBYTE" }] ) 
  act_pos+=1
@@ -197,6 +204,15 @@
 --ServoRollMax;
  to_cat("CAMERA", [{ :pos=>act_pos , :function=>"SERVOROLLMAX" , :typ=>"MKBYTE" }] ) 
  act_pos+=1
+
+--ServoFilterNick;
+ to_cat("CAMERA", [{ :pos=>act_pos , :function=>"SERVOFILTERNICK" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+
+--ServoFilterRoll
+ to_cat("CAMERA", [{ :pos=>act_pos , :function=>"SERVOFILTERROLL" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+
 
 --ServoNickRefresh;
  to_cat("CAMERA", [{ :pos=>act_pos , :function=>"REFRESHRATE" , :typ=>"MKBYTE" }] ) 
@@ -340,6 +356,10 @@
  act_pos+=1
 
 
+--ComingHomeAltitude;
+ to_cat("NAVI", [{ :pos=>act_pos , :function=>"COMINGHOMEALT" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+
 --NaviSpeedCompensation;
  to_cat("NAVI", [{ :pos=>act_pos , :function=>"SPEEDCOMP" , :typ=>"MKBYTE" }] ) 
  act_pos+=1
@@ -367,6 +387,15 @@
 
 --NaviAngleLimitation;
  to_cat("NAVI", [{ :pos=>act_pos , :function=>"ANGLELIMIT" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+
+--NaviAccCompensation;
+ to_cat("NAVI", [{ :pos=>act_pos , :function=>"NAVIACCCOMPENSATION" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+
+
+--CareFreeModeControl;
+ to_cat("NAVI", [{ :pos=>act_pos , :function=>"CAREFREEMODECTRL" , :typ=>"MKBYTE" }] ) 
  act_pos+=1
 
 --Hoehe_HoverBand
@@ -401,9 +430,24 @@
  to_cat("OTHER", [{ :pos=>act_pos , :function=>"MOTORSAFETYSWITCH" , :typ=>"MKBYTE" }] ) 
  act_pos+=1
 
+--FailSafeTime
+ to_cat("OTHER", [{ :pos=>act_pos , :function=>"FAILSAVETIME" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+
+--MaxAltitude
+ to_cat("OTHER", [{ :pos=>act_pos , :function=>"MAXALT" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+
+
+--FailsafeChannel
+ to_cat("OTHER", [{ :pos=>act_pos , :function=>"FAILSAVECHAN" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
 
 --Hoehe_GPS_Z
  to_cat("ALTITUDE", [{ :pos=>act_pos , :function=>"GPSZ" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+
+--GlobalConfig3
  act_pos+=1
 
 --crc
