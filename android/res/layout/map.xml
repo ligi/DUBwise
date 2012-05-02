@@ -31,10 +31,12 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:clickable="true"
-
-        android:apiKey="0VahPvPsWqqRxfGPKknpotgPXNW29Jxqk-BcgDQ"
-	
+        android:apiKey="05yE31rWh6bQpocTtErxzVAvp9h_bc93KXQ6nyA"
     />
+    <!--  debug: 05yE31rWh6bR6pB7DrZOToOJKa2Nh6xei-vqw_Q -->
+     <!--  release -->
+    
+    <!--  old -->
 <!-- release  android:apiKey="0VahPvPsWqqRxfGPKknpotgPXNW29Jxqk-BcgDQ"  -->        
 <!-- debug key android:apiKey="0VahPvPsWqqRZ8fjmvclbUeFc_1nX2eBUIn2Gzg"-->
 
