@@ -892,6 +892,7 @@ public class MKCommunicator
 	
 		log("Thread started");
 		while(thread_running) {
+			Log.i ("thread running");
 			if (!connected) {
 				sleep(10);
 			
@@ -999,7 +1000,8 @@ public class MKCommunicator
 	   mk_url=_url; // remember URL for connecting / reconnecting later
 	   force_disconnect=false;
 	   connected=false;
-	
+	   version=new MKVersion();
+	   
 	   if ( _url=="fake" ) {
 			connection_start_time=System.currentTimeMillis();
 			gps_position.ErrorCode=1; // its an error that its a fake - just intent to show the symbol ;-)
