@@ -20,7 +20,6 @@ package org.ligi.android.dubwise_mk.voice;
 
 import java.util.HashMap;
 import java.util.Locale;
-
 import org.ligi.android.dubwise_mk.conn.MKProvider;
 import org.ligi.android.dubwise_mk.helper.DUBwiseBackgroundTask;
 import org.ligi.tracedroid.logging.Log;
@@ -75,6 +74,18 @@ public class StatusVoice implements OnInitListener, DUBwiseBackgroundTask,
 	private boolean running;
 	private Activity activity;
 	
+	private int last_spoken_voltage=-1;
+	private int last_spoken_current=-1;
+	private int last_spoken_watts=-1;	
+	private int last_spoken_used_capacity=-1;
+	private int last_spoken_alt=-1;
+	private int last_spoken_distance2home=-1;
+	private int last_spoken_distance2target=-1;
+	private int last_spoken_max_alt=-1;
+	private int last_spoken_flight_time=-1;
+	
+	private int last_spoken_wp=-1;
+	
 	public void init(Activity activity) {
 		this.activity=activity;
 	}
@@ -108,6 +119,12 @@ public class StatusVoice implements OnInitListener, DUBwiseBackgroundTask,
 		running=false;
 	}
 	
+	private String getVersionAsString() {
+		return "" + mk.version.major + "."
+				+ mk.version.minor + "'"
+				+ (char) ('a' + mk.version.patch) +"'"; // the '' s are that the ivona voice doesn't try to sepeak a unit make a unit  
+	}
+	
 	@Override
 	public void run() {
 		while (running) {
@@ -120,14 +137,10 @@ public class StatusVoice implements OnInitListener, DUBwiseBackgroundTask,
 				String what2speak="";
 				//Log.i("DUBwise","not speaking");
 				// breaking news section
-				if ((!last_version_str.equals("" + mk.version.major + "."
-						+ mk.version.minor + " "
-						+ (char) ('A' + mk.version.patch)))
+				if ((!last_version_str.equals(getVersionAsString()))
 						&& (VoicePrefs.isConnectionInfoEnabled())) {
 		
-							last_version_str = "" + mk.version.major + "."
-									+ mk.version.minor + " "
-									+ (char) ('A' + mk.version.patch);
+							last_version_str = getVersionAsString();
 							if (mk.is_mk())
 								what2speak+="Connected to Flight Control Version "
 										+ last_version_str;
@@ -218,7 +231,11 @@ public class StatusVoice implements OnInitListener, DUBwiseBackgroundTask,
 					
 				
 				}
-
+				else if (mk.is_navi()&&mk.gps_position.WayPointIndex>0&&last_spoken_wp!=mk.gps_position.WayPointIndex)	{
+					what2speak+=" Arrived at waypoint " + mk.gps_position.WayPointIndex;
+					last_spoken_wp=mk.gps_position.WayPointIndex;
+				}
+								
 				if ((VoicePrefs.isVoiceRCLostEnabled())&&what2speak.equals("")) {
 					if (mk.SenderOkay()<190) {
 						what2speak+=" RC Signal lost";
@@ -236,7 +253,7 @@ public class StatusVoice implements OnInitListener, DUBwiseBackgroundTask,
 							if (mk.is_navi() && mk.hasNaviError()
 									&& VoicePrefs.isVoiceNaviErrorEnabled()) {
 								what2speak+=
-										" Navigation Control has the following Error "
+										" Navigation Control has the following error "
 												+ mk.getNaviErrorString();
 					
 							}
@@ -244,31 +261,33 @@ public class StatusVoice implements OnInitListener, DUBwiseBackgroundTask,
 						case 1:
 	
 							if ((VesselData.battery.getVoltage() != -1)
-									&& VoicePrefs.isVoiceVoltsEnabled()) {
-								what2speak+=" Battery at " + VesselData.battery.getVoltage() / 10.0 /*
-																			 * +"."
-																			 * +
-																			 * mk.UBatt
-																			 * ()%10
-																			 */
-										+ " Volts.";
+								 && (VesselData.battery.getVoltage() != last_spoken_voltage)
+								 && VoicePrefs.isVoiceVoltsEnabled()) {
+								
+								last_spoken_voltage=VesselData.battery.getVoltage();
+								what2speak+=" Battery at " + VesselData.battery.getVoltage() / 10.0	+ " Volts.";
 					
 							}
 							break;
 	
 						case 2:
 							if ((VesselData.battery.getCurrent() != -1)
-									&& VoicePrefs.isVoiceCurrentEnabled()) {
+								&& VesselData.battery.getCurrent() != last_spoken_current
+								&& VoicePrefs.isVoiceCurrentEnabled()) {
+								last_spoken_current=VesselData.battery.getCurrent();
 								what2speak+=" Consuming " + VesselData.battery.getCurrent() / 10.0
-										+ " Ampere";
+										+ " Ampire";
 								
 							}
 							break;
 	
 						case 3:
+							int watts=(VesselData.battery.getCurrent() * VesselData.battery.getVoltage());
 							if ((VesselData.battery.getCurrent() != -1)
-									&& VoicePrefs.isVoiceCurrentEnabled()) {
-								what2speak+=" thats "
+								&& watts!=last_spoken_watts	
+								&& VoicePrefs.isVoiceCurrentEnabled()) {
+								last_spoken_watts=watts;
+								what2speak+=" Consuming "
 										+ (VesselData.battery.getCurrent() * VesselData.battery.getVoltage()) / 100
 										+ " Wats";
 							}
@@ -277,10 +296,12 @@ public class StatusVoice implements OnInitListener, DUBwiseBackgroundTask,
 	
 						case 4:
 	
-							if ((VesselData.battery.getUsedCapacity() != -1)
+							if (   (VesselData.battery.getUsedCapacity() != -1)
+									&& last_spoken_used_capacity!=VesselData.battery.getUsedCapacity()
 									&& VoicePrefs.isVoiceUsedCapacityEnabled()) {
-								what2speak+=" Consumed " + VesselData.battery.getUsedCapacity()
-										+ " milliamperehours";
+										last_spoken_used_capacity=VesselData.battery.getUsedCapacity();
+										what2speak+=" Consumed " + VesselData.battery.getUsedCapacity()
+										+ " milli Ampire hours";
 	
 							}
 							break;
@@ -288,18 +309,21 @@ public class StatusVoice implements OnInitListener, DUBwiseBackgroundTask,
 						case 5:
 	
 							if ((mk.getAlt() != -1)
-									&& (VoicePrefs.isVoiceAltEnabled())) {
+								&& last_spoken_alt!=mk.getAlt()	
+								&& (VoicePrefs.isVoiceAltEnabled())) {
+								last_spoken_alt=mk.getAlt();
 								what2speak+=" Current height is " + mk.getAlt() / 10
 										+ " meters.";
 	
 							}
 							
-							
 							break;
 							
 						case 6:	
 							if ((mk.gps_position.Distance2Home >0)
+								&& (last_spoken_distance2home!=mk.gps_position.Distance2Home)
 									&& (VoicePrefs.isDistance2HomeEnabled())) {
+								last_spoken_distance2home=mk.gps_position.Distance2Home;
 								what2speak+=" Distance to Home " + mk.gps_position.Distance2Home/10
 										+ " meters.";
 	
@@ -308,7 +332,9 @@ public class StatusVoice implements OnInitListener, DUBwiseBackgroundTask,
 	
 						case 7:	
 							if ((mk.gps_position.Distance2Target >0)
+								&& (last_spoken_distance2target!=mk.gps_position.Distance2Target)
 									&& (VoicePrefs.isDistance2TargetEnabled())) {
+								last_spoken_distance2target=mk.gps_position.Distance2Target;
 								what2speak+=" Distance to Target " + mk.gps_position.Distance2Target/10
 										+ " meters.";
 	
@@ -316,15 +342,17 @@ public class StatusVoice implements OnInitListener, DUBwiseBackgroundTask,
 							break;
 							
 						case 8:
-							if ((mk.stats.flying_time()>0)
-									&& (VoicePrefs.isFlightTimeEnabled())) {
+							if ((mk.getFlyingTime()>0)
+								&& (mk.getFlyingTime()!=last_spoken_flight_time)
+								&& (VoicePrefs.isFlightTimeEnabled())) {
+										last_spoken_flight_time=mk.getFlyingTime();
 										what2speak+=" Flight time";
-										if ((mk.stats.flying_time()/60)!=0)
-											what2speak+=" " + mk.stats.flying_time()/60 + " minutes ";
+										if ((mk.getFlyingTime()/60)!=0)
+											what2speak+=" " + mk.getFlyingTime()/60 + " minutes ";
 										
 										
-										if ((mk.stats.flying_time()%60)!=0)
-											what2speak+=" " + mk.stats.flying_time()%60 + " seconds. ";
+										if ((mk.getFlyingTime()%60)!=0)
+											what2speak+=" " + mk.getFlyingTime()%60 + " seconds. ";
 										
 										
 							}
@@ -363,12 +391,14 @@ public class StatusVoice implements OnInitListener, DUBwiseBackgroundTask,
 						case 12:
 	
 							if ((mk.stats.max_alt != -1)
-									&& (VoicePrefs.isVoiceMaxAltEnabled())) {
+								&& (last_spoken_max_alt!=mk.stats.max_alt)
+								&& (VoicePrefs.isVoiceMaxAltEnabled())) {
+								
+								last_spoken_max_alt=mk.stats.max_alt;
 								what2speak+=" Max height was " + mk.stats.max_alt / 10
 										+ " meters.";
 	
 							}
-							
 							
 							break;
 	
@@ -380,6 +410,7 @@ public class StatusVoice implements OnInitListener, DUBwiseBackgroundTask,
 
 				if (!what2speak.equals("")) {
 					last_spoken=what2speak;
+					Log.i("speaking " + what2speak );
 					mTts.speak(what2speak, TextToSpeech.QUEUE_ADD, voice_params);
 				 }
 				}
