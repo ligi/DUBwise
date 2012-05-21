@@ -222,8 +222,12 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 				MKCommunicator mk=MKProvider.getMK();
 				
 				// clear the list
-				while(mk.gps_position.WayPointNumber!=0) {
-					mk.add_gps_wp(MKGPSPosition.STATUS_INVALID,0, new WayPoint(0,0));
+				WayPoint clearing_wp=new WayPoint(0,0);
+				clearing_wp.setStatus(WayPoint.STATUS_INVALID);
+				
+				while(mk.gps_position.WayPointNumber!=0) { // until there is no more waypoint in the list
+					Log.i("Clearing way " + (i+1));
+					mk.sendWayPoint(clearing_wp);
 					try {
 						Thread.sleep(100);
 					} catch (InterruptedException e) {	}
@@ -234,6 +238,7 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 					Log.i("uploading WayPoint " + (i+1));
 					handler.post(new ProgressUpdater(i));
 					while(mk.gps_position.WayPointNumber!=(i+1)) {
+						
 						mk.add_gps_wp(MKGPSPosition.STATUS_NEWDATA, i+1,wp);
 						try {
 							Thread.sleep(300);
