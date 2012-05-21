@@ -70,7 +70,13 @@
  to_cat("CONFIGURATION", [
 	 {:pos=>act_pos*8 , :function=>"ALTITUDELIMIT" , :typ=>"BITSWITCH" },
 	 {:pos=>act_pos*8+1 , :function=>"VARIOBEEP" , :typ=>"BITSWITCH" },
-	 {:pos=>act_pos*8+2 , :function=>"SENSITIVERC" , :typ=>"BITSWITCH" }
+	 {:pos=>act_pos*8+2 , :function=>"SENSITIVERC" , :typ=>"BITSWITCH" },
+	 {:pos=>act_pos*8+3 , :function=>"VOLTAGEREFERENCE" , :typ=>"BITSWITCH" },
+	 {:pos=>act_pos*8+4 , :function=>"NORCOFFBEEP" , :typ=>"BITSWITCH" },
+	 {:pos=>act_pos*8+5 , :function=>"GPSAID", :typ=>"BITSWITCH" },
+	 {:pos=>act_pos*8+6 , :function=>"LEARNABLECAREFREE", :typ=>"BITSWITCH" },
+	 {:pos=>act_pos*8+6 , :function=>"IGNOREMAGONSTART", :typ=>"BITSWITCH" }
+
 	])
 
 
