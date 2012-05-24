@@ -453,7 +453,29 @@
  to_cat("ALTITUDE", [{ :pos=>act_pos , :function=>"GPSZ" , :typ=>"MKBYTE" }] ) 
  act_pos+=1
 
---GlobalConfig3
+--GlobalConfig3;
+
+ to_cat("CONFIGURATION", [
+	 {:pos=>act_pos*8 , :function=>"NO_SD_NO_START" , :typ=>"BITSWITCH" },
+	 {:pos=>act_pos*8+1 , :function=>"DPH_MAX_RADIUS" , :typ=>"BITSWITCH" },
+	 {:pos=>act_pos*8+2 , :function=>"VARIO_FAILSAVE" , :typ=>"BITSWITCH" },
+	 {:pos=>act_pos*8+3 , :function=>"MOTOR_SWITCH_MODE" , :typ=>"BITSWITCH" },
+	 {:pos=>act_pos*8+4 , :function=>"NO_GPS_NO_START" , :typ=>"BITSWITCH" },
+	 
+	])
+
+--GlobalConfig3v2;
+
+ to_cat("CONFIGURATION", [
+	 {:pos=>act_pos*8 , :function=>"NO_SD_NO_START" , :typ=>"BITSWITCH" },
+	 {:pos=>act_pos*8+1 , :function=>"DPH_MAX_RADIUS" , :typ=>"BITSWITCH" },
+	 {:pos=>act_pos*8+2 , :function=>"VARIO_FAILSAVE" , :typ=>"BITSWITCH" },
+	 {:pos=>act_pos*8+3 , :function=>"MOTOR_SWITCH_MODE" , :typ=>"BITSWITCH" },
+	 {:pos=>act_pos*8+4 , :function=>"NO_GPS_NO_START" , :typ=>"BITSWITCH" },
+	 
+	])
+
+
  act_pos+=1
 
 --crc
