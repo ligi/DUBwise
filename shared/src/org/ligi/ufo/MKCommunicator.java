@@ -1300,7 +1300,7 @@ public class MKCommunicator
 
 			ufo_prober.set_to_none();
 			stats.reset();
-			version=new MKVersion();
+			version=new MKVersion();fo
 			System.gc();
 		    }
 		else // bootloader intension clear settings
@@ -1381,8 +1381,7 @@ public class MKCommunicator
 			sleep(10);
 			if (!force_disconnect) connect();
 		    }
-		else  if (slave_addr==FAKE_SLAVE_ADDR)
-		    {
+		else  if (slave_addr==FAKE_SLAVE_ADDR) {
 			debug_data.set_fake_data();
 			update_debug_buff();
 			stats.debug_data_count++;

@@ -67,9 +67,7 @@ public class ActivityCalls {
 			StatusVoice.getInstance().init(activity);
 			BlackBoxPrefs.init(activity);
 
-			if (VoicePrefs.isVoiceEnabled())
-				DUBwiseBackgroundHandler.getInstance().addAndStartTask(StatusVoice.getInstance());
-
+			
 			// start the default connection
 			StartupConnectionService.start(activity);
 			
@@ -78,6 +76,10 @@ public class ActivityCalls {
 			
 			did_init=true;
 		}
+
+		if (VoicePrefs.isVoiceEnabled() && !DUBwiseBackgroundHandler.getInstance().getBackgroundTasks().contains(StatusVoice.getInstance()))
+			DUBwiseBackgroundHandler.getInstance().addAndStartTask(StatusVoice.getInstance());
+
 	}
 	
 	public static void onDestroy(Activity activity) {
@@ -147,6 +149,7 @@ public class ActivityCalls {
 		MKProvider.getMK().close_connections(true);
 		MKProvider.getMK().stop();
 		DUBwiseBackgroundHandler.getInstance().stopAll();
+		MKProvider.disposeMK();
 		did_init=false;
 	}
 }

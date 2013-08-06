@@ -3,6 +3,8 @@ package org.ligi.android.dubwise_mk;
 import org.ligi.android.common.activitys.RefreshingStringListActivity;
 import org.ligi.android.dubwise_mk.conn.MKProvider;
 import org.ligi.ufo.MKCommunicator;
+import org.ligi.ufo.tests.MKHelperTests;
+
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
@@ -21,14 +23,33 @@ public class FollowMeActivity extends RefreshingStringListActivity  implements L
 	private LocationManager lm=null;
 	private double phone_lat=0.0,phone_lng=0.0;
 	
+	
 	@Override
-	public String getStringByPosition(int pos) {
-		MKCommunicator mk = MKProvider.getMK();
+	protected void onStart() {
+		super.onStart();
 		
 		if (lm==null) {
 			lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 			lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 5.0f, this);
 		}
+	}
+
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		
+		if (lm!=null) { // should not be null here, but better save than sorry ^^
+			lm.removeUpdates(this);
+		}
+	}
+
+
+	@Override
+	public String getStringByPosition(int pos) {
+		MKCommunicator mk = MKProvider.getMK();
+		
+	
 		
 		switch (pos) {
 			case 0:
@@ -46,6 +67,11 @@ public class FollowMeActivity extends RefreshingStringListActivity  implements L
 			case 4:
 				//return "dist: " + mk.gps_position.distance(mk.gps_position.Latitude, mk.gps_position.Longitude, (int)(phone_lat*10000000), (int)(phone_lng*10000000));
 				return "dist: " + mk.gps_position.Distance2Target;
+				
+			case 5:
+				return null;
+				//return "sane"+ MKHelperTests.isConvertionSane();
+
 		}
 		return null;
 	}	

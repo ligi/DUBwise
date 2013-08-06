@@ -261,3 +261,8 @@ NORCOFFBEEP;No RC Beep
 GPSAID;GPS AID
 LEARNABLECAREFREE;Teachable CareFree
 IGNOREMAGONSTART;Ignore Mag on start
+NO_SD_NO_START;Don't start without SD-Card
+DPH_MAX_RADIUS;Use GPS max. Radius for dPH
+VARIO_FAILSAVE;Vario Failsave
+MOTOR_SWITCH_MODE;Motor switch
+NO_GPS_NO_START;Don't start without a Sat-Fix

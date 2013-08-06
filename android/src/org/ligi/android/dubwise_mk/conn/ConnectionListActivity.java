@@ -26,14 +26,18 @@ import org.ligi.android.common.intents.IntentHelper;
 import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.android.dubwise_mk.helper.DUBwiseBaseListActivity;
 import org.ligi.android.dubwise_mk.simulation.AndroidAttitudeProvider;
-import org.ligi.android.io.BluetoothCommunicationAdapter;
+import org.ligi.android.io.ReflectingBluetoothCommunicationaAdapter;
+//import org.ligi.android.io.R;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.simulation.SimulatedMKCommunicationAdapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -41,7 +45,6 @@ import android.widget.ListView;
 import android.widget.ArrayAdapter;
 
 public class ConnectionListActivity extends DUBwiseBaseListActivity {
-
 	private String[] menu_items = new String[] { "Simulate a connection","Connect via bluetooth","Connect via TCP/IP" ,"Disconnect","Reconnect","Switch device","Connection details"};
 	private int[] menu_actions = new int[] { ACTIONID_SIMULATED , ACTIONID_BT , ACTIONID_TCP , ACTIONID_DISCONN, ACTIONID_RECONNECT , ACTIONID_SWITCH, ACTIONID_CONDETAILS};
 	
@@ -87,14 +90,46 @@ public class ConnectionListActivity extends DUBwiseBaseListActivity {
                 		.setPositiveButton("OK", new DialogDiscarder())
                 		.setTitle("BT Error")
                 		.show();
-                	else
-                		IntentHelper.action4result(this,"PICK_BLUETOOTH_DEVICE",INTENT_REQUEST_CODE_BT_CONN);
+                	else {
+                		
+                		final String picker_package="org.ligi.android.bluetooth.device_picker";
+                		PackageInfo info=null;
+                		try {
+                			android.content.pm.PackageManager mPm = getPackageManager();  // 1
+                			info = mPm.getPackageInfo(picker_package, 0);  // 2,3
+                		} catch ( Exception e ) {
+                			
+                		}
+                		if (info == null)  {
+                			new AlertDialog.Builder(this)
+                    		.setMessage("Please install the Bluetooth Device Picker ")
+                    		.setIcon(android.R.drawable.ic_dialog_alert)
+                    		.setPositiveButton("Install", new OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									IntentHelper.goToMarketPackage(ConnectionListActivity.this,picker_package);
+									dialog.dismiss();
+								}
+                    			
+                    		})
+                    		.setNegativeButton(android.R.string.cancel, new DialogDiscarder())
+                    		.setTitle("Missing APP")
+                    		.show();
+                		} else {
+                			IntentHelper.action4result(this,"PICK_BLUETOOTH_DEVICE",INTENT_REQUEST_CODE_BT_CONN);	
+                		}
+                		
+                	}
                     break;
                 case ACTIONID_TCP:
                     startActivity( new Intent( this, ConnectViaTCPActivity.class ) );
                     break;
                 case ACTIONID_DISCONN:
-                    MKProvider.getMK().close_connections( true );   
+                	
+                    MKProvider.getMK().close_connections( true );
+                    
                     break;
     
                 case ACTIONID_SWITCH:
@@ -131,10 +166,11 @@ public class ConnectionListActivity extends DUBwiseBaseListActivity {
                 Log.i("connecting to bt addr:" + addr);
                 
                 
-                BluetoothCommunicationAdapter bt_com=new BluetoothCommunicationAdapter(addr);
+                ReflectingBluetoothCommunicationaAdapter bt_com=new ReflectingBluetoothCommunicationaAdapter(addr);
+                Log.i("connecting got adapter");
                 
 				MKProvider.getMK().setCommunicationAdapter(bt_com);
-				bt_com.connect();
+				
 				
 				Log.i( "connecting to " + friendly_name + "("+addr+")" );
 				Log.i( " force disconn " + MKProvider.getMK().force_disconnect);

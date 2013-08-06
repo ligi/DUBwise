@@ -86,6 +86,13 @@ public class StatusVoice implements OnInitListener, DUBwiseBackgroundTask,
 	
 	private int last_spoken_wp=-1;
 	
+	private boolean last_told_engine_state=false;
+	private boolean last_calibrating_state=false;
+	private boolean last_flying_state=false;
+	
+	private int battery_low_voltage=100;
+	
+	
 	public void init(Activity activity) {
 		this.activity=activity;
 	}
@@ -100,7 +107,7 @@ public class StatusVoice implements OnInitListener, DUBwiseBackgroundTask,
 		mTts.setLanguage(Locale.US);
 
 		voice_params = new HashMap<String, String>();
-		voice_params.put("VOICE", "MALE");
+		//MKParamsGeneratedDefinitionsToStringsvoice_params.put("VOICE", "MALE");
 
 		voice_params.put(TextToSpeech.Engine.KEY_PARAM_STREAM,	String.valueOf(VoicePrefs.getStreamEnum()));
 		mTts.setOnUtteranceCompletedListener(this);
@@ -215,19 +222,40 @@ public class StatusVoice implements OnInitListener, DUBwiseBackgroundTask,
 				}
 				else if (what2speak.equals("")&&mk.is_navi()&&mk.gps_position.FCFlags!=last_fc_flags)
 				{
+					
 					last_fc_flags=mk.gps_position.FCFlags;
 
-					if (mk.gps_position.areEnginesOn())
+					if (mk.gps_position.areEnginesOn() && !last_told_engine_state) {
+						last_told_engine_state=true;
+						
 						what2speak+=" Engines are on ";
-					else
+					}
+					else if (!mk.gps_position.areEnginesOn() && last_told_engine_state) { 
 						what2speak+=" Engines are off ";
+						last_told_engine_state=false;
+						
+					}
 					
-					if (mk.gps_position.isFlying())
+					if (mk.gps_position.isFlying() &&  !last_flying_state) {
+						last_flying_state=true;
 						what2speak+=" UFO is flying ";
+ 					} else {
+ 						last_flying_state=mk.gps_position.isFlying();
+ 					}
+						
 					
 
-					if (mk.gps_position.isCalibrating())
+					if (mk.gps_position.isLowBat() && VesselData.battery.getVoltage()<battery_low_voltage) {
+							what2speak+=" Warning Voltage low at " + VesselData.battery.getVoltage() + "Volts";
+							battery_low_voltage=VesselData.battery.getVoltage();
+					}
+						
+					if (mk.gps_position.isCalibrating() && !last_calibrating_state) {
+						last_calibrating_state=true;
 						what2speak+=" UFO is Calibrating ";
+					} else {
+						last_calibrating_state=false;
+					}
 					
 				
 				}
@@ -298,6 +326,7 @@ public class StatusVoice implements OnInitListener, DUBwiseBackgroundTask,
 	
 							if (   (VesselData.battery.getUsedCapacity() != -1)
 									&& last_spoken_used_capacity!=VesselData.battery.getUsedCapacity()
+									&& mk.isFlying() // consumes in while parking and that voice out is annoying									
 									&& VoicePrefs.isVoiceUsedCapacityEnabled()) {
 										last_spoken_used_capacity=VesselData.battery.getUsedCapacity();
 										what2speak+=" Consumed " + VesselData.battery.getUsedCapacity()

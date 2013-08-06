@@ -22,6 +22,7 @@ package org.ligi.android.dubwise_mk.flightsettings;
 import org.ligi.android.dubwise_mk.conn.MKProvider;
 import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.android.dubwise_mk.helper.DUBwiseStringHelper;
+import org.ligi.ufo.MKParamsGeneratedDefinitionsToStrings;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -37,7 +38,7 @@ import android.widget.ArrayAdapter;
  * @author ligi
  *
  */
-public class FlightSettingsTopicListActivity extends ListActivity {
+public class FlightSettingsTopicListActivity extends ListActivity implements MKParamsGeneratedDefinitionsToStrings {
 
 	private String[] menu_items;
 	
@@ -50,7 +51,7 @@ public class FlightSettingsTopicListActivity extends ListActivity {
 		
 		menu_items=new String[MKProvider.getMK().params.tab_stringids.length];
 	    for (int i=0;i<menu_items.length;i++)
-	    	menu_items[i]=getString(DUBwiseStringHelper.table[MKProvider.getMK().params.tab_stringids[i]]);
+	    	menu_items[i]=getString(DUBwiseStringHelper.table[TABID2STRINGID[MKProvider.getMK().params.tab_stringids[i]]]);
 		this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menu_items));
 	}
 

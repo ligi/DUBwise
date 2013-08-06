@@ -263,15 +263,12 @@ public class DUBwiseMapOverlay extends com.google.android.maps.Overlay  implemen
 		}
 		
 		addwp_button.setAction(new AddWPAction(context));
-
-
-		
 		
 		positionIconRects();
 		
 		new Thread(this).start();
-	
 	}
+
 	RectF allButtons=new RectF();
 	/**
 	 * depends on width and height of canvas and icons

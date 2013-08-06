@@ -115,12 +115,14 @@ public class ConnectViaTCPActivity extends Activity implements OnClickListener, 
         Log.i("connecting to " + host +":" + port + " via tcp qmk:" + qmk );
         
         TCPConnectionAdapter tcp_com;
-        if (qmk)
+        
+        /*if (qmk)
         	tcp_com=new TCPConnectionAdapter(host,port,user,pwd);
         else
         	tcp_com=new TCPConnectionAdapter(host,port);
         
         MKProvider.getMK().setCommunicationAdapter(tcp_com);
+        */
         
         MKProvider.getMK().connect_to(host_text.getText() + ":" + port , host_text.getText() + ":" + port_text.getText() );
         

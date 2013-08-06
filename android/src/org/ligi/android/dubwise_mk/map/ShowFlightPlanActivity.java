@@ -152,7 +152,7 @@ public class ShowFlightPlanActivity extends RefreshingStringListActivity {
 		AndroidWayPoint wp =FlightPlanProvider.getWPList().get(pos);
 		
 		return "#" +pos + " lat: " + wp.getGeoPoint().getLatitudeE6()/1000000.0 + " lon: " + wp.getGeoPoint().getLongitudeE6()/1000000.0 + " ht:" + wp.getHoldTime()
-		+ " ev:" + wp.getChannelEvent() + " radius:" + wp.getToleranceRadius();
+		+ " ev:" + wp.getChannelEvent() + " radius:" + wp.getToleranceRadius() + " speed:" + wp.getSpeed();
 		
 	}
 

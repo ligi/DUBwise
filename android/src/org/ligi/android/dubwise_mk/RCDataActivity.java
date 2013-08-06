@@ -22,6 +22,7 @@ import org.ligi.android.dubwise_mk.conn.MKProvider;
 import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.android.dubwise_mk.helper.DUBwiseStringHelper;
 import org.ligi.ufo.MKCommunicator;
+import org.ligi.ufo.MKParamsGeneratedDefinitionsToStrings;
 import org.ligi.ufo.MKStickData;
 
 import android.os.Bundle;
@@ -43,7 +44,7 @@ import android.app.Activity;
  * @author ligi
  *
  */
-public class RCDataActivity extends Activity implements Runnable
+public class RCDataActivity extends Activity implements Runnable,MKParamsGeneratedDefinitionsToStrings
 {
 
 	private boolean dead=false;
@@ -80,7 +81,7 @@ public class RCDataActivity extends Activity implements Runnable
 			frame.addView(progress_bars[i]);
 			
 			text_overlays[i] = new TextView(this);
-			String txt=	"Channel " + (i+1) +this.getResources().getString(DUBwiseStringHelper.table[MKProvider.getMK().params.stick_stringids[i]]) + " ";
+			String txt=	"Channel " + (i+1) +this.getResources().getString(DUBwiseStringHelper.table[PARAMID2STRINGID[MKProvider.getMK().params.stick_stringids[i]]]) + " ";
 			text_overlays[i].setTag( txt );
 			text_overlays[i].setTextColor(0xFF000000);
 			text_overlays[i].setShadowLayer(2, 1, 1, 0xffffffff);

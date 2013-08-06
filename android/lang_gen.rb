@@ -49,7 +49,8 @@ langs.each { |l|
 }
 
 
-langdef=rio("shared_src/org/ligi/ufo/DUBwiseLangDefs.java")
+#langdef=rio("shared_src/org/ligi/ufo/DUBwiseLangDefs.java")
+langdef=rio("src/org/ligi/ufo/DUBwiseLangDefs.java")
 langdef < "package org.ligi.ufo;\npublic interface DUBwiseLangDefs \n { \n"
 
 

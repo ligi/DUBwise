@@ -69,9 +69,9 @@ public class FlightPlanProvider {
 	
 	public static void addWP(GeoPoint point) {
 		AndroidWayPoint awp=new AndroidWayPoint(point);
-		awp.setToleranceRadius(100);
+		awp.setToleranceRadius(15);
 		awp.setSpeed(1);
-		addWP(new AndroidWayPoint(point));	
+		addWP(awp);	
 	}
 	
 	private static String formatGPXLatLon(int latlon) {

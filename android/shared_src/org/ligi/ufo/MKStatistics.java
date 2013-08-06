@@ -104,6 +104,7 @@ public class MKStatistics {
      * @return the time in seconds the UFO is Flying
      */
     public int flying_time() {
+    	
 		if (flying_start!=-1)
 		    return (int)((System.currentTimeMillis()-flying_start)/1000);
 		else

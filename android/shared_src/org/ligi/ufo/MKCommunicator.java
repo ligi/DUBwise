@@ -88,8 +88,8 @@ public class MKCommunicator
 
     private int data_buff_pos=0;
 
-    //    public final static int DATA_IN_BUFF_SIZE=512;
-    public final static int DATA_IN_BUFF_SIZE=2048;
+    public final static int DATA_IN_BUFF_SIZE=512;
+    //public final static int DATA_IN_BUFF_SIZE=2048;
     //    public final static int DATA_IN_BUFF_SIZE=4096;
 
     public byte user_intent=0;
@@ -272,8 +272,9 @@ public class MKCommunicator
 		wait4send();
 		sending=true;
 		try {
+			log("BTDEB write" + _data.length);
 			comm_adapter.write(_data,0,_data.length);
-			comm_adapter.flush(); 
+			//comm_adapter.flush(); 
 	
 		stats.bytes_out+=_data.length;
 		}
@@ -603,9 +604,10 @@ public class MKCommunicator
 		byte[] send_buff=MKHelper.encodeCommand(modul, cmd, params);
 		
 		try {
+			log("BTDEB write" + send_buff.length);
 			comm_adapter.write(send_buff,0,send_buff.length);
 			stats.bytes_out+=send_buff.length; //+3;
-			comm_adapter.flush();
+			//comm_adapter.flush();
 		} catch (Exception e) { 
 			// problem sending data to FC
 		}
@@ -621,9 +623,10 @@ public class MKCommunicator
 		byte[] send_buff=MKHelper.encodeCommand(modul, cmd, params);
 		
 		try {
+			log("BTDEB write" + send_buff.length);
 			comm_adapter.write(send_buff,0,send_buff.length);
 			stats.bytes_out+=send_buff.length; //+3;
-			comm_adapter.flush();
+			//comm_adapter.flush();
 		} catch (Exception e) { 
 			// problem sending data to FC
 		}
@@ -898,7 +901,7 @@ public class MKCommunicator
 			
 				if (!force_disconnect) connect();
 				log ("not connected - forced:" + force_disconnect);
-			}
+			} 
 			/*else  if (slave_addr==FAKE_SLAVE_ADDR)
 			    {
 				debug_data.set_fake_data();
@@ -907,25 +910,32 @@ public class MKCommunicator
 				sleep(50);
 			    }*/
 			else try{
-				
-					recieving=true;
-					int read_count ;
-		
-					if (comm_adapter.available()<DATA_IN_BUFF_SIZE)
-					    read_count     =comm_adapter.read(data_in_buff,0,comm_adapter.available());
-					else
-					    read_count     =comm_adapter.read(data_in_buff,0,DATA_IN_BUFF_SIZE);
-		
-					//			log("Connected - reading data " + read_count);		
-					//	pos=0;
-					input=0;
-					//data_buff[data_buff_pos]="";
-					// recieve data-set
-		
-					//			int read_count =reader.read(data_in_buff,0,reader.available());
-					stats.bytes_in+=read_count;
+					int read_count=0;
+					if (comm_adapter.available()==0) {
+						sleep(10);
+					} else {
+						
+						recieving=true;
+						
+						log("BTDEB pre_read" + comm_adapter.available() + " ds_pos" + data_set_pos);		
+						
+						if (comm_adapter.available()<DATA_IN_BUFF_SIZE)
+						    read_count     =comm_adapter.read(data_in_buff,0,comm_adapter.available());
+						else
+						    read_count     =comm_adapter.read(data_in_buff,0,DATA_IN_BUFF_SIZE);
+						
+						//			log("Connected - reading data " + read_count);		
+						//	pos=0;
+						input=0;
+						//data_buff[data_buff_pos]="";
+						// recieve data-set
+			
+						//	int read_count =reader.read(data_in_buff,0,reader.available());
+						stats.bytes_in+=read_count;
+					}
+					
 					if (read_count>0)  {
-						log("read" + read_count + " ds_pos" + data_set_pos);		
+						log("BTDEB read" + read_count + " ds_pos" + data_set_pos);		
 					
 						for ( pos=0;pos<read_count;pos++) {
 						    //data_in_buff[pos]+=127;
@@ -958,8 +968,7 @@ public class MKCommunicator
 					 }
 			    }
 			    catch (Exception ex) {
-				    log("Problem reading from MK -> closing conn");
-				    log(ex.toString());
+			    	log("BTDEB Problem reading from MK -> closing conn exception:" + ex.toString());
 				    // close the connection 
 				    close_connections(false);
 				}	

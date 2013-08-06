@@ -1,6 +1,6 @@
 /**************************************************************************
  *                                          
- * Activity to edit the FlightSettings
+a * Activity to edit the FlightSettings
  *                                          
  * Author:  Marcus -LiGi- Bueschleb   
  *
@@ -25,6 +25,7 @@ import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.android.dubwise_mk.helper.DUBwiseStringHelper;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKParamsGeneratedDefinitions;
+import org.ligi.ufo.MKParamsGeneratedDefinitionsToStrings;
 import org.ligi.ufo.MKParamsParser;
 import org.ligi.ufo.MKStickData;
 
@@ -58,7 +59,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView.OnEditorActionListener;
 
-public class FlightSettingsTopicEditActivity extends Activity implements OnItemSelectedListener, OnCheckedChangeListener, TextWatcher, OnEditorActionListener, KeyListener, OnClickListener {
+public class FlightSettingsTopicEditActivity extends Activity implements MKParamsGeneratedDefinitionsToStrings, OnCheckedChangeListener, TextWatcher, OnEditorActionListener, KeyListener, OnClickListener {
 
 	private static final int MENU_SAVE = 0;
 	private static final int MENU_HELP = 1;
@@ -131,7 +132,7 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 			//text_v.setFocusable(true);
 			text_v.setFocusableInTouchMode(true);
 			
-        	text_v.setText(DUBwiseStringHelper.table[MKProvider.getMK().params.field_stringids[act_topic][i]]);
+        	text_v.setText(DUBwiseStringHelper.table[PARAMID2STRINGID[MKProvider.getMK().params.field_stringids[act_topic][i]]]);
         	text_v.setMinHeight(50);
         	text_v.setPadding(3, 0, 5, 0);
         	row.addView(text_v);
@@ -161,9 +162,9 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
          		spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
          		spinner.setAdapter(spinner_adapter);
-         		class SpinnerChangeListener implements OnItemSelectedListener {
+         		class StickSpinnerChangeListener implements OnItemSelectedListener {
          			private int pos;
-         			public SpinnerChangeListener(int pos) {
+         			public StickSpinnerChangeListener(int pos) {
          				this.pos=pos;
          			}
 					@Override
@@ -177,7 +178,7 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 						// TODO Auto-generated method stub
 						
 					} }
-         		spinner.setOnItemSelectedListener(new SpinnerChangeListener(i) );
+         		spinner.setOnItemSelectedListener(new StickSpinnerChangeListener(i) );
          		
          		Log.i("want to set to" + params.field[params.act_paramset][params.field_positions[act_topic][i]]);
          		int stick_id=params.field[params.act_paramset][params.field_positions[act_topic][i]];
@@ -275,6 +276,8 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 					}});
         		//edit_texts[i].set
         		
+        		
+        		
         		spinners[i]=new Spinner(this);
         		
         		String poti_strings[]=new String[MKStickData.POTI_COUNT+1/*no_poti+1*/];
@@ -290,15 +293,57 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
          		
         	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         	    
-        	    spinners[i].setOnItemSelectedListener(this);
         	    if (act_byte_val>(255-MKStickData.POTI_COUNT)) {
         	    	edit_texts[i].setEnabled(false);
-        	    	
         	    	spinners[i].setSelection(255-act_byte_val+1);
+        	    }
+        	    
+        	    class PotiForMKByteSpinnerChangeListener implements OnItemSelectedListener {
+        	    	@Override
+        	    	public void onItemSelected(AdapterView<?> arg0, View selected_view, int arg2,
+        	    			long arg3) {
+        	    		try {
+        	    		Log.d("on item sel ");
+        	    		if (selected_view!=null) {
+        	    		// view has a parent
+        	    		if (selected_view.getParent()!=null) {
+        	    			Spinner spin=(Spinner)selected_view.getParent();
+        	    			int tag_id=(Integer)(spin.getTag());
+        	    				
+        	    			if (arg2==0) { // no poti option -
+        	    				edit_texts[tag_id].setEnabled(true);
+        	    				int pos=MKProvider.getMK().params.field_positions[act_topic][tag_id];
+        	    				int act_val=MKProvider.getMK().params.get_field_from_act(pos);
+        	    				if (act_val>(255-MKStickData.POTI_COUNT)) {
+        	    					act_val=0;
+        	    				}
+        	    				
+        	    				MKProvider.getMK().params.set_field_from_act(pos, act_val);
+        	    			}
+        	    			else {
+        	    				edit_texts[tag_id].setEnabled(false);
+        	    				edit_texts[tag_id].setText("" + ((255-arg2+1)));
+        	    				MKProvider.getMK().params.set_field_from_act(MKProvider.getMK().params.field_positions[act_topic][tag_id], 255-arg2+1);
+        	    			}
+        	    		}
+        	    		}
+        	    		}
+        	    		catch (Exception e) { Log.d("DD" + e); }
+        	    		
+        	    		//arg1.getParent()
+        	    		
+        	    	}
+
+					@Override
+					public void onNothingSelected(AdapterView<?> arg0) {
+					}
         	    }
         	    
         		row.addView(edit_texts[i]);
         		row.addView(spinners[i]);
+        		
+        		spinners[i].setOnItemSelectedListener(new PotiForMKByteSpinnerChangeListener());
+        		
         		edit_texts[i].clearFocus();
         		edit_texts[i].setPressed(false);
         		break;
@@ -313,41 +358,6 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
 	public void onResume() {
 		ActivityCalls.afterContent(this);
 		super.onResume();
-	}
-
-	@Override
-	public void onItemSelected(AdapterView<?> arg0, View selected_view, int arg2,
-			long arg3) {
-		try {
-		Log.d("on item sel ");
-		if (selected_view!=null) {
-		// view has a parent
-		if (selected_view.getParent()!=null) {
-			if (selected_view.getParent() instanceof Spinner)  {
-				Spinner spin=(Spinner)selected_view.getParent();
-				int tag_id=(Integer)(spin.getTag());
-				
-				if (arg2==0) {
-					edit_texts[tag_id].setEnabled(true);
-					MKProvider.getMK().params.set_field_from_act(MKProvider.getMK().params.field_positions[act_topic][tag_id], 0);
-				}
-				else {
-					edit_texts[tag_id].setEnabled(false);
-					edit_texts[tag_id].setText("" + ((255-arg2+1)));
-					MKProvider.getMK().params.set_field_from_act(MKProvider.getMK().params.field_positions[act_topic][tag_id], 255-arg2+1);
-				}
-			}
-		}
-		}
-		}
-		catch (Exception e) { Log.d("DD" + e); }
-		
-		//arg1.getParent()
-		
-	}
-
-	@Override
-	public void onNothingSelected(AdapterView<?> arg0) {
 	}
 
 	@Override
@@ -392,8 +402,11 @@ public class FlightSettingsTopicEditActivity extends Activity implements OnItemS
         		Uri.parse( "http://www.mikrokopter.de/ucwiki/en/MK-Parameter")));
 	    	return true;
 	    case MENU_UNDO:
-	    	MKProvider.getMK().params.use_backup();
-	    	do_layout();
+	    	//String ps=
+	    	//Log.i("act paramset " + MKProvider.getMK().params.act_paramset );
+	    	
+	    	//MKProvider.getMK().params.use_backup();
+	    	//do_layout();
 	    	return true;
 	    }
 	    return false;

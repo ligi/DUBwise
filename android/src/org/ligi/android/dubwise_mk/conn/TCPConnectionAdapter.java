@@ -32,147 +32,76 @@ import org.ligi.java.io.CommunicationAdapterInterface;
 
 public class TCPConnectionAdapter implements CommunicationAdapterInterface {
 
-	private String host;
-	private int port;
-	private boolean qmk;
-	
-	private Socket socket;
-	private String qmk_pwd;
-	
-	public TCPConnectionAdapter(String host,int port) {
-		this.host=host;
-		this.port=port;
-		this.qmk=false;
-	}
-	
-	public TCPConnectionAdapter(String host,int port,String username,String pwd) {
-		this.host=host;
-		this.port=port;
-		this.qmk=true;
-		this.qmk_pwd=pwd;
-	}
-	
-	/**
-	 * function to calculate a md5sum 
-	 * taken from: http://www.androidsnippets.org/snippets/52/
-	 * @param s
-	 * @return
-	 */
-	public String md5(String s) {  
-	    try {  
-	        // Create MD5 Hash  
-	        MessageDigest digest = java.security.MessageDigest.getInstance("MD5");  
-	        digest.update(s.getBytes());  
-	        byte messageDigest[] = digest.digest();  
-	          
-	        // Create Hex String  
-	        StringBuffer hexString = new StringBuffer();  
-	        for (int i=0; i<messageDigest.length; i++)  
-	            hexString.append(Integer.toHexString(0xFF & messageDigest[i]));  
-	        return hexString.toString();  
-	          
-	    } catch (NoSuchAlgorithmException e) {  
-	        e.printStackTrace();  
-	    }  
-	    return "";  
-	}  
-	
 	@Override
-	public void connect() {
-	 try {
-		socket=new Socket(host,port);
-
-		if (qmk) {
-			socket.getOutputStream().write("$:10:101:DUBwise for Android:0\n\r".getBytes());
-			socket.getOutputStream().flush();
-			socket.getOutputStream().write(("$:10:105:"+md5(qmk_pwd)+":0\n\r").getBytes());
-			socket.getOutputStream().flush();
-		}
-	
-	 } catch (UnknownHostException e) {
-	} catch (IOException e) {
-	}
-	
-	if (qmk);;
-	// TODO handle QMK protocol
-	}
-
-	@Override
-	public void disconnect() {
-		try {
-			getInputStream().close();
-			getOutputStream().close();
-			socket.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public InputStream getInputStream() {
-		try {
-			return socket.getInputStream();
-		} catch (IOException e) {
-			return null;
-		}
-	}
-
-	public OutputStream getOutputStream() {
-		try {
-			return socket.getOutputStream();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-
-	@Override
-	public int available() {
-		try {
-			return getInputStream().available();
-		} catch (IOException e) {
-			return 0;
-		}
-	}
-
-	@Override
-	public void flush() throws IOException {
-			getOutputStream().flush();
-	}
-
-	@Override
-	public int read(byte[] b, int offset, int length) throws IOException {
-			return getInputStream().read(b,offset,length);
-	}
-
-	@Override
-	public void write(byte[] buffer, int offset, int count) throws IOException {
-		getOutputStream().write(buffer, offset, count);
+	public void flush() {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void write(byte[] buffer)  throws IOException  {
-		getOutputStream().write(buffer);
+	public void write(byte[] data, int offset, int length) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	public void write(int oneByte) throws IOException  {
-		getOutputStream().write(oneByte);
+	public void write(byte[] data) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	public int read() throws IOException {
-		return getInputStream().read();
+	public void write(char data) {
+		// TODO Auto-generated method stub
+		
 	}
 
-    @Override
-    public String getName() {
-        return null;
-    }
+	@Override
+	public void write(int data) {
+		// TODO Auto-generated method stub
+		
+	}
 
-    @Override
-    public String getURL() {
-        return null;
-    }
+	@Override
+	public void connect() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void disconnect() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int available() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int read(byte[] data, int offset, int length) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int read() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public String getURL() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

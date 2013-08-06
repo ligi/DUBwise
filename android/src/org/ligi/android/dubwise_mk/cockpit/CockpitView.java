@@ -98,7 +98,7 @@ public class CockpitView extends View implements DUBwiseDefinitions,OnTouchListe
        	}
         
         if (DUBwisePrefs.showFlightTime()) {
-        	canvas.drawText(DUBwiseHelper.seconds2str(MKProvider.getMK().stats.flying_time()), 7f,act_text_pos, altitudeTextPaint);
+        	canvas.drawText(DUBwiseHelper.seconds2str(MKProvider.getMK().getFlyingTime()), 7f,act_text_pos, altitudeTextPaint);
         	act_text_pos-=altitudeTextPaint.getTextSize();
        	}
         

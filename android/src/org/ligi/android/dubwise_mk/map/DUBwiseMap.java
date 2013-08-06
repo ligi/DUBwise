@@ -108,8 +108,23 @@ public class DUBwiseMap extends MapActivity implements LocationListener {
 		overlay=new DUBwiseMapOverlay(this);
 		mapView.getOverlays().add(overlay);
 		 
+		
+	}
+
+	@Override
+	protected void onStart() {
 		LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 5.0f, this);
+
+		super.onStart();
+	}
+
+	
+	@Override
+	protected void onStop() {
+		LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+		lm.removeUpdates(this);
+		super.onStop();
 	}
 
 	@Override

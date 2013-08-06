@@ -22,7 +22,10 @@ package org.ligi.android.dubwise_mk;
 
 import java.util.Vector;
 
+import org.ligi.android.dubwise_mk.app.ApplicationContext;
+import org.ligi.android.dubwise_mk.balance.BalanceActivity;
 import org.ligi.android.dubwise_mk.cockpit.CockpitActivity;
+import org.ligi.android.dubwise_mk.cockpit.VarioSound;
 import org.ligi.android.dubwise_mk.conn.ConnectionListActivity;
 import org.ligi.android.dubwise_mk.conn.MKProvider;
 import org.ligi.android.dubwise_mk.flightsettings.FlightSettingsActivity;
@@ -40,11 +43,13 @@ import org.ligi.tracedroid.sending.TraceDroidEmailSender;
 import org.ligi.ufo.DUBwiseNotificationListenerInterface;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.logging.NotLogger;
+import org.ligi.ufo.tests.MKHelperTests;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -53,10 +58,13 @@ import android.widget.ListView;
 
 public class DUBwise extends ListActivity implements DUBwiseNotificationListenerInterface , Runnable{
 
+	private VarioSound vs;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		Log.i("sane" + MKHelperTests.isConvertionSane());
 		Log.i("TableLen" + DUBwiseStringHelper.table.length);
 		TraceDroid.init(this);
 		Log.setTAG("DUBwise"); // It's all about DUBwise from here ;-)
@@ -67,6 +75,9 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 
 		refresh_list();
 		Log.d("created DUBwise class");
+		
+		
+		vs= new VarioSound((ApplicationContext)this.getApplicationContext());
 	}
 
 	public void refresh_list() {
@@ -135,6 +146,11 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 				menu_items_vector.add(new IconicMenuItem("RCData",
 						android.R.drawable.ic_menu_view, new Intent(this,
 								RCDataActivity.class)));
+			
+			if (mk.is_mk() || mk.is_fake() || mk.is_navi())
+				menu_items_vector.add(new IconicMenuItem("Balance",
+						android.R.drawable.ic_menu_crop, new Intent(this,
+								BalanceActivity.class)));
 
 			if (mk.is_mk() || mk.is_navi() || mk.is_fake())
 				menu_items_vector.add(new IconicMenuItem("Cockpit",
@@ -228,8 +244,19 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 			}
 		});
 		
-		kidding_btn.setTag((new AlertDialog.Builder(this)).setView(lin).setTitle("Exit DUBwise?").show());
+		kidding_btn.setTag((new AlertDialog.Builder(this)).setView(lin).setTitle("Exit DUBwise " + getVersionCode() + " ?").show());
 		
+	}
+	
+	private String getVersionCode() {
+		try
+		{
+			return "v"+getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
+		}
+		catch (NameNotFoundException e)
+		{
+		    return "v?";
+		}
 	}
 
 	@Override
@@ -267,8 +294,7 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
-		IconicMenuItem item = ((IconicMenuItem) (this.getListAdapter()
-				.getItem(position)));
+		IconicMenuItem item = ((IconicMenuItem) (this.getListAdapter().getItem(position)));
 
 		if (item.intent != null)
 			startActivity(item.intent);
@@ -282,6 +308,8 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 				break;
 		}
 	}
+	
+	
 
 	@Override
 	public void run() {
