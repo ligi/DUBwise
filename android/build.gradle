@@ -1,0 +1,30 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.5.+'
+    }
+}
+apply plugin: 'android'
+
+
+repositories {
+    mavenCentral()
+    maven {
+        url "file:///home/ligi/git/ligis-mvn-repo"
+        //url "https://raw.github.com/ligi/ligis-mvn-repo/master"
+    }
+}
+
+android {
+    compileSdkVersion 18
+    buildToolsVersion "17.0.0"
+
+    dependencies {
+        compile fileTree(dir: 'lib', include: 'JavaMK*.jar')
+        compile 'org.ligi:AndroidHelper:0.18'
+        compile 'org.ligi:DUBwiseCommons:0.4'
+        compile 'org.ligi:tracedroid:1.1'
+    }
+}

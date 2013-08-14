@@ -1,7 +1,6 @@
 bin/
-android/gen/
-android/bin/
 
+android/*.iml
 # generated source files
 android/shared_src/org/ligi/ufo/DUBwiseLangDefs.java
 ../shared/src/DUBwiseLangDefs.java
