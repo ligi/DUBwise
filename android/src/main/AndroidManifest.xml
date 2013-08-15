@@ -24,8 +24,7 @@
 	<uses-library android:name="com.google.android.maps"/>
 
     <application android:icon="@drawable/icon" android:label="@string/app_name" 
-        android:name=".app.ApplicationContext"
-        >
+        android:name=".app.ApplicationContext">
     	<uses-library android:name="com.google.android.maps"/>
      
         <activity android:name=".DUBwise"
@@ -52,8 +51,7 @@
 	
 	<activity android:name=".conn.ConnectionListActivity"></activity>
 	<activity android:name=".conn.ConnectViaTCPActivity"></activity>
-	<activity android:name=".conn.bluetooth.BluetoothDeviceListActivity"></activity>
-	
+
 	<activity android:name=".piloting.MultiTouchPilotingActivity"  android:screenOrientation="landscape"></activity>
 	<activity android:name=".piloting.OrientationPilotingActivity"  android:screenOrientation="landscape"></activity>
 	<activity android:name=".piloting.PilotingListActivity"></activity>
@@ -64,15 +62,10 @@
 	<activity android:name=".flightsettings.FlightSettingsActivity"></activity>
 	
 	<activity android:name=".lcd.LCDActivity"></activity>
-	<activity android:name=".map.DUBwiseMap"></activity>
-	<activity android:name=".map.MapSettingsActivity"></activity>
-	<activity android:name=".map.MapPrefsActivity"></activity>
-	<activity android:name=".map.GPXListActivity"></activity>
-	
+
 	<activity android:name=".voice.VoicePrefsActivity"></activity>
 	<activity android:name=".voice.VoiceDebugActivity"></activity>
-	<activity android:name=".map.ShowFlightPlanActivity"></activity>
-	
+
 	<activity android:name=".blackbox.BlackBoxPrefsActivity"></activity>
 	<activity android:name=".blackbox.BlackBoxWatchActivity"></activity>
 	<activity android:name=".BackgroundTaskListActivity"></activity>
