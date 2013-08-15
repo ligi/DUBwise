@@ -1,12 +1,12 @@
 /**************************************************************************
- *                                          
+ *
  * Activity to show Analog Values
- *                                          
+ *
  * Author:  Marcus -LiGi- Bueschleb   
  *
  * Project URL:
  *  http://mikrokopter.de/ucwiki/en/DUBwise
- * 
+ *
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
  *  (Creative Commons / Non Commercial / Share Alike)
@@ -25,19 +25,21 @@ import org.ligi.androidhelper.base_activities.RefreshingStringBaseListActivity;
 public class VoiceDebugActivity extends RefreshingStringBaseListActivity {
 
 
-	@Override
-	public int getRefreshSleep() {
-		return 100;
-	}
+    @Override
+    public int getRefreshSleep() {
+        return 100;
+    }
 
-	@Override
-	public String getStringByPosition(int pos) {
-		switch (pos) {
-			case 0: return "next Block: " + StatusVoice.getInstance().getPauseTimeout() ;
-			case 1: return "last: " + StatusVoice.getInstance().getLastSpoken();
-		}
-		
-		return null;
-	}
+    @Override
+    public String getStringByPosition(int pos) {
+        switch (pos) {
+            case 0:
+                return "next Block: " + StatusVoice.getInstance().getPauseTimeout();
+            case 1:
+                return "last: " + StatusVoice.getInstance().getLastSpoken();
+        }
+
+        return null;
+    }
 
 }

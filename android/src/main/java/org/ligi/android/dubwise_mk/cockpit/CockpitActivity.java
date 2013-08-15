@@ -1,12 +1,12 @@
 /**************************************************************************
- *                                          
+ *
  * Activity to show a Cockpit
- *                                          
+ *
  * Author:  Marcus -LiGi- Bueschleb   
  *
  * Project URL:
  *  http://mikrokopter.de/ucwiki/en/DUBwise
- * 
+ *
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
  *  (Creative Commons / Non Commercial / Share Alike)
@@ -20,67 +20,68 @@
 
 package org.ligi.android.dubwise_mk.cockpit;
 
-import org.ligi.android.dubwise_mk.conn.MKProvider;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
-import org.ligi.ufo.MKCommunicator;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.helper.ActivityCalls;
+import org.ligi.ufo.MKCommunicator;
+
 public class CockpitActivity extends Activity {
-	
-	private static final int MENU_SETTINGS = 0;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    private static final int MENU_SETTINGS = 0;
 
-	    MKProvider.getMK().user_intent=MKCommunicator.USER_INTENT_3DDATA;
-		
-		ActivityCalls.beforeContent(this);
-		
-		setContentView(new CockpitView(this));
-		ActivityCalls.afterContent(this);
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		ActivityCalls.afterContent(this);	
-	}
+        MKProvider.getMK().user_intent = MKCommunicator.USER_INTENT_3DDATA;
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-	}
+        ActivityCalls.beforeContent(this);
 
-	@Override
-	protected void onDestroy() {
-		ActivityCalls.onDestroy(this);
-		super.onDestroy();
-	}
-	
-	/* Creates the menu items */
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    
-		MenuItem settings_menu=menu.add(0,MENU_SETTINGS,0,"Settings");
-		settings_menu.setIcon(android.R.drawable.ic_menu_preferences);
-		
-	    return true;
-	}
-	/* Handles item selections */
-	public boolean onOptionsItemSelected(MenuItem item) {
-		
-	    switch (item.getItemId()) {
-	    	
-	    	case MENU_SETTINGS:
-	    		startActivity(new Intent(this, CockpitPrefsActivity.class));
-	    		return true;
-	    }
-	    return false;
-	}
+        setContentView(new CockpitView(this));
+        ActivityCalls.afterContent(this);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ActivityCalls.afterContent(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        ActivityCalls.onDestroy(this);
+        super.onDestroy();
+    }
+
+    /* Creates the menu items */
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuItem settings_menu = menu.add(0, MENU_SETTINGS, 0, "Settings");
+        settings_menu.setIcon(android.R.drawable.ic_menu_preferences);
+
+        return true;
+    }
+
+    /* Handles item selections */
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case MENU_SETTINGS:
+                startActivity(new Intent(this, CockpitPrefsActivity.class));
+                return true;
+        }
+        return false;
+    }
 }

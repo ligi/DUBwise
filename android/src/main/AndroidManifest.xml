@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" 
       android:versionName="0.94_LotharF_BT_issue" android:versionCode="40" package="org.ligi.android.dubwise_mk">
 
-	<uses-sdk android:targetSdkVersion="18" android:minSdkVersion="5"></uses-sdk>
+	<uses-sdk android:targetSdkVersion="18" android:minSdkVersion="7"></uses-sdk>
 	
 	
      <supports-screens android:largeScreens="true"
@@ -24,7 +24,9 @@
 	<uses-library android:name="com.google.android.maps"/>
 
     <application android:icon="@drawable/icon" android:label="@string/app_name" 
-        android:name=".app.ApplicationContext">
+        android:name=".app.ApplicationContext"
+            android:theme="@style/Theme.Sherlock"
+            >
     	<uses-library android:name="com.google.android.maps"/>
      
         <activity android:name=".DUBwise"

@@ -1,12 +1,12 @@
 /**************************************************************************
- *                                          
+ *
  * Activity to edit the DUBwise Preferences
- *                                          
+ *
  * Author:  Marcus -LiGi- Bueschleb   
  *
  * Project URL:
  *  http://mikrokopter.de/ucwiki/en/DUBwise
- * 
+ *
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
  *  (Creative Commons / Non Commercial / Share Alike)
@@ -20,130 +20,127 @@
 
 package org.ligi.android.dubwise_mk;
 
-import org.ligi.android.dubwise_mk.DUBwisePrefs;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
-
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
-import android.preference.Preference.OnPreferenceChangeListener;
+
+import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 
 /**
- *                                            
  * Activity to edit the DUBwise Preferences
- *                                          
- * @author ligi ( aka: Marcus Bueschleb | mail: ligi at ligi dot de )
  *
+ * @author ligi ( aka: Marcus Bueschleb | mail: ligi at ligi dot de )
  */
 public class DUBwisePrefsActivity extends PreferenceActivity implements
-		OnPreferenceChangeListener, OnSharedPreferenceChangeListener {
+        OnPreferenceChangeListener, OnSharedPreferenceChangeListener {
 
-	private ListPreference stayAwakePref;
+    private ListPreference stayAwakePref;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		ActivityCalls.beforeContent(this);
-		super.onCreate(savedInstanceState);
-		setPreferenceScreen(createPreferenceHierarchy());
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        ActivityCalls.beforeContent(this);
+        super.onCreate(savedInstanceState);
+        setPreferenceScreen(createPreferenceHierarchy());
 
-	}
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		ActivityCalls.afterContent(this);
-	}
+    @Override
+    public void onResume() {
+        super.onResume();
+        ActivityCalls.afterContent(this);
+    }
 
-	private PreferenceScreen createPreferenceHierarchy() {
-		// Root
-		PreferenceScreen root = getPreferenceManager().createPreferenceScreen(
-				this);
+    private PreferenceScreen createPreferenceHierarchy() {
+        // Root
+        PreferenceScreen root = getPreferenceManager().createPreferenceScreen(
+                this);
 
-		root.setPersistent(true);
-
-		/* UI section */
-		PreferenceCategory uiPrefCat = new PreferenceCategory(this);
-		uiPrefCat.setTitle("User Interface");
-		root.addPreference(uiPrefCat);
-
-		CheckBoxPreference fullscreenCheckBoxPref = new CheckBoxPreference(this);
-		fullscreenCheckBoxPref.setKey(DUBwisePrefs.KEY_FULLSCREEN);
-		fullscreenCheckBoxPref.setTitle("Fullscreen");
-		fullscreenCheckBoxPref.setSummary("see more DUBwise & less Device");
-		fullscreenCheckBoxPref.setOnPreferenceChangeListener(this);
-		uiPrefCat.addPreference(fullscreenCheckBoxPref);
-
-		CheckBoxPreference statusBarCheckBoxPref = new CheckBoxPreference(this);
-		statusBarCheckBoxPref.setKey(DUBwisePrefs.KEY_STATUSBAR);
-		statusBarCheckBoxPref.setTitle("Status Bar");
-		statusBarCheckBoxPref.setSummary("see important info on top");
-		statusBarCheckBoxPref.setOnPreferenceChangeListener(this);
-
-		uiPrefCat.addPreference(statusBarCheckBoxPref);
-
-		stayAwakePref = new ListPreference(this);
-		stayAwakePref.setEntries(DUBwisePrefs.getKeepLightOptionStrings());
-		stayAwakePref.setEntryValues(DUBwisePrefs.getKeepLightOptionStrings());
-		stayAwakePref.setDialogTitle("Stay Awake");
-		stayAwakePref.setKey(DUBwisePrefs.KEY_KEEPLIGHT);
-		stayAwakePref.setTitle("Stay Awake");
-		stayAwakePref.setSummary(DUBwisePrefs.getKeepLightString());
-		stayAwakePref.setOnPreferenceChangeListener(this);
-		stayAwakePref.setDefaultValue(DUBwisePrefs.getKeepLightString());
-		uiPrefCat.addPreference(stayAwakePref);
+        root.setPersistent(true);
 
 		/* UI section */
-		PreferenceCategory miscPrefCat = new PreferenceCategory(this);
-		miscPrefCat.setTitle("Misc");
-		root.addPreference(miscPrefCat);
+        PreferenceCategory uiPrefCat = new PreferenceCategory(this);
+        uiPrefCat.setTitle("User Interface");
+        root.addPreference(uiPrefCat);
 
-		CheckBoxPreference expertModeCheckBoxPref = new CheckBoxPreference(this);
-		expertModeCheckBoxPref.setKey(DUBwisePrefs.KEY_EXPERTMODE);
-		expertModeCheckBoxPref.setTitle("Expert Mode");
-		expertModeCheckBoxPref
-				.setSummary("experimental functions - might crash more often");
-		miscPrefCat.addPreference(expertModeCheckBoxPref);
+        CheckBoxPreference fullscreenCheckBoxPref = new CheckBoxPreference(this);
+        fullscreenCheckBoxPref.setKey(DUBwisePrefs.KEY_FULLSCREEN);
+        fullscreenCheckBoxPref.setTitle("Fullscreen");
+        fullscreenCheckBoxPref.setSummary("see more DUBwise & less Device");
+        fullscreenCheckBoxPref.setOnPreferenceChangeListener(this);
+        uiPrefCat.addPreference(fullscreenCheckBoxPref);
 
-		CheckBoxPreference keepScreenAwakeCheckBoxPref = new CheckBoxPreference(
-				this);
-		keepScreenAwakeCheckBoxPref.setKey(DUBwisePrefs.KEY_VERBOSELOG);
-		keepScreenAwakeCheckBoxPref.setTitle("Verbose Logging");
-		keepScreenAwakeCheckBoxPref.setSummary("might help find problems");
-		miscPrefCat.addPreference(keepScreenAwakeCheckBoxPref);
+        CheckBoxPreference statusBarCheckBoxPref = new CheckBoxPreference(this);
+        statusBarCheckBoxPref.setKey(DUBwisePrefs.KEY_STATUSBAR);
+        statusBarCheckBoxPref.setTitle("Status Bar");
+        statusBarCheckBoxPref.setSummary("see important info on top");
+        statusBarCheckBoxPref.setOnPreferenceChangeListener(this);
 
-		this.getPreferenceManager().getSharedPreferences()
-				.registerOnSharedPreferenceChangeListener(this);
+        uiPrefCat.addPreference(statusBarCheckBoxPref);
 
-		return root;
+        stayAwakePref = new ListPreference(this);
+        stayAwakePref.setEntries(DUBwisePrefs.getKeepLightOptionStrings());
+        stayAwakePref.setEntryValues(DUBwisePrefs.getKeepLightOptionStrings());
+        stayAwakePref.setDialogTitle("Stay Awake");
+        stayAwakePref.setKey(DUBwisePrefs.KEY_KEEPLIGHT);
+        stayAwakePref.setTitle("Stay Awake");
+        stayAwakePref.setSummary(DUBwisePrefs.getKeepLightString());
+        stayAwakePref.setOnPreferenceChangeListener(this);
+        stayAwakePref.setDefaultValue(DUBwisePrefs.getKeepLightString());
+        uiPrefCat.addPreference(stayAwakePref);
 
-	}
+		/* UI section */
+        PreferenceCategory miscPrefCat = new PreferenceCategory(this);
+        miscPrefCat.setTitle("Misc");
+        root.addPreference(miscPrefCat);
 
-	@Override
-	public boolean onPreferenceChange(Preference preference, Object newValue) {
+        CheckBoxPreference expertModeCheckBoxPref = new CheckBoxPreference(this);
+        expertModeCheckBoxPref.setKey(DUBwisePrefs.KEY_EXPERTMODE);
+        expertModeCheckBoxPref.setTitle("Expert Mode");
+        expertModeCheckBoxPref
+                .setSummary("experimental functions - might crash more often");
+        miscPrefCat.addPreference(expertModeCheckBoxPref);
 
-		if (preference == stayAwakePref)
-			preference.setSummary((String) newValue);
+        CheckBoxPreference keepScreenAwakeCheckBoxPref = new CheckBoxPreference(
+                this);
+        keepScreenAwakeCheckBoxPref.setKey(DUBwisePrefs.KEY_VERBOSELOG);
+        keepScreenAwakeCheckBoxPref.setTitle("Verbose Logging");
+        keepScreenAwakeCheckBoxPref.setSummary("might help find problems");
+        miscPrefCat.addPreference(keepScreenAwakeCheckBoxPref);
 
-		return true; // return that we are OK with preferences
-	}
+        this.getPreferenceManager().getSharedPreferences()
+                .registerOnSharedPreferenceChangeListener(this);
 
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-			String key) {
-		// for fullscreen and statusbar instant change
-		ActivityCalls.afterContent(this);
-	}
+        return root;
 
-	@Override
-	protected void onDestroy() {
-		ActivityCalls.onDestroy(this);
-		super.onDestroy();
-	}
+    }
+
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+
+        if (preference == stayAwakePref)
+            preference.setSummary((String) newValue);
+
+        return true; // return that we are OK with preferences
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+                                          String key) {
+        // for fullscreen and statusbar instant change
+        ActivityCalls.afterContent(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        ActivityCalls.onDestroy(this);
+        super.onDestroy();
+    }
 
 }

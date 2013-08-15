@@ -21,7 +21,6 @@
 package org.ligi.android.dubwise_mk;
 
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -30,6 +29,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+
+import com.actionbarsherlock.app.SherlockListActivity;
 
 import org.ligi.android.dubwise_mk.app.ApplicationContext;
 import org.ligi.android.dubwise_mk.balance.BalanceActivity;
@@ -54,7 +55,7 @@ import org.ligi.ufo.logging.NotLogger;
 
 import java.util.Vector;
 
-public class DUBwise extends ListActivity implements DUBwiseNotificationListenerInterface, Runnable {
+public class DUBwise extends SherlockListActivity implements DUBwiseNotificationListenerInterface, Runnable {
 
     private VarioSound vs;
 
@@ -174,7 +175,6 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 
         this.setListAdapter(new IconicAdapter(this, (menu_items_vector
                 .toArray())));
-
     }
 
     @Override
@@ -282,8 +282,9 @@ public class DUBwise extends ListActivity implements DUBwiseNotificationListener
 
         IconicMenuItem item = ((IconicMenuItem) (this.getListAdapter().getItem(position)));
 
-        if (item.intent != null)
+        if (item.intent != null) {
             startActivity(item.intent);
+        }
 
     }
 

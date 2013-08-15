@@ -1,28 +1,26 @@
 package org.ligi.android.dubwise_mk.cockpit;
 
-import java.util.HashMap;
+import android.media.AudioManager;
+import android.media.SoundPool;
 
-import org.ligi.android.dubwise_mk.R;
 import org.ligi.android.dubwise_mk.app.ApplicationContext;
 import org.ligi.ufo.MKCommunicator;
 
-import android.content.Context;
-import android.media.AudioManager;
-import android.media.SoundPool;
+import java.util.HashMap;
 
 
 public class VarioSound implements Runnable {
 
-	private  SoundPool mSoundPool;
-	private  HashMap<Integer, Integer> mSoundPoolMap;
-	private  AudioManager  mAudioManager;
-	private ApplicationContext mContext;
-	public final static int SOUND_UP=1;
-	public final static int SOUND_DOWN=2;
-      
-	public VarioSound (ApplicationContext theContext) {
-		return;
-		/*
+    private SoundPool mSoundPool;
+    private HashMap<Integer, Integer> mSoundPoolMap;
+    private AudioManager mAudioManager;
+    private ApplicationContext mContext;
+    public final static int SOUND_UP = 1;
+    public final static int SOUND_DOWN = 2;
+
+    public VarioSound(ApplicationContext theContext) {
+        return;
+        /*
 		mContext = theContext;
         mSoundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 0);
         mSoundPoolMap = new HashMap<Integer, Integer> ();
@@ -35,47 +33,46 @@ public class VarioSound implements Runnable {
         
         last_audible_alt=getMK().getAlt();
         */
-	}
+    }
 
-	private MKCommunicator getMK() {
-		return mContext.getMK();
-	}
-	
-	private int last_audible_alt;
-    private final static int ALT_SOUND_PLAY_DISTANCE=5;  	
-	
-  	@Override
-  	public void run() {
-  		while (true) {			
-  			
-  			if (mContext.getMK().isConnected()) {
-  				if (last_audible_alt-getMK().getAlt()>ALT_SOUND_PLAY_DISTANCE) {
-  					playSound(SOUND_UP);
-  					last_audible_alt=getMK().getAlt();
-  				}
-  				else if (last_audible_alt-getMK().getAlt()<-ALT_SOUND_PLAY_DISTANCE) {
-  					playSound(SOUND_DOWN);
-  					last_audible_alt=getMK().getAlt();
-  				} 
-  			}
-  			
-  			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-			}
-  		}
-  	}
+    private MKCommunicator getMK() {
+        return mContext.getMK();
+    }
 
-      
-  	 public void addSound(int index, int SoundID) {
-         mSoundPoolMap.put(index, mSoundPool.load(mContext, SoundID, 1));
-     }
+    private int last_audible_alt;
+    private final static int ALT_SOUND_PLAY_DISTANCE = 5;
 
-     public void playSound(int index) {
-         float streamVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-         streamVolume = streamVolume / mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-         mSoundPool.play(mSoundPoolMap.get(index), streamVolume, streamVolume, 1, 0, 1f);
-     }
+    @Override
+    public void run() {
+        while (true) {
+
+            if (mContext.getMK().isConnected()) {
+                if (last_audible_alt - getMK().getAlt() > ALT_SOUND_PLAY_DISTANCE) {
+                    playSound(SOUND_UP);
+                    last_audible_alt = getMK().getAlt();
+                } else if (last_audible_alt - getMK().getAlt() < -ALT_SOUND_PLAY_DISTANCE) {
+                    playSound(SOUND_DOWN);
+                    last_audible_alt = getMK().getAlt();
+                }
+            }
+
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+            }
+        }
+    }
+
+
+    public void addSound(int index, int SoundID) {
+        mSoundPoolMap.put(index, mSoundPool.load(mContext, SoundID, 1));
+    }
+
+    public void playSound(int index) {
+        float streamVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        streamVolume = streamVolume / mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        mSoundPool.play(mSoundPoolMap.get(index), streamVolume, streamVolume, 1, 0, 1f);
+    }
 
   	
   	
@@ -153,5 +150,5 @@ public class VarioSound implements Runnable {
        
     }
 */
-	
+
 }

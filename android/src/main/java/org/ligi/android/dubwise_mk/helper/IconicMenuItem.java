@@ -1,10 +1,10 @@
 /**************************************************************************
- *                                          
+ *
  * Author:  Marcus -LiGi- Bueschleb   
  *
  * Project URL:
  *  http://mikrokopter.de/ucwiki/en/DUBwise
- * 
+ *
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
  *  (Creative Commons / Non Commercial / Share Alike)
@@ -21,23 +21,23 @@ package org.ligi.android.dubwise_mk.helper;
 import android.content.Intent;
 
 public class IconicMenuItem {
-        
-        public int drawable;
-        public String label;
-        public Intent intent=null;
-        public int action=-1;
-        
-        public IconicMenuItem( String label , int drawable,Intent intent) {
-            this.drawable=drawable;
-            this.label=label;
-            this.intent=intent;
-        }
-        
-        public IconicMenuItem( String label , int drawable,int action) {
-            this.drawable=drawable;
-            this.label=label;
-            this.action=action;
-        }
-        
-        
+
+    public int drawable;
+    public String label;
+    public Intent intent = null;
+    public int action = -1;
+
+    public IconicMenuItem(String label, int drawable, Intent intent) {
+        this.drawable = drawable;
+        this.label = label;
+        this.intent = intent;
     }
+
+    public IconicMenuItem(String label, int drawable, int action) {
+        this.drawable = drawable;
+        this.label = label;
+        this.action = action;
+    }
+
+
+}

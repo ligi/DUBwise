@@ -1,7 +1,7 @@
 /****************************************************
- *                                            
+ *
  * Author:        Marcus -LiGi- Bueschleb     
- * 
+ *
  * see README for further Info
  *
  * License:
@@ -19,8 +19,7 @@ package org.ligi.android.dubwise_mk.helper.canvas;
 
 /**
  * @author ligi ( aka: Marcus Bueschleb | mail: ligi at ligi dot de )
- *
  */
 public interface CanvasButtonAction {
-	public void action();
+    public void action();
 }

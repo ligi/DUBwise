@@ -1,12 +1,12 @@
 /**************************************************************************
- *                                          
+ *
  * Activity to edit the Cockpit Preferences
- *                                          
+ *
  * Author:  Marcus -LiGi- Bueschleb   
  *
  * Project URL:
  *  http://mikrokopter.de/ucwiki/en/DUBwise
- * 
+ *
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
  *  (Creative Commons / Non Commercial / Share Alike)
@@ -20,54 +20,54 @@
 
 package org.ligi.android.dubwise_mk.cockpit;
 
-import org.ligi.android.dubwise_mk.DUBwisePrefs;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
-
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
-import android.preference.Preference.OnPreferenceChangeListener;
+
+import org.ligi.android.dubwise_mk.DUBwisePrefs;
+import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 
 public class CockpitPrefsActivity extends PreferenceActivity implements OnPreferenceChangeListener {
 
-	@Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
-		ActivityCalls.beforeContent(this);		
-		super.onCreate(savedInstanceState);
+        ActivityCalls.beforeContent(this);
+        super.onCreate(savedInstanceState);
         setPreferenceScreen(createPreferenceHierarchy());
-		
+
     }
-	
-	@Override 
-	public void onResume() {
-		super.onResume();
-		ActivityCalls.afterContent(this);		
-	}
-	
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ActivityCalls.afterContent(this);
+    }
+
     private PreferenceScreen createPreferenceHierarchy() {
         // Root
         PreferenceScreen root = getPreferenceManager().createPreferenceScreen(this);
-        
+
         root.setPersistent(true);
         
         /* UI section */
         PreferenceCategory artificialHorizonPrefCat = new PreferenceCategory(this);
         artificialHorizonPrefCat.setTitle("Artificial Horizon");
-        root.addPreference( artificialHorizonPrefCat);
+        root.addPreference(artificialHorizonPrefCat);
 
         CheckBoxPreference invertArtificialHorizonCheckBoxPref = new CheckBoxPreference(this);
         invertArtificialHorizonCheckBoxPref.setKey(DUBwisePrefs.KEY_INVERT_ARTIFICIAL_HORIZON);
         invertArtificialHorizonCheckBoxPref.setTitle("Invert");
         invertArtificialHorizonCheckBoxPref.setSummary("Invert Artificial Horizon");
         invertArtificialHorizonCheckBoxPref.setOnPreferenceChangeListener(this);
-       	artificialHorizonPrefCat.addPreference(invertArtificialHorizonCheckBoxPref);
-       	
-       	PreferenceCategory valuesPrefCat = new PreferenceCategory(this);
-       	valuesPrefCat.setTitle("Shown Values");
-        root.addPreference( valuesPrefCat);
+        artificialHorizonPrefCat.addPreference(invertArtificialHorizonCheckBoxPref);
+
+        PreferenceCategory valuesPrefCat = new PreferenceCategory(this);
+        valuesPrefCat.setTitle("Shown Values");
+        root.addPreference(valuesPrefCat);
 
         CheckBoxPreference drawAltCheckBoxPref = new CheckBoxPreference(this);
         drawAltCheckBoxPref.setKey(DUBwisePrefs.KEY_COCKPIT_SHOW_ALT);
@@ -75,16 +75,16 @@ public class CockpitPrefsActivity extends PreferenceActivity implements OnPrefer
         drawAltCheckBoxPref.setSummary("Show Altitude in m");
         drawAltCheckBoxPref.setOnPreferenceChangeListener(this);
         drawAltCheckBoxPref.setDefaultValue(DUBwisePrefs.showAlt());
-       	valuesPrefCat.addPreference(drawAltCheckBoxPref);
-       	
-       	
-       	CheckBoxPreference drawFlightTimeCheckBoxPref = new CheckBoxPreference(this);
+        valuesPrefCat.addPreference(drawAltCheckBoxPref);
+
+
+        CheckBoxPreference drawFlightTimeCheckBoxPref = new CheckBoxPreference(this);
         drawFlightTimeCheckBoxPref.setKey(DUBwisePrefs.KEY_COCKPIT_SHOW_FLIGHTTIME);
         drawFlightTimeCheckBoxPref.setTitle("Flight Time");
         drawFlightTimeCheckBoxPref.setSummary("Show Altitude in mm:ss");
         drawFlightTimeCheckBoxPref.setOnPreferenceChangeListener(this);
         drawFlightTimeCheckBoxPref.setDefaultValue(DUBwisePrefs.showFlightTime());
-       	valuesPrefCat.addPreference(drawFlightTimeCheckBoxPref);
+        valuesPrefCat.addPreference(drawFlightTimeCheckBoxPref);
 
 
         CheckBoxPreference drawCurrentCheckBoxPref = new CheckBoxPreference(this);
@@ -93,7 +93,7 @@ public class CockpitPrefsActivity extends PreferenceActivity implements OnPrefer
         drawCurrentCheckBoxPref.setSummary("Show Current in A");
         drawCurrentCheckBoxPref.setOnPreferenceChangeListener(this);
         drawCurrentCheckBoxPref.setDefaultValue(DUBwisePrefs.showCurrent());
-       	valuesPrefCat.addPreference(drawCurrentCheckBoxPref);
+        valuesPrefCat.addPreference(drawCurrentCheckBoxPref);
 
 
         CheckBoxPreference drawUsedCapacityCheckBoxBoxPref = new CheckBoxPreference(this);
@@ -105,13 +105,13 @@ public class CockpitPrefsActivity extends PreferenceActivity implements OnPrefer
         valuesPrefCat.addPreference(drawUsedCapacityCheckBoxBoxPref);
 
         return root;
- 
+
     }
-    
+
     @Override
- 	public boolean onPreferenceChange(Preference preference, Object newValue) {
-	  	return true; // return that we are OK with preferences
-	}
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+        return true; // return that we are OK with preferences
+    }
 
 
 }

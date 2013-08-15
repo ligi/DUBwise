@@ -1,12 +1,12 @@
 /**************************************************************************
- *                                          
+ *
  * Startup Activity for the flightsettings
- *                                          
+ *
  * Author:  Marcus -LiGi- Bueschleb   
  *
  * Project URL:
  *  http://mikrokopter.de/ucwiki/en/DUBwise
- * 
+ *
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
  *  (Creative Commons / Non Commercial / Share Alike)
@@ -29,8 +29,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import org.ligi.android.dubwise_mk.conn.MKProvider;
 import org.ligi.android.dubwise_mk.helper.ActivityCalls;
@@ -39,143 +39,141 @@ import org.ligi.ufo.MKParamsParser;
 
 public class FlightSettingsActivity extends ListActivity implements Runnable {
 
-	private final static int DIALOG_PROGRESS=1;
-	private ListActivity this_ref;
-	private ProgressDialog progressDialog;
-	private MKCommunicator mk; 
-	
-	private String[] name_strings=new String[MKParamsParser.MAX_PARAMSETS];
-	private ArrayAdapter<String> adapter;
-	private AlertDialog alert;
-	
-	/** Called when the activity is first created. */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-	
-		super.onCreate(savedInstanceState);
-		ActivityCalls.beforeContent(this);
-		this_ref=this;		
-		mk=MKProvider.getMK();
-		
-		for (int i=0;i<MKParamsParser.MAX_PARAMSETS;i++)
-            name_strings[i]="-";
-		        
+    private final static int DIALOG_PROGRESS = 1;
+    private ListActivity this_ref;
+    private ProgressDialog progressDialog;
+    private MKCommunicator mk;
 
-		alert=new AlertDialog.Builder(this).create();
-		alert.setIcon(android.R.drawable.ic_dialog_alert);
-		alert.setTitle("Error");
-		
-		 alert.setButton("OK", new DialogInterface.OnClickListener() {
-		      public void onClick(DialogInterface dialog, int which) {
-		    	  finish();
-		        return;
-		      } }); 
-		
-		if (mk.params.last_parsed_paramset!=MKParamsParser.MAX_PARAMSETS) {
-		    showDialog(DIALOG_PROGRESS);
+    private String[] name_strings = new String[MKParamsParser.MAX_PARAMSETS];
+    private ArrayAdapter<String> adapter;
+    private AlertDialog alert;
+
+    /**
+     * Called when the activity is first created.
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        ActivityCalls.beforeContent(this);
+        this_ref = this;
+        mk = MKProvider.getMK();
+
+        for (int i = 0; i < MKParamsParser.MAX_PARAMSETS; i++)
+            name_strings[i] = "-";
+
+
+        alert = new AlertDialog.Builder(this).create();
+        alert.setIcon(android.R.drawable.ic_dialog_alert);
+        alert.setTitle("Error");
+
+        alert.setButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+                return;
+            }
+        });
+
+        if (mk.params.last_parsed_paramset != MKParamsParser.MAX_PARAMSETS) {
+            showDialog(DIALOG_PROGRESS);
 //		    this.runOnUiThread(this );
-                  new Thread(this).start();
-           }   
+            new Thread(this).start();
+        }
 
-	        // this.setContentView(R.layout.general_settings);
-	        // progressDialog.show();
-	}
-	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		ActivityCalls.afterContent(this);
-	}
-	
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		switch (id) {
-			case DIALOG_PROGRESS:
-	    		progressDialog = new ProgressDialog(FlightSettingsActivity.this);
-	    		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-	    		progressDialog.setMessage("Loading Flight Settings ...");
-	    		progressDialog.setCancelable(true);
-	    		progressDialog.setMax(MKParamsParser.MAX_PARAMSETS);
-	    		return progressDialog;
-		}
-		return null;
-	}
+        // this.setContentView(R.layout.general_settings);
+        // progressDialog.show();
+    }
 
-	public void run() {
-		 Looper.prepare();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ActivityCalls.afterContent(this);
+    }
 
-		mk.user_intent = MKCommunicator.USER_INTENT_PARAMS;
-		while(progressDialog.isShowing()) {
-			
-			if (mk.params.incompatible_flag!=MKParamsParser.INCOMPATIBLE_FLAG_NOT)
-			{
-			progressDialog.dismiss();
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case DIALOG_PROGRESS:
+                progressDialog = new ProgressDialog(FlightSettingsActivity.this);
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                progressDialog.setMessage("Loading Flight Settings ...");
+                progressDialog.setCancelable(true);
+                progressDialog.setMax(MKParamsParser.MAX_PARAMSETS);
+                return progressDialog;
+        }
+        return null;
+    }
 
-		    this.runOnUiThread( new Runnable() {
-		  
-                public void run() {
-                	String msg="Incompatible Params (Datarevision " + mk.params.params_version+")";
-                	if (mk.params.incompatible_flag==MKParamsParser.INCOMPATIBLE_FLAG_FC_TOO_OLD)
-                		msg+=" Please Update your FC!";
-                	else
-                		if (mk.params.incompatible_flag==MKParamsParser.INCOMPATIBLE_FLAG_FC_TOO_NEW)
-                    		msg+=" Please Update DUBwise!";
-                	
-                	alert.setMessage(msg);
-                	alert.show(); }});
-			}
-			else
-			
-			if ((mk.params.allParamsetsKnown()))
-				{
-			    progressDialog.dismiss();
-				
-			    for (int i=0;i<MKParamsParser.MAX_PARAMSETS;i++)
-			    	{
-			    	name_strings[i]=mk.params.getParamName(i );
+    public void run() {
+        Looper.prepare();
+
+        mk.user_intent = MKCommunicator.USER_INTENT_PARAMS;
+        while (progressDialog.isShowing()) {
+
+            if (mk.params.incompatible_flag != MKParamsParser.INCOMPATIBLE_FLAG_NOT) {
+                progressDialog.dismiss();
+
+                this.runOnUiThread(new Runnable() {
+
+                    public void run() {
+                        String msg = "Incompatible Params (Datarevision " + mk.params.params_version + ")";
+                        if (mk.params.incompatible_flag == MKParamsParser.INCOMPATIBLE_FLAG_FC_TOO_OLD)
+                            msg += " Please Update your FC!";
+                        else if (mk.params.incompatible_flag == MKParamsParser.INCOMPATIBLE_FLAG_FC_TOO_NEW)
+                            msg += " Please Update DUBwise!";
+
+                        alert.setMessage(msg);
+                        alert.show();
+                    }
+                });
+            } else if ((mk.params.allParamsetsKnown())) {
+                progressDialog.dismiss();
+
+                for (int i = 0; i < MKParamsParser.MAX_PARAMSETS; i++) {
+                    name_strings[i] = mk.params.getParamName(i);
 
 					/*if (i==mk.params.act_paramset)
-			    		menu_items[i]+="(Active)"; */ 
-			    	}
-			    
-			    
-			    this.runOnUiThread( new Runnable() {
-			  
+                        menu_items[i]+="(Active)"; */
+                }
+
+
+                this.runOnUiThread(new Runnable() {
+
                     public void run() {
-                        adapter  =new ArrayAdapter<String>(this_ref,
+                        adapter = new ArrayAdapter<String>(this_ref,
                                 android.R.layout.simple_list_item_1, name_strings);
-                        
-                        
+
+
                         this_ref.setListAdapter(adapter);
-                      
-                    } } );
-			    
-			//    adapter.notifyDataSetChanged();
-			    //UIThreadUtilities.   .runOnUIThread
-				}
-			else {
-				progressDialog.setProgress((mk.params.last_parsed_paramset+1));
-				
-				try {
-					Thread.sleep(200);
-				} catch (InterruptedException e) {
-					// sleeping is not that important that we should throw something ;-)
-				}
-				System.out.println(" setting last:" +mk.params.last_parsed_paramset );
-				System.out.println(" settings act:" +mk.params.act_paramset);
-			}
-		}
-		
-	}
+
+                    }
+                });
+
+                //    adapter.notifyDataSetChanged();
+                //UIThreadUtilities.   .runOnUIThread
+            } else {
+                progressDialog.setProgress((mk.params.last_parsed_paramset + 1));
+
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    // sleeping is not that important that we should throw something ;-)
+                }
+                System.out.println(" setting last:" + mk.params.last_parsed_paramset);
+                System.out.println(" settings act:" + mk.params.act_paramset);
+            }
+        }
+
+    }
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        
-        startActivity( new Intent( this, FlightSettingsTopicListActivity.class ) );
-        
+
+        startActivity(new Intent(this, FlightSettingsTopicListActivity.class));
+
         // select the one touched
-        MKProvider.getMK().params.act_paramset=position;
+        MKProvider.getMK().params.act_paramset = position;
         MKProvider.getMK().params.update_backup(position);
         
         /*
@@ -188,9 +186,9 @@ public class FlightSettingsActivity extends ListActivity implements Runnable {
     }
 
     @Override
-	protected void onDestroy() {
-		ActivityCalls.onDestroy(this);
-		super.onDestroy();
-	}
-	
+    protected void onDestroy() {
+        ActivityCalls.onDestroy(this);
+        super.onDestroy();
+    }
+
 }

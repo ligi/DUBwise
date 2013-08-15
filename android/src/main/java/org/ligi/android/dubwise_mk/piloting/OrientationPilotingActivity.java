@@ -1,12 +1,12 @@
 /**************************************************************************
- *                                          
+ *
  * Activity to Pilot the UFO via ACC / Orientation sensor
- *                                          
+ *
  * Author:  Marcus -LiGi- Bueschleb   
  *
  * Project URL:
  *  http://mikrokopter.de/ucwiki/en/DUBwise
- * 
+ *
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
  *  (Creative Commons / Non Commercial / Share Alike)
@@ -20,36 +20,36 @@
 
 package org.ligi.android.dubwise_mk.piloting;
 
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
-
 import android.app.Activity;
 import android.os.Bundle;
 
-public class OrientationPilotingActivity extends Activity {
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		ActivityCalls.beforeContent(this);
-		
-		setContentView(new OrientationPilotingView(this));
-	
-	}
-	
-	@Override
-	protected void onResume() {
-		ActivityCalls.afterContent(this);	
-		super.onResume();
-	}
+import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-	}
+public class OrientationPilotingActivity extends Activity {
 
     @Override
-	protected void onDestroy() {
-		ActivityCalls.onDestroy(this);
-		super.onDestroy();
-	}
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ActivityCalls.beforeContent(this);
+
+        setContentView(new OrientationPilotingView(this));
+
+    }
+
+    @Override
+    protected void onResume() {
+        ActivityCalls.afterContent(this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        ActivityCalls.onDestroy(this);
+        super.onDestroy();
+    }
 }

@@ -1,12 +1,12 @@
 /**************************************************************************
- *                                          
+ *
  * Activity to show the UAV in a 3D view
- *                                          
+ *
  * Author:  Marcus -LiGi- Bueschleb   
  *
  * Project URL:
  *  http://mikrokopter.de/ucwiki/en/DUBwise
- * 
+ *
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
  *  (Creative Commons / Non Commercial / Share Alike)
@@ -25,13 +25,15 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 
 public class OpenGLActivity extends Activity {
-    /** Called when the activity is first created. */
+    /**
+     * Called when the activity is first created.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-    	super.onCreate(savedInstanceState);
- 		GLSurfaceView view = new GLSurfaceView(this);
-   		view.setRenderer(new OpenGLRenderer());
-   		setContentView(view);
+        super.onCreate(savedInstanceState);
+        GLSurfaceView view = new GLSurfaceView(this);
+        view.setRenderer(new OpenGLRenderer());
+        setContentView(view);
     }
 }
 

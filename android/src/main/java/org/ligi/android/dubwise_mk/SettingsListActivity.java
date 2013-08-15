@@ -1,12 +1,12 @@
 /**************************************************************************
- *                                          
+ *
  * Main Menu ( & startup ) Activity for DUBwise 
- *                                          
+ *
  * Author:  Marcus -LiGi- Bueschleb   
  *
  * Project URL:
  *  http://mikrokopter.de/ucwiki/en/DUBwise
- * 
+ *
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
  *  (Creative Commons / Non Commercial / Share Alike)
@@ -20,7 +20,11 @@
 
 package org.ligi.android.dubwise_mk;
 
-import java.util.Vector;
+import android.app.ListActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ListView;
 
 import org.ligi.android.dubwise_mk.blackbox.BlackBoxPrefsActivity;
 import org.ligi.android.dubwise_mk.graph.GraphSettingsActivity;
@@ -31,86 +35,82 @@ import org.ligi.android.dubwise_mk.piloting.PilotingPrefsActivity;
 import org.ligi.android.dubwise_mk.voice.VoicePrefsActivity;
 import org.ligi.tracedroid.logging.Log;
 
-import android.app.ListActivity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ListView;
+import java.util.Vector;
 
 public class SettingsListActivity extends ListActivity {
 
-	public final static int ACTIONID_QUIT = 1;
+    public final static int ACTIONID_QUIT = 1;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	
-		ActivityCalls.beforeContent(this);
-		refresh_list();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		Log.d("onCreate SettingsListActivity");
-	}
+        ActivityCalls.beforeContent(this);
+        refresh_list();
 
-	public void refresh_list() {
-		Vector<IconicMenuItem> menu_items_vector = new Vector<IconicMenuItem>();
+        Log.d("onCreate SettingsListActivity");
+    }
 
-		menu_items_vector.add(new IconicMenuItem("General",
-				android.R.drawable.ic_menu_agenda, new Intent(this,
-						DUBwisePrefsActivity.class)));
-		
-		menu_items_vector.add(new IconicMenuItem("Voice",
-				android.R.drawable.ic_lock_silent_mode_off	, new Intent(this,
-						VoicePrefsActivity.class)));
+    public void refresh_list() {
+        Vector<IconicMenuItem> menu_items_vector = new Vector<IconicMenuItem>();
 
-		menu_items_vector.add(new IconicMenuItem("Graph",
-				android.R.drawable.ic_menu_view	, new Intent(this,
-						GraphSettingsActivity.class)));
-		
-		menu_items_vector.add(new IconicMenuItem("Piloting",
-				android.R.drawable.ic_menu_share	, new Intent(this,
-						PilotingPrefsActivity.class)));
+        menu_items_vector.add(new IconicMenuItem("General",
+                android.R.drawable.ic_menu_agenda, new Intent(this,
+                DUBwisePrefsActivity.class)));
 
-		menu_items_vector.add(new IconicMenuItem("BlackBox",
-				android.R.drawable.ic_menu_save	, new Intent(this,
-						BlackBoxPrefsActivity.class)));
+        menu_items_vector.add(new IconicMenuItem("Voice",
+                android.R.drawable.ic_lock_silent_mode_off, new Intent(this,
+                VoicePrefsActivity.class)));
 
-		menu_items_vector.add(new IconicMenuItem("Background Tasks",
-				android.R.drawable.ic_menu_agenda	, new Intent(this,
-						BackgroundTaskListActivity.class)));
+        menu_items_vector.add(new IconicMenuItem("Graph",
+                android.R.drawable.ic_menu_view, new Intent(this,
+                GraphSettingsActivity.class)));
 
-		
-		this.setListAdapter(new IconicAdapter(this, (menu_items_vector
-				.toArray())));
+        menu_items_vector.add(new IconicMenuItem("Piloting",
+                android.R.drawable.ic_menu_share, new Intent(this,
+                PilotingPrefsActivity.class)));
 
-	}
+        menu_items_vector.add(new IconicMenuItem("BlackBox",
+                android.R.drawable.ic_menu_save, new Intent(this,
+                BlackBoxPrefsActivity.class)));
 
-	@Override
-	protected void onResume() {
-		ActivityCalls.afterContent(this);
-		refresh_list();
-		super.onResume();
-	}
+        menu_items_vector.add(new IconicMenuItem("Background Tasks",
+                android.R.drawable.ic_menu_agenda, new Intent(this,
+                BackgroundTaskListActivity.class)));
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-	}
 
-	@Override
-	protected void onDestroy() {
-		ActivityCalls.onDestroy(this);
-		super.onDestroy();
-	}
+        this.setListAdapter(new IconicAdapter(this, (menu_items_vector
+                .toArray())));
 
-	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		super.onListItemClick(l, v, position, id);
+    }
 
-		IconicMenuItem item = ((IconicMenuItem) (this.getListAdapter()
-				.getItem(position)));
+    @Override
+    protected void onResume() {
+        ActivityCalls.afterContent(this);
+        refresh_list();
+        super.onResume();
+    }
 
-		if (item.intent != null)
-			startActivity(item.intent);
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
 
-	}
+    @Override
+    protected void onDestroy() {
+        ActivityCalls.onDestroy(this);
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+
+        IconicMenuItem item = ((IconicMenuItem) (this.getListAdapter()
+                .getItem(position)));
+
+        if (item.intent != null)
+            startActivity(item.intent);
+
+    }
 }

@@ -1,12 +1,12 @@
 /**************************************************************************
- *                                          
+ *
  * Activity to show Device-Details
- *                                          
+ *
  * Author:  Marcus -LiGi- Bueschleb   
  *
  * Project URL:
  *  http://mikrokopter.de/ucwiki/en/DUBwise
- * 
+ *
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
  *  (Creative Commons / Non Commercial / Share Alike)
@@ -20,26 +20,28 @@
 
 package org.ligi.android.dubwise_mk;
 
-import java.util.ArrayList;
-
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
-import org.ligi.tracedroid.logging.Log;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
+import org.ligi.android.dubwise_mk.helper.ActivityCalls;
+import org.ligi.tracedroid.logging.Log;
+
+import java.util.ArrayList;
+
 public class VoiceControlActivity extends Activity {
 
 
-	/** Called when the activity is first created. */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		ActivityCalls.beforeContent(this);
-	/*
+    /**
+     * Called when the activity is first created.
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        ActivityCalls.beforeContent(this);
+    /*
 		ArrayList<String> potentialResults = new ArrayList<String>();
 		potentialResults.add("open map");
 		potentialResults.add("open cockpit");
@@ -58,37 +60,36 @@ public class VoiceControlActivity extends Activity {
 		 
 		 startActivityForResult(intent,0);
 		 */
-		 
-	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		ActivityCalls.afterContent(this);
-		try {
-			Intent intent = new Intent("android.speech.RecognizerIntent.RECOGNIZE_SPEECH");  
-			startActivityForResult(intent, 0);
-		}
-		catch (Exception e) {
-			new AlertDialog.Builder(this).setTitle("Problem").setMessage("cannot find RecognizerIntent on your Android Phone.").show(); 
-		}
-	}
+    }
 
-	@Override
-	protected void onDestroy() {
-		ActivityCalls.onDestroy(this);
-		super.onDestroy();
-	}
-	
-	@Override 
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {  
-	     // (())  ...code for checking resultCode and data intent...  
-		if ((data==null)||(data.getExtras()==null))
-	    	return;
-		ArrayList<String> results = data.getExtras().getStringArrayList("results");  
-	  
-	    for (String result:results) {
-	    	Log.i("voice result " + result);
-	    }
-	    }  
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ActivityCalls.afterContent(this);
+        try {
+            Intent intent = new Intent("android.speech.RecognizerIntent.RECOGNIZE_SPEECH");
+            startActivityForResult(intent, 0);
+        } catch (Exception e) {
+            new AlertDialog.Builder(this).setTitle("Problem").setMessage("cannot find RecognizerIntent on your Android Phone.").show();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        ActivityCalls.onDestroy(this);
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // (())  ...code for checking resultCode and data intent...
+        if ((data == null) || (data.getExtras() == null))
+            return;
+        ArrayList<String> results = data.getExtras().getStringArrayList("results");
+
+        for (String result : results) {
+            Log.i("voice result " + result);
+        }
+    }
 }

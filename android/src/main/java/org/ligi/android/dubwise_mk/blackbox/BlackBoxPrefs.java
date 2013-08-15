@@ -1,10 +1,10 @@
 /**************************************************************************
- *                                   
+ *
  * Author:  Marcus -LiGi- Bueschleb   
  *
  * Project URL:
  *  http://mikrokopter.de/ucwiki/en/DUBwise
- * 
+ *
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
  *  (Creative Commons / Non Commercial / Share Alike)
@@ -24,26 +24,25 @@ import android.preference.PreferenceManager;
 
 /**
  * class to represent settings for persisting telemetry data
- * 
- * @author ligi
  *
+ * @author ligi
  */
 public class BlackBoxPrefs {
 
-	private static SharedPreferences shared_prefs;
-	
-	public static String KEY_PATH="blackbox_path";
-	public static String KEY_ENABLED="blackbox_enabled";
-	
-	public static void init(Context context) {
-		shared_prefs=PreferenceManager.getDefaultSharedPreferences(context)	;
-	}
+    private static SharedPreferences shared_prefs;
 
-	public static String getPath() {
-		return shared_prefs.getString(KEY_PATH,"/sdcard/DUBwise/BlackBox");
-	}
-	
-	public static boolean isBlackBoxEnabled() {
-		return shared_prefs.getBoolean(KEY_ENABLED, true);
-	}
+    public static String KEY_PATH = "blackbox_path";
+    public static String KEY_ENABLED = "blackbox_enabled";
+
+    public static void init(Context context) {
+        shared_prefs = PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
+    public static String getPath() {
+        return shared_prefs.getString(KEY_PATH, "/sdcard/DUBwise/BlackBox");
+    }
+
+    public static boolean isBlackBoxEnabled() {
+        return shared_prefs.getBoolean(KEY_ENABLED, true);
+    }
 }
