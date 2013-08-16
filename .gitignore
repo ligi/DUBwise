@@ -1,6 +1,7 @@
 bin/
-
 android/*.iml
+android/build
+android/.settings
 # generated source files
 android/shared_src/org/ligi/ufo/DUBwiseLangDefs.java
 ../shared/src/DUBwiseLangDefs.java

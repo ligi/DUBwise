@@ -28,6 +28,6 @@ android {
 
         compile('com.android.support:support-v4:18.0.+')
 
-        compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
+        compile ('com.android.support:appcompat-v7:18.0.+')
     }
 }

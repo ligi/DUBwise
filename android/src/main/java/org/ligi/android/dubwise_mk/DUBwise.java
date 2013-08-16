@@ -25,12 +25,11 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-
-import com.actionbarsherlock.app.SherlockListActivity;
 
 import org.ligi.android.dubwise_mk.app.ApplicationContext;
 import org.ligi.android.dubwise_mk.balance.BalanceActivity;
@@ -42,20 +41,20 @@ import org.ligi.android.dubwise_mk.flightsettings.FlightSettingsActivity;
 import org.ligi.android.dubwise_mk.graph.GraphActivity;
 import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.android.dubwise_mk.helper.DUBwiseStringHelper;
-import org.ligi.android.dubwise_mk.helper.IconicAdapter;
 import org.ligi.android.dubwise_mk.helper.IconicMenuItem;
 import org.ligi.android.dubwise_mk.lcd.LCDActivity;
 import org.ligi.android.dubwise_mk.piloting.PilotingListActivity;
+import org.ligi.androidhelper.AndroidHelper;
 import org.ligi.tracedroid.TraceDroid;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.tracedroid.sending.TraceDroidEmailSender;
 import org.ligi.ufo.DUBwiseNotificationListenerInterface;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.logging.NotLogger;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.util.Vector;
-
-public class DUBwise extends SherlockListActivity implements DUBwiseNotificationListenerInterface, Runnable {
+public class DUBwise extends ActionBarActivity implements DUBwiseNotificationListenerInterface, Runnable {
 
     private VarioSound vs;
 
@@ -71,111 +70,11 @@ public class DUBwise extends SherlockListActivity implements DUBwiseNotification
 
         ActivityCalls.beforeContent(this);
 
-        refresh_list();
         vs = new VarioSound((ApplicationContext) this.getApplicationContext());
+
+        AndroidHelper.at(this).startActivityForClass(MixerEditActivity.class);
     }
 
-    public void refresh_list() {
-        MKCommunicator mk = MKProvider.getMK();
-        Vector<IconicMenuItem> menu_items_vector = new Vector<IconicMenuItem>();
-
-        menu_items_vector.add(new IconicMenuItem("Connection",
-                android.R.drawable.ic_menu_share, new Intent(this,
-                ConnectionListActivity.class)));
-
-        menu_items_vector.add(new IconicMenuItem("Settings",
-                android.R.drawable.ic_menu_preferences, new Intent(this,
-                SettingsListActivity.class)));
-
-
-        if (DUBwisePrefs.isExpertModeEnabled()) {
-            menu_items_vector.add(new IconicMenuItem("OpenGL",
-                    android.R.drawable.ic_menu_preferences, new Intent(this,
-                    OpenGLActivity.class)));
-
-            menu_items_vector.add(new IconicMenuItem("Flash Firmware",
-                    android.R.drawable.ic_menu_preferences, new Intent(this,
-                    FlashFirmwareActivity.class)));
-
-            menu_items_vector.add(new IconicMenuItem("Control Panel",
-                    android.R.drawable.ic_menu_preferences, new Intent(this,
-                    ControlPanelActivity.class)));
-
-            menu_items_vector.add(new IconicMenuItem("Voice",
-                    android.R.drawable.ic_menu_view, new Intent(this,
-                    VoiceControlActivity.class)));
-        }
-
-        if (mk.connected) {
-
-            menu_items_vector.add(new IconicMenuItem("Device Details",
-                    android.R.drawable.ic_menu_view, new Intent(this,
-                    DeviceDetails.class)));
-
-
-            menu_items_vector.add(new IconicMenuItem("LCD",
-                    android.R.drawable.ic_menu_view, new Intent(this,
-                    LCDActivity.class)));
-
-            if (mk.is_mk() || mk.is_navi() || mk.is_fake())
-                menu_items_vector.add(new IconicMenuItem("Pilot",
-                        android.R.drawable.ic_menu_preferences, new Intent(
-                        this, PilotingListActivity.class)));
-
-            if (mk.is_navi() || mk.is_fake())
-                menu_items_vector.add(new IconicMenuItem("Follow me",
-                        android.R.drawable.ic_menu_crop, new Intent(
-                        this, FollowMeActivity.class)));
-
-            if (mk.is_mk() || mk.is_fake())
-                menu_items_vector.add(new IconicMenuItem("Motor Test",
-                        android.R.drawable.ic_menu_rotate, new Intent(this,
-                        MotorTestActivity.class)));
-
-            if (mk.is_mk() || mk.is_fake())
-                menu_items_vector.add(new IconicMenuItem("RCData",
-                        android.R.drawable.ic_menu_view, new Intent(this,
-                        RCDataActivity.class)));
-
-            if (mk.is_mk() || mk.is_fake() || mk.is_navi())
-                menu_items_vector.add(new IconicMenuItem("Balance",
-                        android.R.drawable.ic_menu_crop, new Intent(this,
-                        BalanceActivity.class)));
-
-            if (mk.is_mk() || mk.is_navi() || mk.is_fake())
-                menu_items_vector.add(new IconicMenuItem("Cockpit",
-                        android.R.drawable.ic_menu_view, new Intent(this,
-                        CockpitActivity.class)));
-
-            if (mk.is_mk() || mk.is_navi() || mk.is_fake() || mk.is_mk3mag())
-                menu_items_vector.add(new IconicMenuItem("Analog Values",
-                        android.R.drawable.ic_menu_view, new Intent(this,
-                        AnalogValuesActivity.class)));
-
-
-            if (mk.is_mk() || mk.is_fake())
-                menu_items_vector.add(new IconicMenuItem("Flight Settings",
-                        android.R.drawable.ic_menu_edit, new Intent(this,
-                        FlightSettingsActivity.class)));
-
-            if (mk.is_mk() || mk.is_fake())
-                menu_items_vector.add(new IconicMenuItem("Edit Mixer",
-                        android.R.drawable.ic_menu_edit, new Intent(this,
-                        MixerEditActivity.class)));
-
-            if (mk.is_mk() || mk.is_fake())
-                menu_items_vector.add(new IconicMenuItem("Graph",
-                        android.R.drawable.ic_menu_view, new Intent(this,
-                        GraphActivity.class)));
-
-        }
-        menu_items_vector.add(new IconicMenuItem("Information Desk",
-                android.R.drawable.ic_menu_info_details, new Intent(this,
-                InformationDeskActivity.class)));
-
-        this.setListAdapter(new IconicAdapter(this, (menu_items_vector
-                .toArray())));
-    }
 
     @Override
     public void onBackPressed() {
@@ -251,7 +150,7 @@ public class DUBwise extends SherlockListActivity implements DUBwiseNotification
         ActivityCalls.afterContent(this);
         updateMKLogging();
         Log.d("onResume DUBwise.java" + this);
-        refresh_list();
+        //refresh_list();
         MKProvider.getMK().addNotificationListener(this);
     }
 
@@ -276,6 +175,7 @@ public class DUBwise extends SherlockListActivity implements DUBwiseNotification
         super.onDestroy();
     }
 
+    /*
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
@@ -287,6 +187,7 @@ public class DUBwise extends SherlockListActivity implements DUBwiseNotification
         }
 
     }
+    */
 
     public void processNotification(byte notification) {
         switch (notification) {
@@ -299,6 +200,6 @@ public class DUBwise extends SherlockListActivity implements DUBwiseNotification
 
     @Override
     public void run() {
-        refresh_list();
+        //refresh_list();
     }
 }

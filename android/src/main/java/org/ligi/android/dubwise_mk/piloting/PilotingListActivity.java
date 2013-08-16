@@ -26,10 +26,11 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import org.ligi.android.dubwise_mk.BaseListActivity;
 import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.android.dubwise_mk.helper.DUBwiseBaseListActivity;
 
-public class PilotingListActivity extends DUBwiseBaseListActivity {
+public class PilotingListActivity extends BaseListActivity {
 
     private String[] menu_items = new String[]{"via ACC", "Via Multitouch"};
     private int[] menu_actions = new int[]{ACTIONID_ACC, ACTIONID_MT};

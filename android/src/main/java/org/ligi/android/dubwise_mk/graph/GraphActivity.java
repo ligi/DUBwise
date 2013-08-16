@@ -29,11 +29,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
+import org.ligi.android.dubwise_mk.BaseActivity;
 import org.ligi.android.dubwise_mk.conn.MKProvider;
 import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.tracedroid.logging.Log;
 
-public class GraphActivity extends Activity implements OnTouchListener {
+public class GraphActivity extends BaseActivity implements OnTouchListener {
 
     public final static int MENU_GRID = 0;
     public final static int MENU_FREEZE = 1;
@@ -97,7 +98,7 @@ public class GraphActivity extends Activity implements OnTouchListener {
                 startActivity(new Intent(this, GraphSettingsActivity.class));
                 return true;
         }
-        return false;
+        return super.onOptionsItemSelected(item);
     }
 
     public boolean onTouch(View v, MotionEvent event) {

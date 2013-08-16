@@ -26,11 +26,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.ligi.android.dubwise_mk.BaseActivity;
 import org.ligi.android.dubwise_mk.conn.MKProvider;
 import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.ufo.MKCommunicator;
 
-public class CockpitActivity extends Activity {
+public class CockpitActivity extends BaseActivity {
 
     private static final int MENU_SETTINGS = 0;
 
@@ -82,6 +83,6 @@ public class CockpitActivity extends Activity {
                 startActivity(new Intent(this, CockpitPrefsActivity.class));
                 return true;
         }
-        return false;
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -50,6 +50,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import org.ligi.android.dubwise_mk.BaseActivity;
 import org.ligi.android.dubwise_mk.conn.MKProvider;
 import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.android.dubwise_mk.helper.DUBwiseStringHelper;
@@ -59,7 +60,7 @@ import org.ligi.ufo.MKParamsGeneratedDefinitionsToStrings;
 import org.ligi.ufo.MKParamsParser;
 import org.ligi.ufo.MKStickData;
 
-public class FlightSettingsTopicEditActivity extends Activity implements MKParamsGeneratedDefinitionsToStrings, OnCheckedChangeListener, TextWatcher, OnEditorActionListener, KeyListener, OnClickListener {
+public class FlightSettingsTopicEditActivity extends BaseActivity implements MKParamsGeneratedDefinitionsToStrings, OnCheckedChangeListener, TextWatcher, OnEditorActionListener, KeyListener, OnClickListener {
 
     private static final int MENU_SAVE = 0;
     private static final int MENU_HELP = 1;

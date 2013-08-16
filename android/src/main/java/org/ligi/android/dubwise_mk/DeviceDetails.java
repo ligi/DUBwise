@@ -28,7 +28,7 @@ import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.android.dubwise_mk.helper.DUBwiseBaseListActivity;
 import org.ligi.ufo.MKCommunicator;
 
-public class DeviceDetails extends DUBwiseBaseListActivity {
+public class DeviceDetails extends BaseListActivity {
 
     private String[] menu_items;
     private ArrayAdapter<String> adapter;
@@ -48,7 +48,7 @@ public class DeviceDetails extends DUBwiseBaseListActivity {
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, menu_items);
 
-        this.setListAdapter(adapter);
+        setListAdapter(adapter);
     }
 
 

@@ -26,6 +26,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -54,7 +55,7 @@ import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MixerManager;
 
-public class MixerEditActivity extends Activity implements OnItemSelectedListener, OnCheckedChangeListener, TextWatcher, OnEditorActionListener, KeyListener {
+public class MixerEditActivity extends BaseActivity implements OnItemSelectedListener, OnCheckedChangeListener, TextWatcher, OnEditorActionListener, KeyListener {
 
     private static final int MENU_LOAD = 0;
     private static final int MENU_HELP = 1;
@@ -316,7 +317,6 @@ public class MixerEditActivity extends Activity implements OnItemSelectedListene
     /* Handles item selections */
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        .getS
         switch (item.getItemId()) {
             case MENU_SAVE_TO_FC:
                 copyLayoutValues2MixerManager();
@@ -363,7 +363,7 @@ public class MixerEditActivity extends Activity implements OnItemSelectedListene
 
                 return true;
         }
-        return false;
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -418,14 +418,14 @@ public class MixerEditActivity extends Activity implements OnItemSelectedListene
     /* Creates the menu items */
     public boolean onCreateOptionsMenu(Menu menu) {
 
+        getMenuInflater().inflate(R.menu.mixer,menu);
+
         MenuItem write_menu = menu.add(0, MENU_SAVE_TO_FC, 0, "Write to FC");
         write_menu.setIcon(android.R.drawable.ic_menu_save);
-        write_menu.setV
-		
+
 		/*MenuItem write_phone_menu=menu.add(0,MENU_SAVE_TO_PHONE,0,"Save on Phone");
 		write_phone_menu.setIcon(android.R.drawable.ic_menu_save);
 		*/
-
 
         MenuItem load_menu = menu.add(0, MENU_LOAD, 0, "Load");
         load_menu.setIcon(android.R.drawable.ic_menu_set_as);

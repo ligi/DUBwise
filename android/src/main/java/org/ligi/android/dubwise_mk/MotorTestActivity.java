@@ -34,7 +34,7 @@ import org.ligi.android.dubwise_mk.conn.MKProvider;
 import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.tracedroid.logging.Log;
 
-public class MotorTestActivity extends Activity implements OnSeekBarChangeListener, Runnable {
+public class MotorTestActivity extends BaseActivity implements OnSeekBarChangeListener, Runnable {
 
     public final static int ENGINE_WARNING_THRESHOLD = 23;
     private SeekBar[] seek_bars;

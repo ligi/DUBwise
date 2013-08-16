@@ -27,9 +27,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.ligi.android.dubwise_mk.BaseActivity;
 import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 
-public class MultiTouchPilotingActivity extends Activity {
+public class MultiTouchPilotingActivity extends BaseActivity {
 
     private static final int MENU_SETTINGS = 0;
 

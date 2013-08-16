@@ -30,7 +30,7 @@ import org.ligi.android.dubwise_mk.helper.DUBwiseBaseListActivity;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.MKDebugData;
 
-public class AnalogValuesActivity extends DUBwiseBaseListActivity implements Runnable {
+public class AnalogValuesActivity extends BaseListActivity implements Runnable {
 
     private String[] menu_items;
     private ArrayAdapter<String> adapter;

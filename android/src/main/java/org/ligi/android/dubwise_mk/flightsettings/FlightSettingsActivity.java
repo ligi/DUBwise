@@ -32,15 +32,15 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import org.ligi.android.dubwise_mk.BaseListActivity;
 import org.ligi.android.dubwise_mk.conn.MKProvider;
 import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.MKParamsParser;
 
-public class FlightSettingsActivity extends ListActivity implements Runnable {
+public class FlightSettingsActivity extends BaseListActivity implements Runnable {
 
     private final static int DIALOG_PROGRESS = 1;
-    private ListActivity this_ref;
     private ProgressDialog progressDialog;
     private MKCommunicator mk;
 
@@ -56,7 +56,6 @@ public class FlightSettingsActivity extends ListActivity implements Runnable {
 
         super.onCreate(savedInstanceState);
         ActivityCalls.beforeContent(this);
-        this_ref = this;
         mk = MKProvider.getMK();
 
         for (int i = 0; i < MKParamsParser.MAX_PARAMSETS; i++)
@@ -140,12 +139,10 @@ public class FlightSettingsActivity extends ListActivity implements Runnable {
                 this.runOnUiThread(new Runnable() {
 
                     public void run() {
-                        adapter = new ArrayAdapter<String>(this_ref,
+                        adapter = new ArrayAdapter<String>(FlightSettingsActivity.this,
                                 android.R.layout.simple_list_item_1, name_strings);
 
-
-                        this_ref.setListAdapter(adapter);
-
+                        FlightSettingsActivity.this.setListAdapter(adapter);
                     }
                 });
 

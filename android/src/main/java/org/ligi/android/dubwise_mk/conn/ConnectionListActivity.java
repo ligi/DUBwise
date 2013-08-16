@@ -33,6 +33,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.ligi.android.common.intents.IntentHelper;
+import org.ligi.android.dubwise_mk.BaseListActivity;
 import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.android.dubwise_mk.helper.DUBwiseBaseListActivity;
 import org.ligi.android.dubwise_mk.simulation.AndroidAttitudeProvider;
@@ -41,7 +42,7 @@ import org.ligi.androidhelper.helpers.dialog.DialogDiscardingOnClickListener;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.simulation.SimulatedMKCommunicationAdapter;
 
-public class ConnectionListActivity extends DUBwiseBaseListActivity {
+public class ConnectionListActivity extends BaseListActivity {
     private String[] menu_items = new String[]{"Simulate a connection", "Connect via bluetooth", "Connect via TCP/IP", "Disconnect", "Reconnect", "Switch device", "Connection details"};
     private int[] menu_actions = new int[]{ACTIONID_SIMULATED, ACTIONID_BT, ACTIONID_TCP, ACTIONID_DISCONN, ACTIONID_RECONNECT, ACTIONID_SWITCH, ACTIONID_CONDETAILS};
 

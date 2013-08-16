@@ -25,7 +25,7 @@
 
     <application android:icon="@drawable/icon" android:label="@string/app_name" 
         android:name=".app.ApplicationContext"
-            android:theme="@style/Theme.Sherlock"
+            android:theme="@style/Theme.AppCompat"
             >
     	<uses-library android:name="com.google.android.maps"/>
      

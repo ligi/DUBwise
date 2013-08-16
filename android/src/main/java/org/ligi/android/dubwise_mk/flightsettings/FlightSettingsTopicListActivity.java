@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import org.ligi.android.dubwise_mk.BaseListActivity;
 import org.ligi.android.dubwise_mk.conn.MKProvider;
 import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.android.dubwise_mk.helper.DUBwiseStringHelper;
@@ -37,7 +38,7 @@ import org.ligi.ufo.MKParamsGeneratedDefinitionsToStrings;
  *
  * @author ligi
  */
-public class FlightSettingsTopicListActivity extends ListActivity implements MKParamsGeneratedDefinitionsToStrings {
+public class FlightSettingsTopicListActivity extends BaseListActivity implements MKParamsGeneratedDefinitionsToStrings {
 
     private String[] menu_items;
 

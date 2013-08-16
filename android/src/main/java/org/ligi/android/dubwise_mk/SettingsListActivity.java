@@ -37,69 +37,47 @@ import org.ligi.tracedroid.logging.Log;
 
 import java.util.Vector;
 
-public class SettingsListActivity extends ListActivity {
+public class SettingsListActivity extends BaseListActivity {
 
     public final static int ACTIONID_QUIT = 1;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void refreshSettingsList() {
+        Vector<IconicMenuItem> menu_items_list = new Vector<IconicMenuItem>();
 
-        ActivityCalls.beforeContent(this);
-        refresh_list();
-
-        Log.d("onCreate SettingsListActivity");
-    }
-
-    public void refresh_list() {
-        Vector<IconicMenuItem> menu_items_vector = new Vector<IconicMenuItem>();
-
-        menu_items_vector.add(new IconicMenuItem("General",
+        menu_items_list.add(new IconicMenuItem("General",
                 android.R.drawable.ic_menu_agenda, new Intent(this,
                 DUBwisePrefsActivity.class)));
 
-        menu_items_vector.add(new IconicMenuItem("Voice",
+        menu_items_list.add(new IconicMenuItem("Voice",
                 android.R.drawable.ic_lock_silent_mode_off, new Intent(this,
                 VoicePrefsActivity.class)));
 
-        menu_items_vector.add(new IconicMenuItem("Graph",
+        menu_items_list.add(new IconicMenuItem("Graph",
                 android.R.drawable.ic_menu_view, new Intent(this,
                 GraphSettingsActivity.class)));
 
-        menu_items_vector.add(new IconicMenuItem("Piloting",
+        menu_items_list.add(new IconicMenuItem("Piloting",
                 android.R.drawable.ic_menu_share, new Intent(this,
                 PilotingPrefsActivity.class)));
 
-        menu_items_vector.add(new IconicMenuItem("BlackBox",
+        menu_items_list.add(new IconicMenuItem("BlackBox",
                 android.R.drawable.ic_menu_save, new Intent(this,
                 BlackBoxPrefsActivity.class)));
 
-        menu_items_vector.add(new IconicMenuItem("Background Tasks",
+        menu_items_list.add(new IconicMenuItem("Background Tasks",
                 android.R.drawable.ic_menu_agenda, new Intent(this,
                 BackgroundTaskListActivity.class)));
 
 
-        this.setListAdapter(new IconicAdapter(this, (menu_items_vector
-                .toArray())));
+        this.setListAdapter(new IconicAdapter(this, (menu_items_list.toArray())));
 
     }
+
 
     @Override
     protected void onResume() {
-        ActivityCalls.afterContent(this);
-        refresh_list();
         super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        ActivityCalls.onDestroy(this);
-        super.onDestroy();
+        refreshSettingsList();
     }
 
     @Override

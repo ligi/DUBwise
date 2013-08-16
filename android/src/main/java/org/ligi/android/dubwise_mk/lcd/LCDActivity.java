@@ -20,7 +20,6 @@
 
 package org.ligi.android.dubwise_mk.lcd;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -37,18 +36,19 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import org.ligi.android.dubwise_mk.BaseActivity;
 import org.ligi.android.dubwise_mk.conn.MKProvider;
 import org.ligi.android.dubwise_mk.conn.SwitchDeviceListActivity;
 import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKCommunicator;
 
-public class LCDActivity extends Activity implements OnTouchListener {
+public class LCDActivity extends BaseActivity implements OnTouchListener {
 
     private LCDView lcd_view;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityCalls.beforeContent(this);
 
@@ -161,10 +161,8 @@ public class LCDActivity extends Activity implements OnTouchListener {
                 }).show();
 
                 return true;
-
-
         }
-        return false;
+        return super.onOptionsItemSelected(item);
     }
 
     //@Override

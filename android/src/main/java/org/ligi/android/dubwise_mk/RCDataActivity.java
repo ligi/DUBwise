@@ -40,7 +40,7 @@ import org.ligi.ufo.MKStickData;
  *
  * @author ligi
  */
-public class RCDataActivity extends Activity implements Runnable, MKParamsGeneratedDefinitionsToStrings {
+public class RCDataActivity extends BaseActivity implements Runnable, MKParamsGeneratedDefinitionsToStrings {
 
     private boolean dead = false;
     private ProgressBar[] progress_bars;

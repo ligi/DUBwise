@@ -23,9 +23,10 @@ package org.ligi.android.dubwise_mk.piloting;
 import android.app.Activity;
 import android.os.Bundle;
 
+import org.ligi.android.dubwise_mk.BaseActivity;
 import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 
-public class OrientationPilotingActivity extends Activity {
+public class OrientationPilotingActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
