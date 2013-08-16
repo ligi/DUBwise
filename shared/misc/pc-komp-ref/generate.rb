@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'rio'
+require 'iconv'
 
 
 debug=true
@@ -34,7 +35,9 @@ Dir["header_files/*.h"].sort.each { |e|
  puts "----------------" + e if debug
   new="" 
   start=false 
-  rio(e).each_line { |l| 
+  rio(e).each_line { |preLine| 
+    ic = Iconv.new('UTF-8//IGNORE', 'UTF-8')
+    l = ic.iconv(preLine + ' ')[0..-2]
     start=true if l =~ /struct\r/ 
     start=true if l =~ /struct\n/ 
     start=false if l =~ /\}/     
