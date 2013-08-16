@@ -20,20 +20,16 @@
 
 package org.ligi.android.dubwise_mk;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.KeyListener;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
@@ -50,17 +46,14 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+
 import org.ligi.android.dubwise_mk.conn.MKProvider;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MixerManager;
 
 public class MixerEditActivity extends BaseActivity implements OnItemSelectedListener, OnCheckedChangeListener, TextWatcher, OnEditorActionListener, KeyListener {
-
-    private static final int MENU_LOAD = 0;
-    private static final int MENU_HELP = 1;
-    private static final int MENU_SAVE_TO_FC = 2;
-    private static final int MENU_SAVE_TO_PHONE = 3;
-
 
     String[] menu_items;
 
@@ -310,24 +303,26 @@ public class MixerEditActivity extends BaseActivity implements OnItemSelectedLis
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case MENU_SAVE_TO_FC:
+            case R.id.menu_write:
                 copyLayoutValues2MixerManager();
                 MKProvider.getMK().set_mixer_table(MKProvider.getMK().mixer_manager.getFCArr());
                 break;
 
-            case MENU_SAVE_TO_PHONE:
-	    	/*Map<String,?> mixer=this.getSharedPreferences("foo", 0).getAll();
+            /*
+            //case MENU_SAVE_TO_PHONE:
+	    	Map<String,?> mixer=this.getSharedPreferences("foo", 0).getAll();
 	    	SharedPreferences.Editor edit= this.getSharedPreferences(SHARED_PREFS_MIXER_TAG, 0).edit();
 	    	edit.p .putString(arg0, arg1)
 	    	
 	    	"as".sp
-	    	*/
-                break;
-            case MENU_HELP:
+	    	                break;
+	    	  */
+
+            case R.id.menu_help:
                 this.startActivity(new Intent("android.intent.action.VIEW",
                         Uri.parse("http://mikrokopter.de/ucwiki/MK-Parameter/Mixer-SETUP")));
                 break;
-            case MENU_LOAD:
+            case R.id.menu_load:
 
                 final Spinner spinner = new Spinner(this);
 
@@ -395,59 +390,20 @@ public class MixerEditActivity extends BaseActivity implements OnItemSelectedLis
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> arg0) {
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-
-        Log.d("" + arg0.getTag());
-
-    }
-
-
-    /* Creates the menu items */
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.mixer,menu);
+        getSupportMenuInflater().inflate(R.menu.mixer, menu);
 
-        MenuItem write_menu = menu.add(0, MENU_SAVE_TO_FC, 0, "Write to FC");
-        write_menu.setIcon(android.R.drawable.ic_menu_save);
-
-		/*MenuItem write_phone_menu=menu.add(0,MENU_SAVE_TO_PHONE,0,"Save on Phone");
-		write_phone_menu.setIcon(android.R.drawable.ic_menu_save);
-		*/
-
-        MenuItem load_menu = menu.add(0, MENU_LOAD, 0, "Load");
-        load_menu.setIcon(android.R.drawable.ic_menu_set_as);
-
-        MenuItem help_menu = menu.add(0, MENU_HELP, 0, "Help");
-        help_menu.setIcon(android.R.drawable.ic_menu_help);
-
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public void afterTextChanged(Editable s) {
-        Log.d("text cahnged" + s);
-        Log.d("text cahnged" + ((View) s).getTag());
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count,
-                                  int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        Log.d("text cahnged2" + v.getText());
         return false;
     }
 
@@ -484,4 +440,23 @@ public class MixerEditActivity extends BaseActivity implements OnItemSelectedLis
     }
 
 
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
 }

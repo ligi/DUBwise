@@ -23,8 +23,8 @@ package org.ligi.android.dubwise_mk.piloting;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 import org.ligi.android.dubwise_mk.BaseActivity;
 

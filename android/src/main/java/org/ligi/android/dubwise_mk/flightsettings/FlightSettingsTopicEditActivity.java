@@ -28,8 +28,6 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.KeyListener;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -48,6 +46,9 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 import org.ligi.android.dubwise_mk.BaseActivity;
 import org.ligi.android.dubwise_mk.conn.MKProvider;
@@ -365,10 +366,11 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements MKP
 
         int old_val = MKProvider.getMK().params.get_field_from_act(val_pos / 8);
 
-        if (checked)
+        if (checked) {
             old_val |= 1 << (val_pos % 8);
-        else
+        } else {
             old_val &= 0xff ^ (1 << (val_pos % 8));
+        }
 
         MKProvider.getMK().params.set_field_from_act(val_pos / 8, old_val);
 

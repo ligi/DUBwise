@@ -20,7 +20,6 @@
 
 package org.ligi.android.dubwise_mk;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;

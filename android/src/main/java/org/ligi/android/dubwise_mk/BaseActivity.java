@@ -28,13 +28,15 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 import org.ligi.android.dubwise_mk.balance.BalanceActivity;
 import org.ligi.android.dubwise_mk.blackbox.BlackBox;
@@ -53,10 +55,11 @@ import org.ligi.android.dubwise_mk.voice.StatusVoice;
 import org.ligi.android.dubwise_mk.voice.VoicePrefs;
 import org.ligi.ufo.MKCommunicator;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BaseActivity extends ActionBarActivity {
+public class BaseActivity extends SherlockActivity {
 
     private ViewGroup contentView;
     private ListView drawerList;
@@ -142,6 +145,26 @@ public class BaseActivity extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+
+
+        // a little hack because I strongly disagree with the style guide here
+        // ;-)
+        // not having the Actionbar overfow menu also with devices with hardware
+        // key really helps discoverability
+        // http://stackoverflow.com/questions/9286822/how-to-force-use-of-overflow-menu-on-devices-with-menu-button
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            if (menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
+            }
+        } catch (Exception ex) {
+            // Ignore - but at least we tried ;-)
+        }
+
+
     }
 
 
@@ -285,7 +308,9 @@ public class BaseActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
+        if (item.getItemId() == android.R.id.home) {
+            android.view.MenuItem homeMenuItem = new HomeMenuItemForNavigationDrawer();
+            drawerToggle.onOptionsItemSelected(homeMenuItem);
             return true;
         }
         return super.onOptionsItemSelected(item);

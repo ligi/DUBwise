@@ -1,6 +1,5 @@
 package org.ligi.android.dubwise_mk.balance;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import org.ligi.android.dubwise_mk.BaseActivity;

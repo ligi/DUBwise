@@ -22,13 +22,15 @@ package org.ligi.android.dubwise_mk.graph;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+
 import org.ligi.android.dubwise_mk.BaseActivity;
+import org.ligi.android.dubwise_mk.R;
 import org.ligi.android.dubwise_mk.conn.MKProvider;
 import org.ligi.tracedroid.logging.Log;
 
@@ -49,21 +51,19 @@ public class GraphActivity extends BaseActivity implements OnTouchListener {
 
         setContentView(graph_view);
 
-        // getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, new GraphView(this));
     }
 
-    /* Creates the menu items */
     public boolean onCreateOptionsMenu(Menu menu) {
+        getSupportMenuInflater().inflate(R.menu.graph,menu);
 
         menu.add(0, MENU_SETTINGS, 0, "Settings").setIcon(android.R.drawable.ic_menu_preferences);
 
         menu.add(0, MENU_FREEZE, 0, (MKProvider.getMK().freeze_debug_buff ? "unfreeze" : "freeze"))
                 .setIcon(android.R.drawable.ic_media_pause);
 
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
-    /* Handles item selections */
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
@@ -81,8 +81,9 @@ public class GraphActivity extends BaseActivity implements OnTouchListener {
 
     public boolean onTouch(View v, MotionEvent event) {
         Log.i("touch graph" + event.getAction() + " " + MotionEvent.ACTION_UP);
-        if (event.getAction() == MotionEvent.ACTION_UP)
+        if (event.getAction() == MotionEvent.ACTION_UP) {
             MKProvider.getMK().freeze_debug_buff = !MKProvider.getMK().freeze_debug_buff;
+        }
         return true;
     }
 

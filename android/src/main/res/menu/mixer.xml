@@ -6,4 +6,16 @@
             android:showAsAction="always"
             android:icon="@android:drawable/ic_menu_help"
             android:title="HELP"/>
+
+    <item
+            android:id="@+id/menu_write"
+            android:showAsAction="never"
+            android:icon="@android:drawable/ic_menu_save"
+            android:title="write to FC"/>
+
+    <item
+            android:id="@+id/menu_load"
+            android:showAsAction="never"
+            android:icon="@android:drawable/ic_menu_save"
+            android:title="load default"/>
 </menu>

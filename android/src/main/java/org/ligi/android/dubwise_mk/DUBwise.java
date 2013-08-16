@@ -24,7 +24,6 @@ import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
