@@ -31,7 +31,6 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.androidhelper.preferences.TimePreference;
 import org.ligi.tracedroid.logging.Log;
 
@@ -44,15 +43,8 @@ public class VoicePrefsActivity extends PreferenceActivity implements OnPreferen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         VoicePrefs.init(this);
-        ActivityCalls.beforeContent(this);
         super.onCreate(savedInstanceState);
         setPreferenceScreen(createPreferenceHierarchy());
-    }
-
-    @Override
-    public void onResume() {
-        ActivityCalls.afterContent(this);
-        super.onResume();
     }
 
     public String formatedPause() {
@@ -238,12 +230,6 @@ public class VoicePrefsActivity extends PreferenceActivity implements OnPreferen
             pause_pref.setSummary(formatedPause());
         }
         return true; // return that we are OK with preferences
-    }
-
-    @Override
-    protected void onDestroy() {
-        ActivityCalls.onDestroy(this);
-        super.onDestroy();
     }
 
 }

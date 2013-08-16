@@ -20,7 +20,6 @@
 
 package org.ligi.android.dubwise_mk.cockpit;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -28,9 +27,11 @@ import android.view.MenuItem;
 
 import org.ligi.android.dubwise_mk.BaseActivity;
 import org.ligi.android.dubwise_mk.conn.MKProvider;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.ufo.MKCommunicator;
 
+/**
+ * Activity tp show a Cockpit ( PFD )
+ */
 public class CockpitActivity extends BaseActivity {
 
     private static final int MENU_SETTINGS = 0;
@@ -41,31 +42,9 @@ public class CockpitActivity extends BaseActivity {
 
         MKProvider.getMK().user_intent = MKCommunicator.USER_INTENT_3DDATA;
 
-        ActivityCalls.beforeContent(this);
-
         setContentView(new CockpitView(this));
-        ActivityCalls.afterContent(this);
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ActivityCalls.afterContent(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        ActivityCalls.onDestroy(this);
-        super.onDestroy();
-    }
-
-    /* Creates the menu items */
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuItem settings_menu = menu.add(0, MENU_SETTINGS, 0, "Settings");
@@ -74,7 +53,6 @@ public class CockpitActivity extends BaseActivity {
         return true;
     }
 
-    /* Handles item selections */
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {

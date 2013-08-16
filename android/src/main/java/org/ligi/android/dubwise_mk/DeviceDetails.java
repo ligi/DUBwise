@@ -24,8 +24,6 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 
 import org.ligi.android.dubwise_mk.conn.MKProvider;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
-import org.ligi.android.dubwise_mk.helper.DUBwiseBaseListActivity;
 import org.ligi.ufo.MKCommunicator;
 
 public class DeviceDetails extends BaseListActivity {
@@ -44,7 +42,6 @@ public class DeviceDetails extends BaseListActivity {
         menu_items = new String[VALUE_COUNT];
         refresh_values();
 
-        ActivityCalls.beforeContent(this);
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, menu_items);
 
@@ -59,17 +56,5 @@ public class DeviceDetails extends BaseListActivity {
         menu_items[1] = "Version: " + mk.version.version_str;
         menu_items[2] = "Protocol: " + mk.version.proto_str;
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ActivityCalls.afterContent(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        ActivityCalls.onDestroy(this);
-        super.onDestroy();
     }
 }

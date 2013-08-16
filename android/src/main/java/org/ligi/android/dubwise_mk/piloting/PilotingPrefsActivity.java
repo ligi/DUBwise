@@ -29,7 +29,6 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.androidhelper.preferences.SetPreferenceEnabledByCheckBoxPreferenceState;
 
 public class PilotingPrefsActivity extends PreferenceActivity {
@@ -37,15 +36,8 @@ public class PilotingPrefsActivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         PilotingPrefs.init(this);
-        ActivityCalls.beforeContent(this);
         super.onCreate(savedInstanceState);
         setPreferenceScreen(createPreferenceHierarchy());
-    }
-
-    @Override
-    public void onResume() {
-        ActivityCalls.afterContent(this);
-        super.onResume();
     }
 
     private PreferenceScreen createPreferenceHierarchy() {

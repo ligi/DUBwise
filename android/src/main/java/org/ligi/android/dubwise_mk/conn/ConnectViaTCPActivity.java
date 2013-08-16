@@ -20,7 +20,6 @@
 
 package org.ligi.android.dubwise_mk.conn;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
@@ -33,12 +32,12 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.TableRow;
 
+import org.ligi.android.dubwise_mk.BaseActivity;
 import org.ligi.android.dubwise_mk.R;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.logging.NotLogger;
 
-public class ConnectViaTCPActivity extends Activity implements OnClickListener, OnCheckedChangeListener {
+public class ConnectViaTCPActivity extends BaseActivity implements OnClickListener, OnCheckedChangeListener {
 
     private EditText port_text;
     private EditText host_text;
@@ -51,8 +50,7 @@ public class ConnectViaTCPActivity extends Activity implements OnClickListener, 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityCalls.beforeContent(this);
-        SharedPreferences settings = ActivityCalls.getSharedPreferences(this);
+        SharedPreferences settings = getSharedPreferences();
 
         setContentView(R.layout.connect_tcp);
 
@@ -79,12 +77,6 @@ public class ConnectViaTCPActivity extends Activity implements OnClickListener, 
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ActivityCalls.afterContent(this);
-    }
-
     public void onClick(View arg0) {
 
         int port = Integer.parseInt("" + port_text.getText());
@@ -98,7 +90,7 @@ public class ConnectViaTCPActivity extends Activity implements OnClickListener, 
         // disable logging - TODO check why we needed this
         MKProvider.getMK().setLoggingInterface(new NotLogger());
 
-        SharedPreferences settings = ActivityCalls.getSharedPreferences(this);
+        SharedPreferences settings = getSharedPreferences();
 
         SharedPreferences.Editor editor = settings.edit();
 
@@ -124,12 +116,6 @@ public class ConnectViaTCPActivity extends Activity implements OnClickListener, 
 
         MKProvider.getMK().connect_to(host_text.getText() + ":" + port, host_text.getText() + ":" + port_text.getText());
 
-    }
-
-    @Override
-    protected void onDestroy() {
-        ActivityCalls.onDestroy(this);
-        super.onDestroy();
     }
 
     public void updateQMKVisibility(boolean visible) {

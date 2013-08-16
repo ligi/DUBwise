@@ -25,22 +25,20 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.tracedroid.logging.Log;
 
 import java.util.ArrayList;
 
+/**
+ * some testing around voice control, but stalled until found something that works offlin
+ */
 public class VoiceControlActivity extends Activity {
 
 
-    /**
-     * Called when the activity is first created.
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityCalls.beforeContent(this);
     /*
 		ArrayList<String> potentialResults = new ArrayList<String>();
 		potentialResults.add("open map");
@@ -66,19 +64,12 @@ public class VoiceControlActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        ActivityCalls.afterContent(this);
         try {
             Intent intent = new Intent("android.speech.RecognizerIntent.RECOGNIZE_SPEECH");
             startActivityForResult(intent, 0);
         } catch (Exception e) {
             new AlertDialog.Builder(this).setTitle("Problem").setMessage("cannot find RecognizerIntent on your Android Phone.").show();
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        ActivityCalls.onDestroy(this);
-        super.onDestroy();
     }
 
     @Override

@@ -20,7 +20,6 @@
 
 package org.ligi.android.dubwise_mk.flightsettings;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -52,7 +51,6 @@ import android.widget.TextView.OnEditorActionListener;
 
 import org.ligi.android.dubwise_mk.BaseActivity;
 import org.ligi.android.dubwise_mk.conn.MKProvider;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.android.dubwise_mk.helper.DUBwiseStringHelper;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKParamsGeneratedDefinitions;
@@ -86,8 +84,6 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements MKP
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityCalls.beforeContent(this);
-
         act_topic = getIntent().getIntExtra("topic", 1);
 
 		/*
@@ -106,9 +102,7 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements MKP
         menu_items = new String[MKProvider.getMK().params.field_stringids[act_topic].length];
 
         spinners = new Spinner[menu_items.length];
-        ;
         edit_texts = new EditText[menu_items.length];
-        ;
         checkboxes = new CheckBox[menu_items.length];
         bitmask_edittext = new EditText[menu_items.length];
         bitmask_row = new TableRow[menu_items.length];
@@ -361,12 +355,6 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements MKP
         view.addView(table);
         this.setContentView(view);
     } // do_layout()
-
-    @Override
-    public void onResume() {
-        ActivityCalls.afterContent(this);
-        super.onResume();
-    }
 
     @Override
     public void onCheckedChanged(CompoundButton checkbox, boolean checked) {

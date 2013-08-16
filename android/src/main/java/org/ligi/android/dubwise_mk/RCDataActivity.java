@@ -29,7 +29,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.ligi.android.dubwise_mk.conn.MKProvider;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.android.dubwise_mk.helper.DUBwiseStringHelper;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.MKParamsGeneratedDefinitionsToStrings;
@@ -54,7 +53,6 @@ public class RCDataActivity extends BaseActivity implements Runnable, MKParamsGe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityCalls.beforeContent(this);
 
         ScrollView scroll = new ScrollView(this);
         LinearLayout lin = new LinearLayout(this);
@@ -97,12 +95,6 @@ public class RCDataActivity extends BaseActivity implements Runnable, MKParamsGe
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ActivityCalls.afterContent(this);
-    }
-
     final Handler mHandler = new Handler();
 
     // Create runnable for posting
@@ -131,7 +123,6 @@ public class RCDataActivity extends BaseActivity implements Runnable, MKParamsGe
 
     @Override
     protected void onDestroy() {
-        ActivityCalls.onDestroy(this);
         dead = true;
         super.onDestroy();
     }

@@ -20,15 +20,15 @@
 
 package org.ligi.android.dubwise_mk.conn;
 
+import android.R;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
-import org.ligi.android.dubwise_mk.helper.DUBwiseBaseListActivity;
-
-public class SwitchDeviceListActivity extends DUBwiseBaseListActivity {
+import org.ligi.android.dubwise_mk.BaseListActivity;
+public class SwitchDeviceListActivity extends BaseListActivity {
 
     private String[] menu_items = new String[]{"to Navi", "to FC", "to MK3MAG"};
     private int[] menu_actions = new int[]{ACTIONID_SWITCH_NAVI, ACTIONID_SWITCH_FC, ACTIONID_SWITCH_MK3MAG};
@@ -41,16 +41,8 @@ public class SwitchDeviceListActivity extends DUBwiseBaseListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityCalls.beforeContent(this);
-
-        this.setListAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, menu_items));
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ActivityCalls.afterContent(this);
+        ListAdapter adapter = new ArrayAdapter<String>(this,R.layout.simple_list_item_1, menu_items);
+        this.setListAdapter(adapter);
     }
 
     public void quit() {
@@ -87,9 +79,4 @@ public class SwitchDeviceListActivity extends DUBwiseBaseListActivity {
         finish();
     }
 
-    @Override
-    protected void onDestroy() {
-        ActivityCalls.onDestroy(this);
-        super.onDestroy();
-    }
 }

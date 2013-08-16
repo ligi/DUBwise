@@ -27,8 +27,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.ligi.android.dubwise_mk.BaseListActivity;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
-import org.ligi.android.dubwise_mk.helper.DUBwiseBaseListActivity;
 
 public class PilotingListActivity extends BaseListActivity {
 
@@ -45,19 +43,11 @@ public class PilotingListActivity extends BaseListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityCalls.beforeContent(this);
         // menu_items[0]=settings.getString("conn_host","--");
 
         this.setListAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, menu_items));
 
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ActivityCalls.afterContent(this);
     }
 
     public void quit() {

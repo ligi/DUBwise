@@ -31,8 +31,6 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
-
 /**
  * Activity to edit the DUBwise Preferences
  *
@@ -45,16 +43,8 @@ public class DUBwisePrefsActivity extends PreferenceActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ActivityCalls.beforeContent(this);
         super.onCreate(savedInstanceState);
         setPreferenceScreen(createPreferenceHierarchy());
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ActivityCalls.afterContent(this);
     }
 
     private PreferenceScreen createPreferenceHierarchy() {
@@ -124,8 +114,9 @@ public class DUBwisePrefsActivity extends PreferenceActivity implements
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
 
-        if (preference == stayAwakePref)
+        if (preference == stayAwakePref) {
             preference.setSummary((String) newValue);
+        }
 
         return true; // return that we are OK with preferences
     }
@@ -134,13 +125,7 @@ public class DUBwisePrefsActivity extends PreferenceActivity implements
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                           String key) {
         // for fullscreen and statusbar instant change
-        ActivityCalls.afterContent(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        ActivityCalls.onDestroy(this);
-        super.onDestroy();
+        //ActivityCalls.afterContent(this);
     }
 
 }

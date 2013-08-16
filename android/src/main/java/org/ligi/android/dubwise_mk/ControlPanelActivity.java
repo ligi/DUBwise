@@ -30,7 +30,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ToggleButton;
 
 import org.ligi.android.dubwise_mk.conn.MKProvider;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.tracedroid.logging.Log;
 
 public class ControlPanelActivity extends Activity implements OnCheckedChangeListener, OnClickListener {
@@ -38,7 +37,6 @@ public class ControlPanelActivity extends Activity implements OnCheckedChangeLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityCalls.beforeContent(this);
         setContentView(R.layout.control_panel);
 
         ((ToggleButton) findViewById(R.id.CommingHomeToggleButton)).setOnCheckedChangeListener(this);
@@ -51,7 +49,6 @@ public class ControlPanelActivity extends Activity implements OnCheckedChangeLis
         ((Button) findViewById(R.id.Setting4Button)).setOnClickListener(this);
         ((Button) findViewById(R.id.Setting5Button)).setOnClickListener(this);
 
-        ActivityCalls.afterContent(this);
     }
 
 
@@ -89,12 +86,6 @@ public class ControlPanelActivity extends Activity implements OnCheckedChangeLis
             Log.i("switching paramset to " + setting_id);
         }
 
-    }
-
-    @Override
-    protected void onDestroy() {
-        ActivityCalls.onDestroy(this);
-        super.onDestroy();
     }
 
 }

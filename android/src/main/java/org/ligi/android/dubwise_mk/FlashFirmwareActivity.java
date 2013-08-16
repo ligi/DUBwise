@@ -27,7 +27,6 @@ import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
 
 import org.ligi.android.dubwise_mk.conn.MKProvider;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.java.io.CommunicationAdapterInterface;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKFirmwareFlasher;
@@ -46,10 +45,6 @@ public class FlashFirmwareActivity extends Activity implements Runnable, OnCance
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        ActivityCalls.beforeContent(this);
-
-
         // pass the communication-adapter
         comm_passer = MKProvider.getMK().getCommunicationAdapter();
         MKProvider.getMK().setCommunicationAdapter(null);
@@ -59,20 +54,6 @@ public class FlashFirmwareActivity extends Activity implements Runnable, OnCance
 
         new Thread(this).start();
         //this.runOnUiThread(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ActivityCalls.afterContent(this);
-
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        ActivityCalls.onDestroy(this);
-        super.onDestroy();
     }
 
     @Override

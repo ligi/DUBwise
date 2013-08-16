@@ -20,37 +20,15 @@
 
 package org.ligi.android.dubwise_mk.piloting;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import org.ligi.android.dubwise_mk.BaseActivity;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 
 public class OrientationPilotingActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityCalls.beforeContent(this);
-
         setContentView(new OrientationPilotingView(this));
-
-    }
-
-    @Override
-    protected void onResume() {
-        ActivityCalls.afterContent(this);
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        ActivityCalls.onDestroy(this);
-        super.onDestroy();
     }
 }

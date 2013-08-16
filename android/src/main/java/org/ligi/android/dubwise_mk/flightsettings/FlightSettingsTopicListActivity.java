@@ -19,7 +19,6 @@
 
 package org.ligi.android.dubwise_mk.flightsettings;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -28,7 +27,6 @@ import android.widget.ListView;
 
 import org.ligi.android.dubwise_mk.BaseListActivity;
 import org.ligi.android.dubwise_mk.conn.MKProvider;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.android.dubwise_mk.helper.DUBwiseStringHelper;
 import org.ligi.ufo.MKParamsGeneratedDefinitionsToStrings;
 
@@ -49,24 +47,12 @@ public class FlightSettingsTopicListActivity extends BaseListActivity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityCalls.beforeContent(this);
-
         menu_items = new String[MKProvider.getMK().params.tab_stringids.length];
-        for (int i = 0; i < menu_items.length; i++)
+        for (int i = 0; i < menu_items.length; i++) {
             menu_items[i] = getString(DUBwiseStringHelper.table[TABID2STRINGID[MKProvider.getMK().params.tab_stringids[i]]]);
+        }
+
         this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menu_items));
-    }
-
-    @Override
-    public void onResume() {
-        ActivityCalls.afterContent(this);
-        super.onResume();
-    }
-
-    @Override
-    protected void onDestroy() {
-        ActivityCalls.onDestroy(this);
-        super.onDestroy();
     }
 
     @Override

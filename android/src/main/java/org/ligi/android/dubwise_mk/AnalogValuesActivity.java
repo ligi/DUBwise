@@ -25,8 +25,6 @@ import android.os.Handler;
 import android.widget.ArrayAdapter;
 
 import org.ligi.android.dubwise_mk.conn.MKProvider;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
-import org.ligi.android.dubwise_mk.helper.DUBwiseBaseListActivity;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.MKDebugData;
 
@@ -48,7 +46,6 @@ public class AnalogValuesActivity extends BaseListActivity implements Runnable {
         menu_items = new String[MKDebugData.MAX_VALUES];
         refresh_values();
 
-        ActivityCalls.beforeContent(this);
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, menu_items);
 
@@ -63,15 +60,8 @@ public class AnalogValuesActivity extends BaseListActivity implements Runnable {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        ActivityCalls.afterContent(this);
-    }
-
-    @Override
     protected void onDestroy() {
         running = false;
-        ActivityCalls.onDestroy(this);
         super.onDestroy();
     }
 

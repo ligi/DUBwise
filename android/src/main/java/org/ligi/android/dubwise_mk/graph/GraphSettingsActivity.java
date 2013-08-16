@@ -26,7 +26,6 @@ import android.os.Bundle;
 import android.widget.CheckBox;
 
 import org.ligi.android.dubwise_mk.R;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 
 public class GraphSettingsActivity extends Activity {
 
@@ -36,7 +35,6 @@ public class GraphSettingsActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityCalls.beforeContent(this);
 
         SharedPreferences settings = getSharedPreferences("DUBWISE", 0);
 
@@ -46,12 +44,6 @@ public class GraphSettingsActivity extends Activity {
         ((CheckBox) findViewById(R.id.GridCheckBox)).setChecked(settings.getBoolean("do_grid", true));
         System.out.println("do grid" + settings.getBoolean("do_grid", true));
 
-    }
-
-    @Override
-    protected void onResume() {
-        ActivityCalls.afterContent(this);
-        super.onResume();
     }
 
     @Override

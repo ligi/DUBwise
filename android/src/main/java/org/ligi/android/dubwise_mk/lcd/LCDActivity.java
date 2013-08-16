@@ -39,7 +39,6 @@ import android.widget.TextView;
 import org.ligi.android.dubwise_mk.BaseActivity;
 import org.ligi.android.dubwise_mk.conn.MKProvider;
 import org.ligi.android.dubwise_mk.conn.SwitchDeviceListActivity;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKCommunicator;
 
@@ -50,29 +49,11 @@ public class LCDActivity extends BaseActivity implements OnTouchListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityCalls.beforeContent(this);
 
         MKProvider.getMK().user_intent = MKCommunicator.USER_INTENT_LCD;
         lcd_view = new LCDView(this);
         lcd_view.setOnTouchListener(this);
         setContentView(lcd_view);
-    }
-
-    @Override
-    protected void onResume() {
-        ActivityCalls.afterContent(this);
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        ActivityCalls.onDestroy(this);
-        super.onDestroy();
     }
 
     public final static int MENU_PREV = 0;

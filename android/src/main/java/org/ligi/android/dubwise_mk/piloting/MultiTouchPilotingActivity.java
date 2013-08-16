@@ -21,14 +21,12 @@
 
 package org.ligi.android.dubwise_mk.piloting;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import org.ligi.android.dubwise_mk.BaseActivity;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 
 public class MultiTouchPilotingActivity extends BaseActivity {
 
@@ -37,37 +35,16 @@ public class MultiTouchPilotingActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityCalls.beforeContent(this);
         PilotingPrefs.init(this);
 
         setContentView(new MultiTouchPilotingView(this));
+   }
 
-    }
-
-    @Override
-    protected void onResume() {
-        ActivityCalls.afterContent(this);
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    /* Creates the menu items */
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(0, MENU_SETTINGS, 0, "Settings").setIcon(android.R.drawable.ic_menu_preferences);
         return true;
     }
 
-    /* Handles item selections */
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case MENU_SETTINGS:

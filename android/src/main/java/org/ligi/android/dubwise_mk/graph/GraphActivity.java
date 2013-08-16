@@ -20,7 +20,6 @@
 
 package org.ligi.android.dubwise_mk.graph;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -31,7 +30,6 @@ import android.view.View.OnTouchListener;
 
 import org.ligi.android.dubwise_mk.BaseActivity;
 import org.ligi.android.dubwise_mk.conn.MKProvider;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.tracedroid.logging.Log;
 
 public class GraphActivity extends BaseActivity implements OnTouchListener {
@@ -45,7 +43,6 @@ public class GraphActivity extends BaseActivity implements OnTouchListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityCalls.beforeContent(this);
 
         graph_view = new GraphView(this);
         graph_view.setOnTouchListener(this);
@@ -54,25 +51,6 @@ public class GraphActivity extends BaseActivity implements OnTouchListener {
 
         // getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, new GraphView(this));
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ActivityCalls.afterContent(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        ActivityCalls.onDestroy(this);
-        super.onDestroy();
-    }
-
 
     /* Creates the menu items */
     public boolean onCreateOptionsMenu(Menu menu) {

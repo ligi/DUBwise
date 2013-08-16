@@ -22,9 +22,7 @@ package org.ligi.android.dubwise_mk.flightsettings;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
@@ -34,7 +32,7 @@ import android.widget.ListView;
 
 import org.ligi.android.dubwise_mk.BaseListActivity;
 import org.ligi.android.dubwise_mk.conn.MKProvider;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
+import org.ligi.androidhelper.helpers.dialog.ActivityFinishingOnClickListener;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.MKParamsParser;
 
@@ -55,7 +53,6 @@ public class FlightSettingsActivity extends BaseListActivity implements Runnable
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        ActivityCalls.beforeContent(this);
         mk = MKProvider.getMK();
 
         for (int i = 0; i < MKParamsParser.MAX_PARAMSETS; i++)
@@ -66,12 +63,8 @@ public class FlightSettingsActivity extends BaseListActivity implements Runnable
         alert.setIcon(android.R.drawable.ic_dialog_alert);
         alert.setTitle("Error");
 
-        alert.setButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-                return;
-            }
-        });
+        //alert.setButton();
+        alert.setButton("OK", new ActivityFinishingOnClickListener(this));
 
         if (mk.params.last_parsed_paramset != MKParamsParser.MAX_PARAMSETS) {
             showDialog(DIALOG_PROGRESS);
@@ -81,12 +74,6 @@ public class FlightSettingsActivity extends BaseListActivity implements Runnable
 
         // this.setContentView(R.layout.general_settings);
         // progressDialog.show();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ActivityCalls.afterContent(this);
     }
 
     @Override
@@ -180,12 +167,6 @@ public class FlightSettingsActivity extends BaseListActivity implements Runnable
         
         Log.d("DUBwise", res);
         */
-    }
-
-    @Override
-    protected void onDestroy() {
-        ActivityCalls.onDestroy(this);
-        super.onDestroy();
     }
 
 }

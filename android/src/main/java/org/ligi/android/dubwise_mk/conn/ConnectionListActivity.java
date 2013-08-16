@@ -34,8 +34,6 @@ import android.widget.ListView;
 
 import org.ligi.android.common.intents.IntentHelper;
 import org.ligi.android.dubwise_mk.BaseListActivity;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
-import org.ligi.android.dubwise_mk.helper.DUBwiseBaseListActivity;
 import org.ligi.android.dubwise_mk.simulation.AndroidAttitudeProvider;
 import org.ligi.android.io.BluetoothCommunicationAdapter;
 import org.ligi.androidhelper.helpers.dialog.DialogDiscardingOnClickListener;
@@ -58,15 +56,9 @@ public class ConnectionListActivity extends BaseListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityCalls.beforeContent(this);
         this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menu_items));
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ActivityCalls.afterContent(this);
-    }
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
@@ -146,13 +138,6 @@ public class ConnectionListActivity extends BaseListActivity {
             e.printStackTrace();
         }
     }
-
-    @Override
-    protected void onDestroy() {
-        ActivityCalls.onDestroy(this);
-        super.onDestroy();
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

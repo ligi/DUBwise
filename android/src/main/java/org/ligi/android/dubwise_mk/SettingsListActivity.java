@@ -20,20 +20,16 @@
 
 package org.ligi.android.dubwise_mk;
 
-import android.app.ListActivity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
 import org.ligi.android.dubwise_mk.blackbox.BlackBoxPrefsActivity;
 import org.ligi.android.dubwise_mk.graph.GraphSettingsActivity;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.android.dubwise_mk.helper.IconicAdapter;
 import org.ligi.android.dubwise_mk.helper.IconicMenuItem;
 import org.ligi.android.dubwise_mk.piloting.PilotingPrefsActivity;
 import org.ligi.android.dubwise_mk.voice.VoicePrefsActivity;
-import org.ligi.tracedroid.logging.Log;
 
 import java.util.Vector;
 

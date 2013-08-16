@@ -24,15 +24,13 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.android.dubwise_mk.helper.IconicAdapter;
 import org.ligi.android.dubwise_mk.helper.IconicMenuItem;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class InformationDeskActivity
         extends ListActivity {
@@ -44,9 +42,8 @@ public class InformationDeskActivity
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityCalls.beforeContent(this);
 
-        Vector<IconicMenuItem> menu_items_vector = new Vector<IconicMenuItem>();
+        ArrayList<IconicMenuItem> menu_items_vector = new ArrayList<IconicMenuItem>();
 
         menu_items_vector.add(new IconicMenuItem("DUBwise wiki Page", android.R.drawable.ic_menu_info_details, new Intent("android.intent.action.VIEW",
                 Uri.parse("http://mikrokopter.de/ucwiki/en/DUBwise"))));
@@ -72,26 +69,6 @@ public class InformationDeskActivity
 
         this.setListAdapter(new IconicAdapter(this, (menu_items_vector.toArray())));
 
-        ActivityCalls.afterContent(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ActivityCalls.afterContent(this);
-
-        Log.d("DUBWISE", "resume");
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-    }
-
-    public void log(String msg) {
-        Log.d("DUWISE", msg);
     }
 
     @Override
@@ -100,14 +77,10 @@ public class InformationDeskActivity
 
         IconicMenuItem item = ((IconicMenuItem) (this.getListAdapter().getItem(position)));
 
-        if (item.intent != null)
+        if (item.intent != null) {
             startActivity(item.intent);
+        }
 
     }
 
-    @Override
-    protected void onDestroy() {
-        ActivityCalls.onDestroy(this);
-        super.onDestroy();
-    }
 }

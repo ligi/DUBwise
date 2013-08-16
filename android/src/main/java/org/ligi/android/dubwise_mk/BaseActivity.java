@@ -20,28 +20,37 @@
 
 package org.ligi.android.dubwise_mk;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.ligi.android.dubwise_mk.balance.BalanceActivity;
+import org.ligi.android.dubwise_mk.blackbox.BlackBox;
+import org.ligi.android.dubwise_mk.blackbox.BlackBoxPrefs;
 import org.ligi.android.dubwise_mk.cockpit.CockpitActivity;
 import org.ligi.android.dubwise_mk.conn.ConnectionListActivity;
 import org.ligi.android.dubwise_mk.conn.MKProvider;
 import org.ligi.android.dubwise_mk.flightsettings.FlightSettingsActivity;
 import org.ligi.android.dubwise_mk.graph.GraphActivity;
+import org.ligi.android.dubwise_mk.helper.DUBwiseBackgroundHandler;
 import org.ligi.android.dubwise_mk.helper.IconicAdapter;
 import org.ligi.android.dubwise_mk.helper.IconicMenuItem;
 import org.ligi.android.dubwise_mk.lcd.LCDActivity;
 import org.ligi.android.dubwise_mk.piloting.PilotingListActivity;
+import org.ligi.android.dubwise_mk.voice.StatusVoice;
+import org.ligi.android.dubwise_mk.voice.VoicePrefs;
 import org.ligi.ufo.MKCommunicator;
 
 import java.util.ArrayList;
@@ -53,10 +62,45 @@ public class BaseActivity extends ActionBarActivity {
     private ListView drawerList;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
+    private static PowerManager.WakeLock mWakeLock;
+    private static boolean did_init;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        DUBwisePrefs.init(this);
+
+        if (DUBwisePrefs.keepLightNow()) {
+            if (mWakeLock == null) {
+                final PowerManager pm = (PowerManager) (getSystemService(Context.POWER_SERVICE));
+                mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "DUBwise");
+            }
+            mWakeLock.acquire();
+        }
+
+        // do only once
+        if (!did_init) {
+            //BluetoothMaster.init(activity);
+            VoicePrefs.init(this);
+            StatusVoice.getInstance().init(this);
+            BlackBoxPrefs.init(this);
+
+
+            // start the default connection
+            StartupConnectionService.start(this);
+
+            if (BlackBoxPrefs.isBlackBoxEnabled()) {
+                DUBwiseBackgroundHandler.getInstance().addAndStartTask(BlackBox.getInstance());
+            }
+
+            did_init = true;
+        }
+
+        if (VoicePrefs.isVoiceEnabled() && !DUBwiseBackgroundHandler.getInstance().getBackgroundTasks().contains(StatusVoice.getInstance())) {
+            DUBwiseBackgroundHandler.getInstance().addAndStartTask(StatusVoice.getInstance());
+        }
+
         setContentView(R.layout.base_layout);
         contentView = (ViewGroup) findViewById(R.id.content_frame);
 
@@ -117,6 +161,14 @@ public class BaseActivity extends ActionBarActivity {
     @Override
     public void setContentView(View view) {
         contentView.addView(view);
+
+        if (DUBwisePrefs.isFullscreenEnabled()) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        } else {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+
     }
 
 
@@ -238,4 +290,26 @@ public class BaseActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+    public static void shutdownDUBwise() {
+        MKProvider.getMK().close_connections(true);
+        MKProvider.getMK().stop();
+        DUBwiseBackgroundHandler.getInstance().stopAll();
+        MKProvider.disposeMK();
+        did_init = false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        if ((mWakeLock != null) && (mWakeLock.isHeld())) {
+            mWakeLock.release();
+        }
+        super.onDestroy();
+    }
+
+    public SharedPreferences getSharedPreferences() {
+        return getSharedPreferences("DUBwise", 0);
+    }
+
 }

@@ -29,22 +29,18 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 
 import org.ligi.android.dubwise_mk.DUBwisePrefs;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 
 public class CockpitPrefsActivity extends PreferenceActivity implements OnPreferenceChangeListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ActivityCalls.beforeContent(this);
         super.onCreate(savedInstanceState);
         setPreferenceScreen(createPreferenceHierarchy());
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ActivityCalls.afterContent(this);
     }
 
     private PreferenceScreen createPreferenceHierarchy() {

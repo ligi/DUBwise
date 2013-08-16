@@ -31,7 +31,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ligi.android.dubwise_mk.conn.MKProvider;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.tracedroid.logging.Log;
 
 public class MotorTestActivity extends BaseActivity implements OnSeekBarChangeListener, Runnable {
@@ -54,8 +53,6 @@ public class MotorTestActivity extends BaseActivity implements OnSeekBarChangeLi
         super.onCreate(savedInstanceState);
 
         engines = MKProvider.getMK().mixer_manager.getLastUsedEngine() + 1;
-
-        ActivityCalls.beforeContent(this);
 
         ScrollView scroll = new ScrollView(this);
 
@@ -139,7 +136,6 @@ public class MotorTestActivity extends BaseActivity implements OnSeekBarChangeLi
     @Override
     protected void onResume() {
         super.onResume();
-        ActivityCalls.afterContent(this);
         new Thread(this).start();
     }
 
@@ -168,10 +164,4 @@ public class MotorTestActivity extends BaseActivity implements OnSeekBarChangeLi
         }
     }
 
-
-    @Override
-    protected void onDestroy() {
-        ActivityCalls.onDestroy(this);
-        super.onDestroy();
-    }
 }

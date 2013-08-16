@@ -51,7 +51,6 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import org.ligi.android.dubwise_mk.conn.MKProvider;
-import org.ligi.android.dubwise_mk.helper.ActivityCalls;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MixerManager;
 
@@ -82,7 +81,6 @@ public class MixerEditActivity extends BaseActivity implements OnItemSelectedLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityCalls.beforeContent(this);
 /*
         menu_items=new String[MKProvider.getMK().params.tab_stringids.length];
 		for (int i=0;i<menu_items.length;i++)
@@ -272,12 +270,6 @@ public class MixerEditActivity extends BaseActivity implements OnItemSelectedLis
 
         view.addView(table);
         this.setContentView(view);
-    }
-
-    @Override
-    public void onResume() {
-        ActivityCalls.afterContent(this);
-        super.onResume();
     }
 
     /**
