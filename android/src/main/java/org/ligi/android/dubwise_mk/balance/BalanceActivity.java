@@ -10,9 +10,9 @@ public class BalanceActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         MKProvider.getMK().user_intent = MKCommunicator.USER_INTENT_3DDATA;
         setContentView(new BalanceView(this));
-        super.onCreate(savedInstanceState);
     }
 
 }
