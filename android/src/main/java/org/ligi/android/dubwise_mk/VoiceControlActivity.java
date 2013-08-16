@@ -30,7 +30,7 @@ import org.ligi.tracedroid.logging.Log;
 import java.util.ArrayList;
 
 /**
- * some testing around voice control, but stalled until found something that works offlin
+ * some testing around voice control, but stalled until found something that works offline
  */
 public class VoiceControlActivity extends Activity {
 
