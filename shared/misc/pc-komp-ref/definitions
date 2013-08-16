@@ -497,3 +497,31 @@
  to_cat("NAVI", [{ :pos=>act_pos , :function=>"PHLOGINTIME" , :typ=>"MKBYTE" }] ) 
  act_pos+=1
 
+--HoeheChannel;
+ to_cat("CHANNELS", [{ :pos=>act_pos , :function=>"ALTCHAN" , :typ=>"STICK" }] ) 
+ act_pos+=1
+
+--NaviOut1Parameter;
+ to_cat("NAVI", [{ :pos=>act_pos , :function=>"NAVIOUT1" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+
+
+--NaviGpsModeChannel;
+ to_cat("CHANNELS", [{ :pos=>act_pos , :function=>"NAVICHAN" , :typ=>"STICK" }] ) 
+ act_pos+=1
+
+--CareFreeChannel;
+ to_cat("CHANNELS", [{ :pos=>act_pos , :function=>"CAREFREECHAN" , :typ=>"STICK" }] ) 
+ act_pos+=1
+
+--StartLandChannel;
+ to_cat("CHANNELS", [{ :pos=>act_pos , :function=>"STARTLANDCHAN" , :typ=>"STICK" }] ) 
+ act_pos+=1
+
+--NaviGpsA;
+ to_cat("NAVI", [{ :pos=>act_pos , :function=>"NAVIGPSA" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
+
+--LandingSpeed;
+ to_cat("NAVI", [{ :pos=>act_pos , :function=>"LANDINGSPEED" , :typ=>"MKBYTE" }] ) 
+ act_pos+=1
