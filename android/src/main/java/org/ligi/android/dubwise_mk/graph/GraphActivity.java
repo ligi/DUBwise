@@ -36,10 +36,6 @@ import org.ligi.tracedroid.logging.Log;
 
 public class GraphActivity extends BaseActivity implements OnTouchListener {
 
-    public final static int MENU_GRID = 0;
-    public final static int MENU_FREEZE = 1;
-    public final static int MENU_SETTINGS = 2;
-
     private GraphView graph_view;
 
     @Override
@@ -56,22 +52,17 @@ public class GraphActivity extends BaseActivity implements OnTouchListener {
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.graph,menu);
 
-        menu.add(0, MENU_SETTINGS, 0, "Settings").setIcon(android.R.drawable.ic_menu_preferences);
-
-        menu.add(0, MENU_FREEZE, 0, (MKProvider.getMK().freeze_debug_buff ? "unfreeze" : "freeze"))
-                .setIcon(android.R.drawable.ic_media_pause);
-
         return super.onCreateOptionsMenu(menu);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case MENU_FREEZE:
+            case R.id.menu_pause:
                 MKProvider.getMK().freeze_debug_buff = !MKProvider.getMK().freeze_debug_buff;
                 break;
 
-            case MENU_SETTINGS:
+            case R.id.menu_settings:
                 //quit();
                 startActivity(new Intent(this, GraphSettingsActivity.class));
                 return true;
