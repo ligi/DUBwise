@@ -23,7 +23,7 @@ android {
     dependencies {
         compile fileTree(dir: 'lib', include: 'JavaMK*.jar')
         compile 'org.ligi:AndroidHelper:0.18'
-        compile 'org.ligi:DUBwiseCommons:0.4'
+        compile 'org.ligi:DUBwiseCommons:0.7'
         compile 'org.ligi:tracedroid:1.1'
 
         compile('com.android.support:support-v4:18.0.+')
