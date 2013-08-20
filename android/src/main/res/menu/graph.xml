@@ -6,4 +6,10 @@
             android:showAsAction="ifRoom"
             android:icon="@android:drawable/ic_menu_preferences"
             android:title="settings"/>
+
+    <item
+            android:id="@+id/menu_pause"
+            android:showAsAction="ifRoom"
+            android:icon="@android:drawable/ic_media_pause"
+            android:title="freeze"/>
 </menu>
