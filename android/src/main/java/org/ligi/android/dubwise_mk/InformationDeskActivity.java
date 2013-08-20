@@ -33,7 +33,7 @@ import org.ligi.android.dubwise_mk.helper.IconicMenuItem;
 import java.util.ArrayList;
 
 public class InformationDeskActivity
-        extends ListActivity {
+        extends BaseListActivity {
 
     /**
      * Called when the activity is first created.
