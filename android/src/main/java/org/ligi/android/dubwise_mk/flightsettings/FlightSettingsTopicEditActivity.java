@@ -51,6 +51,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 import org.ligi.android.dubwise_mk.BaseActivity;
+import org.ligi.android.dubwise_mk.R;
 import org.ligi.android.dubwise_mk.conn.MKProvider;
 import org.ligi.android.dubwise_mk.helper.DUBwiseStringHelper;
 import org.ligi.tracedroid.logging.Log;
@@ -61,11 +62,6 @@ import org.ligi.ufo.MKStickData;
 
 public class FlightSettingsTopicEditActivity extends BaseActivity implements MKParamsGeneratedDefinitionsToStrings, OnCheckedChangeListener, TextWatcher, OnEditorActionListener, KeyListener, OnClickListener {
 
-    private static final int MENU_SAVE = 0;
-    private static final int MENU_HELP = 1;
-    private static final int MENU_UNDO = 2;
-
-    private String[] menu_items;
 
     // 	each is tagged with the id of the row
     private Spinner[] spinners;
@@ -100,14 +96,15 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements MKP
     public void do_layout() {
 
         view = new ScrollView(this);
-        menu_items = new String[MKProvider.getMK().params.field_stringids[act_topic].length];
 
-        spinners = new Spinner[menu_items.length];
-        edit_texts = new EditText[menu_items.length];
-        checkboxes = new CheckBox[menu_items.length];
-        bitmask_edittext = new EditText[menu_items.length];
-        bitmask_row = new TableRow[menu_items.length];
-        bitmask_checkbox = new CheckBox[menu_items.length][8];
+        int item_count=MKProvider.getMK().params.field_stringids[act_topic].length;
+
+        spinners = new Spinner[item_count];
+        edit_texts = new EditText[item_count];
+        checkboxes = new CheckBox[item_count];
+        bitmask_edittext = new EditText[item_count];
+        bitmask_row = new TableRow[item_count];
+        bitmask_checkbox = new CheckBox[item_count][8];
 
         TableLayout table = new TableLayout(this);
 /*
@@ -123,7 +120,7 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements MKP
 
         table.setColumnStretchable(1, true);
 
-        for (int i = 0; i < menu_items.length; i++) {
+        for (int i = 0; i < item_count; i++) {
             TableRow row = new TableRow(this);
             table.addView(row);
             row.setPadding(0, 5, 0, 5);
@@ -374,38 +371,31 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements MKP
 
         MKProvider.getMK().params.set_field_from_act(val_pos / 8, old_val);
 
-        Log.d("" + checkbox.getTag());
-
     }
 
-    /* Creates the menu items */
     public boolean onCreateOptionsMenu(Menu menu) {
-
-        menu.add(0, MENU_SAVE, 0, "Write").setIcon(android.R.drawable.ic_menu_save);
-        menu.add(0, MENU_UNDO, 0, "Undo").setIcon(android.R.drawable.ic_menu_revert);
-        menu.add(0, MENU_HELP, 0, "Help").setIcon(android.R.drawable.ic_menu_help);
+        getSupportMenuInflater().inflate(R.menu.flightsettings_edit,menu);
         return true;
     }
 
-    /* Handles item selections */
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case MENU_SAVE:
+            case R.id.menu_write:
                 MKProvider.getMK().write_params(MKProvider.getMK().params.act_paramset);
                 return true;
 
-            case MENU_HELP:
+            case R.id.menu_help:
                 this.startActivity(new Intent("android.intent.action.VIEW",
                         Uri.parse("http://www.mikrokopter.de/ucwiki/en/MK-Parameter")));
                 return true;
-            case MENU_UNDO:
+            //case MENU_UNDO:
                 //String ps=
                 //Log.i("act paramset " + MKProvider.getMK().params.act_paramset );
 
                 //MKProvider.getMK().params.use_backup();
                 //do_layout();
-                return true;
+            //return true;
         }
         return false;
     }
