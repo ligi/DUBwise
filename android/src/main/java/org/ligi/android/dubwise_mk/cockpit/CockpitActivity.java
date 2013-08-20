@@ -2,10 +2,8 @@
  *
  * Activity to show a Cockpit
  *
- * Author:  Marcus -LiGi- Bueschleb   
- *
  * Project URL:
- *  http://mikrokopter.de/ucwiki/en/DUBwise
+ *  https://github.com/ligi/DUBwise
  *
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
@@ -27,6 +25,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 import org.ligi.android.dubwise_mk.BaseActivity;
+import org.ligi.android.dubwise_mk.R;
 import org.ligi.android.dubwise_mk.conn.MKProvider;
 import org.ligi.ufo.MKCommunicator;
 
@@ -34,8 +33,6 @@ import org.ligi.ufo.MKCommunicator;
  * Activity tp show a Cockpit ( PFD )
  */
 public class CockpitActivity extends BaseActivity {
-
-    private static final int MENU_SETTINGS = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +45,7 @@ public class CockpitActivity extends BaseActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        MenuItem settings_menu = menu.add(0, MENU_SETTINGS, 0, "Settings");
-        settings_menu.setIcon(android.R.drawable.ic_menu_preferences);
-
+        getSupportMenuInflater().inflate(R.menu.cockpit,menu);
         return true;
     }
 
@@ -58,7 +53,7 @@ public class CockpitActivity extends BaseActivity {
 
         switch (item.getItemId()) {
 
-            case MENU_SETTINGS:
+            case R.id.menu_settings:
                 startActivity(new Intent(this, CockpitPrefsActivity.class));
                 return true;
         }
