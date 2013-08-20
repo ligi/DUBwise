@@ -80,12 +80,6 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements MKP
 
         act_topic = getIntent().getIntExtra("topic", 1);
 
-		/*
- * 
-		menu_items=new String[MKProvider.getMK().params.tab_stringids.length];
-		for (int i=0;i<menu_items.length;i++)
-		menu_items[i]=getString(DUBwiseStringHelper.table[MKProvider.getMK().params.tab_stringids[i]]);
-		*/
         do_layout();
     }
 
@@ -104,13 +98,7 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements MKP
         bitmask_checkbox = new CheckBox[item_count][8];
 
         TableLayout table = new TableLayout(this);
-/*
-        LinearLayout dummy=new LinearLayout(this);
-        dummy.setFocusable(true);
-        dummy.setFocusableInTouchMode(true);
-        table.addView(dummy);
-        
-        */
+
         LayoutParams lp = new TableLayout.LayoutParams();
         lp.width = LayoutParams.FILL_PARENT;
         table.setLayoutParams(lp);
@@ -236,8 +224,6 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements MKP
 
                     edit_texts[i].setTag(new Integer(i));
                     edit_texts[i].setInputType(InputType.TYPE_CLASS_NUMBER);
-//        		edit_texts[i].addTextChangedListener(this);
-                    //edit_texts[i].setKeyListener(this);
                     final int act_i = i;
 
                     edit_texts[i].addTextChangedListener(new TextWatcher() {
@@ -272,7 +258,6 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements MKP
 
                         }
                     });
-                    //edit_texts[i].set
 
 
                     spinners[i] = new Spinner(this);
