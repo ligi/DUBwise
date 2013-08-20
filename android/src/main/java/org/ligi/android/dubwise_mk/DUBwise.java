@@ -1,12 +1,4 @@
 /**************************************************************************
- *
- * Main Menu ( & startup ) Activity for DUBwise 
- *
- * Author:  Marcus -LiGi- Bueschleb   
- *
- * Project URL:
- *  http://mikrokopter.de/ucwiki/en/DUBwise
- *
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
  *  (Creative Commons / Non Commercial / Share Alike)
@@ -39,6 +31,9 @@ import org.ligi.tracedroid.sending.TraceDroidEmailSender;
 import org.ligi.ufo.DUBwiseNotificationListenerInterface;
 import org.ligi.ufo.logging.NotLogger;
 
+/**
+ * Main Menu ( & startup ) Activity for DUBwise
+ */
 public class DUBwise extends BaseActivity implements DUBwiseNotificationListenerInterface, Runnable {
 
     private VarioSound vs;
