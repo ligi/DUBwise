@@ -23,18 +23,16 @@ import android.widget.LinearLayout;
 import org.ligi.android.dubwise_mk.app.ApplicationContext;
 import org.ligi.android.dubwise_mk.cockpit.VarioSound;
 import org.ligi.android.dubwise_mk.conn.MKProvider;
-import org.ligi.android.dubwise_mk.helper.DUBwiseStringHelper;
 import org.ligi.androidhelper.AndroidHelper;
 import org.ligi.tracedroid.TraceDroid;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.tracedroid.sending.TraceDroidEmailSender;
-import org.ligi.ufo.DUBwiseNotificationListenerInterface;
 import org.ligi.ufo.logging.NotLogger;
 
 /**
  * Main Menu ( & startup ) Activity for DUBwise
  */
-public class DUBwise extends BaseActivity implements DUBwiseNotificationListenerInterface, Runnable {
+public class DUBwise extends BaseActivity {
 
     private VarioSound vs;
 
@@ -42,7 +40,6 @@ public class DUBwise extends BaseActivity implements DUBwiseNotificationListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.i("TableLen" + DUBwiseStringHelper.table.length);
         TraceDroid.init(this);
         Log.setTAG("DUBwise"); // It's all about DUBwise from here ;-)
 
@@ -51,6 +48,7 @@ public class DUBwise extends BaseActivity implements DUBwiseNotificationListener
         vs = new VarioSound((ApplicationContext) this.getApplicationContext());
 
         AndroidHelper.at(this).startActivityForClass(MixerEditActivity.class);
+        finish();
     }
 
 
@@ -126,47 +124,17 @@ public class DUBwise extends BaseActivity implements DUBwiseNotificationListener
     protected void onResume() {
         super.onResume();
         updateMKLogging();
-        Log.d("onResume DUBwise.java" + this);
-        //refresh_list();
-        MKProvider.getMK().addNotificationListener(this);
     }
 
     /**
      * enable/disable MK Protocol logging depending on user settings
      */
     public void updateMKLogging() {
-        if (DUBwisePrefs.isVerboseLoggingEnabled())
+        if (DUBwisePrefs.isVerboseLoggingEnabled()) {
             MKProvider.getMK().setLoggingInterface(new AndroidLogger());
-        else
+        } else {
             MKProvider.getMK().setLoggingInterface(new NotLogger());
-    }
-
-
-    /*
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-
-        IconicMenuItem item = ((IconicMenuItem) (this.getListAdapter().getItem(position)));
-
-        if (item.intent != null) {
-            startActivity(item.intent);
-        }
-
-    }
-    */
-
-    public void processNotification(byte notification) {
-        switch (notification) {
-            case NOTIFY_CONNECTION_CHANGED:
-                this.runOnUiThread(this);
-                break;
         }
     }
 
-
-    @Override
-    public void run() {
-        //refresh_list();
-    }
 }
