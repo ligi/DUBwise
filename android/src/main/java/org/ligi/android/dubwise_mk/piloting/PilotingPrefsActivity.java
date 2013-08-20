@@ -1,37 +1,32 @@
-package org.ligi.android.dubwise_mk.piloting;
-
 /**************************************************************************
- *
- * Activity to edit the Piloting Preferences
- *
- * Author:  Marcus -LiGi- Bueschleb   
- *
- * Project URL:
- *  http://mikrokopter.de/ucwiki/en/DUBwise
- *
  * License:
- *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
+ *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/
  *  (Creative Commons / Non Commercial / Share Alike)
  *  Additionally to the Creative Commons terms it is not allowed
- *  to use this project in _any_ violent manner! 
- *  This explicitly includes that lethal Weapon owning "People" and 
- *  Organisations (e.g. Army & Police) 
+ *  to use this project in _any_ violent manner!
+ *  This explicitly includes that lethal Weapon owning "People" and
+ *  Organisations (e.g. Army & Police)
  *  are not allowed to use this Project!
  *
  **************************************************************************/
+
+package org.ligi.android.dubwise_mk.piloting;
 
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 
+import org.ligi.android.dubwise_mk.BasePrefsActivity;
 import org.ligi.androidhelper.preferences.SetPreferenceEnabledByCheckBoxPreferenceState;
 
-public class PilotingPrefsActivity extends PreferenceActivity {
+/**
+ * Activity to edit the Piloting Preferences
+ */
+public class PilotingPrefsActivity extends BasePrefsActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +134,7 @@ public class PilotingPrefsActivity extends PreferenceActivity {
         leftPadVerticalSerialChannelMappingPref.setDefaultValue(PilotingPrefs.getLeftPadVerticalSCMappingStr());
         leftPadVerticalSerialChannelMappingPref.setEnabled(PilotingPrefs.isSerialChannelsEnabled());
         leftPadVerticalPrefCat.addPreference(leftPadVerticalSerialChannelMappingPref);
-		
+
 		
 		/* Right Pad */
         PreferenceCategory rightPadHorizontalPrefCat = new PreferenceCategory(this);

@@ -24,18 +24,21 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 
+import org.ligi.android.dubwise_mk.BasePrefsActivity;
 import org.ligi.android.dubwise_mk.DUBwisePrefs;
 
-public class CockpitPrefsActivity extends PreferenceActivity implements OnPreferenceChangeListener {
+public class CockpitPrefsActivity extends BasePrefsActivity implements OnPreferenceChangeListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setPreferenceScreen(createPreferenceHierarchy());
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

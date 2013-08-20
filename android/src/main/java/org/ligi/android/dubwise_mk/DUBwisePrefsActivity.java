@@ -1,12 +1,4 @@
 /**************************************************************************
- *
- * Activity to edit the DUBwise Preferences
- *
- * Author:  Marcus -LiGi- Bueschleb   
- *
- * Project URL:
- *  http://mikrokopter.de/ucwiki/en/DUBwise
- *
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
  *  (Creative Commons / Non Commercial / Share Alike)
@@ -27,17 +19,14 @@ import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 
 /**
  * Activity to edit the DUBwise Preferences
- *
- * @author ligi ( aka: Marcus Bueschleb | mail: ligi at ligi dot de )
  */
-public class DUBwisePrefsActivity extends PreferenceActivity implements
-        OnPreferenceChangeListener, OnSharedPreferenceChangeListener {
+public class DUBwisePrefsActivity extends BasePrefsActivity implements
+OnPreferenceChangeListener, OnSharedPreferenceChangeListener {
 
     private ListPreference stayAwakePref;
 

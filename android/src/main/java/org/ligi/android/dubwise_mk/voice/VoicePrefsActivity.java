@@ -1,12 +1,5 @@
 /**************************************************************************
  *
- * Activity to edit the Cockpit Preferences
- *
- * Author:  Marcus -LiGi- Bueschleb   
- *
- * Project URL:
- *  http://mikrokopter.de/ucwiki/en/DUBwise
- *
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
  *  (Creative Commons / Non Commercial / Share Alike)
@@ -27,14 +20,17 @@ import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 
+import org.ligi.android.dubwise_mk.BasePrefsActivity;
 import org.ligi.androidhelper.preferences.TimePreference;
 import org.ligi.tracedroid.logging.Log;
 
-public class VoicePrefsActivity extends PreferenceActivity implements OnPreferenceChangeListener {
+/**
+ * Activity to edit the Cockpit Preferences
+ */
+public class VoicePrefsActivity extends BasePrefsActivity implements OnPreferenceChangeListener {
 
     private CheckBoxPreference voiceEnabledCheckBoxPref;
     private PreferenceCategory valuesToSpeakPrefCat;
@@ -48,7 +44,7 @@ public class VoicePrefsActivity extends PreferenceActivity implements OnPreferen
     }
 
     public String formatedPause() {
-        return "" + VoicePrefs.getPauseTimeInMS() + "ms";
+        return String.valueOf(VoicePrefs.getPauseTimeInMS()) + "ms";
     }
 
     private PreferenceScreen createPreferenceHierarchy() {
@@ -223,8 +219,9 @@ public class VoicePrefsActivity extends PreferenceActivity implements OnPreferen
         Log.i("pref change " + preference + " ->" + newValue);
         if (preference == voiceEnabledCheckBoxPref) {
             valuesToSpeakPrefCat.setEnabled((Boolean) newValue);
-            if ((Boolean) newValue)
+            if ((Boolean) newValue) {
                 StatusVoice.getInstance().init(this);
+            }
         } else if (preference == pause_pref) {
             StatusVoice.getInstance().setPauseTimeout(0);
             pause_pref.setSummary(formatedPause());
