@@ -46,29 +46,25 @@ public class FlightSettingsActivity extends BaseListActivity implements Runnable
     private ArrayAdapter<String> adapter;
     private AlertDialog alert;
 
-    /**
-     * Called when the activity is first created.
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         mk = MKProvider.getMK();
 
-        for (int i = 0; i < MKParamsParser.MAX_PARAMSETS; i++)
+        for (int i = 0; i < MKParamsParser.MAX_PARAMSETS; i++) {
             name_strings[i] = "-";
+        }
 
 
         alert = new AlertDialog.Builder(this).create();
         alert.setIcon(android.R.drawable.ic_dialog_alert);
         alert.setTitle("Error");
 
-        //alert.setButton();
         alert.setButton("OK", new ActivityFinishingOnClickListener(this));
 
         if (mk.params.last_parsed_paramset != MKParamsParser.MAX_PARAMSETS) {
             showDialog(DIALOG_PROGRESS);
-//		    this.runOnUiThread(this );
             new Thread(this).start();
         }
 
@@ -133,8 +129,6 @@ public class FlightSettingsActivity extends BaseListActivity implements Runnable
                     }
                 });
 
-                //    adapter.notifyDataSetChanged();
-                //UIThreadUtilities.   .runOnUIThread
             } else {
                 progressDialog.setProgress((mk.params.last_parsed_paramset + 1));
 
@@ -154,19 +148,12 @@ public class FlightSettingsActivity extends BaseListActivity implements Runnable
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        startActivity(new Intent(this, FlightSettingsTopicListActivity.class));
-
         // select the one touched
         MKProvider.getMK().params.act_paramset = position;
         MKProvider.getMK().params.update_backup(position);
-        
-        /*
-        String res="";
-        for (int i =0 ; i<MKProvider.getMK().params.field_bak[position].length;i++)
-            res+="" + MKProvider.getMK().params.field_bak[position][i]+",";
-        
-        Log.d("DUBwise", res);
-        */
+
+        // Start topic list Activity
+        startActivity(new Intent(this, FlightSettingsTopicListActivity.class));
     }
 
 }

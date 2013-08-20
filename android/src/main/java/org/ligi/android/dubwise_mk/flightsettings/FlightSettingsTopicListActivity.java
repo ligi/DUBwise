@@ -33,16 +33,11 @@ import org.ligi.ufo.MKParamsGeneratedDefinitionsToStrings;
 /**
  * Activity to choose the topic which the user wants to
  * edit from the FlightSettings
- *
- * @author ligi
  */
 public class FlightSettingsTopicListActivity extends BaseListActivity implements MKParamsGeneratedDefinitionsToStrings {
 
     private String[] menu_items;
 
-    /**
-     * Called when the activity is first created.
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

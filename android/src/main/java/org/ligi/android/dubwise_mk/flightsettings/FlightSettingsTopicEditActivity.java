@@ -74,9 +74,6 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements MKP
 
     private ScrollView view;
 
-    /**
-     * Called when the activity is first created.
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -349,7 +346,6 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements MKP
                     break;
             }
         }
-        //this.set
         view.addView(table);
         this.setContentView(view);
     } // do_layout()
