@@ -1,12 +1,5 @@
 /**************************************************************************
  *
- * View for the Cockpit
- *
- * Author:  Marcus -LiGi- Bueschleb   
- *
- * Project URL:
- *  http://mikrokopter.de/ucwiki/en/DUBwise
- *
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
  *  (Creative Commons / Non Commercial / Share Alike)
@@ -42,7 +35,7 @@ public class CockpitView extends View implements DUBwiseDefinitions, OnTouchList
     private Drawable sky_drawable;
     private Drawable nose_drawable;
 
-    private Paint altitudeTextPaint = new Paint();
+    private Paint textPaint = new Paint();
 
     public CockpitView(Activity context) {
         super(context);
@@ -54,14 +47,14 @@ public class CockpitView extends View implements DUBwiseDefinitions, OnTouchList
         sky_drawable = getResources().getDrawable(R.drawable.horizon_sky);
         nose_drawable = getResources().getDrawable(R.drawable.horizon_nose);
 
-        altitudeTextPaint.setColor(Color.WHITE);
-        altitudeTextPaint.setFakeBoldText(true);
-        altitudeTextPaint.setShadowLayer(2, 2, 2, Color.BLACK);
+        textPaint.setColor(Color.WHITE);
+        textPaint.setFakeBoldText(true);
+        textPaint.setShadowLayer(2, 2, 2, Color.BLACK);
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        altitudeTextPaint.setTextSize((0.2f * w));
+        textPaint.setTextSize((0.2f * w));
     }
 
     @Override
@@ -92,28 +85,36 @@ public class CockpitView extends View implements DUBwiseDefinitions, OnTouchList
 
         float act_text_pos = this.getHeight();
 
+        if (App.getMK().isConnected()) {
+            drawTextInConnectedState(canvas, act_text_pos);
+        } else {
+            canvas.drawText("no data yet", 7f, act_text_pos, textPaint);
+        }
+
+        invalidate();
+    }
+
+    private void drawTextInConnectedState(Canvas canvas, float act_text_pos) {
         if (DUBwisePrefs.showAlt()) {
-            canvas.drawText(App.getMK().getAlt() / 10.0 + "m", 7f, act_text_pos, altitudeTextPaint);
-            act_text_pos -= altitudeTextPaint.getTextSize();
+            canvas.drawText(App.getMK().getAlt() / 10.0 + "m", 7f, act_text_pos, textPaint);
+            act_text_pos -= textPaint.getTextSize();
         }
 
         if (DUBwisePrefs.showFlightTime()) {
-            canvas.drawText(DUBwiseHelper.seconds2str(App.getMK().getFlyingTime()), 7f, act_text_pos, altitudeTextPaint);
-            act_text_pos -= altitudeTextPaint.getTextSize();
+            canvas.drawText(DUBwiseHelper.seconds2str(App.getMK().getFlyingTime()), 7f, act_text_pos, textPaint);
+            act_text_pos -= textPaint.getTextSize();
         }
 
         if (DUBwisePrefs.showCurrent()) {
-            canvas.drawText(VesselData.battery.getCurrent() / 10.0 + "A", 7f, act_text_pos, altitudeTextPaint);
-            act_text_pos -= altitudeTextPaint.getTextSize();
+            canvas.drawText(VesselData.battery.getCurrent() / 10.0 + "A", 7f, act_text_pos, textPaint);
+            act_text_pos -= textPaint.getTextSize();
         }
 
 
         if (DUBwisePrefs.showUsedCapacity()) {
-            canvas.drawText(VesselData.battery.getUsedCapacity() + "mAh", 7f, act_text_pos, altitudeTextPaint);
-            act_text_pos -= altitudeTextPaint.getTextSize();
+            canvas.drawText(VesselData.battery.getUsedCapacity() + "mAh", 7f, act_text_pos, textPaint);
+            act_text_pos -= textPaint.getTextSize();
         }
-
-        invalidate();
     }
 
     @Override

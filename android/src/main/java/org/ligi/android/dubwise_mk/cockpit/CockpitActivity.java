@@ -1,7 +1,5 @@
 /**************************************************************************
  *
- * Activity to show a Cockpit
- *
  * Project URL:
  *  https://github.com/ligi/DUBwise
  *
@@ -45,7 +43,7 @@ public class CockpitActivity extends BaseActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getSupportMenuInflater().inflate(R.menu.cockpit,menu);
+        getSupportMenuInflater().inflate(R.menu.cockpit, menu);
         return true;
     }
 
