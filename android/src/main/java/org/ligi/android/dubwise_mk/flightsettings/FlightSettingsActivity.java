@@ -33,6 +33,7 @@ import android.widget.ListView;
 import org.ligi.android.dubwise_mk.BaseListActivity;
 import org.ligi.android.dubwise_mk.conn.MKProvider;
 import org.ligi.androidhelper.helpers.dialog.ActivityFinishingOnClickListener;
+import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.MKParamsParser;
 
@@ -92,17 +93,24 @@ public class FlightSettingsActivity extends BaseListActivity implements Runnable
         mk.user_intent = MKCommunicator.USER_INTENT_PARAMS;
         while (progressDialog.isShowing()) {
 
-            if (mk.params.incompatible_flag != MKParamsParser.INCOMPATIBLE_FLAG_NOT) {
+            if (mk.params.compatibility != MKParamsParser.Compatibility.COMPATIBLE) {
                 progressDialog.dismiss();
 
                 this.runOnUiThread(new Runnable() {
 
                     public void run() {
                         String msg = "Incompatible Params (Datarevision " + mk.params.params_version + ")";
-                        if (mk.params.incompatible_flag == MKParamsParser.INCOMPATIBLE_FLAG_FC_TOO_OLD)
-                            msg += " Please Update your FC!";
-                        else if (mk.params.incompatible_flag == MKParamsParser.INCOMPATIBLE_FLAG_FC_TOO_NEW)
-                            msg += " Please Update DUBwise!";
+                        switch (mk.params.compatibility) {
+                            case TOO_OLD:
+                                msg += " Please Update your FC!";
+                                break;
+                            case TOO_NEW:
+                                msg += " Please Update DUBwise!";
+                                break;
+                            case INCOMPATIBLE:
+                                msg += " You have a strange version!";
+                                break;
+                        }
 
                         alert.setMessage(msg);
                         alert.show();
@@ -137,8 +145,8 @@ public class FlightSettingsActivity extends BaseListActivity implements Runnable
                 } catch (InterruptedException e) {
                     // sleeping is not that important that we should throw something ;-)
                 }
-                System.out.println(" setting last:" + mk.params.last_parsed_paramset);
-                System.out.println(" settings act:" + mk.params.act_paramset);
+                Log.i(" setting last:" + mk.params.last_parsed_paramset);
+                Log.i(" settings act:" + mk.params.act_paramset);
             }
         }
 
