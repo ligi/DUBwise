@@ -60,7 +60,7 @@ import org.ligi.ufo.MKParamsGeneratedDefinitionsToStrings;
 import org.ligi.ufo.MKParamsParser;
 import org.ligi.ufo.MKStickData;
 
-public class FlightSettingsTopicEditActivity extends BaseActivity implements MKParamsGeneratedDefinitionsToStrings, OnCheckedChangeListener, TextWatcher, OnEditorActionListener, KeyListener, OnClickListener {
+public class FlightSettingsTopicEditActivity extends BaseActivity implements OnCheckedChangeListener, TextWatcher, OnEditorActionListener, KeyListener, OnClickListener {
 
 
     // 	each is tagged with the id of the row
@@ -113,7 +113,7 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements MKP
             //text_v.setFocusable(true);
             text_v.setFocusableInTouchMode(true);
 
-            text_v.setText(DUBwiseStringHelper.table[PARAMID2STRINGID[MKProvider.getMK().params.field_stringids[act_topic][i]]]);
+            text_v.setText(DUBwiseStringHelper.table[MKParamsGeneratedDefinitionsToStrings.PARAMID2STRINGID[MKProvider.getMK().params.field_stringids[act_topic][i]]]);
             text_v.setMinHeight(50);
             text_v.setPadding(3, 0, 5, 0);
             row.addView(text_v);

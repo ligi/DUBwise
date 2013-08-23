@@ -38,7 +38,7 @@ import org.ligi.ufo.MKStickData;
  *
  * @author ligi
  */
-public class RCDataActivity extends BaseActivity implements Runnable, MKParamsGeneratedDefinitionsToStrings {
+public class RCDataActivity extends BaseActivity implements Runnable {
 
     private boolean dead = false;
     private ProgressBar[] progress_bars;
@@ -76,7 +76,7 @@ public class RCDataActivity extends BaseActivity implements Runnable, MKParamsGe
             frame.addView(progress_bars[i]);
 
             text_overlays[i] = new TextView(this);
-            String txt = "Channel " + (i + 1) + this.getResources().getString(DUBwiseStringHelper.table[PARAMID2STRINGID[MKProvider.getMK().params.stick_stringids[i]]]) + " ";
+            String txt = "Channel " + (i + 1) + this.getResources().getString(DUBwiseStringHelper.table[MKParamsGeneratedDefinitionsToStrings.PARAMID2STRINGID[MKProvider.getMK().params.stick_stringids[i]]]) + " ";
             text_overlays[i].setTag(txt);
             text_overlays[i].setTextColor(0xFF000000);
             text_overlays[i].setShadowLayer(2, 1, 1, 0xffffffff);

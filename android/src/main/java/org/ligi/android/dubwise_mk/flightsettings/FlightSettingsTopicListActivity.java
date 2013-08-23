@@ -34,7 +34,7 @@ import org.ligi.ufo.MKParamsGeneratedDefinitionsToStrings;
  * Activity to choose the topic which the user wants to
  * edit from the FlightSettings
  */
-public class FlightSettingsTopicListActivity extends BaseListActivity implements MKParamsGeneratedDefinitionsToStrings {
+public class FlightSettingsTopicListActivity extends BaseListActivity {
 
     private String[] menu_items;
 
@@ -44,7 +44,7 @@ public class FlightSettingsTopicListActivity extends BaseListActivity implements
 
         menu_items = new String[MKProvider.getMK().params.tab_stringids.length];
         for (int i = 0; i < menu_items.length; i++) {
-            menu_items[i] = getString(DUBwiseStringHelper.table[TABID2STRINGID[MKProvider.getMK().params.tab_stringids[i]]]);
+            menu_items[i] = getString(DUBwiseStringHelper.table[MKParamsGeneratedDefinitionsToStrings.TABID2STRINGID[MKProvider.getMK().params.tab_stringids[i]]]);
         }
 
         this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menu_items));
