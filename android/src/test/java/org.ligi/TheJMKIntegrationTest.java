@@ -3,7 +3,6 @@ package org.ligi;
 
 import org.junit.runner.RunWith;
 import org.ligi.android.dubwise_mk.app.App;
-import org.ligi.android.dubwise_mk.helper.DUBwiseStringHelper;
 import org.ligi.ufo.MKParamsGeneratedDefinitions;
 import org.ligi.ufo.MKParamsGeneratedDefinitionsToStrings;
 import org.ligi.ufo.MKParamsParser;

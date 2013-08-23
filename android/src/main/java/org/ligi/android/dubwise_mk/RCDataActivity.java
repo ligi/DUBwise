@@ -1,10 +1,5 @@
 /**************************************************************************
  *
- * Author:  Marcus -LiGi- Bueschleb   
- *
- * Project URL:
- *  http://mikrokopter.de/ucwiki/en/DUBwise
- *
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
  *  (Creative Commons / Non Commercial / Share Alike)
@@ -28,7 +23,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.ligi.android.dubwise_mk.app.App;
-import org.ligi.android.dubwise_mk.helper.DUBwiseStringHelper;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.MKParamsGeneratedDefinitionsToStrings;
 import org.ligi.ufo.MKStickData;
@@ -76,7 +70,7 @@ public class RCDataActivity extends BaseActivity implements Runnable {
             frame.addView(progress_bars[i]);
 
             text_overlays[i] = new TextView(this);
-            String txt = "Channel " + (i + 1) + this.getResources().getString(DUBwiseStringHelper.table[MKParamsGeneratedDefinitionsToStrings.PARAMID2STRINGID[App.getMK().params.stick_stringids[i]]]) + " ";
+            String txt = "Channel " + (i + 1) + getString(MKParamsGeneratedDefinitionsToStrings.PARAMID2STRINGID[App.getMK().params.stick_stringids[i]]) ;
             text_overlays[i].setTag(txt);
             text_overlays[i].setTextColor(0xFF000000);
             text_overlays[i].setShadowLayer(2, 1, 1, 0xffffffff);

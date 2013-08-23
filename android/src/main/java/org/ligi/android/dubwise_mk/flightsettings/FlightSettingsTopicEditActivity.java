@@ -1,12 +1,4 @@
 /**************************************************************************
- *
- a * Activity to edit the FlightSettings
- *
- * Author:  Marcus -LiGi- Bueschleb   
- *
- * Project URL:
- *  http://mikrokopter.de/ucwiki/en/DUBwise
- *
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
  *  (Creative Commons / Non Commercial / Share Alike)
@@ -53,13 +45,15 @@ import com.actionbarsherlock.view.MenuItem;
 import org.ligi.android.dubwise_mk.BaseActivity;
 import org.ligi.android.dubwise_mk.R;
 import org.ligi.android.dubwise_mk.app.App;
-import org.ligi.android.dubwise_mk.helper.DUBwiseStringHelper;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKParamsGeneratedDefinitions;
 import org.ligi.ufo.MKParamsGeneratedDefinitionsToStrings;
 import org.ligi.ufo.MKParamsParser;
 import org.ligi.ufo.MKStickData;
 
+/**
+ * Activity to edit the FlightSettings
+ */
 public class FlightSettingsTopicEditActivity extends BaseActivity implements OnCheckedChangeListener, TextWatcher, OnEditorActionListener, KeyListener, OnClickListener {
 
 
@@ -113,7 +107,7 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements OnC
             //text_v.setFocusable(true);
             text_v.setFocusableInTouchMode(true);
 
-            text_v.setText(DUBwiseStringHelper.table[MKParamsGeneratedDefinitionsToStrings.PARAMID2STRINGID[App.getMK().params.field_stringids[act_topic][i]]]);
+            text_v.setText(MKParamsGeneratedDefinitionsToStrings.PARAMID2STRINGID[App.getMK().params.field_stringids[act_topic][i]]);
             text_v.setMinHeight(50);
             text_v.setPadding(3, 0, 5, 0);
             row.addView(text_v);

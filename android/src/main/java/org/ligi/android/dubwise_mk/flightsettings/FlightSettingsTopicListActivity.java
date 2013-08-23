@@ -1,11 +1,4 @@
 /**************************************************************************
- *
- * Author:  Marcus -LiGi- Bueschleb   
- *  http://ligi.de
- *
- * Project URL:
- *  http://mikrokopter.de/ucwiki/en/DUBwise
- *
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
  *  (Creative Commons / Non Commercial / Share Alike)
@@ -27,7 +20,6 @@ import android.widget.ListView;
 
 import org.ligi.android.dubwise_mk.BaseListActivity;
 import org.ligi.android.dubwise_mk.app.App;
-import org.ligi.android.dubwise_mk.helper.DUBwiseStringHelper;
 import org.ligi.ufo.MKParamsGeneratedDefinitionsToStrings;
 
 /**
@@ -44,7 +36,7 @@ public class FlightSettingsTopicListActivity extends BaseListActivity {
 
         menu_items = new String[App.getMK().params.tab_stringids.length];
         for (int i = 0; i < menu_items.length; i++) {
-            menu_items[i] = getString(DUBwiseStringHelper.table[MKParamsGeneratedDefinitionsToStrings.TABID2STRINGID[App.getMK().params.tab_stringids[i]]]);
+            menu_items[i] = getString(MKParamsGeneratedDefinitionsToStrings.TABID2STRINGID[App.getMK().params.tab_stringids[i]]);
         }
 
         this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menu_items));
