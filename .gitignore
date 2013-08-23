@@ -7,4 +7,7 @@ android/shared_src/org/ligi/ufo/DUBwiseLangDefs.java
 ../shared/src/DUBwiseLangDefs.java
 
 
+tests/AndroidManifest.xml
+tests/build
+
 
