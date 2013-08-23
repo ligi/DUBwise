@@ -29,7 +29,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.tracedroid.logging.Log;
 
 public class MotorTestActivity extends BaseActivity implements OnSeekBarChangeListener, Runnable {
@@ -51,7 +51,7 @@ public class MotorTestActivity extends BaseActivity implements OnSeekBarChangeLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        engines = MKProvider.getMK().mixer_manager.getLastUsedEngine() + 1;
+        engines = App.getMK().mixer_manager.getLastUsedEngine() + 1;
 
         ScrollView scroll = new ScrollView(this);
 
@@ -154,7 +154,7 @@ public class MotorTestActivity extends BaseActivity implements OnSeekBarChangeLi
                     mt_param[i] = seek_bars[i].getProgress();
 
 
-                MKProvider.getMK().motor_test(mt_param);
+                App.getMK().motor_test(mt_param);
 
                 Log.d("motortest updated");
             } catch (InterruptedException e) {

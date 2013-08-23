@@ -24,7 +24,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ArrayAdapter;
 
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.MKDebugData;
 
@@ -42,12 +42,13 @@ public class AnalogValuesActivity extends BaseListActivity implements Runnable {
         super.onCreate(savedInstanceState);
 
         // set user intent to rawdebug so that analog values get resolved
-        MKProvider.getMK().user_intent = MKCommunicator.USER_INTENT_RAWDEBUG;
+        App.getMK().user_intent = MKCommunicator.USER_INTENT_RAWDEBUG;
         menu_items = new String[MKDebugData.MAX_VALUES];
         refresh_values();
 
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, menu_items);
+
 
         this.setListAdapter(adapter);
         new Thread(this).start();
@@ -56,7 +57,7 @@ public class AnalogValuesActivity extends BaseListActivity implements Runnable {
 
     private void refresh_values() {
         for (int i = 0; i < MKDebugData.MAX_VALUES; i++)
-            menu_items[i] = MKProvider.getMK().debug_data.names[i] + " " + MKProvider.getMK().debug_data.analog[i];
+            menu_items[i] = App.getMK().debug_data.names[i] + " " + App.getMK().debug_data.analog[i];
     }
 
     @Override

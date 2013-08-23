@@ -34,6 +34,7 @@ import android.widget.ListView;
 
 import org.ligi.android.common.intents.IntentHelper;
 import org.ligi.android.dubwise_mk.BaseListActivity;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.android.dubwise_mk.simulation.AndroidAttitudeProvider;
 import org.ligi.android.io.BluetoothCommunicationAdapter;
 import org.ligi.androidhelper.helpers.dialog.DialogDiscardingOnClickListener;
@@ -69,7 +70,7 @@ public class ConnectionListActivity extends BaseListActivity {
                 case ACTIONID_SIMULATED:
                     SimulatedMKCommunicationAdapter sim = new SimulatedMKCommunicationAdapter();
                     sim.setAttitudeProvider(new AndroidAttitudeProvider(this));
-                    MKProvider.getMK().setCommunicationAdapter(sim);
+                    App.getMK().setCommunicationAdapter(sim);
                     finish();
                     break;
                 case ACTIONID_BT:
@@ -118,7 +119,7 @@ public class ConnectionListActivity extends BaseListActivity {
                     break;
                 case ACTIONID_DISCONN:
 
-                    MKProvider.getMK().close_connections(true);
+                    App.getMK().close_connections(true);
 
                     break;
 
@@ -131,7 +132,7 @@ public class ConnectionListActivity extends BaseListActivity {
                     break;
 
                 case ACTIONID_RECONNECT:
-                    MKProvider.getMK().close_connections(false);
+                    App.getMK().close_connections(false);
                     break;
             }
         } catch (Exception e) {
@@ -152,12 +153,12 @@ public class ConnectionListActivity extends BaseListActivity {
                     BluetoothCommunicationAdapter bt_com = new BluetoothCommunicationAdapter(addr);
                     Log.i("connecting got adapter");
 
-                    MKProvider.getMK().setCommunicationAdapter(bt_com);
+                    App.getMK().setCommunicationAdapter(bt_com);
 
 
                     Log.i("connecting to " + friendly_name + "(" + addr + ")");
-                    Log.i(" force disconn " + MKProvider.getMK().force_disconnect);
-                    MKProvider.getMK().connect_to("btspp://" + addr, friendly_name);
+                    Log.i(" force disconn " + App.getMK().force_disconnect);
+                    App.getMK().connect_to("btspp://" + addr, friendly_name);
                     Log.i("finishing BluetoothDeviceListActivity");
 
 

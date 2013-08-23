@@ -26,7 +26,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 
 public class DUBwisePrefs {
 
@@ -88,7 +88,7 @@ public class DUBwisePrefs {
             return true;
 
         // when connected
-        return MKProvider.getMK().isConnected();
+        return App.getMK().isConnected();
     }
 
     public static boolean isFullscreenEnabled() {

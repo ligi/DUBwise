@@ -28,7 +28,7 @@ import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.view.View;
 
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.ufo.MKCommunicator;
 
 public class OrientationPilotingView extends View implements SensorListener
@@ -44,7 +44,7 @@ public class OrientationPilotingView extends View implements SensorListener
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
 
-        MKProvider.getMK().user_intent = MKCommunicator.USER_INTENT_EXTERNAL_CONTROL;
+        App.getMK().user_intent = MKCommunicator.USER_INTENT_EXTERNAL_CONTROL;
 
     }
 
@@ -57,9 +57,9 @@ public class OrientationPilotingView extends View implements SensorListener
         mPaint.setColor(0xCCCCCCCC);
         int text_size = 50;
         mPaint.setTextSize(text_size);
-        MKProvider.getMK().extern_control[MKCommunicator.EXTERN_CONTROL_NICK] = (int) roll;
-        MKProvider.getMK().extern_control[MKCommunicator.EXTERN_CONTROL_ROLL] = (int) pitch;
-        MKProvider.getMK().extern_control[MKCommunicator.EXTERN_CONTROL_GAS] = (int) 100;
+        App.getMK().extern_control[MKCommunicator.EXTERN_CONTROL_NICK] = (int) roll;
+        App.getMK().extern_control[MKCommunicator.EXTERN_CONTROL_ROLL] = (int) pitch;
+        App.getMK().extern_control[MKCommunicator.EXTERN_CONTROL_GAS] = (int) 100;
         canvas.drawText("az" + azimuth, 10, text_size, mPaint);
         canvas.drawText("pitch" + pitch, 10, text_size * 2, mPaint);
         canvas.drawText("roll" + roll, 10, text_size * 3, mPaint);

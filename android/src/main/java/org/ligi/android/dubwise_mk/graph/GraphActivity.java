@@ -31,7 +31,7 @@ import com.actionbarsherlock.view.MenuItem;
 
 import org.ligi.android.dubwise_mk.BaseActivity;
 import org.ligi.android.dubwise_mk.R;
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.tracedroid.logging.Log;
 
 public class GraphActivity extends BaseActivity implements OnTouchListener {
@@ -59,7 +59,7 @@ public class GraphActivity extends BaseActivity implements OnTouchListener {
 
         switch (item.getItemId()) {
             case R.id.menu_pause:
-                MKProvider.getMK().freeze_debug_buff = !MKProvider.getMK().freeze_debug_buff;
+                App.getMK().freeze_debug_buff = !App.getMK().freeze_debug_buff;
                 break;
 
             case R.id.menu_settings:
@@ -73,7 +73,7 @@ public class GraphActivity extends BaseActivity implements OnTouchListener {
     public boolean onTouch(View v, MotionEvent event) {
         Log.i("touch graph" + event.getAction() + " " + MotionEvent.ACTION_UP);
         if (event.getAction() == MotionEvent.ACTION_UP) {
-            MKProvider.getMK().freeze_debug_buff = !MKProvider.getMK().freeze_debug_buff;
+            App.getMK().freeze_debug_buff = !App.getMK().freeze_debug_buff;
         }
         return true;
     }

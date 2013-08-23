@@ -30,7 +30,7 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.ufo.DUBwiseDefinitions;
 
 public class LCDView extends View implements DUBwiseDefinitions
@@ -41,7 +41,7 @@ public class LCDView extends View implements DUBwiseDefinitions
 
     public LCDView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        MKProvider.getMK().user_intent = USER_INTENT_LCD;
+        App.getMK().user_intent = USER_INTENT_LCD;
     }
 
     public LCDView(Activity context) {
@@ -80,9 +80,9 @@ public class LCDView extends View implements DUBwiseDefinitions
 
                 canvas.drawRect(new RectF((this.getWidth() * c / 20.0f) + 1.0f, char_height * line + 1, (this.getWidth() * (c + 1) / 20.0f) - 2.0f, char_height * (line + 1) - 2), mPaint);
                 //canvas.drawRect(new Rect(c*(this.getWidth()/20) , char_height*line, (c+1)*(this.getWidth()/20)  , char_height*(line+1)), mPaint);
-                //canvas.drawText(""+MKProvider.getMK().LCD.get_act_page()[line], 10, 10+line*mPaint.getTextSize(), mPaint);
+                //canvas.drawText(""+App.getMK().LCD.get_act_page()[line], 10, 10+line*mPaint.getTextSize(), mPaint);
                 //canvas.drawRect(new Rect(chr*(this.getWidth()/20) , char_height*line, (chr+1)*(this.getWidth()/20)  , char_height*(line+1)), mPaint);
-                canvas.drawText("" + MKProvider.getMK().LCD.get_act_page()[line].charAt(c), (float) c * (this.getWidth() / 20.0f) + this.getWidth() / 40.0f, char_height * (line) + 3.0f * char_height / 4.0f, textPaint);
+                canvas.drawText("" + App.getMK().LCD.get_act_page()[line].charAt(c), (float) c * (this.getWidth() / 20.0f) + this.getWidth() / 40.0f, char_height * (line) + 3.0f * char_height / 4.0f, textPaint);
             }
         }
         invalidate();

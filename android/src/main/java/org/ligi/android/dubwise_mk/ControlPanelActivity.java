@@ -29,7 +29,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ToggleButton;
 
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.tracedroid.logging.Log;
 
 public class ControlPanelActivity extends Activity implements OnCheckedChangeListener, OnClickListener {
@@ -82,7 +82,7 @@ public class ControlPanelActivity extends Activity implements OnCheckedChangeLis
             setting_id = 5;
 
         if (setting_id != 0) {
-            MKProvider.getMK().set_active_paramset(setting_id);
+            App.getMK().set_active_paramset(setting_id);
             Log.i("switching paramset to " + setting_id);
         }
 

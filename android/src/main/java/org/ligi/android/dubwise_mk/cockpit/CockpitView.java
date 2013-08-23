@@ -31,7 +31,7 @@ import android.view.View.OnTouchListener;
 
 import org.ligi.android.dubwise_mk.DUBwisePrefs;
 import org.ligi.android.dubwise_mk.R;
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.ufo.DUBwiseDefinitions;
 import org.ligi.ufo.DUBwiseHelper;
 import org.ligi.ufo.VesselData;
@@ -93,12 +93,12 @@ public class CockpitView extends View implements DUBwiseDefinitions, OnTouchList
         float act_text_pos = this.getHeight();
 
         if (DUBwisePrefs.showAlt()) {
-            canvas.drawText(MKProvider.getMK().getAlt() / 10.0 + "m", 7f, act_text_pos, altitudeTextPaint);
+            canvas.drawText(App.getMK().getAlt() / 10.0 + "m", 7f, act_text_pos, altitudeTextPaint);
             act_text_pos -= altitudeTextPaint.getTextSize();
         }
 
         if (DUBwisePrefs.showFlightTime()) {
-            canvas.drawText(DUBwiseHelper.seconds2str(MKProvider.getMK().getFlyingTime()), 7f, act_text_pos, altitudeTextPaint);
+            canvas.drawText(DUBwiseHelper.seconds2str(App.getMK().getFlyingTime()), 7f, act_text_pos, altitudeTextPaint);
             act_text_pos -= altitudeTextPaint.getTextSize();
         }
 

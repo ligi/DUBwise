@@ -34,6 +34,7 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.androidhelper.helpers.dialog.DialogDiscardingOnClickListener;
 import org.ligi.tracedroid.logging.Log;
 
@@ -122,18 +123,18 @@ public class ConnectionStatusAlertDialog {
                                 myMessage = "";
 
                                 try {
-                                    addMsg("Name: " + MKProvider.getMK().name);
-                                    addMsg("URL: " + MKProvider.getMK().mk_url);
-                                    addMsg("connected: " + MKProvider.getMK().isConnected());
-                                    addMsg("got version: " + MKProvider.getMK().version.known);
+                                    addMsg("Name: " + App.getMK().name);
+                                    addMsg("URL: " + App.getMK().mk_url);
+                                    addMsg("connected: " + App.getMK().isConnected());
+                                    addMsg("got version: " + App.getMK().version.known);
                                 } catch (Exception e) {
                                 }
 
                                 myTextView.setText(myMessage);
                                 int progress = 1;
-                                if (MKProvider.getMK().isConnected())
+                                if (App.getMK().isConnected())
                                     progress++;
-                                if (MKProvider.getMK().version.known)
+                                if (App.getMK().version.known)
                                     progress++;
 
                                 myProgress.setProgress(progress);

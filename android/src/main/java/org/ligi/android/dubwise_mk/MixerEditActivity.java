@@ -41,7 +41,7 @@ import android.widget.TextView.OnEditorActionListener;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.ufo.MixerManager;
 
 /**
@@ -127,14 +127,14 @@ public class MixerEditActivity extends BaseActivity implements OnCheckedChangeLi
      */
     public void copyMixerManagerValues2Layout() {
         for (byte type = 0; type < 4; type++) {
-            byte[] data = MKProvider.getMK().mixer_manager.getValuesByType(type);
+            byte[] data = App.getMK().mixer_manager.getValuesByType(type);
 
             for (int row = 0; row < 12; row++) {
                 edit_texts[row][type].setText(String.valueOf(data[row]));
             }
         }
 
-        name_edit.setText(MKProvider.getMK().mixer_manager.getName());
+        name_edit.setText(App.getMK().mixer_manager.getName());
 
         table.requestLayout(); // relayout the table
     }
@@ -149,10 +149,10 @@ public class MixerEditActivity extends BaseActivity implements OnCheckedChangeLi
         for (byte type = 0; type < 4; type++)
             for (int row = 0; row < 12; row++) {
                 data[row] = (byte) Integer.parseInt("" + edit_texts[row][type].getText());
-                MKProvider.getMK().mixer_manager.setValuesByType(type, data);
+                App.getMK().mixer_manager.setValuesByType(type, data);
             }
 
-        MKProvider.getMK().mixer_manager.setName("" + name_edit.getText());
+        App.getMK().mixer_manager.setName("" + name_edit.getText());
 
     }
 
@@ -163,7 +163,7 @@ public class MixerEditActivity extends BaseActivity implements OnCheckedChangeLi
         switch (item.getItemId()) {
             case R.id.menu_write:
                 copyLayoutValues2MixerManager();
-                MKProvider.getMK().set_mixer_table(MKProvider.getMK().mixer_manager.getFCArr());
+                App.getMK().set_mixer_table(App.getMK().mixer_manager.getFCArr());
                 break;
 
             /*
@@ -196,7 +196,7 @@ public class MixerEditActivity extends BaseActivity implements OnCheckedChangeLi
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 //		String value = input.getText().toString();
                                 byte id = (byte) spinner.getSelectedItemId();
-                                MKProvider.getMK().mixer_manager.setDefaultValues(id);
+                                App.getMK().mixer_manager.setDefaultValues(id);
                                 copyMixerManagerValues2Layout();
                             }
                         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

@@ -24,7 +24,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.widget.Toast;
 
 import org.ligi.android.dubwise_mk.conn.ConnectionStatusAlertDialog;
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.android.io.BluetoothCommunicationAdapter;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.simulation.SimulatedMKCommunicationAdapter;
@@ -53,7 +53,7 @@ public class StartupConnectionService {
     public static void start(Activity context) {
 
         // stop if already connected
-        if (MKProvider.getMK().isConnected())
+        if (App.getMK().isConnected())
             return;
 
         switch (DUBwisePrefs.getStartConnType()) {
@@ -65,8 +65,8 @@ public class StartupConnectionService {
                 }
 
                 mBluetoothAdapter.enable();
-                MKProvider.getMK().setCommunicationAdapter(new BluetoothCommunicationAdapter(DUBwisePrefs.getStartConnBluetootMAC()));
-                MKProvider.getMK().connect_to("btspp://" + DUBwisePrefs.getStartConnBluetootMAC(), DUBwisePrefs.getStartConnBluetootName());
+                App.getMK().setCommunicationAdapter(new BluetoothCommunicationAdapter(DUBwisePrefs.getStartConnBluetootMAC()));
+                App.getMK().connect_to("btspp://" + DUBwisePrefs.getStartConnBluetootMAC(), DUBwisePrefs.getStartConnBluetootName());
                 ConnectionStatusAlertDialog.show(context);
 
 				/*
@@ -80,7 +80,7 @@ public class StartupConnectionService {
 					@Override
 					public void ready() {
 						tellNlog("Conecting to " + DUBwisePrefs.getStartConnBluetootName() + " - " + DUBwisePrefs.getStartConnBluetootMAC() , context);
-						MKProvider.getMK().setCommunicationAdapter(new BluetoothCommunicationAdapter(DUBwisePrefs.getStartConnBluetootMAC()));
+						App.getMK().setCommunicationAdapter(new BluetoothCommunicationAdapter(DUBwisePrefs.getStartConnBluetootMAC()));
 					}
 				}
 					
@@ -91,7 +91,7 @@ public class StartupConnectionService {
 
             case DUBwisePrefs.STARTCONNTYPE_SIMULATION:
                 tellNlog("connecting to simulation", context);
-                MKProvider.getMK().setCommunicationAdapter(new SimulatedMKCommunicationAdapter());
+                App.getMK().setCommunicationAdapter(new SimulatedMKCommunicationAdapter());
                 //ConnectionHandler.setCommunicationAdapter(new SimulatedMKCommunicationAdapter());
                 break;
 

@@ -1,6 +1,6 @@
 package org.ligi.android.dubwise_mk.blackbox;
 
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.androidhelper.base_activities.RefreshingStringBaseListActivity;
 
 public class BlackBoxWatchActivity extends RefreshingStringBaseListActivity {
@@ -11,9 +11,9 @@ public class BlackBoxWatchActivity extends RefreshingStringBaseListActivity {
             case 0:
                 if (!BlackBoxPrefs.isBlackBoxEnabled())
                     return "not enabled";
-                if (!MKProvider.getMK().isConnected())
+                if (!App.getMK().isConnected())
                     return "not connected";
-                if (!MKProvider.getMK().isFlying())
+                if (!App.getMK().isFlying())
                     return "not flying";
                 return "recording";
             case 1:

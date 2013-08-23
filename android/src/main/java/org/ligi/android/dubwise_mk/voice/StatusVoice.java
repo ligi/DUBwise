@@ -23,7 +23,7 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.android.dubwise_mk.helper.DUBwiseBackgroundTask;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKCommunicator;
@@ -48,7 +48,7 @@ public class StatusVoice implements OnInitListener, DUBwiseBackgroundTask,
 
     private boolean init_started = false;
 
-    private MKCommunicator mk = MKProvider.getMK();
+    private MKCommunicator mk = App.getMK();
     private int last_nc_flags = -1;
     private int last_fc_flags = -1;
 

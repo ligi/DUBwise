@@ -43,7 +43,7 @@ import org.ligi.android.dubwise_mk.blackbox.BlackBox;
 import org.ligi.android.dubwise_mk.blackbox.BlackBoxPrefs;
 import org.ligi.android.dubwise_mk.cockpit.CockpitActivity;
 import org.ligi.android.dubwise_mk.conn.ConnectionListActivity;
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.android.dubwise_mk.flightsettings.FlightSettingsActivity;
 import org.ligi.android.dubwise_mk.graph.GraphActivity;
 import org.ligi.android.dubwise_mk.helper.DUBwiseBackgroundHandler;
@@ -196,7 +196,7 @@ public class BaseActivity extends SherlockActivity {
 
 
     public void refresh_list() {
-        MKCommunicator mk = MKProvider.getMK();
+        MKCommunicator mk = App.getMK();
         List<IconicMenuItem> menuItemsList = new ArrayList<IconicMenuItem>();
 
         menuItemsList.add(new IconicMenuItem("Connection",
@@ -318,10 +318,10 @@ public class BaseActivity extends SherlockActivity {
 
 
     public static void shutdownDUBwise() {
-        MKProvider.getMK().close_connections(true);
-        MKProvider.getMK().stop();
+        App.getMK().close_connections(true);
+        App.getMK().stop();
         DUBwiseBackgroundHandler.getInstance().stopAll();
-        MKProvider.disposeMK();
+        App.disposeMK();
         did_init = false;
     }
 

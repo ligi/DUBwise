@@ -3,7 +3,7 @@ package org.ligi.android.dubwise_mk.cockpit;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
-import org.ligi.android.dubwise_mk.app.ApplicationContext;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.ufo.MKCommunicator;
 
 import java.util.HashMap;
@@ -14,11 +14,11 @@ public class VarioSound implements Runnable {
     private SoundPool mSoundPool;
     private HashMap<Integer, Integer> mSoundPoolMap;
     private AudioManager mAudioManager;
-    private ApplicationContext mContext;
+    private App mContext;
     public final static int SOUND_UP = 1;
     public final static int SOUND_DOWN = 2;
 
-    public VarioSound(ApplicationContext theContext) {
+    public VarioSound(App theContext) {
         return;
         /*
 		mContext = theContext;

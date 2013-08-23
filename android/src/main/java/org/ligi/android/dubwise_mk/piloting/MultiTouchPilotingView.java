@@ -28,7 +28,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKCommunicator;
 
@@ -70,7 +70,7 @@ public class MultiTouchPilotingView extends View implements OnTouchListener
     public MultiTouchPilotingView(Activity context) {
         super(context);
         this.setOnTouchListener(this);
-        MKProvider.getMK().user_intent = MKCommunicator.USER_INTENT_EXTERNAL_CONTROL;
+        App.getMK().user_intent = MKCommunicator.USER_INTENT_EXTERNAL_CONTROL;
 
     }
 
@@ -80,10 +80,10 @@ public class MultiTouchPilotingView extends View implements OnTouchListener
     }
 
     public void uptate2mk() {
-        MKProvider.getMK().extern_control[MKCommunicator.EXTERN_CONTROL_NICK] = (int) act_nick * -1;
-        MKProvider.getMK().extern_control[MKCommunicator.EXTERN_CONTROL_ROLL] = (int) act_roll * -1;
-        MKProvider.getMK().extern_control[MKCommunicator.EXTERN_CONTROL_GAS] = act_gas + 127;
-        MKProvider.getMK().extern_control[MKCommunicator.EXTERN_CONTROL_GIER] = (int) act_gier;
+        App.getMK().extern_control[MKCommunicator.EXTERN_CONTROL_NICK] = (int) act_nick * -1;
+        App.getMK().extern_control[MKCommunicator.EXTERN_CONTROL_ROLL] = (int) act_roll * -1;
+        App.getMK().extern_control[MKCommunicator.EXTERN_CONTROL_GAS] = act_gas + 127;
+        App.getMK().extern_control[MKCommunicator.EXTERN_CONTROL_GIER] = (int) act_gier;
     }
 
     @Override
@@ -120,7 +120,7 @@ public class MultiTouchPilotingView extends View implements OnTouchListener
 
             mPaint.setTextSize(20);
             canvas.drawText("nick" + act_nick + " - roll" + act_roll + " gas" + act_gas + " yaw" + act_gier
-                    + " request " + MKProvider.getMK().stats.external_control_request_count + " confirm " + MKProvider.getMK().stats.external_control_confirm_frame_count, 0, 15, mPaint);
+                    + " request " + App.getMK().stats.external_control_request_count + " confirm " + App.getMK().stats.external_control_confirm_frame_count, 0, 15, mPaint);
         }
 
         invalidate();

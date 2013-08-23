@@ -6,7 +6,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.androidhelper.base_activities.RefreshingStringBaseListActivity;
 import org.ligi.ufo.MKCommunicator;
 
@@ -45,7 +45,7 @@ public class FollowMeActivity extends RefreshingStringBaseListActivity implement
 
     @Override
     public String getStringByPosition(int pos) {
-        MKCommunicator mk = MKProvider.getMK();
+        MKCommunicator mk = App.getMK();
 
 
         switch (pos) {
@@ -80,9 +80,9 @@ public class FollowMeActivity extends RefreshingStringBaseListActivity implement
             phone_lat = location.getLatitude();
             phone_lng = location.getLongitude();
 
-            MKProvider.getMK().follow_me_lat = (int) (phone_lat * 10000000);
-            MKProvider.getMK().follow_me_lon = (int) (phone_lng * 10000000);
-            MKProvider.getMK().user_intent = MKCommunicator.USER_INTENT_FOLLOWME;
+            App.getMK().follow_me_lat = (int) (phone_lat * 10000000);
+            App.getMK().follow_me_lon = (int) (phone_lng * 10000000);
+            App.getMK().user_intent = MKCommunicator.USER_INTENT_FOLLOWME;
         }
     }
 

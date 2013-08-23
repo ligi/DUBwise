@@ -20,9 +20,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import org.ligi.android.dubwise_mk.app.ApplicationContext;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.android.dubwise_mk.cockpit.VarioSound;
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.androidhelper.AndroidHelper;
 import org.ligi.tracedroid.TraceDroid;
 import org.ligi.tracedroid.logging.Log;
@@ -45,7 +45,7 @@ public class DUBwise extends BaseActivity {
 
         TraceDroidEmailSender.sendStackTraces("ligi@ligi.de", this);
 
-        vs = new VarioSound((ApplicationContext) this.getApplicationContext());
+        vs = new VarioSound((App) this.getApplicationContext());
 
         AndroidHelper.at(this).startActivityForClass(MixerEditActivity.class);
         finish();
@@ -131,9 +131,9 @@ public class DUBwise extends BaseActivity {
      */
     public void updateMKLogging() {
         if (DUBwisePrefs.isVerboseLoggingEnabled()) {
-            MKProvider.getMK().setLoggingInterface(new AndroidLogger());
+            App.getMK().setLoggingInterface(new AndroidLogger());
         } else {
-            MKProvider.getMK().setLoggingInterface(new NotLogger());
+            App.getMK().setLoggingInterface(new NotLogger());
         }
     }
 

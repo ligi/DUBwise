@@ -28,6 +28,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import org.ligi.android.dubwise_mk.BaseListActivity;
+import org.ligi.android.dubwise_mk.app.App;
+
 public class SwitchDeviceListActivity extends BaseListActivity {
 
     private String[] menu_items = new String[]{"to Navi", "to FC", "to MK3MAG"};
@@ -60,15 +62,15 @@ public class SwitchDeviceListActivity extends BaseListActivity {
             switch (menu_actions[position]) {
 
                 case ACTIONID_SWITCH_NAVI:
-                    MKProvider.getMK().switch_to_navi();
+                    App.getMK().switch_to_navi();
                     break;
 
                 case ACTIONID_SWITCH_FC:
-                    MKProvider.getMK().switch_to_fc();
+                    App.getMK().switch_to_fc();
                     break;
 
                 case ACTIONID_SWITCH_MK3MAG:
-                    MKProvider.getMK().switch_to_mk3mag();
+                    App.getMK().switch_to_mk3mag();
                     break;
 
             }

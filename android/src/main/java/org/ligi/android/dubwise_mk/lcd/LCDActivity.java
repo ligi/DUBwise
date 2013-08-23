@@ -25,8 +25,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -36,8 +34,12 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+
 import org.ligi.android.dubwise_mk.BaseActivity;
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.android.dubwise_mk.conn.SwitchDeviceListActivity;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKCommunicator;
@@ -50,7 +52,7 @@ public class LCDActivity extends BaseActivity implements OnTouchListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MKProvider.getMK().user_intent = MKCommunicator.USER_INTENT_LCD;
+        App.getMK().user_intent = MKCommunicator.USER_INTENT_LCD;
         lcd_view = new LCDView(this);
         lcd_view.setOnTouchListener(this);
         setContentView(lcd_view);
@@ -86,10 +88,10 @@ public class LCDActivity extends BaseActivity implements OnTouchListener {
 
         switch (item.getItemId()) {
             case MENU_NEXT:
-                MKProvider.getMK().LCD.LCD_NEXTPAGE();
+                App.getMK().LCD.LCD_NEXTPAGE();
                 return true;
             case MENU_PREV:
-                MKProvider.getMK().LCD.LCD_PREVPAGE();
+                App.getMK().LCD.LCD_PREVPAGE();
                 return true;
             case MENU_SWITCH:
                 startActivity(new Intent(this, SwitchDeviceListActivity.class));
@@ -102,7 +104,7 @@ public class LCDActivity extends BaseActivity implements OnTouchListener {
 
                 final SeekBar page_seeker = new SeekBar(this);
                 page_seeker.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-                page_seeker.setMax(MKProvider.getMK().LCD.getPageCount());
+                page_seeker.setMax(App.getMK().LCD.getPageCount());
                 final TextView page_txt = new TextView(this);
                 page_txt.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20.0f);
                 page_txt.setPadding(5, 0, 5, 0);
@@ -131,7 +133,7 @@ public class LCDActivity extends BaseActivity implements OnTouchListener {
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 //String value = input.getText().toString();
-                                MKProvider.getMK().LCD.set_page(page_seeker.getProgress() + 1);
+                                App.getMK().LCD.set_page(page_seeker.getProgress() + 1);
 
 
                             }
@@ -152,9 +154,10 @@ public class LCDActivity extends BaseActivity implements OnTouchListener {
         if (event.getAction() == MotionEvent.ACTION_UP) {
             if (event.getX() > lcd_view.getWidth() / 2) {
                 Log.i("LCD Nextpage");
-                MKProvider.getMK().LCD.LCD_NEXTPAGE();
-            } else
-                MKProvider.getMK().LCD.LCD_PREVPAGE();
+                App.getMK().LCD.LCD_NEXTPAGE();
+            } else {
+                App.getMK().LCD.LCD_PREVPAGE();
+            }
             lcd_view.invalidate();
         }
         return true;

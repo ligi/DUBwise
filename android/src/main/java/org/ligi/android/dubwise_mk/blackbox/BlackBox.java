@@ -18,7 +18,7 @@
 
 package org.ligi.android.dubwise_mk.blackbox;
 
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.android.dubwise_mk.helper.DUBwiseBackgroundTask;
 import org.ligi.tracedroid.collecting.TraceDroidMetaInfo;
 import org.ligi.tracedroid.logging.Log;
@@ -65,7 +65,7 @@ public class BlackBox implements DUBwiseBackgroundTask {
 
     @Override
     public void run() {
-        MKCommunicator mk = MKProvider.getMK();
+        MKCommunicator mk = App.getMK();
 
         while (running) {
 

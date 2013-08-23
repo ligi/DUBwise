@@ -1,9 +1,7 @@
 /**************************************************************************
  *
- * Author:  Marcus -LiGi- Bueschleb   
- *
  * Project URL:
- *  http://mikrokopter.de/ucwiki/en/DUBwise
+ *  https://github.com/ligi/DUBwise
  *
  * License:
  *  http://creativecommons.org/licenses/by-nc-sa/2.0/de/ 
@@ -30,7 +28,7 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.ufo.DUBwiseDefinitions;
 
 // not working atm - import org.bluez.*;
@@ -82,7 +80,7 @@ public class GraphView extends View implements DUBwiseDefinitions, OnSharedPrefe
         line_middle_y = h / 2;
         canvas_height = h;
 
-        MKProvider.getMK().setup_debug_buff(graph_sources, w, 1);
+        App.getMK().setup_debug_buff(graph_sources, w, 1);
         line_points = new float[canvas_width * 4];
     }
 
@@ -96,11 +94,11 @@ public class GraphView extends View implements DUBwiseDefinitions, OnSharedPrefe
 
 		/*
          canvas.drawText("cw " +canvas_width + ":" +
-		 MKProvider.getMK().debug_data.analog[0] + " -- "+
-		 MKProvider.getMK().debug_buff_lastset + " legend " + do_legend,
+		 App.getMK().debug_data.analog[0] + " -- "+
+		 App.getMK().debug_buff_lastset + " legend " + do_legend,
 		 0, 0, paint);
 		 */
-        int line_scaler = MKProvider.getMK().debug_buff_max / (canvas_height / 2) + 1;
+        int line_scaler = App.getMK().debug_buff_max / (canvas_height / 2) + 1;
 
         if (do_grid) {
 
@@ -146,12 +144,12 @@ public class GraphView extends View implements DUBwiseDefinitions, OnSharedPrefe
             paint.setStrokeWidth(0);
             // check_local_max(mk.debug_data.analog[graph_sources[gr]]);
 
-            //int line_scaler = MKProvider.getMK().debug_buff_max / canvas_height
+            //int line_scaler = App.getMK().debug_buff_max / canvas_height
             //	+ 1;
 
 
             for (int x = 0; x < canvas_width - 1; x++) {
-				/*
+                /*
 				 * int p= (((-graph_offset+x-canvas_width-5))); if (p<1)
 				 * p+=graph_data[0].length; p%=(graph_data[0].length-1);
 				 * 
@@ -160,27 +158,24 @@ public class GraphView extends View implements DUBwiseDefinitions, OnSharedPrefe
 				 * ][p+1]/line_scaler);
 				 */
 
-                int p = (((MKProvider.getMK().debug_buff_off + x - canvas_width)));
-                if (p < 0)
-                    p += MKProvider.getMK().debug_buff_len;
-                p %= (MKProvider.getMK().debug_buff_len - 2);
+                int p = (((App.getMK().debug_buff_off + x - canvas_width)));
+                if (p < 0) {
+                    p += App.getMK().debug_buff_len;
+                }
+                p %= (App.getMK().debug_buff_len - 2);
 
-                if (p < MKProvider.getMK().debug_buff_lastset)
-
-                // draw_graph_part(g,x,mk.debug_buff[p][gr]/line_scaler,mk.debug_buff[p+1][gr]/line_scaler);
-                {
+                if (p < App.getMK().debug_buff_lastset) {
+                    // draw_graph_part(g,x,mk.debug_buff[p][gr]/line_scaler,mk.debug_buff[p+1][gr]/line_scaler);
                     line_points[x * 4] = x;
-                    line_points[x * 4 + 1] = line_middle_y - MKProvider.getMK().debug_buff[p][gr] / line_scaler;
+                    line_points[x * 4 + 1] = line_middle_y - App.getMK().debug_buff[p][gr] / line_scaler;
                     line_points[x * 4 + 2] = x + 1;
-                    line_points[x * 4 + 3] = line_middle_y
-                            - MKProvider.getMK().debug_buff[p + 1][gr]
-                            / line_scaler;
+                    line_points[x * 4 + 3] = line_middle_y - App.getMK().debug_buff[p + 1][gr] / line_scaler;
                 }
 			    /*
 					canvas.drawLine(x, line_middle_y
-							- MKProvider.getMK().debug_buff[p][gr]
+							- App.getMK().debug_buff[p][gr]
 							/ line_scaler, x + 1, line_middle_y
-							- MKProvider.getMK().debug_buff[p + 1][gr]
+							- App.getMK().debug_buff[p + 1][gr]
 							/ line_scaler, paint);
 */
                 // canvas.drawLine(x,10,x+1,10,paint);
@@ -224,7 +219,7 @@ public class GraphView extends View implements DUBwiseDefinitions, OnSharedPrefe
         do_grid = _settings.getBoolean("do_grid", true);
         do_legend = _settings.getBoolean("do_legend", true);
 
-        MKProvider.getMK().user_intent = USER_INTENT_GRAPH;
+        App.getMK().user_intent = USER_INTENT_GRAPH;
     }
 
 }

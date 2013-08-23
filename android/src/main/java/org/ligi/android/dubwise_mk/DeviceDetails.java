@@ -23,7 +23,7 @@ package org.ligi.android.dubwise_mk;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.ufo.MKCommunicator;
 
 public class DeviceDetails extends BaseListActivity {
@@ -50,7 +50,7 @@ public class DeviceDetails extends BaseListActivity {
 
 
     private void refresh_values() {
-        MKCommunicator mk = MKProvider.getMK();
+        MKCommunicator mk = App.getMK();
         menu_items[0] = "Type: " + mk.getExtendedConnectionName();
 
         menu_items[1] = "Version: " + mk.version.version_str;

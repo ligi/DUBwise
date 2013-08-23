@@ -34,6 +34,7 @@ import android.widget.TableRow;
 
 import org.ligi.android.dubwise_mk.BaseActivity;
 import org.ligi.android.dubwise_mk.R;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.logging.NotLogger;
 
@@ -88,7 +89,7 @@ public class ConnectViaTCPActivity extends BaseActivity implements OnClickListen
         boolean qmk = qmk_check.isChecked();
 
         // disable logging - TODO check why we needed this
-        MKProvider.getMK().setLoggingInterface(new NotLogger());
+        App.getMK().setLoggingInterface(new NotLogger());
 
         SharedPreferences settings = getSharedPreferences();
 
@@ -111,10 +112,10 @@ public class ConnectViaTCPActivity extends BaseActivity implements OnClickListen
         else
         	tcp_com=new TCPConnectionAdapter(host,port);
         
-        MKProvider.getMK().setCommunicationAdapter(tcp_com);
+        App.getMK().setCommunicationAdapter(tcp_com);
         */
 
-        MKProvider.getMK().connect_to(host_text.getText() + ":" + port, host_text.getText() + ":" + port_text.getText());
+        App.getMK().connect_to(host_text.getText() + ":" + port, host_text.getText() + ":" + port_text.getText());
 
     }
 

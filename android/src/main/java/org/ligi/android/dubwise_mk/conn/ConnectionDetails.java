@@ -20,6 +20,7 @@
 
 package org.ligi.android.dubwise_mk.conn;
 
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.android.io.BluetoothCommunicationAdapter;
 import org.ligi.androidhelper.base_activities.RefreshingStringBaseListActivity;
 import org.ligi.ufo.MKCommunicator;
@@ -27,7 +28,7 @@ import org.ligi.ufo.MKCommunicator;
 public class ConnectionDetails extends RefreshingStringBaseListActivity {
 
     public String getStringByPosition(int pos) {
-        MKCommunicator mk = MKProvider.getMK(); // often used here
+        MKCommunicator mk = App.getMK(); // often used here
 
         try {
             switch (pos) {

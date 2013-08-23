@@ -31,7 +31,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.ligi.android.dubwise_mk.BaseListActivity;
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.androidhelper.helpers.dialog.ActivityFinishingOnClickListener;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKCommunicator;
@@ -51,7 +51,7 @@ public class FlightSettingsActivity extends BaseListActivity implements Runnable
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        mk = MKProvider.getMK();
+        mk = App.getMK();
 
         for (int i = 0; i < MKParamsParser.MAX_PARAMSETS; i++) {
             name_strings[i] = "-";
@@ -157,8 +157,8 @@ public class FlightSettingsActivity extends BaseListActivity implements Runnable
         super.onListItemClick(l, v, position, id);
 
         // select the one touched
-        MKProvider.getMK().params.act_paramset = position;
-        MKProvider.getMK().params.update_backup(position);
+        App.getMK().params.act_paramset = position;
+        App.getMK().params.update_backup(position);
 
         // Start topic list Activity
         startActivity(new Intent(this, FlightSettingsTopicListActivity.class));

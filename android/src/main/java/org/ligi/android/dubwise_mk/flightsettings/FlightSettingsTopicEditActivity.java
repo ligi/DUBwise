@@ -52,7 +52,7 @@ import com.actionbarsherlock.view.MenuItem;
 
 import org.ligi.android.dubwise_mk.BaseActivity;
 import org.ligi.android.dubwise_mk.R;
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.android.dubwise_mk.helper.DUBwiseStringHelper;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKParamsGeneratedDefinitions;
@@ -88,7 +88,7 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements OnC
 
         view = new ScrollView(this);
 
-        int item_count=MKProvider.getMK().params.field_stringids[act_topic].length;
+        int item_count=App.getMK().params.field_stringids[act_topic].length;
 
         spinners = new Spinner[item_count];
         edit_texts = new EditText[item_count];
@@ -113,7 +113,7 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements OnC
             //text_v.setFocusable(true);
             text_v.setFocusableInTouchMode(true);
 
-            text_v.setText(DUBwiseStringHelper.table[MKParamsGeneratedDefinitionsToStrings.PARAMID2STRINGID[MKProvider.getMK().params.field_stringids[act_topic][i]]]);
+            text_v.setText(DUBwiseStringHelper.table[MKParamsGeneratedDefinitionsToStrings.PARAMID2STRINGID[App.getMK().params.field_stringids[act_topic][i]]]);
             text_v.setMinHeight(50);
             text_v.setPadding(3, 0, 5, 0);
             row.addView(text_v);
@@ -121,8 +121,8 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements OnC
             //text_v.addTextChangedListener(this);
             //text_v.setOnEditorActionListener(this);
             row.setTag(i);
-            MKParamsParser params = MKProvider.getMK().params;
-            switch (MKProvider.getMK().params.field_types[act_topic][i]) {
+            MKParamsParser params = App.getMK().params;
+            switch (App.getMK().params.field_types[act_topic][i]) {
 
                 case MKParamsGeneratedDefinitions.PARAMTYPE_STICK:
                     Spinner spinner = new Spinner(this);
@@ -152,7 +152,7 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements OnC
 
                         @Override
                         public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                            MKParamsParser params = MKProvider.getMK().params;
+                            MKParamsParser params = App.getMK().params;
                             params.field[params.act_paramset][params.field_positions[act_topic][pos]] = arg2;
                         }
 
@@ -179,7 +179,7 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements OnC
                     checkboxes[i] = new CheckBox(this);
                     checkboxes[i].setTag(i);
                     checkboxes[i].setOnCheckedChangeListener(this);
-                    checkboxes[i].setChecked(!((MKProvider.getMK().params.get_field_from_act(MKProvider.getMK().params.field_positions[act_topic][i] / 8) & (1 << MKProvider.getMK().params.field_positions[act_topic][i] % 8)) == 0));
+                    checkboxes[i].setChecked(!((App.getMK().params.get_field_from_act(App.getMK().params.field_positions[act_topic][i] / 8) & (1 << App.getMK().params.field_positions[act_topic][i] % 8)) == 0));
 
 
                     row.addView(checkboxes[i]);
@@ -236,7 +236,7 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements OnC
                                     txt_val = 255;
                                 else if (txt_val < 0)
                                     txt_val = 0;
-                                MKProvider.getMK().params.field[MKProvider.getMK().params.act_paramset][MKProvider.getMK().params.field_positions[act_topic][act_i]] = txt_val;                        // TODO Auto-generated method stub
+                                App.getMK().params.field[App.getMK().params.act_paramset][App.getMK().params.field_positions[act_topic][act_i]] = txt_val;                        // TODO Auto-generated method stub
                                 Log.d("" + txt_val);
 
                                 if (!("" + txt_val).equals(edit_texts[act_i].getText().toString()))
@@ -294,17 +294,17 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements OnC
 
                                         if (arg2 == 0) { // no poti option -
                                             edit_texts[tag_id].setEnabled(true);
-                                            int pos = MKProvider.getMK().params.field_positions[act_topic][tag_id];
-                                            int act_val = MKProvider.getMK().params.get_field_from_act(pos);
+                                            int pos = App.getMK().params.field_positions[act_topic][tag_id];
+                                            int act_val = App.getMK().params.get_field_from_act(pos);
                                             if (act_val > (255 - MKStickData.POTI_COUNT)) {
                                                 act_val = 0;
                                             }
 
-                                            MKProvider.getMK().params.set_field_from_act(pos, act_val);
+                                            App.getMK().params.set_field_from_act(pos, act_val);
                                         } else {
                                             edit_texts[tag_id].setEnabled(false);
                                             edit_texts[tag_id].setText("" + ((255 - arg2 + 1)));
-                                            MKProvider.getMK().params.set_field_from_act(MKProvider.getMK().params.field_positions[act_topic][tag_id], 255 - arg2 + 1);
+                                            App.getMK().params.set_field_from_act(App.getMK().params.field_positions[act_topic][tag_id], 255 - arg2 + 1);
                                         }
                                     }
                                 }
@@ -340,9 +340,9 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements OnC
 
         int tag_id = (Integer) (checkbox.getTag());
 
-        int val_pos = MKProvider.getMK().params.field_positions[act_topic][tag_id];
+        int val_pos = App.getMK().params.field_positions[act_topic][tag_id];
 
-        int old_val = MKProvider.getMK().params.get_field_from_act(val_pos / 8);
+        int old_val = App.getMK().params.get_field_from_act(val_pos / 8);
 
         if (checked) {
             old_val |= 1 << (val_pos % 8);
@@ -350,7 +350,7 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements OnC
             old_val &= 0xff ^ (1 << (val_pos % 8));
         }
 
-        MKProvider.getMK().params.set_field_from_act(val_pos / 8, old_val);
+        App.getMK().params.set_field_from_act(val_pos / 8, old_val);
 
     }
 
@@ -363,7 +363,7 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements OnC
 
         switch (item.getItemId()) {
             case R.id.menu_write:
-                MKProvider.getMK().write_params(MKProvider.getMK().params.act_paramset);
+                App.getMK().write_params(App.getMK().params.act_paramset);
                 return true;
 
             case R.id.menu_help:
@@ -372,9 +372,9 @@ public class FlightSettingsTopicEditActivity extends BaseActivity implements OnC
                 return true;
             //case MENU_UNDO:
                 //String ps=
-                //Log.i("act paramset " + MKProvider.getMK().params.act_paramset );
+                //Log.i("act paramset " + App.getMK().params.act_paramset );
 
-                //MKProvider.getMK().params.use_backup();
+                //App.getMK().params.use_backup();
                 //do_layout();
             //return true;
         }

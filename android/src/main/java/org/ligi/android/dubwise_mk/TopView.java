@@ -30,7 +30,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.androidhelper.AndroidHelper;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.VesselData;
@@ -108,7 +108,7 @@ public class TopView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        MKCommunicator mk = MKProvider.getMK();
+        MKCommunicator mk = App.getMK();
 
         act_symbol_pos = 0;
 

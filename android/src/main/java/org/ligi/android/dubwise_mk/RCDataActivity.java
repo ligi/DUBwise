@@ -27,7 +27,7 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.android.dubwise_mk.helper.DUBwiseStringHelper;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.MKParamsGeneratedDefinitionsToStrings;
@@ -76,7 +76,7 @@ public class RCDataActivity extends BaseActivity implements Runnable {
             frame.addView(progress_bars[i]);
 
             text_overlays[i] = new TextView(this);
-            String txt = "Channel " + (i + 1) + this.getResources().getString(DUBwiseStringHelper.table[MKParamsGeneratedDefinitionsToStrings.PARAMID2STRINGID[MKProvider.getMK().params.stick_stringids[i]]]) + " ";
+            String txt = "Channel " + (i + 1) + this.getResources().getString(DUBwiseStringHelper.table[MKParamsGeneratedDefinitionsToStrings.PARAMID2STRINGID[App.getMK().params.stick_stringids[i]]]) + " ";
             text_overlays[i].setTag(txt);
             text_overlays[i].setTextColor(0xFF000000);
             text_overlays[i].setShadowLayer(2, 1, 1, 0xffffffff);
@@ -100,7 +100,7 @@ public class RCDataActivity extends BaseActivity implements Runnable {
     final Runnable mUpdateResults = new Runnable() {
         public void run() {
             for (byte i = 0; i < channels; i++) {
-                int stick_val = MKProvider.getMK().stick_data.getStickValue(i);
+                int stick_val = App.getMK().stick_data.getStickValue(i);
                 progress_bars[i].setProgress(stick_val + 127);
                 text_overlays[i].setText(text_overlays[i].getTag() + "(" + stick_val + ")");
             }
@@ -108,7 +108,7 @@ public class RCDataActivity extends BaseActivity implements Runnable {
     };
 
     public void run() {
-        MKProvider.getMK().user_intent = MKCommunicator.USER_INTENT_RCDATA;
+        App.getMK().user_intent = MKCommunicator.USER_INTENT_RCDATA;
         while (!dead) {
             mHandler.post(mUpdateResults);
             try {

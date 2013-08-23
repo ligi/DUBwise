@@ -26,7 +26,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
 
-import org.ligi.android.dubwise_mk.conn.MKProvider;
+import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.java.io.CommunicationAdapterInterface;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKFirmwareFlasher;
@@ -46,8 +46,8 @@ public class FlashFirmwareActivity extends Activity implements Runnable, OnCance
         super.onCreate(savedInstanceState);
 
         // pass the communication-adapter
-        comm_passer = MKProvider.getMK().getCommunicationAdapter();
-        MKProvider.getMK().setCommunicationAdapter(null);
+        comm_passer = App.getMK().getCommunicationAdapter();
+        App.getMK().setCommunicationAdapter(null);
         firmware_flasher = new MKFirmwareFlasher(comm_passer, MKFirmwareHelper.BOOTLOADER_INTENSION_RESET_PARAMS);
         firmware_flasher.start();
         showDialog(DIALOG_PROGRESS);
@@ -105,7 +105,7 @@ public class FlashFirmwareActivity extends Activity implements Runnable, OnCance
         if (dialog == progressDialog) {
             firmware_flasher.setCommunicationAdapter(null);
 
-            MKProvider.getMK().setCommunicationAdapter(comm_passer);
+            App.getMK().setCommunicationAdapter(comm_passer);
             flashing_in_progress = false;
             finish();
         } else
