@@ -6,8 +6,8 @@ buildscript {
         classpath 'com.android.tools.build:gradle:0.5.+'
     }
 }
-apply plugin: 'android'
 
+apply plugin: 'android'
 
 repositories {
     mavenCentral()
@@ -21,13 +21,12 @@ android {
     buildToolsVersion "17.0.0"
 
     dependencies {
-        compile fileTree(dir: 'lib', include: 'JavaMK*.jar')
+        compile 'org.ligi:JavaMKLib:0.11'
         compile 'org.ligi:AndroidHelper:0.19'
         compile 'org.ligi:DUBwiseCommons:0.7'
         compile 'org.ligi:tracedroid:1.1'
 
         compile('com.android.support:support-v4:18.0.+')
         compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
-        //compile ('com.android.support:appcompat-v7:18.0.+')
    }
 }
