@@ -88,7 +88,7 @@ public class CockpitView extends View implements DUBwiseDefinitions, OnTouchList
         if (App.getMK().isConnected()) {
             drawTextInConnectedState(canvas, act_text_pos);
         } else {
-            canvas.drawText("no data yet", 7f, act_text_pos, textPaint);
+            canvas.drawText("no data", 7f, act_text_pos-10f, textPaint);
         }
 
         invalidate();
