@@ -14,7 +14,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                                                                    
  */
 
-package org.ligi.dubwise.glass;
+package org.ligi.android.io;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -26,9 +26,10 @@ import org.ligi.java.io.CommunicationAdapterInterface;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.Exception;import java.lang.IllegalAccessException;import java.lang.InstantiationException;import java.lang.Integer;import java.lang.NoSuchFieldException;import java.lang.NoSuchMethodException;import java.lang.Object;import java.lang.RuntimeException;import java.lang.String;import java.lang.reflect.Constructor;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.UUID;
 //import org.ligi.tracedroid.logging.Log;
 
@@ -49,6 +50,7 @@ public class BluetoothCommunicationAdapter
     private String mac = "";
     private BluetoothDevice myDevice = null;
     private BluetoothSocket mySocket = null;
+    private boolean connected=false;
 
     /**
      * the mac addr - bytes seperated by :
@@ -70,10 +72,16 @@ public class BluetoothCommunicationAdapter
                 throw new RuntimeException("can't find the constructor for socket");
             Log.i("btconnect connecting new set acc");
             constructor.setAccessible(true);
+
+
             Log.i("btconnect connecting new type");
             Field f_rfcomm_type = BluetoothSocket.class.getDeclaredField("TYPE_RFCOMM");
             Log.i("btconnect connecting new type acc");
             f_rfcomm_type.setAccessible(true);
+
+
+
+
             Log.i("btconnect connecting new type get");
             int rfcomm_type = (Integer) f_rfcomm_type.get(null);
             Log.i("btconnect connecting new instance");
@@ -116,12 +124,24 @@ public class BluetoothCommunicationAdapter
             //mySocket = myDevice.createRfcommSocketToServiceRecord(myUUID);
             //mySocket = myDevice.createInsecureRfcommSocketToServiceRecord(myUUID);
             //mySocket = myDevice.c;
-            mySocket = createRfcommSocketToServiceRecord(myDevice, 1, myUUID, false);
+
+            try {
+                Log.i( "Try to set the PIN");
+                Method m = myDevice.getClass().getMethod("setPin", byte[].class);
+
+                m.invoke(myDevice, new byte[] { 0,5,2,3});
+                Log.i( "Success to add the PIN.");
+            } catch (Exception e) {
+                //Log.e( e.getMessage());
+            }
+
+            mySocket = createRfcommSocketToServiceRecord(myDevice, 1, myUUID, true);
 
             Log.i("btconnect connecting socket");
             mySocket.connect();
 
             Log.i("btconnect done connection sequence");
+            connected=true;
         } catch (Exception e) {
             Log.w("problem btconnect" + e);
         }
@@ -185,16 +205,19 @@ public class BluetoothCommunicationAdapter
     }
 
     public void write(byte[] buffer, int offset, int count) {
-        try {
+        if (connected) try {
             getOutputStream().write(buffer, offset, count);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
+
+
     }
 
     public void write(byte[] buffer) {
-        try {
+        if (connected) try {
             getOutputStream().write(buffer);
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -203,7 +226,7 @@ public class BluetoothCommunicationAdapter
     }
 
     public void write(int oneByte) {
-        try {
+        if (connected) try {
             getOutputStream().write(oneByte);
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -212,7 +235,7 @@ public class BluetoothCommunicationAdapter
     }
 
     public int read(byte[] b, int offset, int length) {
-        try {
+        if (connected) try {
             if (getInputStream().available() > 0)
                 return getInputStream().read(b, offset, length);
             else
@@ -225,7 +248,7 @@ public class BluetoothCommunicationAdapter
     }
 
     public int read() {
-        try {
+        if (connected) try {
             if (getInputStream().available() > 0)
                 return getInputStream().read();
         } catch (IOException e) {
@@ -245,7 +268,7 @@ public class BluetoothCommunicationAdapter
     }
 
     public void write(char data) {
-        try {
+        if (connected) try {
             getOutputStream().write(data);
         } catch (IOException e) {
             // TODO Auto-generated catch block
