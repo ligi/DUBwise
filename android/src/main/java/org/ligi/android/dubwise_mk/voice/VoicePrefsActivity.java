@@ -24,7 +24,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 
 import org.ligi.android.dubwise_mk.BasePrefsActivity;
-import org.ligi.androidhelper.preferences.TimePreference;
+import org.ligi.axt.preferences.TimePreference;
 import org.ligi.tracedroid.logging.Log;
 
 /**

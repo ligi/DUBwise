@@ -31,7 +31,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import org.ligi.android.dubwise_mk.app.App;
-import org.ligi.androidhelper.AndroidHelper;
+import org.ligi.axt.AXT;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.VesselData;
 
@@ -59,7 +59,7 @@ public class TopView extends View {
      */
     private Bitmap loadSymbol(int resId) {
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), resId);
-        return AndroidHelper.at(bmp).scaleRelative2View(this, 0.0f, 1f);
+        return AXT.at(bmp).scaleRelative2View(this, 0.0f, 1f);
     }
 
     /**
@@ -81,7 +81,7 @@ public class TopView extends View {
      */
     private void paintText(Canvas c, String text) {
         c.drawText(text, act_symbol_pos, this.getHeight() - 5, mTextPaint);
-        act_symbol_pos += AndroidHelper.at(mTextPaint).getTextWidth(text);
+        act_symbol_pos += AXT.at(mTextPaint).getTextWidth(text);
     }
 
     @Override

@@ -1,46 +1,37 @@
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.7.+'
-	classpath 'com.github.jcandksolutions.gradle:android-unit-test:1.0.+'
-	//        #classpath 'com.squareup.gradle:gradle-android-test-plugin:0.9.+'
+        classpath 'com.android.tools.build:gradle:0.12.2'
     }
 }
 
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 
 repositories {
-    mavenCentral()
+    jcenter()
     maven {
         url project.hasProperty('ligisMavenUrl') ? ligisMavenUrl : "https://raw.github.com/ligi/ligis-mvn-repo/master";
     }
 }
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.0.1"
+    compileSdkVersion 20
+    buildToolsVersion "20"
 
-    lintOptions { 
-      abortOnError false 
-    } 
+    lintOptions {
+        abortOnError false
+    }
 }
 
-apply plugin: 'android-unit-test'
+dependencies {
+    compile 'org.ligi:JavaMKLib:0.12'
+    compile 'org.ligi:AXT:0.31'
+    compile 'org.ligi:DUBwiseCommons:0.7'
+    compile 'org.ligi:tracedroid:1.4'
 
-    dependencies {
-        compile 'org.ligi:JavaMKLib:0.12'
-        compile 'org.ligi:AndroidHelper:0.19'
-        compile 'org.ligi:DUBwiseCommons:0.7'
-        compile 'org.ligi:tracedroid:1.1'
-
-        compile('com.android.support:support-v4:18.0.+')
-        compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
-
-        testCompile 'junit:junit:4.10'
-        testCompile 'org.robolectric:robolectric:2.1.+'
-        testCompile 'com.squareup:fest-android:1.0.+'
-
-    }
+    compile('com.android.support:support-v4:18.0.+')
+    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
+}

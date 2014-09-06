@@ -1,7 +1,7 @@
 package org.ligi.android.dubwise_mk.blackbox;
 
 import org.ligi.android.dubwise_mk.app.App;
-import org.ligi.androidhelper.base_activities.RefreshingStringBaseListActivity;
+import org.ligi.axt.base_activities.RefreshingStringBaseListActivity;
 
 public class BlackBoxWatchActivity extends RefreshingStringBaseListActivity {
 

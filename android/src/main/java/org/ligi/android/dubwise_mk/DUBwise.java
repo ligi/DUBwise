@@ -23,7 +23,7 @@ import android.widget.LinearLayout;
 import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.android.dubwise_mk.cockpit.CockpitActivity;
 import org.ligi.android.dubwise_mk.cockpit.VarioSound;
-import org.ligi.androidhelper.AndroidHelper;
+import org.ligi.axt.AXT;
 import org.ligi.tracedroid.TraceDroid;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.tracedroid.sending.TraceDroidEmailSender;
@@ -47,7 +47,7 @@ public class DUBwise extends BaseActivity {
 
         vs = new VarioSound((App) this.getApplicationContext());
 
-        AndroidHelper.at(this).startActivityForClass(CockpitActivity.class);
+        AXT.at(this).startCommonIntent().activityFromClass(CockpitActivity.class);
         finish();
     }
 

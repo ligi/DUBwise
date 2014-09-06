@@ -35,7 +35,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.ligi.android.dubwise_mk.app.App;
-import org.ligi.androidhelper.helpers.dialog.DialogDiscardingOnClickListener;
+import org.ligi.axt.listeners.DialogDiscardingOnClickListener;
 import org.ligi.tracedroid.logging.Log;
 
 /**

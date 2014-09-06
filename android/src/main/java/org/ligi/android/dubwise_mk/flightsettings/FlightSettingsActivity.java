@@ -32,7 +32,7 @@ import android.widget.ListView;
 
 import org.ligi.android.dubwise_mk.BaseListActivity;
 import org.ligi.android.dubwise_mk.app.App;
-import org.ligi.androidhelper.helpers.dialog.ActivityFinishingOnClickListener;
+import org.ligi.axt.listeners.ActivityFinishingOnClickListener;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.MKCommunicator;
 import org.ligi.ufo.MKParamsParser;

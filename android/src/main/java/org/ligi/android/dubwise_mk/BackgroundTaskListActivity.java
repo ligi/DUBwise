@@ -22,8 +22,7 @@ package org.ligi.android.dubwise_mk;
 
 import org.ligi.android.dubwise_mk.helper.DUBwiseBackgroundHandler;
 import org.ligi.android.dubwise_mk.helper.DUBwiseBackgroundTask;
-import org.ligi.androidhelper.base_activities.RefreshingStringBaseListActivity;
-
+import org.ligi.axt.base_activities.RefreshingStringBaseListActivity;
 
 public class BackgroundTaskListActivity extends RefreshingStringBaseListActivity {
 

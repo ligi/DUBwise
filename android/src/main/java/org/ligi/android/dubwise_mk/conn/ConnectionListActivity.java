@@ -37,7 +37,7 @@ import org.ligi.android.dubwise_mk.BaseListActivity;
 import org.ligi.android.dubwise_mk.app.App;
 import org.ligi.android.dubwise_mk.simulation.AndroidAttitudeProvider;
 import org.ligi.android.io.BluetoothCommunicationAdapter;
-import org.ligi.androidhelper.helpers.dialog.DialogDiscardingOnClickListener;
+import org.ligi.axt.listeners.DialogDiscardingOnClickListener;
 import org.ligi.tracedroid.logging.Log;
 import org.ligi.ufo.simulation.SimulatedMKCommunicationAdapter;
 

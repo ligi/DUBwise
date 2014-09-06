@@ -21,7 +21,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 
 import org.ligi.android.dubwise_mk.BasePrefsActivity;
-import org.ligi.androidhelper.preferences.SetPreferenceEnabledByCheckBoxPreferenceState;
+import org.ligi.axt.preferences.SetPreferenceEnabledByCheckBoxPreferenceState;
 
 /**
  * Activity to edit the Piloting Preferences
